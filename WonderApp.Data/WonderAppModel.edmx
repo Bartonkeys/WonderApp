@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="WonderAppModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="WonderAppModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WonderAppModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="WonderAppModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Deals" EntityType="WonderAppModel.Deal" />
+          <EntitySet Name="Users" EntityType="WonderAppModel.User" />
+          <EntitySet Name="Locations" EntityType="WonderAppModel.Location" />
+          <EntitySet Name="Tags" EntityType="WonderAppModel.Tag" />
+          <EntitySet Name="Categories" EntityType="WonderAppModel.Category" />
+          <EntitySet Name="Companies" EntityType="WonderAppModel.Company" />
+          <EntitySet Name="Reminders" EntityType="WonderAppModel.Reminder" />
+          <EntitySet Name="Costs" EntityType="WonderAppModel.Cost" />
+          <EntitySet Name="Genders" EntityType="WonderAppModel.Gender" />
+          <EntitySet Name="Countries" EntityType="WonderAppModel.Country" />
+          <AssociationSet Name="DealCompany" Association="WonderAppModel.DealCompany">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="CompanyCountry" Association="WonderAppModel.CompanyCountry">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Country" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="DealTag" Association="WonderAppModel.DealTag">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="DealLocation" Association="WonderAppModel.DealLocation">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="UserDeal" Association="WonderAppModel.UserDeal">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="UserDeal1" Association="WonderAppModel.UserDeal1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="UserGender" Association="WonderAppModel.UserGender">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Gender" EntitySet="Genders" />
+          </AssociationSet>
+          <AssociationSet Name="UserCategory" Association="WonderAppModel.UserCategory">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="UserReminder" Association="WonderAppModel.UserReminder">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Reminder" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="DealCost" Association="WonderAppModel.DealCost">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Cost" EntitySet="Costs" />
+          </AssociationSet>
+          <AssociationSet Name="DealCategory" Association="WonderAppModel.DealCategory">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Deal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" />
+          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" />
+          <Property Name="Likes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="WonderAppModel.DealCompany" FromRole="Deal" ToRole="Company" />
+          <NavigationProperty Name="Tags" Relationship="WonderAppModel.DealTag" FromRole="Deal" ToRole="Tag" />
+          <NavigationProperty Name="Location" Relationship="WonderAppModel.DealLocation" FromRole="Deal" ToRole="Location" />
+          <NavigationProperty Name="MyWonderUsers" Relationship="WonderAppModel.UserDeal" FromRole="Deal" ToRole="User" />
+          <NavigationProperty Name="MyRejectUsers" Relationship="WonderAppModel.UserDeal1" FromRole="Deal" ToRole="User" />
+          <NavigationProperty Name="Cost" Relationship="WonderAppModel.DealCost" FromRole="Deal" ToRole="Cost" />
+          <NavigationProperty Name="Category" Relationship="WonderAppModel.DealCategory" FromRole="Deal" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" />
+          <Property Name="FacebookId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <NavigationProperty Name="MyWonders" Relationship="WonderAppModel.UserDeal" FromRole="User" ToRole="Deal" />
+          <NavigationProperty Name="MyRejects" Relationship="WonderAppModel.UserDeal1" FromRole="User" ToRole="Deal" />
+          <NavigationProperty Name="Gender" Relationship="WonderAppModel.UserGender" FromRole="User" ToRole="Gender" />
+          <NavigationProperty Name="MyCategories" Relationship="WonderAppModel.UserCategory" FromRole="User" ToRole="Category" />
+          <NavigationProperty Name="MyReminder" Relationship="WonderAppModel.UserReminder" FromRole="User" ToRole="Reminder" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealLocation" FromRole="Location" ToRole="Deal" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealTag" FromRole="Tag" ToRole="Deal" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="User" Relationship="WonderAppModel.UserCategory" FromRole="Category" ToRole="User" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealCategory" FromRole="Category" ToRole="Deal" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <Property Name="PostCode" Type="String" Nullable="false" />
+          <Property Name="County" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealCompany" FromRole="Company" ToRole="Deal" />
+          <NavigationProperty Name="Country" Relationship="WonderAppModel.CompanyCountry" FromRole="Company" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Reminder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="WonderAppModel.UserReminder" FromRole="Reminder" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Cost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Range" Type="String" Nullable="false" />
+          <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealCost" FromRole="Cost" ToRole="Deal" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="WonderAppModel.UserGender" FromRole="Gender" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="WonderAppModel.CompanyCountry" FromRole="Country" ToRole="Company" />
+        </EntityType>
+        <Association Name="DealCompany">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="1" />
+        </Association>
+        <Association Name="CompanyCountry">
+          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="WonderAppModel.Country" Role="Country" Multiplicity="1" />
+        </Association>
+        <Association Name="DealTag">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Tag" Role="Tag" Multiplicity="*" />
+        </Association>
+        <Association Name="DealLocation">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Location" Role="Location" Multiplicity="1" />
+        </Association>
+        <Association Name="UserDeal">
+          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+        </Association>
+        <Association Name="UserDeal1">
+          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+        </Association>
+        <Association Name="UserGender">
+          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
+          <End Type="WonderAppModel.Gender" Role="Gender" Multiplicity="1" />
+        </Association>
+        <Association Name="UserCategory">
+          <End Type="WonderAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="*" />
+        </Association>
+        <Association Name="UserReminder">
+          <End Type="WonderAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Reminder" Role="Reminder" Multiplicity="*" />
+        </Association>
+        <Association Name="DealCost">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
+          <End Type="WonderAppModel.Cost" Role="Cost" Multiplicity="1" />
+        </Association>
+        <Association Name="DealCategory">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
+          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="WonderAppModel" />
+        <Alias Key="Target" Value="WonderAppModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="WonderAppModelContainer" StorageEntityContainer="WonderAppModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

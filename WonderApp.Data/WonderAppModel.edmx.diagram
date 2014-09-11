@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" >
+        <EntityTypeShape EntityType="WonderAppModel.Deal" Width="1.5" PointX="7.375" PointY="1.125" />
+        <EntityTypeShape EntityType="WonderAppModel.User" Width="1.5" PointX="4" PointY="1.125" />
+        <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="7.375" PointY="5" />
+        <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.5" PointY="4.875" />
+        <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.125" />
+        <EntityTypeShape EntityType="WonderAppModel.Company" Width="1.5" PointX="11.25" PointY="1.125" />
+        <EntityTypeShape EntityType="WonderAppModel.Reminder" Width="1.5" PointX="3.125" PointY="5.375" />
+        <EntityTypeShape EntityType="WonderAppModel.Cost" Width="1.5" PointX="9.5" PointY="2.875" />
+        <EntityTypeShape EntityType="WonderAppModel.Gender" Width="1.5" PointX="1.5" PointY="2.75" />
+        <EntityTypeShape EntityType="WonderAppModel.Country" Width="1.5" PointX="11.875" PointY="4.375" />
+        <AssociationConnector Association="WonderAppModel.DealCompany" />
+        <AssociationConnector Association="WonderAppModel.CompanyCountry" />
+        <AssociationConnector Association="WonderAppModel.DealTag" />
+        <AssociationConnector Association="WonderAppModel.DealLocation" />
+        <AssociationConnector Association="WonderAppModel.UserDeal" />
+        <AssociationConnector Association="WonderAppModel.UserDeal1" />
+        <AssociationConnector Association="WonderAppModel.UserGender" />
+        <AssociationConnector Association="WonderAppModel.UserCategory" />
+        <AssociationConnector Association="WonderAppModel.UserReminder" />
+        <AssociationConnector Association="WonderAppModel.DealCost" />
+        <AssociationConnector Association="WonderAppModel.DealCategory" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

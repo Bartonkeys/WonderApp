@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderApp.API", "WonderApp.API\WonderApp.API.csproj", "{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderApp.Data", "WonderApp.Data\WonderApp.Data.csproj", "{68A761BF-5D4E-4724-9048-B8129F3E930E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderApp.Web", "WonderApp.Web\WonderApp.Web.csproj", "{F6E1A3F2-68D6-402A-BAFB-2198F94CC086}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A761BF-5D4E-4724-9048-B8129F3E930E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A761BF-5D4E-4724-9048-B8129F3E930E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A761BF-5D4E-4724-9048-B8129F3E930E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A761BF-5D4E-4724-9048-B8129F3E930E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E1A3F2-68D6-402A-BAFB-2198F94CC086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E1A3F2-68D6-402A-BAFB-2198F94CC086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E1A3F2-68D6-402A-BAFB-2198F94CC086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E1A3F2-68D6-402A-BAFB-2198F94CC086}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
