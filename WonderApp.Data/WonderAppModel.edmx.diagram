@@ -4,28 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" >
+      <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" ZoomLevel="79" >
         <EntityTypeShape EntityType="WonderAppModel.Deal" Width="1.5" PointX="7.375" PointY="1.125" />
-        <EntityTypeShape EntityType="WonderAppModel.User" Width="1.5" PointX="4" PointY="1.125" />
-        <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="7.375" PointY="5" />
-        <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.5" PointY="4.875" />
+        <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="7" PointY="6.25" />
+        <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.625" PointY="5.375" />
         <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.125" />
         <EntityTypeShape EntityType="WonderAppModel.Company" Width="1.5" PointX="11.25" PointY="1.125" />
-        <EntityTypeShape EntityType="WonderAppModel.Reminder" Width="1.5" PointX="3.125" PointY="5.375" />
+        <EntityTypeShape EntityType="WonderAppModel.Reminder" Width="1.5" PointX="5.25" PointY="0.625" />
         <EntityTypeShape EntityType="WonderAppModel.Cost" Width="1.5" PointX="9.5" PointY="2.875" />
-        <EntityTypeShape EntityType="WonderAppModel.Gender" Width="1.5" PointX="1.5" PointY="2.75" />
+        <EntityTypeShape EntityType="WonderAppModel.Gender" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="WonderAppModel.Country" Width="1.5" PointX="11.875" PointY="4.375" />
         <AssociationConnector Association="WonderAppModel.DealCompany" />
         <AssociationConnector Association="WonderAppModel.CompanyCountry" />
         <AssociationConnector Association="WonderAppModel.DealTag" />
         <AssociationConnector Association="WonderAppModel.DealLocation" />
-        <AssociationConnector Association="WonderAppModel.UserDeal" />
-        <AssociationConnector Association="WonderAppModel.UserDeal1" />
-        <AssociationConnector Association="WonderAppModel.UserGender" />
-        <AssociationConnector Association="WonderAppModel.UserCategory" />
-        <AssociationConnector Association="WonderAppModel.UserReminder" />
         <AssociationConnector Association="WonderAppModel.DealCost" />
-        <AssociationConnector Association="WonderAppModel.DealCategory" />
+        <EntityTypeShape EntityType="WonderAppModel.AspNetRole" Width="1.5" PointX="0.5" PointY="6.75" />
+        <EntityTypeShape EntityType="WonderAppModel.AspNetUserClaim" Width="1.5" PointX="0.5" PointY="4.5" />
+        <EntityTypeShape EntityType="WonderAppModel.AspNetUserLogin" Width="1.5" PointX="0.5" PointY="2.375" />
+        <EntityTypeShape EntityType="WonderAppModel.AspNetUser" Width="1.5" PointX="3.125" PointY="0.5" />
+        <AssociationConnector Association="WonderAppModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="WonderAppModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="WonderAppModel.AspNetUserRoles" />
+        <AssociationConnector Association="WonderAppModel.AspNetUserGender" />
+        <AssociationConnector Association="WonderAppModel.UserDealWonders" />
+        <AssociationConnector Association="WonderAppModel.UserDealReject" />
+        <AssociationConnector Association="WonderAppModel.AspNetUserReminder" />
+        <AssociationConnector Association="WonderAppModel.AspNetUserLocation" />
+        <AssociationConnector Association="WonderAppModel.AspNetUserCategory" />
+        <AssociationConnector Association="WonderAppModel.CategoryDeal" />
+        <EntityTypeShape EntityType="WonderAppModel.Image" Width="1.5" PointX="9.375" PointY="0.5" />
+        <AssociationConnector Association="WonderAppModel.DealImage" />
+        <EntityTypeShape EntityType="WonderAppModel.Device" Width="1.5" PointX="13.125" PointY="0.5" />
+        <AssociationConnector Association="WonderAppModel.DeviceImage" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

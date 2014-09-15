@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WonderApp.Models.AutoMapperConfiguration;
 
 namespace WonderApp.Web
 {
@@ -16,6 +17,7 @@ namespace WonderApp.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperConfigurator.Configure();
         }
     }
 }

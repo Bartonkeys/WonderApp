@@ -4,17 +4,572 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="WonderAppModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="WonderAppModelTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="WonderAppModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="WonderAppModelStoreContainer">
+    <EntitySet Name="Deals" EntityType="WonderAppModel.Store.Deals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Locations" EntityType="WonderAppModel.Store.Locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="WonderAppModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Categories" EntityType="WonderAppModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Companies" EntityType="WonderAppModel.Store.Companies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reminders" EntityType="WonderAppModel.Store.Reminders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Costs" EntityType="WonderAppModel.Store.Costs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Genders" EntityType="WonderAppModel.Store.Genders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Countries" EntityType="WonderAppModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetRoles" EntityType="WonderAppModel.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserClaims" EntityType="WonderAppModel.Store.AspNetUserClaims" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserLogins" EntityType="WonderAppModel.Store.AspNetUserLogins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUsers" EntityType="WonderAppModel.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Images" EntityType="WonderAppModel.Store.Images" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Devices" EntityType="WonderAppModel.Store.Devices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DealTag" EntityType="WonderAppModel.Store.DealTag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserRoles" EntityType="WonderAppModel.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserDealWonders" EntityType="WonderAppModel.Store.UserDealWonders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserDealReject" EntityType="WonderAppModel.Store.UserDealReject" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserCategory" EntityType="WonderAppModel.Store.AspNetUserCategory" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DealCompany" Association="WonderAppModel.Store.DealCompany">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="Company" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="CompanyCountry" Association="WonderAppModel.Store.CompanyCountry">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Country" EntitySet="Countries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DealTag_Deal" Association="WonderAppModel.Store.FK_DealTag_Deal">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="DealTag" EntitySet="DealTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DealTag_Tag" Association="WonderAppModel.Store.FK_DealTag_Tag">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="DealTag" EntitySet="DealTag" />
+    </AssociationSet>
+    <AssociationSet Name="DealLocation" Association="WonderAppModel.Store.DealLocation">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="Location" EntitySet="Locations" />
+    </AssociationSet>
+    <AssociationSet Name="DealCost" Association="WonderAppModel.Store.DealCost">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="Cost" EntitySet="Costs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="WonderAppModel.Store.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="WonderAppModel.Store.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="WonderAppModel.Store.FK_AspNetUserRoles_AspNetRole">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="WonderAppModel.Store.FK_AspNetUserRoles_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserGender" Association="WonderAppModel.Store.AspNetUserGender">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Gender" EntitySet="Genders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserDealWonders_AspNetUser" Association="WonderAppModel.Store.FK_UserDealWonders_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserDealWonders" EntitySet="UserDealWonders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserDealWonders_Deal" Association="WonderAppModel.Store.FK_UserDealWonders_Deal">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="UserDealWonders" EntitySet="UserDealWonders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserDealReject_AspNetUser" Association="WonderAppModel.Store.FK_UserDealReject_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserDealReject" EntitySet="UserDealReject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserDealReject_Deal" Association="WonderAppModel.Store.FK_UserDealReject_Deal">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="UserDealReject" EntitySet="UserDealReject" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserReminder" Association="WonderAppModel.Store.AspNetUserReminder">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Reminder" EntitySet="Reminders" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserLocation" Association="WonderAppModel.Store.AspNetUserLocation">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Location" EntitySet="Locations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserCategory_AspNetUser" Association="WonderAppModel.Store.FK_AspNetUserCategory_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserCategory_Category" Association="WonderAppModel.Store.FK_AspNetUserCategory_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
+    </AssociationSet>
+    <AssociationSet Name="CategoryDeal" Association="WonderAppModel.Store.CategoryDeal">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Deal" EntitySet="Deals" />
+    </AssociationSet>
+    <AssociationSet Name="DealImage" Association="WonderAppModel.Store.DealImage">
+      <End Role="Deal" EntitySet="Deals" />
+      <End Role="Image" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="DeviceImage" Association="WonderAppModel.Store.DeviceImage">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="Image" EntitySet="Images" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Deals">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+    <Property Name="Likes" Type="int" Nullable="false" />
+    <Property Name="Publish" Type="bit" Nullable="false" />
+    <Property Name="Company_Id" Type="int" Nullable="false" />
+    <Property Name="Location_Id" Type="int" Nullable="false" />
+    <Property Name="Cost_Id" Type="int" Nullable="true" />
+    <Property Name="Category_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Longitude" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Latitude" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Companies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PostCode" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="County" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Country_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Reminders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="nvarchar" MaxLength="128" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Costs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Range" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Genders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Countries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="ClaimType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="ProviderKey" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Gender_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Deal_Id" Type="int" Nullable="false" />
+    <Property Name="Device_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Devices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DealTag">
+    <Key>
+      <PropertyRef Name="Deals_Id" />
+      <PropertyRef Name="Tags_Id" />
+    </Key>
+    <Property Name="Deals_Id" Type="int" Nullable="false" />
+    <Property Name="Tags_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="Roles_Id" />
+      <PropertyRef Name="Users_Id" />
+    </Key>
+    <Property Name="Roles_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Users_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="UserDealWonders">
+    <Key>
+      <PropertyRef Name="MyWonderUsers_Id" />
+      <PropertyRef Name="MyWonders_Id" />
+    </Key>
+    <Property Name="MyWonderUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="MyWonders_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDealReject">
+    <Key>
+      <PropertyRef Name="MyRejectUsers_Id" />
+      <PropertyRef Name="MyRejects_Id" />
+    </Key>
+    <Property Name="MyRejectUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="MyRejects_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserCategory">
+    <Key>
+      <PropertyRef Name="Users_Id" />
+      <PropertyRef Name="Categories_Id" />
+    </Key>
+    <Property Name="Users_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Categories_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="DealCompany">
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
+    <End Role="Company" Type="WonderAppModel.Store.Companies" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Deal">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CompanyCountry">
+    <End Role="Company" Type="WonderAppModel.Store.Companies" Multiplicity="*" />
+    <End Role="Country" Type="WonderAppModel.Store.Countries" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="Country_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DealLocation">
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
+    <End Role="Location" Type="WonderAppModel.Store.Locations" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Deal">
+        <PropertyRef Name="Location_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DealCost">
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
+    <End Role="Cost" Type="WonderAppModel.Store.Costs" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Cost">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Deal">
+        <PropertyRef Name="Cost_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaim" Type="WonderAppModel.Store.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogin" Type="WonderAppModel.Store.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserGender">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="*" />
+    <End Role="Gender" Type="WonderAppModel.Store.Genders" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Gender">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUser">
+        <PropertyRef Name="Gender_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserReminder">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Reminder" Type="WonderAppModel.Store.Reminders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reminder">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserLocation">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Location" Type="WonderAppModel.Store.Locations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Location">
+        <PropertyRef Name="AspNetUser_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CategoryDeal">
+    <End Role="Category" Type="WonderAppModel.Store.Categories" Multiplicity="0..1" />
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Deal">
+        <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DealImage">
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
+    <End Role="Image" Type="WonderAppModel.Store.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Deal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="Deal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DeviceImage">
+    <End Role="Device" Type="WonderAppModel.Store.Devices" Multiplicity="1" />
+    <End Role="Image" Type="WonderAppModel.Store.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="Device_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DealTag_Deal">
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
+    <End Role="DealTag" Type="WonderAppModel.Store.DealTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Deal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DealTag">
+        <PropertyRef Name="Deals_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DealTag_Tag">
+    <End Role="DealTag" Type="WonderAppModel.Store.DealTag" Multiplicity="*" />
+    <End Role="Tag" Type="WonderAppModel.Store.Tags" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DealTag">
+        <PropertyRef Name="Tags_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetRole">
+    <End Role="AspNetRole" Type="WonderAppModel.Store.AspNetRoles" Multiplicity="1" />
+    <End Role="AspNetUserRoles" Type="WonderAppModel.Store.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRole">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="Roles_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetUser">
+    <End Role="AspNetUserRoles" Type="WonderAppModel.Store.AspNetUserRoles" Multiplicity="*" />
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserDealWonders_AspNetUser">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="UserDealWonders" Type="WonderAppModel.Store.UserDealWonders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserDealWonders">
+        <PropertyRef Name="MyWonderUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserDealWonders_Deal">
+    <End Role="UserDealWonders" Type="WonderAppModel.Store.UserDealWonders" Multiplicity="*" />
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Deal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserDealWonders">
+        <PropertyRef Name="MyWonders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserDealReject_AspNetUser">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="UserDealReject" Type="WonderAppModel.Store.UserDealReject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserDealReject">
+        <PropertyRef Name="MyRejectUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserDealReject_Deal">
+    <End Role="UserDealReject" Type="WonderAppModel.Store.UserDealReject" Multiplicity="*" />
+    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Deal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserDealReject">
+        <PropertyRef Name="MyRejects_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserCategory_AspNetUser">
+    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="AspNetUserCategory" Type="WonderAppModel.Store.AspNetUserCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserCategory">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserCategory_Category">
+    <End Role="AspNetUserCategory" Type="WonderAppModel.Store.AspNetUserCategory" Multiplicity="*" />
+    <End Role="Category" Type="WonderAppModel.Store.Categories" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserCategory">
+        <PropertyRef Name="Categories_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WonderAppModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="WonderAppModelContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Deals" EntityType="WonderAppModel.Deal" />
-          <EntitySet Name="Users" EntityType="WonderAppModel.User" />
           <EntitySet Name="Locations" EntityType="WonderAppModel.Location" />
           <EntitySet Name="Tags" EntityType="WonderAppModel.Tag" />
           <EntitySet Name="Categories" EntityType="WonderAppModel.Category" />
@@ -39,33 +594,63 @@
             <End Role="Deal" EntitySet="Deals" />
             <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
-          <AssociationSet Name="UserDeal" Association="WonderAppModel.UserDeal">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Deal" EntitySet="Deals" />
-          </AssociationSet>
-          <AssociationSet Name="UserDeal1" Association="WonderAppModel.UserDeal1">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Deal" EntitySet="Deals" />
-          </AssociationSet>
-          <AssociationSet Name="UserGender" Association="WonderAppModel.UserGender">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Gender" EntitySet="Genders" />
-          </AssociationSet>
-          <AssociationSet Name="UserCategory" Association="WonderAppModel.UserCategory">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Category" EntitySet="Categories" />
-          </AssociationSet>
-          <AssociationSet Name="UserReminder" Association="WonderAppModel.UserReminder">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Reminder" EntitySet="Reminders" />
-          </AssociationSet>
           <AssociationSet Name="DealCost" Association="WonderAppModel.DealCost">
             <End Role="Deal" EntitySet="Deals" />
             <End Role="Cost" EntitySet="Costs" />
           </AssociationSet>
-          <AssociationSet Name="DealCategory" Association="WonderAppModel.DealCategory">
+          <EntitySet Name="AspNetRoles" EntityType="WonderAppModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="WonderAppModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="WonderAppModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="WonderAppModel.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="WonderAppModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="WonderAppModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="WonderAppModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserGender" Association="WonderAppModel.AspNetUserGender">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Gender" EntitySet="Genders" />
+          </AssociationSet>
+          <AssociationSet Name="UserDealWonders" Association="WonderAppModel.UserDealWonders">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="UserDealReject" Association="WonderAppModel.UserDealReject">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserReminder" Association="WonderAppModel.AspNetUserReminder">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Reminder" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserLocation" Association="WonderAppModel.AspNetUserLocation">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserCategory" Association="WonderAppModel.AspNetUserCategory">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="CategoryDeal" Association="WonderAppModel.CategoryDeal">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <EntitySet Name="Images" EntityType="WonderAppModel.Image" />
+          <AssociationSet Name="DealImage" Association="WonderAppModel.DealImage">
+            <End Role="Deal" EntitySet="Deals" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <EntitySet Name="Devices" EntityType="WonderAppModel.Device" />
+          <AssociationSet Name="DeviceImage" Association="WonderAppModel.DeviceImage">
+            <End Role="Device" EntitySet="Devices" />
+            <End Role="Image" EntitySet="Images" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Deal">
@@ -73,42 +658,31 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="Url" Type="String" Nullable="false" />
-          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Likes" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="WonderAppModel.DealCompany" FromRole="Deal" ToRole="Company" />
           <NavigationProperty Name="Tags" Relationship="WonderAppModel.DealTag" FromRole="Deal" ToRole="Tag" />
           <NavigationProperty Name="Location" Relationship="WonderAppModel.DealLocation" FromRole="Deal" ToRole="Location" />
-          <NavigationProperty Name="MyWonderUsers" Relationship="WonderAppModel.UserDeal" FromRole="Deal" ToRole="User" />
-          <NavigationProperty Name="MyRejectUsers" Relationship="WonderAppModel.UserDeal1" FromRole="Deal" ToRole="User" />
           <NavigationProperty Name="Cost" Relationship="WonderAppModel.DealCost" FromRole="Deal" ToRole="Cost" />
-          <NavigationProperty Name="Category" Relationship="WonderAppModel.DealCategory" FromRole="Deal" ToRole="Category" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" Nullable="false" />
-          <Property Name="FacebookId" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" />
-          <NavigationProperty Name="MyWonders" Relationship="WonderAppModel.UserDeal" FromRole="User" ToRole="Deal" />
-          <NavigationProperty Name="MyRejects" Relationship="WonderAppModel.UserDeal1" FromRole="User" ToRole="Deal" />
-          <NavigationProperty Name="Gender" Relationship="WonderAppModel.UserGender" FromRole="User" ToRole="Gender" />
-          <NavigationProperty Name="MyCategories" Relationship="WonderAppModel.UserCategory" FromRole="User" ToRole="Category" />
-          <NavigationProperty Name="MyReminder" Relationship="WonderAppModel.UserReminder" FromRole="User" ToRole="Reminder" />
+          <NavigationProperty Name="MyWonderUsers" Relationship="WonderAppModel.UserDealWonders" FromRole="Deal" ToRole="AspNetUser" />
+          <NavigationProperty Name="MyRejectUsers" Relationship="WonderAppModel.UserDealReject" FromRole="Deal" ToRole="AspNetUser" />
+          <NavigationProperty Name="Category" Relationship="WonderAppModel.CategoryDeal" FromRole="Deal" ToRole="Category" />
+          <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
+          <Property Name="Publish" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Longitude" Type="Decimal" Nullable="false" />
-          <Property Name="Latitude" Type="Decimal" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealLocation" FromRole="Location" ToRole="Deal" />
+          <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.AspNetUserLocation" FromRole="Location" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -116,27 +690,27 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealTag" FromRole="Tag" ToRole="Deal" />
-          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="User" Relationship="WonderAppModel.UserCategory" FromRole="Category" ToRole="User" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealCategory" FromRole="Category" ToRole="Deal" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Users" Relationship="WonderAppModel.AspNetUserCategory" FromRole="Category" ToRole="AspNetUser" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.CategoryDeal" FromRole="Category" ToRole="Deal" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Address" Type="String" Nullable="false" />
-          <Property Name="PostCode" Type="String" Nullable="false" />
-          <Property Name="County" Type="String" Nullable="false" />
-          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="County" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealCompany" FromRole="Company" ToRole="Deal" />
           <NavigationProperty Name="Country" Relationship="WonderAppModel.CompanyCountry" FromRole="Company" ToRole="Country" />
         </EntityType>
@@ -145,40 +719,40 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Time" Type="String" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="WonderAppModel.UserReminder" FromRole="Reminder" ToRole="User" />
+          <Property Name="Time" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="User" Relationship="WonderAppModel.AspNetUserReminder" FromRole="Reminder" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Cost">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Range" Type="String" Nullable="false" />
-          <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealCost" FromRole="Cost" ToRole="Deal" />
+          <Property Name="Range" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealCost" FromRole="Cost" ToRole="Deal" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="WonderAppModel.UserGender" FromRole="Gender" ToRole="User" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="WonderAppModel.AspNetUserGender" FromRole="Gender" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="WonderAppModel.CompanyCountry" FromRole="Country" ToRole="Company" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Companies" Relationship="WonderAppModel.CompanyCountry" FromRole="Country" ToRole="Company" />
         </EntityType>
         <Association Name="DealCompany">
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
           <End Type="WonderAppModel.Company" Role="Company" Multiplicity="1" />
         </Association>
         <Association Name="CompanyCountry">
-          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="WonderAppModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="*" />
+          <End Type="WonderAppModel.Country" Role="Country" Multiplicity="0..1" />
         </Association>
         <Association Name="DealTag">
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
@@ -188,45 +762,428 @@
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
           <End Type="WonderAppModel.Location" Role="Location" Multiplicity="1" />
         </Association>
-        <Association Name="UserDeal">
-          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
+        <Association Name="DealCost">
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Cost" Role="Cost" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="WonderAppModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="WonderAppModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="WonderAppModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="Roles" Relationship="WonderAppModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="Gender" Relationship="WonderAppModel.AspNetUserGender" FromRole="AspNetUser" ToRole="Gender" />
+          <NavigationProperty Name="MyWonders" Relationship="WonderAppModel.UserDealWonders" FromRole="AspNetUser" ToRole="Deal" />
+          <NavigationProperty Name="MyRejects" Relationship="WonderAppModel.UserDealReject" FromRole="AspNetUser" ToRole="Deal" />
+          <NavigationProperty Name="MyReminder" Relationship="WonderAppModel.AspNetUserReminder" FromRole="AspNetUser" ToRole="Reminder" />
+          <NavigationProperty Name="Locations" Relationship="WonderAppModel.AspNetUserLocation" FromRole="AspNetUser" ToRole="Location" />
+          <NavigationProperty Name="Categories" Relationship="WonderAppModel.AspNetUserCategory" FromRole="AspNetUser" ToRole="Category" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WonderAppModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WonderAppModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="WonderAppModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="AspNetUserGender">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="WonderAppModel.Gender" Role="Gender" Multiplicity="0..1" />
+        </Association>
+        <Association Name="UserDealWonders">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
         </Association>
-        <Association Name="UserDeal1">
-          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
+        <Association Name="UserDealReject">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
         </Association>
-        <Association Name="UserGender">
-          <End Type="WonderAppModel.User" Role="User" Multiplicity="*" />
-          <End Type="WonderAppModel.Gender" Role="Gender" Multiplicity="1" />
-        </Association>
-        <Association Name="UserCategory">
-          <End Type="WonderAppModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="*" />
-        </Association>
-        <Association Name="UserReminder">
-          <End Type="WonderAppModel.User" Role="User" Multiplicity="0..1" />
+        <Association Name="AspNetUserReminder">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
           <End Type="WonderAppModel.Reminder" Role="Reminder" Multiplicity="*" />
         </Association>
-        <Association Name="DealCost">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
-          <End Type="WonderAppModel.Cost" Role="Cost" Multiplicity="1" />
+        <Association Name="AspNetUserLocation">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Location" Role="Location" Multiplicity="*" />
         </Association>
-        <Association Name="DealCategory">
+        <Association Name="AspNetUserCategory">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="*" />
+        </Association>
+        <Association Name="CategoryDeal">
+          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="url" Type="String" Nullable="false" />
+          <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealImage" FromRole="Image" ToRole="Deal" />
+          <NavigationProperty Name="Device" Relationship="WonderAppModel.DeviceImage" FromRole="Image" ToRole="Device" />
+        </EntityType>
+        <Association Name="DealImage">
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
-          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="WonderAppModel.Image" Role="Image" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="WonderAppModel.DeviceImage" FromRole="Device" ToRole="Image" />
+        </EntityType>
+        <Association Name="DeviceImage">
+          <End Type="WonderAppModel.Device" Role="Device" Multiplicity="1" />
+          <End Type="WonderAppModel.Image" Role="Image" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="WonderAppModel" />
-        <Alias Key="Target" Value="WonderAppModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="WonderAppModelContainer" StorageEntityContainer="WonderAppModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WonderAppModelStoreContainer" CdmEntityContainer="WonderAppModelContainer">
+    <EntitySetMapping Name="Deals">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
+        <MappingFragment StoreEntitySet="Deals">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="Likes" ColumnName="Likes" />
+          <ScalarProperty Name="Publish" ColumnName="Publish" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Tag)">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Category)">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Company)">
+        <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+          <ScalarProperty Name="County" ColumnName="County" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reminders">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Reminder)">
+        <MappingFragment StoreEntitySet="Reminders">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Costs">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Cost)">
+        <MappingFragment StoreEntitySet="Costs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Range" ColumnName="Range" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Genders">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Gender)">
+        <MappingFragment StoreEntitySet="Genders">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Country)">
+        <MappingFragment StoreEntitySet="Countries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetRole)">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUserClaim)">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUserLogin)">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUser)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Image)">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="url" ColumnName="url" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Devices">
+      <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Device)">
+        <MappingFragment StoreEntitySet="Devices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DealCompany" TypeName="WonderAppModel.DealCompany" StoreEntitySet="Deals">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="Id" ColumnName="Company_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CompanyCountry" TypeName="WonderAppModel.CompanyCountry" StoreEntitySet="Companies">
+      <EndProperty Name="Country">
+        <ScalarProperty Name="Id" ColumnName="Country_Id" />
+      </EndProperty>
+      <EndProperty Name="Company">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Country_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DealTag" TypeName="WonderAppModel.DealTag" StoreEntitySet="DealTag">
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Deals_Id" />
+      </EndProperty>
+      <EndProperty Name="Tag">
+        <ScalarProperty Name="Id" ColumnName="Tags_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DealLocation" TypeName="WonderAppModel.DealLocation" StoreEntitySet="Deals">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="Id" ColumnName="Location_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DealCost" TypeName="WonderAppModel.DealCost" StoreEntitySet="Deals">
+      <EndProperty Name="Cost">
+        <ScalarProperty Name="Id" ColumnName="Cost_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Cost_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="WonderAppModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRole">
+        <ScalarProperty Name="Id" ColumnName="Roles_Id" />
+      </EndProperty>
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserGender" TypeName="WonderAppModel.AspNetUserGender" StoreEntitySet="AspNetUsers">
+      <EndProperty Name="Gender">
+        <ScalarProperty Name="Id" ColumnName="Gender_Id" />
+      </EndProperty>
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Gender_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserDealWonders" TypeName="WonderAppModel.UserDealWonders" StoreEntitySet="UserDealWonders">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="MyWonderUsers_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="MyWonders_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserDealReject" TypeName="WonderAppModel.UserDealReject" StoreEntitySet="UserDealReject">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="MyRejectUsers_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="MyRejects_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserReminder" TypeName="WonderAppModel.AspNetUserReminder" StoreEntitySet="Reminders">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Reminder">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserLocation" TypeName="WonderAppModel.AspNetUserLocation" StoreEntitySet="Locations">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="AspNetUser_Id" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="AspNetUser_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserCategory" TypeName="WonderAppModel.AspNetUserCategory" StoreEntitySet="AspNetUserCategory">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Categories_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CategoryDeal" TypeName="WonderAppModel.CategoryDeal" StoreEntitySet="Deals">
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Category_Id" />
+      </EndProperty>
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Category_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DealImage" TypeName="WonderAppModel.DealImage" StoreEntitySet="Images">
+      <EndProperty Name="Deal">
+        <ScalarProperty Name="Id" ColumnName="Deal_Id" />
+      </EndProperty>
+      <EndProperty Name="Image">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DeviceImage" TypeName="WonderAppModel.DeviceImage" StoreEntitySet="Images">
+      <EndProperty Name="Device">
+        <ScalarProperty Name="Id" ColumnName="Device_Id" />
+      </EndProperty>
+      <EndProperty Name="Image">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -240,6 +1197,8 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
