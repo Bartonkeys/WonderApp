@@ -336,6 +336,7 @@
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Cost\Create.cshtml" />
     <Content Include="Views\Deal\Create.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

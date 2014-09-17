@@ -14,6 +14,8 @@ namespace WonderApp.Web.Controllers
         // GET: Category
         public ActionResult Index()
         {
+            Category cat = (Category)TempData["category"];
+            ViewBag.Category = cat;
             return View();
         }
 
@@ -37,6 +39,8 @@ namespace WonderApp.Web.Controllers
             {
                 var category = Mapper.Map<Category>(model);
                 DataContext.Categories.Add(category);
+
+                TempData["category"] = category;
 
                 return RedirectToAction("Index");
             }

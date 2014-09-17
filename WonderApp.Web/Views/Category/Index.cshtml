@@ -1,0 +1,15 @@
+﻿@using System.Web.UI.WebControls
+@using WonderApp.Models
+
+@{
+    ViewBag.Title = "Index";
+   
+}
+
+<h2>Index</h2>
+
+@if (ViewBag.Category != null)
+{
+    <h3>You have just created category: @ViewBag.Category.Name</h3>
+}
+
