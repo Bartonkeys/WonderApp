@@ -15,15 +15,26 @@ namespace WonderApp.Web.Controllers
         // GET: Deal
         public ActionResult Create()
         {
-            var model = new DealViewModel
+            try
             {
-                CostRanges = Mapper.Map<List<CostModel>>(DataContext.Costs).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Range}),
-                Categories = Mapper.Map<List<CategoryModel>>(DataContext.Categories).Select(x =>
-                    new SelectListItem {Value = x.Id.ToString(),Text = x.Name})
-            };
+                var model = new DealViewModel
+                {
+                    CostRanges = Mapper.Map<List<CostModel>>(DataContext.Costs).Select(x =>
+                        new SelectListItem { Value = x.Id.ToString(), Text = x.Range}),
+                    Categories = Mapper.Map<List<CategoryModel>>(DataContext.Categories).Select(x =>
+                        new SelectListItem {Value = x.Id.ToString(),Text = x.Name})
+                };
 
-            return View(model);
+                return View(model);
+            }
+            
+
+            catch(AutoMapperMappingException ex)
+            {
+                return View("Error");
+            }
+
+            
         }
 
         [HttpPost]
