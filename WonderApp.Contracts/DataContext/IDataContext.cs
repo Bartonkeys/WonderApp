@@ -19,6 +19,6 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<AspNetUserClaim> AspNetUserClaims { get; }
         IDbSet<AspNetUserLogin> AspNetUserLogins { get; }
         IDbSet<AspNetUser> AspNetUsers { get; }
-        Task Commit();
+        void Commit();
     }
 }

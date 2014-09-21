@@ -38,6 +38,14 @@
             </div>
         </div>
         <div class="form-group">
+            @Html.LabelFor(model => model.TagString, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TagString)
+                @Html.ValidationMessageFor(model => model.TagString, "", new { @class = "text-danger" })
+                Seperate by space
+            </div>
+        </div>
+        <div class="form-group">
             @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker" })
@@ -48,7 +56,21 @@
             @Html.LabelFor(model => model.DealModel.Cost.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.DealModel.Cost.Id, Model.CostRanges, "Please Select")
-                @Html.ValidationMessageFor(model => model.DealModel.Cost.Id, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.DealModel.Cost.Id, "", new { @class = "text-danger" })                
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DealModel.Category.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DealModel.Category.Id, Model.Categories, "Please Select")
+                @Html.ValidationMessageFor(model => model.DealModel.Category.Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select")
+                @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
             </div>
         </div>
 

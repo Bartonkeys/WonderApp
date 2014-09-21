@@ -11,83 +11,60 @@ namespace WonderApp.Web.Controllers
 {
     public class CategoryController : BaseController
     {
-        // GET: Category
         public ActionResult Index()
         {
-            return View();
+            var model = Mapper.Map<List<CategoryModel>>(DataContext.Categories);
+            return View(model);
         }
 
-        // GET: Category/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Category/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new CategoryModel());
         }
 
-        // POST: Category/Create
         [HttpPost]
         public ActionResult Create(CategoryModel model)
         {
-            try
+            if (model != null & ModelState.IsValid)
             {
                 var category = Mapper.Map<Category>(model);
                 DataContext.Categories.Add(category);
 
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
-        // GET: Category/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = Mapper.Map<CategoryModel>(DataContext.Categories.Find(id));
+            return View(model);
         }
 
-        // POST: Category/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CategoryModel model)
         {
-            try
+            if (model != null && ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                var category = DataContext.Categories.Find(model.Id);
+                Mapper.Map(model, category);
 
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
                 return View();
             }
         }
 
-        // GET: Category/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var category = DataContext.Categories.Find(id);
+            DataContext.Categories.Remove(category);
+
+            return RedirectToAction("Index");
+
         }
 
-        // POST: Category/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

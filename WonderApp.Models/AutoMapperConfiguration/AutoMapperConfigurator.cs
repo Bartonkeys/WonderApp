@@ -16,7 +16,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<Deal, DealModel>();
             Mapper.CreateMap<DealModel, Deal>();
 
-            Mapper.CreateMap<Category, CategoryModel>();
+            Mapper.CreateMap<Category, CategoryModel>()
+                .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));
             Mapper.CreateMap<CategoryModel, Category>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<AspNetUser>()));
 

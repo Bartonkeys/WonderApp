@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using WonderApp.Contracts.DataContext;
 
 namespace WonderApp.Web.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         [Inject]
@@ -16,7 +18,15 @@ namespace WonderApp.Web.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-            DataContext.Commit();
+            try
+            {
+                DataContext.Commit();
+            }
+            catch (Exception exc)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
+            }
+
         }
     }
 }

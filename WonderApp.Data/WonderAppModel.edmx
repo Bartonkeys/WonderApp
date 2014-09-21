@@ -4,567 +4,568 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WonderAppModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="WonderAppModelStoreContainer">
-    <EntitySet Name="Deals" EntityType="WonderAppModel.Store.Deals" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Locations" EntityType="WonderAppModel.Store.Locations" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Tags" EntityType="WonderAppModel.Store.Tags" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Categories" EntityType="WonderAppModel.Store.Categories" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Companies" EntityType="WonderAppModel.Store.Companies" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Reminders" EntityType="WonderAppModel.Store.Reminders" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Costs" EntityType="WonderAppModel.Store.Costs" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Genders" EntityType="WonderAppModel.Store.Genders" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Countries" EntityType="WonderAppModel.Store.Countries" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetRoles" EntityType="WonderAppModel.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetUserClaims" EntityType="WonderAppModel.Store.AspNetUserClaims" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetUserLogins" EntityType="WonderAppModel.Store.AspNetUserLogins" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetUsers" EntityType="WonderAppModel.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Images" EntityType="WonderAppModel.Store.Images" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Devices" EntityType="WonderAppModel.Store.Devices" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="DealTag" EntityType="WonderAppModel.Store.DealTag" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetUserRoles" EntityType="WonderAppModel.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserDealWonders" EntityType="WonderAppModel.Store.UserDealWonders" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserDealReject" EntityType="WonderAppModel.Store.UserDealReject" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AspNetUserCategory" EntityType="WonderAppModel.Store.AspNetUserCategory" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="DealCompany" Association="WonderAppModel.Store.DealCompany">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="Company" EntitySet="Companies" />
-    </AssociationSet>
-    <AssociationSet Name="CompanyCountry" Association="WonderAppModel.Store.CompanyCountry">
-      <End Role="Company" EntitySet="Companies" />
-      <End Role="Country" EntitySet="Countries" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DealTag_Deal" Association="WonderAppModel.Store.FK_DealTag_Deal">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="DealTag" EntitySet="DealTag" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DealTag_Tag" Association="WonderAppModel.Store.FK_DealTag_Tag">
-      <End Role="Tag" EntitySet="Tags" />
-      <End Role="DealTag" EntitySet="DealTag" />
-    </AssociationSet>
-    <AssociationSet Name="DealLocation" Association="WonderAppModel.Store.DealLocation">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="Location" EntitySet="Locations" />
-    </AssociationSet>
-    <AssociationSet Name="DealCost" Association="WonderAppModel.Store.DealCost">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="Cost" EntitySet="Costs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="WonderAppModel.Store.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
-    </AssociationSet>
-    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="WonderAppModel.Store.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="WonderAppModel.Store.FK_AspNetUserRoles_AspNetRole">
-      <End Role="AspNetRole" EntitySet="AspNetRoles" />
-      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="WonderAppModel.Store.FK_AspNetUserRoles_AspNetUser">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-    </AssociationSet>
-    <AssociationSet Name="AspNetUserGender" Association="WonderAppModel.Store.AspNetUserGender">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="Gender" EntitySet="Genders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_UserDealWonders_AspNetUser" Association="WonderAppModel.Store.FK_UserDealWonders_AspNetUser">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="UserDealWonders" EntitySet="UserDealWonders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_UserDealWonders_Deal" Association="WonderAppModel.Store.FK_UserDealWonders_Deal">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="UserDealWonders" EntitySet="UserDealWonders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_UserDealReject_AspNetUser" Association="WonderAppModel.Store.FK_UserDealReject_AspNetUser">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="UserDealReject" EntitySet="UserDealReject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_UserDealReject_Deal" Association="WonderAppModel.Store.FK_UserDealReject_Deal">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="UserDealReject" EntitySet="UserDealReject" />
-    </AssociationSet>
-    <AssociationSet Name="AspNetUserReminder" Association="WonderAppModel.Store.AspNetUserReminder">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="Reminder" EntitySet="Reminders" />
-    </AssociationSet>
-    <AssociationSet Name="AspNetUserLocation" Association="WonderAppModel.Store.AspNetUserLocation">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="Location" EntitySet="Locations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserCategory_AspNetUser" Association="WonderAppModel.Store.FK_AspNetUserCategory_AspNetUser">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserCategory_Category" Association="WonderAppModel.Store.FK_AspNetUserCategory_Category">
-      <End Role="Category" EntitySet="Categories" />
-      <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
-    </AssociationSet>
-    <AssociationSet Name="CategoryDeal" Association="WonderAppModel.Store.CategoryDeal">
-      <End Role="Category" EntitySet="Categories" />
-      <End Role="Deal" EntitySet="Deals" />
-    </AssociationSet>
-    <AssociationSet Name="DealImage" Association="WonderAppModel.Store.DealImage">
-      <End Role="Deal" EntitySet="Deals" />
-      <End Role="Image" EntitySet="Images" />
-    </AssociationSet>
-    <AssociationSet Name="DeviceImage" Association="WonderAppModel.Store.DeviceImage">
-      <End Role="Device" EntitySet="Devices" />
-      <End Role="Image" EntitySet="Images" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Deals">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
-    <Property Name="Likes" Type="int" Nullable="false" />
-    <Property Name="Publish" Type="bit" Nullable="false" />
-    <Property Name="Company_Id" Type="int" Nullable="false" />
-    <Property Name="Location_Id" Type="int" Nullable="false" />
-    <Property Name="Cost_Id" Type="int" Nullable="true" />
-    <Property Name="Category_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Locations">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Longitude" Type="decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="Latitude" Type="decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Tags">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Categories">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Companies">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="PostCode" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="County" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Country_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Reminders">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="User_Id" Type="nvarchar" MaxLength="128" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Costs">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Range" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Genders">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Countries">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="AspNetRoles">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-  </EntityType>
-  <EntityType Name="AspNetUserClaims">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="ClaimType" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="ClaimValue" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="AspNetUserLogins">
-    <Key>
-      <PropertyRef Name="LoginProvider" />
-      <PropertyRef Name="ProviderKey" />
-      <PropertyRef Name="UserId" />
-    </Key>
-    <Property Name="LoginProvider" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="ProviderKey" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
-  </EntityType>
-  <EntityType Name="AspNetUsers">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
-    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
-    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Gender_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Images">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Deal_Id" Type="int" Nullable="false" />
-    <Property Name="Device_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Devices">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="DealTag">
-    <Key>
-      <PropertyRef Name="Deals_Id" />
-      <PropertyRef Name="Tags_Id" />
-    </Key>
-    <Property Name="Deals_Id" Type="int" Nullable="false" />
-    <Property Name="Tags_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="AspNetUserRoles">
-    <Key>
-      <PropertyRef Name="Roles_Id" />
-      <PropertyRef Name="Users_Id" />
-    </Key>
-    <Property Name="Roles_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="Users_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-  </EntityType>
-  <EntityType Name="UserDealWonders">
-    <Key>
-      <PropertyRef Name="MyWonderUsers_Id" />
-      <PropertyRef Name="MyWonders_Id" />
-    </Key>
-    <Property Name="MyWonderUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="MyWonders_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserDealReject">
-    <Key>
-      <PropertyRef Name="MyRejectUsers_Id" />
-      <PropertyRef Name="MyRejects_Id" />
-    </Key>
-    <Property Name="MyRejectUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="MyRejects_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="AspNetUserCategory">
-    <Key>
-      <PropertyRef Name="Users_Id" />
-      <PropertyRef Name="Categories_Id" />
-    </Key>
-    <Property Name="Users_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="Categories_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="DealCompany">
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
-    <End Role="Company" Type="WonderAppModel.Store.Companies" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Company">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Deal">
-        <PropertyRef Name="Company_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CompanyCountry">
-    <End Role="Company" Type="WonderAppModel.Store.Companies" Multiplicity="*" />
-    <End Role="Country" Type="WonderAppModel.Store.Countries" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Country">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Company">
-        <PropertyRef Name="Country_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DealLocation">
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
-    <End Role="Location" Type="WonderAppModel.Store.Locations" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Location">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Deal">
-        <PropertyRef Name="Location_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DealCost">
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
-    <End Role="Cost" Type="WonderAppModel.Store.Costs" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Cost">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Deal">
-        <PropertyRef Name="Cost_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="AspNetUserClaim" Type="WonderAppModel.Store.AspNetUserClaims" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserClaim">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="AspNetUserLogin" Type="WonderAppModel.Store.AspNetUserLogins" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserLogin">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AspNetUserGender">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="*" />
-    <End Role="Gender" Type="WonderAppModel.Store.Genders" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Gender">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUser">
-        <PropertyRef Name="Gender_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AspNetUserReminder">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="0..1" />
-    <End Role="Reminder" Type="WonderAppModel.Store.Reminders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Reminder">
-        <PropertyRef Name="User_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AspNetUserLocation">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="0..1" />
-    <End Role="Location" Type="WonderAppModel.Store.Locations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Location">
-        <PropertyRef Name="AspNetUser_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CategoryDeal">
-    <End Role="Category" Type="WonderAppModel.Store.Categories" Multiplicity="0..1" />
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Category">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Deal">
-        <PropertyRef Name="Category_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DealImage">
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
-    <End Role="Image" Type="WonderAppModel.Store.Images" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Deal">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Image">
-        <PropertyRef Name="Deal_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DeviceImage">
-    <End Role="Device" Type="WonderAppModel.Store.Devices" Multiplicity="1" />
-    <End Role="Image" Type="WonderAppModel.Store.Images" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Device">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Image">
-        <PropertyRef Name="Device_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DealTag_Deal">
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
-    <End Role="DealTag" Type="WonderAppModel.Store.DealTag" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Deal">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DealTag">
-        <PropertyRef Name="Deals_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DealTag_Tag">
-    <End Role="DealTag" Type="WonderAppModel.Store.DealTag" Multiplicity="*" />
-    <End Role="Tag" Type="WonderAppModel.Store.Tags" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Tag">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DealTag">
-        <PropertyRef Name="Tags_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetRole">
-    <End Role="AspNetRole" Type="WonderAppModel.Store.AspNetRoles" Multiplicity="1" />
-    <End Role="AspNetUserRoles" Type="WonderAppModel.Store.AspNetUserRoles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetRole">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="Roles_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetUser">
-    <End Role="AspNetUserRoles" Type="WonderAppModel.Store.AspNetUserRoles" Multiplicity="*" />
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="Users_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_UserDealWonders_AspNetUser">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
-    <End Role="UserDealWonders" Type="WonderAppModel.Store.UserDealWonders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserDealWonders">
-        <PropertyRef Name="MyWonderUsers_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_UserDealWonders_Deal">
-    <End Role="UserDealWonders" Type="WonderAppModel.Store.UserDealWonders" Multiplicity="*" />
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Deal">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserDealWonders">
-        <PropertyRef Name="MyWonders_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_UserDealReject_AspNetUser">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
-    <End Role="UserDealReject" Type="WonderAppModel.Store.UserDealReject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserDealReject">
-        <PropertyRef Name="MyRejectUsers_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_UserDealReject_Deal">
-    <End Role="UserDealReject" Type="WonderAppModel.Store.UserDealReject" Multiplicity="*" />
-    <End Role="Deal" Type="WonderAppModel.Store.Deals" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Deal">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserDealReject">
-        <PropertyRef Name="MyRejects_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserCategory_AspNetUser">
-    <End Role="AspNetUser" Type="WonderAppModel.Store.AspNetUsers" Multiplicity="1" />
-    <End Role="AspNetUserCategory" Type="WonderAppModel.Store.AspNetUserCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserCategory">
-        <PropertyRef Name="Users_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserCategory_Category">
-    <End Role="AspNetUserCategory" Type="WonderAppModel.Store.AspNetUserCategory" Multiplicity="*" />
-    <End Role="Category" Type="WonderAppModel.Store.Categories" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Category">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserCategory">
-        <PropertyRef Name="Categories_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="WonderAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserCategory">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Categories_Id" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Categories_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Gender_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="County" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Country_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Costs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Range" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deals">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+          <Property Name="Likes" Type="int" Nullable="false" />
+          <Property Name="Publish" Type="bit" Nullable="false" />
+          <Property Name="Company_Id" Type="int" Nullable="false" />
+          <Property Name="Location_Id" Type="int" Nullable="false" />
+          <Property Name="Cost_Id" Type="int" />
+          <Property Name="Category_Id" Type="int" />
+          <Property Name="Archived" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DealTag">
+          <Key>
+            <PropertyRef Name="Deals_Id" />
+            <PropertyRef Name="Tags_Id" />
+          </Key>
+          <Property Name="Deals_Id" Type="int" Nullable="false" />
+          <Property Name="Tags_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Devices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Deal_Id" Type="int" Nullable="false" />
+          <Property Name="Device_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Reminders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="User_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDealReject">
+          <Key>
+            <PropertyRef Name="MyRejectUsers_Id" />
+            <PropertyRef Name="MyRejects_Id" />
+          </Key>
+          <Property Name="MyRejectUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="MyRejects_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDealWonders">
+          <Key>
+            <PropertyRef Name="MyWonderUsers_Id" />
+            <PropertyRef Name="MyWonders_Id" />
+          </Key>
+          <Property Name="MyWonderUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="MyWonders_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AspNetUserCategory_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUserCategory" Type="Self.AspNetUserCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserCategory_Category">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="AspNetUserCategory" Type="Self.AspNetUserCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserCategory">
+              <PropertyRef Name="Categories_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserGender">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="Gender_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserLocation">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Locations">
+              <PropertyRef Name="AspNetUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserReminder">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reminders">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_AspNetRole">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryDeal">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCountry">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="Country_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealCompany">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealCost">
+          <End Role="Costs" Type="Self.Costs" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Costs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="Cost_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealImage">
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="Deal_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealLocation">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="Location_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealTag_Deal">
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DealTag">
+              <PropertyRef Name="Deals_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealTag_Tag">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
+          <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DealTag">
+              <PropertyRef Name="Tags_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceImage">
+          <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="Device_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDealReject_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserDealReject" Type="Self.UserDealReject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDealReject">
+              <PropertyRef Name="MyRejectUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDealReject_Deal">
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="UserDealReject" Type="Self.UserDealReject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDealReject">
+              <PropertyRef Name="MyRejects_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDealWonders_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserDealWonders" Type="Self.UserDealWonders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDealWonders">
+              <PropertyRef Name="MyWonderUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDealWonders_Deal">
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="UserDealWonders" Type="Self.UserDealWonders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDealWonders">
+              <PropertyRef Name="MyWonders_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WonderAppModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserCategory" EntityType="Self.AspNetUserCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deals" EntityType="Self.Deals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DealTag" EntityType="Self.DealTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDealReject" EntityType="Self.UserDealReject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDealWonders" EntityType="Self.UserDealWonders" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AspNetUserCategory_AspNetUser" Association="Self.FK_AspNetUserCategory_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserCategory_Category" Association="Self.FK_AspNetUserCategory_Category">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserGender" Association="Self.FK_AspNetUserGender">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserLocation" Association="Self.FK_AspNetUserLocation">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Locations" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserReminder" Association="Self.FK_AspNetUserReminder">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Reminders" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryDeal" Association="Self.FK_CategoryDeal">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCountry" Association="Self.FK_CompanyCountry">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealCompany" Association="Self.FK_DealCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealCost" Association="Self.FK_DealCost">
+            <End Role="Costs" EntitySet="Costs" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealImage" Association="Self.FK_DealImage">
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealLocation" Association="Self.FK_DealLocation">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealTag_Deal" Association="Self.FK_DealTag_Deal">
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="DealTag" EntitySet="DealTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealTag_Tag" Association="Self.FK_DealTag_Tag">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="DealTag" EntitySet="DealTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceImage" Association="Self.FK_DeviceImage">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDealReject_AspNetUser" Association="Self.FK_UserDealReject_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserDealReject" EntitySet="UserDealReject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDealReject_Deal" Association="Self.FK_UserDealReject_Deal">
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="UserDealReject" EntitySet="UserDealReject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDealWonders_AspNetUser" Association="Self.FK_UserDealWonders_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserDealWonders" EntitySet="UserDealWonders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDealWonders_Deal" Association="Self.FK_UserDealWonders_Deal">
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="UserDealWonders" EntitySet="UserDealWonders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WonderAppModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -672,6 +673,7 @@
           <NavigationProperty Name="Category" Relationship="WonderAppModel.CategoryDeal" FromRole="Deal" ToRole="Category" />
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
           <Property Name="Publish" Type="Boolean" Nullable="false" />
+          <Property Name="Archived" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -886,7 +888,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="url" Type="String" Nullable="false" />
+          <Property Name="url" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Deal" Relationship="WonderAppModel.DealImage" FromRole="Image" ToRole="Deal" />
           <NavigationProperty Name="Device" Relationship="WonderAppModel.DeviceImage" FromRole="Image" ToRole="Device" />
         </EntityType>
@@ -899,7 +901,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DeviceImage" FromRole="Device" ToRole="Image" />
         </EntityType>
         <Association Name="DeviceImage">
@@ -915,7 +917,8 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Archived" ColumnName="Archived" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Url" ColumnName="Url" />
@@ -1100,10 +1103,10 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="WonderAppModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRole">
-        <ScalarProperty Name="Id" ColumnName="Roles_Id" />
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
       <EndProperty Name="AspNetUser">
-        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+        <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="AspNetUserGender" TypeName="WonderAppModel.AspNetUserGender" StoreEntitySet="AspNetUsers">
@@ -1151,7 +1154,7 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="AspNetUserCategory" TypeName="WonderAppModel.AspNetUserCategory" StoreEntitySet="AspNetUserCategory">
       <EndProperty Name="AspNetUser">
-        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+        <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
       <EndProperty Name="Category">
         <ScalarProperty Name="Id" ColumnName="Categories_Id" />
