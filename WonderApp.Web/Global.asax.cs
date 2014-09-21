@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WonderApp.Models.AutoMapperConfiguration;
+using System.Web.Http;
+using System.Web.Routing;
+
 
 namespace WonderApp.Web
 {
@@ -13,6 +16,7 @@ namespace WonderApp.Web
     {
         protected void Application_Start()
         {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

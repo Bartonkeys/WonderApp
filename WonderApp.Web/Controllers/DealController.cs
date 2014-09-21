@@ -69,7 +69,7 @@ namespace WonderApp.Web.Controllers
             var model = CreateDealViewModel();
             model.DealModel = dealModel;
 
-            
+            return View(dealModel);
         }
 
         [HttpPost]
