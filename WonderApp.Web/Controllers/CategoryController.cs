@@ -30,6 +30,8 @@ namespace WonderApp.Web.Controllers
                 var category = Mapper.Map<Category>(model);
                 DataContext.Categories.Add(category);
 
+                TempData["category"] = category;
+
                 return RedirectToAction("Index");
             }
             return View();
