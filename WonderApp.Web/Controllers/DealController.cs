@@ -33,5 +33,7 @@ namespace WonderApp.Web.Controllers
             DataContext.Deals.Add(deal);
             return View();
         }
+
+
     }
 }
