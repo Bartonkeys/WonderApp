@@ -69,24 +69,8 @@
                 return;
             }
 
-            var model = this;
+            this.findUsersLocationOrDefault();
 
-            // Get location based on contact properties
-            if ($('#Address1').length == 1 && $('#Address1').val() != '' && $('#PostalCode').val() != '') {
-                var address = $('#Address1').val() + $('#Address2').val() + $('#TownCity').val() + $('#PostalCode').val();
-
-                this.geocoder.geocode({ 'address': address }, function (results, status) {
-                    if ((status == google.maps.GeocoderStatus.OK) && (results.length >= 0)) {
-                        model.setInitialLocation(results[0].geometry.location);
-                    }
-                    else {
-                        model.findUsersLocationOrDefault();
-                    }
-                });
-            }
-            else {
-                this.findUsersLocationOrDefault();
-            }
         };
 
         findUsersLocationOrDefault = () => {

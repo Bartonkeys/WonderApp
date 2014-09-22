@@ -4,6 +4,8 @@
     ViewBag.Title = "Create";
 }
 
+<link href="@Url.Content("~/Content/css/select2.css")" rel="stylesheet" type="text/css" />
+
 <style>
     #map_canvas img,
     .google-maps img { max-width: none; }
@@ -57,9 +59,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TagString, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TagString)
+                @*@Html.EditorFor(model => model.TagString)
                 @Html.ValidationMessageFor(model => model.TagString, "", new {@class = "text-danger"})
-                Seperate by space
+                Seperate by space*@
+                
+                @Html.DisplayNameFor(model => model.TagString)
+                <input type="hidden" class="select2-offscreen" id="tagstring-hdn" style="width:100%" value="@Model.TagString" />
+                <input type="text" class="hidden" id="tagstring" name="TagString" value="@Model.TagString" />
+
+
             </div>
         </div>
         <div class="form-group">
@@ -124,6 +132,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/tagSearchJs")
     @Scripts.Render("~/bundles/location")
 
     <script type="text/javascript">
@@ -133,3 +142,7 @@
     </script>
    
 }
+
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.5.0/select2.js"></script>*@
+

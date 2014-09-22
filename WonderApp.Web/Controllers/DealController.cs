@@ -10,6 +10,7 @@ using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.Models;
 using Image = WonderApp.Data.Image;
+using WonderApp.Core.Services;
 
 namespace WonderApp.Web.Controllers
 {
@@ -51,8 +52,12 @@ namespace WonderApp.Web.Controllers
             {
                 var deal = Mapper.Map<Deal>(model.DealModel);
 
-                var tagList = model.TagString.Split(' ').ToList();
-                deal.Tags = tagList.Select(x => new Tag {Name = x}).ToList();
+                var tagList = model.TagString.Split(',').ToList();
+                foreach (var tag in tagList)
+                {
+                    int tagId;
+                    deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag {Name = tag});
+                }
 
                 //todo this is shit, sort it out. This is all placeholder bollox
                 var image = new Image {url = "placeholder", Device = new Device{Type = "iPhone"}};
