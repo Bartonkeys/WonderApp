@@ -32,14 +32,17 @@ namespace WonderApp.Web
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                       "~/Scripts/site.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/location").Include(
+                      "~/App/Location/location.js"));
+
             bundles.Add(new StyleBundle("~/Content/css_bundle").Include(
-                      "~/Content/css/bootstrap.css",
-                       "~/Content/css/bootstrap-datepicker.css",
-                      "~/Content/css/site.css"));
+                  "~/Content/css/bootstrap.css",
+                   "~/Content/css/bootstrap-datepicker.css",
+                  "~/Content/css/site.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }
