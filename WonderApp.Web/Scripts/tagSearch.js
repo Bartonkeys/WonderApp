@@ -10,6 +10,8 @@ function select2Dropdown(hiddenID, valueID, ph, listAction, getAction, isMultipl
         minimumInputLength: 2,
         allowClear: true,
         multiple: isMultiple,
+        //tags: ["red", "green", "blue"],
+        //tokenSeparators: [",", " "],
         ajax: {
             url: "/api/Tag/" + listAction,
             dataType: 'json',
@@ -20,6 +22,14 @@ function select2Dropdown(hiddenID, valueID, ph, listAction, getAction, isMultipl
             },
             results: function (data) {
                 return { results: data };
+            }
+        },
+        //Allow manually entered text in drop down.
+        createSearchChoice: function (term, data) {
+            if ($(data).filter(function () {
+              return this.text.localeCompare(term) === 0;
+            }).length === 0) {
+                return { id: term, text: term };
             }
         },
         initSelection: function (element, callback) {

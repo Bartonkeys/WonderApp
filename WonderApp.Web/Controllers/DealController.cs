@@ -10,6 +10,7 @@ using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.Models;
 using Image = WonderApp.Data.Image;
+using WonderApp.Core.Services;
 
 namespace WonderApp.Web.Controllers
 {
@@ -33,6 +34,14 @@ namespace WonderApp.Web.Controllers
         public ActionResult Create()
         {
             var model = CreateDealViewModel();
+            model.DealModel = new DealModel
+            {
+                Category = new CategoryModel(),
+                Company = new CompanyModel(),
+                Cost = new CostModel(),
+                Location = new LocationModel()
+            };
+
             return View(model);
         }
 
@@ -43,8 +52,12 @@ namespace WonderApp.Web.Controllers
             {
                 var deal = Mapper.Map<Deal>(model.DealModel);
 
-                var tagList = model.TagString.Split(' ').ToList();
-                deal.Tags = tagList.Select(x => new Tag {Name = x}).ToList();
+                var tagList = model.TagString.Split(',').ToList();
+                foreach (var tag in tagList)
+                {
+                    int tagId;
+                    deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag {Name = tag});
+                }
 
                 //todo this is shit, sort it out. This is all placeholder bollox
                 var image = new Image {url = "placeholder", Device = new Device{Type = "iPhone"}};
@@ -52,7 +65,6 @@ namespace WonderApp.Web.Controllers
                 deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
-                deal.Location = new Location {Latitude = 1, Longitude = 1, Name = "PlaceHolder"};
 
                 DataContext.Deals.Add(deal);
                 return RedirectToAction("Index");
@@ -69,7 +81,7 @@ namespace WonderApp.Web.Controllers
             var model = CreateDealViewModel();
             model.DealModel = dealModel;
 
-            return View(dealModel);
+            return View(model);
         }
 
         [HttpPost]
