@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using Ninject;
 using WonderApp.Contracts.DataContext;
 
 namespace WonderApp.Web.Controllers
 {
-    [Authorize]
-    public class BaseController : Controller
+    public class BaseApiController : ApiController
     {
         [Inject]
         public IDataContext DataContext { get; set; }
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
-            base.OnActionExecuted(filterContext);
+            var response = base.ExecuteAsync(controllerContext, cancellationToken);
             try
             {
                 DataContext.Commit();
@@ -26,7 +29,7 @@ namespace WonderApp.Web.Controllers
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
             }
-
+            return response;
         }
     }
 }

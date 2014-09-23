@@ -29,6 +29,7 @@ namespace WonderApp.Data
         public System.DateTime ExpiryDate { get; set; }
         public int Likes { get; set; }
         public bool Publish { get; set; }
+        public bool Archived { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }

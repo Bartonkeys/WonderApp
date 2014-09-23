@@ -1,15 +1,32 @@
-﻿@using System.Web.UI.WebControls
-@using WonderApp.Models
+﻿@model IEnumerable<WonderApp.Models.CategoryModel>
 
 @{
     ViewBag.Title = "Index";
-   
 }
 
 <h2>Index</h2>
 
-@if (ViewBag.Category != null)
-{
-    <h3>You have just created category: @ViewBag.Category.Name</h3>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
 }
 
+</table>

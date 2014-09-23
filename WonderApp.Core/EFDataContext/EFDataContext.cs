@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,9 +32,26 @@ namespace WonderApp.Core.EFDataContext
         public IDbSet<AspNetUserClaim> AspNetUserClaims { get { return _context.AspNetUserClaims; } }
         public IDbSet<AspNetUserLogin> AspNetUserLogins { get { return _context.AspNetUserLogins; } }
         public IDbSet<AspNetUser> AspNetUsers { get { return _context.AspNetUsers; } }
-        public async Task Commit()
+        public void Commit()
         {
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbEntityValidationException exc)
+            {
+                IEnumerable<DbValidationError> dbValidationErrors =
+                    exc.EntityValidationErrors.SelectMany(error => error.ValidationErrors);
+
+                foreach (var error in dbValidationErrors)
+                {
+                   
+                }
+            }
+            catch (Exception exc)
+            {
+                Debug.Write(exc.Message);
+            }
         }
     }
 }
