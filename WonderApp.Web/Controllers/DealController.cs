@@ -60,8 +60,9 @@ namespace WonderApp.Web.Controllers
                 }
 
                 //todo this is shit, sort it out. This is all placeholder bollox
-                var image = new Image {url = "placeholder", Device = new Device{Type = "iPhone"}};
+                var image = new Image {url = "placeholder", Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone")};
                 deal.Images.Add(image);
+
                 deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);

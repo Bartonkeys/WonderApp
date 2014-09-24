@@ -18,7 +18,7 @@ namespace WonderApp.Models
         public string Url { get; set; }
 
         [DisplayName("Expiry Date")]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         public int Likes { get; set; }
 

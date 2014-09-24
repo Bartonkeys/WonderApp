@@ -38,7 +38,8 @@ namespace WonderApp.Web
             bundles.Add(new StyleBundle("~/Content/css_bundle").Include(
                   "~/Content/css/bootstrap.css",
                    "~/Content/css/bootstrap-datepicker.css",
-                  "~/Content/css/site.css"));
+                  "~/Content/css/site.css",
+                  "~/Content/css/select2.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

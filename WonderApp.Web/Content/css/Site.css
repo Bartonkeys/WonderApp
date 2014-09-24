@@ -16,9 +16,40 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+div.form-header, div.form-text {
+    margin-bottom: 10px;
+}
+
+fieldset .form-header:first-child {
+    margin-top: 5px;
+}
+
+fieldset:first-child {
+    margin-top: 10px;
+}
+
+div.form-header {
+    font-size: 18px;
+    margin: 30px 0 25px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+div.form-text {
+    font-size: 13px;
+}
+
+
+#map_canvas img,
+.google-maps img { max-width: none; }
+
+#mapContainer {
+    height: 200px;
+    margin: 15px 0 10px 0;
+    padding: 0;
+}
+
+#map_canvas {
+    height: 100%;
+    width: 100%;
 }
