@@ -116,7 +116,7 @@ namespace WonderApp.Web.Controllers
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
 
-                //This does NOT create or delete any DealTag links if the user has edited them
+                //TODO: This does NOT create or delete any DealTag links if the user has edited them
                 DataContext.Deals.AddOrUpdate(deal);
 
                 return RedirectToAction("Details", new { id = deal.Id });
