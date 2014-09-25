@@ -128,11 +128,11 @@ var LocationViewModel = (function () {
             _this.placeMarker(e.latLng);
         });
 
-        $("#searchLocation").click(function (event) {
+        $("#searchLocation").click(function () {
             _this.findAddressFromSearch();
         });
 
-        $("#searchLocation, #locationAddress").keypress(function (event) {
+        $("#searchLocation").keypress(function (event) {
             if (event.which == 13) {
                 _this.findAddressFromSearch();
             }

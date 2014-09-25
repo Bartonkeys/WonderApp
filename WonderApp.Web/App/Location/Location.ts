@@ -13,7 +13,7 @@
     function initializeMap() {
         var viewModel = new LocationViewModel($('#map_canvas')[0]);
 
-        $("#removeLocation").click(function () { viewModel.removeLocation() });
+        $("#removeLocation").click(function () { viewModel.removeLocation(); });
     }
 
     class LocationViewModel {
@@ -45,11 +45,11 @@
                 this.placeMarker(e.latLng);
             });
 
-            $("#searchLocation").click((event) => {
+            $("#searchLocation").click(() => {
                 this.findAddressFromSearch();
             });
 
-            $("#searchLocation, #locationAddress").keypress((event) => {
+            $("#searchLocation").keypress((event) => {
                 if (event.which == 13) {
                     this.findAddressFromSearch();
                 }
