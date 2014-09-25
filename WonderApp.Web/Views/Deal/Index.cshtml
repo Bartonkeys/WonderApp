@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<WonderApp.Models.DealModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Deals";
 }
 
-<h2>Index</h2>
+<h2>Deals</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-success" href="@Url.Action("Create")">Create Deal</a>
 </p>
-<table class="table">
+<table class="table table-striped table-responsive">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)

@@ -18,6 +18,7 @@ namespace WonderApp.Models
         public string Url { get; set; }
 
         [DisplayName("Expiry Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? ExpiryDate { get; set; }
 
         public int Likes { get; set; }
