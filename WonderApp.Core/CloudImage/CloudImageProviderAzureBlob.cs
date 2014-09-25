@@ -16,8 +16,8 @@ namespace WonderApp.Core.CloudImage
 {
     public class CloudImageProviderAzureBlob : ICloudImageProvider
     {
-        private const string ACCOUNT_NAME = "passapicstorage";
-        private const string ACCOUNT_KEY = "FnbmT5cMYrO0FLN4doGG3om03b3FP730+YXEOVV85clahDRdOovqlX9O6X9pCGqOm5p1nnpu7NEylNsp9BFzRA==";
+        private const string ACCOUNT_NAME = "wonderappstorage";
+        private const string ACCOUNT_KEY = "DEzGcUf27yUbqBWBCCDvMLScCmPnuBj5tGmUuVWXkPqXC//kC4VRNGVpVPEsoki6/AkqF5pude9XAT361wxcuA==";
         public string SaveImageToCloud(Image image, string imageName)
         {
 
@@ -31,7 +31,7 @@ namespace WonderApp.Core.CloudImage
 
                 CloudBlobClient client = account.CreateCloudBlobClient();
 
-                CloudBlobContainer passapicContainer = client.GetContainerReference("passapicImages");
+                CloudBlobContainer passapicContainer = client.GetContainerReference("dealpics");
                 passapicContainer.CreateIfNotExists();
 
                 var serverUploadFolder = Path.GetTempPath();
@@ -79,7 +79,7 @@ namespace WonderApp.Core.CloudImage
 
                 CloudBlobClient client = account.CreateCloudBlobClient();
 
-                CloudBlobContainer passapicContainer = client.GetContainerReference("passapicimages");
+                CloudBlobContainer passapicContainer = client.GetContainerReference("dealpics");
                 passapicContainer.CreateIfNotExists();
 
                 if (File.Exists(imagePath))
