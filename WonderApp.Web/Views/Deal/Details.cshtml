@@ -9,6 +9,10 @@
 <div>
     <h4>DealModel</h4>
     <hr />
+    @foreach(var image in Model.Images)
+    {
+        <img src="@image.url" />
+    }
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)

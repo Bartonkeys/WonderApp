@@ -45,6 +45,11 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<Gender, GenderModel>();
             Mapper.CreateMap<GenderModel, Gender>();
 
+            Mapper.CreateMap<Image, ImageModel>();
+            Mapper.CreateMap<ImageModel, Image>();
+
+            Mapper.CreateMap<Device, DeviceModel>();
+            Mapper.CreateMap<DeviceModel, Device>();
             
         }
 

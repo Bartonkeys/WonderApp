@@ -32,5 +32,7 @@ namespace WonderApp.Models
         public virtual CostModel Cost { get; set; }
 
         public virtual CategoryModel Category { get; set; }
+
+        public virtual List<ImageModel> Images { get; set; }
     }
 }
