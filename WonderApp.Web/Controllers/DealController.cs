@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -78,20 +79,45 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
+
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
             var model = CreateDealViewModel();
             model.DealModel = dealModel;
 
+            var tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
+            tagString = tagString.Remove(tagString.Length - 1, 1);
+            model.TagString = tagString;
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(DealViewModel model)
         {
+        
             try
             {
-                var deal = DataContext.Deals.Find(model.DealModel.Id);
-                Mapper.Map(model.DealModel, deal);
+                var deal = Mapper.Map<Deal>(model.DealModel);
+
+                if (model.TagString != null && !model.TagString.Equals(string.Empty))
+                {
+                    var tagList = model.TagString.Split(',').ToList();
+                    foreach (var tag in tagList)
+                    {
+                        int tagId;
+                        deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag { Name = tag });
+                    }
+                }
+                
+                //todo this is shit, sort it out. This is all placeholder bollox
+                var image = new Image { url = "placeholder", Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone") };
+                deal.Images.Add(image);
+
+                deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
+                deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
+                deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
+
+                //TODO: This does NOT create or delete any DealTag links if the user has edited them
+                DataContext.Deals.AddOrUpdate(deal);
 
                 return RedirectToAction("Details", new { id = deal.Id });
             }
