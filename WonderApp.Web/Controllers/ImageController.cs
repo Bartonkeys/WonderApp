@@ -38,7 +38,8 @@ namespace WonderApp.Web.Controllers
             if (ModelState.IsValid)
             {
                 var image = Image.FromStream(model.Image.InputStream, true, true);
-                var imageUrl = CloudImageService.SaveImageToCloud(image, model.Image.FileName);
+                var imageName = Path.GetFileName(model.Image.FileName);
+                var imageUrl = CloudImageService.SaveImageToCloud(image, imageName);
 
                 var deal = DataContext.Deals.Find(model.DealId);
                 deal.Images.Add(new Data.Image
