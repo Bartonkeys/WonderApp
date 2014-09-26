@@ -13,6 +13,7 @@ namespace WonderApp.Web.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using WonderApp.Core.CloudImage;
 
     public static class NinjectWebCommon 
     {
@@ -47,6 +48,7 @@ namespace WonderApp.Web.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+                kernel.Bind<ICloudImageProvider>().To<CloudImageProviderAzureBlob>();
 
                 RegisterServices(kernel);
                 return kernel;

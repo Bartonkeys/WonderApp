@@ -60,16 +60,14 @@ namespace WonderApp.Web.Controllers
                     deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag {Name = tag});
                 }
 
-                //todo this is shit, sort it out. This is all placeholder bollox
-                var image = new Image {url = "placeholder", Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone")};
-                deal.Images.Add(image);
-
                 deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
 
                 DataContext.Deals.Add(deal);
-                return RedirectToAction("Index");
+                DataContext.Commit();
+
+                return RedirectToAction("DealUpload", "Image", new {id=deal.Id });
             }
             catch
             {
@@ -151,5 +149,7 @@ namespace WonderApp.Web.Controllers
                 new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }
+
+
     }
 }
