@@ -8,7 +8,7 @@
 <h2>Categories</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-success" href="@Url.Action("Create")">Create category</a>
 </p>
 
 @if (!Model.Any())
