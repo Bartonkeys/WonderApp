@@ -4,6 +4,4 @@ obj
 packages
 !packages/repositories.config
 
-*.js
-
 *.map
