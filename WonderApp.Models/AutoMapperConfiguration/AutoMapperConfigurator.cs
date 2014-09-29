@@ -6,6 +6,7 @@ using System.Web;
 using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
+using WonderApp.Models.Extensions;
 
 namespace WonderApp.Models.AutoMapperConfiguration
 {
@@ -13,25 +14,42 @@ namespace WonderApp.Models.AutoMapperConfiguration
     {
         public static void Configure()
         {
-            Mapper.CreateMap<Deal, DealModel>();
-            Mapper.CreateMap<DealModel, Deal>();
+            Mapper.CreateMap<Deal, DealModel>()
+                .ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
+            Mapper.CreateMap<DealModel, Deal>()
+                .ForMember(e => e.Id, opt => opt.Ignore())
+                .ForMember(e => e.MyRejectUsers, opt => opt.Ignore())
+                .ForMember(e => e.MyWonderUsers, opt => opt.Ignore())
+                .ForMember(e => e.Company, opt => opt.Ignore())
+                .ForMember(e => e.Tags, opt => opt.Ignore())
+                .ForMember(e => e.Cost, opt => opt.Ignore())
+                .ForMember(e => e.Category, opt => opt.Ignore())
+                .ForMember(e => e.Images, opt => opt.Ignore())
+                .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
             Mapper.CreateMap<Category, CategoryModel>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));
             Mapper.CreateMap<CategoryModel, Category>()
-                .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<AspNetUser>()));
+                .ForMember(e => e.Deals, opt => opt.Ignore())
+                .ForMember(e => e.Users, opt => opt.Ignore());
 
             Mapper.CreateMap<Company, CompanyModel>();
-            Mapper.CreateMap<CompanyModel, Company>();
+            Mapper.CreateMap<CompanyModel, Company>()
+                .ForMember(e => e.Deals, opt => opt.Ignore());
 
             Mapper.CreateMap<Cost, CostModel>();
-            Mapper.CreateMap<CostModel, Cost>();
+            Mapper.CreateMap<CostModel, Cost>()
+                .ForMember(e => e.Deals, opt => opt.Ignore());
 
             Mapper.CreateMap<Location, LocationModel>();
-            Mapper.CreateMap<LocationModel, Location>();
+            Mapper.CreateMap<LocationModel, Location>()
+                .ForMember(e => e.Id, opt => opt.Ignore())
+                .ForMember(e => e.Deals, opt => opt.Ignore())
+                .ForMember(e => e.AspNetUser, opt => opt.Ignore());
 
             Mapper.CreateMap<Tag, TagModel>();
-            Mapper.CreateMap<TagModel, Tag>();
+            Mapper.CreateMap<TagModel, Tag>()
+                .ForMember(e => e.Deals, opt => opt.Ignore());
 
             Mapper.CreateMap<AspNetUser, UserModel>();
             Mapper.CreateMap<UserModel, AspNetUser>();

@@ -33,6 +33,8 @@ namespace WonderApp.Core.EFDataContext
         public IDbSet<AspNetUserLogin> AspNetUserLogins { get { return _context.AspNetUserLogins; } }
         public IDbSet<AspNetUser> AspNetUsers { get { return _context.AspNetUsers; } }
         public IDbSet<Device> Devices { get { return _context.Devices; } }
+        public IDbSet<Image> Images { get { return _context.Images; } }
+
         public void Commit()
         {
             try

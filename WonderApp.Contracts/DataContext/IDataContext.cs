@@ -20,6 +20,7 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<AspNetUserLogin> AspNetUserLogins { get; }
         IDbSet<AspNetUser> AspNetUsers { get; }
         IDbSet<Device> Devices { get; }
+        IDbSet<Image> Images { get; }
         void Commit();
     }
 }

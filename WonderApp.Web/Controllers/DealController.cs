@@ -12,11 +12,22 @@ using WonderApp.Models;
 using WonderApp.Web.Models;
 using Image = WonderApp.Data.Image;
 using WonderApp.Core.Services;
+using WonderApp.Core.CloudImage;
+using Ninject;
+using System.IO;
 
 namespace WonderApp.Web.Controllers
 {
     public class DealController : BaseController
     {
+        protected CloudImageService CloudImageService;
+
+        [Inject]
+        public DealController(ICloudImageProvider cloudImageProvider)
+        {
+            CloudImageService = new CloudImageService(cloudImageProvider);
+        }
+
         public ActionResult Index()
         {
             var model = Mapper.Map<List<DealModel>>(DataContext.Deals
@@ -34,7 +45,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Create()
         {
-            var model = CreateDealViewModel();
+            var model = CreateDealViewModel<DealCreateModel>();
             model.DealModel = new DealModel
             {
                 Category = new CategoryModel(),
@@ -47,7 +58,7 @@ namespace WonderApp.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(DealViewModel model)
+        public ActionResult Create(DealCreateModel model)
         {
             try
             {
@@ -64,10 +75,13 @@ namespace WonderApp.Web.Controllers
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
 
+                var image = CreateImage(model.Image);
+                deal.Images.Add(image);
+
                 DataContext.Deals.Add(deal);
                 DataContext.Commit();
 
-                return RedirectToAction("DealUpload", "Image", new {id=deal.Id });
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -75,11 +89,24 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        private Data.Image CreateImage(HttpPostedFileBase httpPostedFileBase)
+        {
+            var image = System.Drawing.Image.FromStream(httpPostedFileBase.InputStream, true, true);
+            var imageName = Path.GetFileName(httpPostedFileBase.FileName);
+            var imageUrl = CloudImageService.SaveImageToCloud(image, imageName);
+
+            return new Data.Image
+                {
+                    url = imageUrl,
+                    Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone")
+                };
+        }
+
         public ActionResult Edit(int id)
         {
 
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
-            var model = CreateDealViewModel();
+            var model = CreateDealViewModel<DealEditModel>();
             model.DealModel = dealModel;
 
             var tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
@@ -89,35 +116,42 @@ namespace WonderApp.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(DealViewModel model)
+        public ActionResult Edit(DealEditModel model)
         {
         
             try
             {
-                var deal = Mapper.Map<Deal>(model.DealModel);
+                var deal = DataContext.Deals.Find(model.DealModel.Id);
 
-                if (model.TagString != null && !model.TagString.Equals(string.Empty))
+                var tagList = !String.IsNullOrEmpty(model.TagString) 
+                    ? model.TagString.Split(',').ToList() : new List<string>();
+                deal.Tags.Clear();
+                foreach (var tag in tagList)
                 {
-                    var tagList = model.TagString.Split(',').ToList();
-                    foreach (var tag in tagList)
-                    {
-                        int tagId;
-                        deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag { Name = tag });
-                    }
+                    int tagId;
+                    deal.Tags.Add(int.TryParse(tag, out tagId)
+                        ? DataContext.Tags.First(t => t.Id == tagId)
+                        : new Tag {Name = tag});
                 }
-                
-                //todo this is shit, sort it out. This is all placeholder bollox
-                var image = new Image { url = "placeholder", Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone") };
-                deal.Images.Add(image);
 
-                deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
-                deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
-                deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
+                //todo Can the AuotMapper config handle this somehow?
+                deal.Category = DataContext.Categories.First(m => m.Id == model.DealModel.Category.Id);
+                deal.Company = DataContext.Companies.First(m => m.Id == model.DealModel.Company.Id);
+                deal.Cost = DataContext.Costs.First(m => m.Id == model.DealModel.Cost.Id);
 
-                //TODO: This does NOT create or delete any DealTag links if the user has edited them
-                DataContext.Deals.AddOrUpdate(deal);
+                if (model.Image != null)
+                {
+                    var image = CreateImage(model.Image);
 
-                return RedirectToAction("Details", new { id = deal.Id });
+                    var oldImage = deal.Images.First();                   
+                    deal.Images.Clear();
+                    DataContext.Images.Remove(oldImage);
+                    deal.Images.Add(image);
+                }
+
+                Mapper.Map(model.DealModel, deal);
+
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -133,9 +167,9 @@ namespace WonderApp.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        private DealViewModel CreateDealViewModel()
+        private T CreateDealViewModel<T>() where T: DealViewModel, new()
         {
-            return new DealViewModel
+            return new T
             {
                 CostRanges = Mapper.Map<List<CostModel>>(DataContext.Costs).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Range }),
@@ -145,8 +179,6 @@ namespace WonderApp.Web.Controllers
                 new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
                 Companies = Mapper.Map<List<CompanyModel>>(DataContext.Companies).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Tags = Mapper.Map<List<TagModel>>(DataContext.Tags).Select(x =>
-                new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }
 

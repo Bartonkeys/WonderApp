@@ -20,7 +20,6 @@ namespace WonderApp.Web.Models
         public IEnumerable<SelectListItem> Categories { get; set; }
         public IEnumerable<SelectListItem> Companies { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
-        public IEnumerable<SelectListItem> Tags { get; set; } //todo this will be replaced by autocomplete functionality
 
     }
 }

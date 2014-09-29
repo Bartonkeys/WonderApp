@@ -232,6 +232,8 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CostViewModel.cs" />
+    <Compile Include="Models\DealCreateModel.cs" />
+    <Compile Include="Models\DealEditModel.cs" />
     <Compile Include="Models\DealViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImageViewModel.cs" />
@@ -349,6 +351,10 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -410,6 +416,9 @@
     <Content Include="Views\Image\Upload.cshtml" />
     <Content Include="Views\Image\Index.cshtml" />
     <Content Include="Views\Image\DealUpload.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Cost\Index.cshtml" />
+    <Content Include="Views\Cost\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

@@ -10,20 +10,28 @@ namespace WonderApp.Models
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Please enter a title")]
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [Required(ErrorMessage = "Please enter a description")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Please enter a url")]
         public string Url { get; set; }
 
         [DisplayName("Expiry Date")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime? ExpiryDate { get; set; }
+        [Required(ErrorMessage="Please enter date")]
+        [DisplayFormat(DataFormatString = "{0:ddd d MMMM yyyy}", ApplyFormatInEditMode = true)]
+        public String ExpiryDate { get; set; }
 
         public int Likes { get; set; }
 
         public CompanyModel Company { get; set; }
+
+        public bool Publish { get; set; }
+        public bool Archived { get; set; }
+
         public virtual List<TagModel> Tags { get; set; }
 
         public virtual LocationModel Location { get; set; }

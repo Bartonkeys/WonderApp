@@ -14,12 +14,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(Mapper.Map<List<CostModel>>(DataContext.Costs.ToList()));
         }
 
         public ActionResult Create()
@@ -45,15 +40,16 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(Mapper.Map<CostModel>(DataContext.Costs.Find(id)));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CostModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                var cost = DataContext.Costs.Find((model.Id));
+                Mapper.Map(model, cost);
 
                 return RedirectToAction("Index");
             }
@@ -65,22 +61,10 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
-        }
+            var cost = DataContext.Costs.Find(id);
+            DataContext.Costs.Remove(cost);
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }
