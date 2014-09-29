@@ -1,14 +1,16 @@
-﻿@model IEnumerable<WonderApp.Models.CategoryModel>
+﻿@using WonderApp.Web.Extensions
+@model IEnumerable<WonderApp.Models.CategoryModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Categories";
 }
 
-<h2>Index</h2>
+<h2>Categories</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>

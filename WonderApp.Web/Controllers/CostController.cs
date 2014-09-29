@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
+using WonderApp.Web.InfaStructure;
 
 namespace WonderApp.Web.Controllers
 {
@@ -61,7 +62,21 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            var cost = DataContext.Costs.Find(id);
+            var model = Mapper.Map<CostModel>(DataContext.Costs.Find(id));
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(CostModel model)
+        {
+            if (DataContext.Deals.Any(x => x.Cost.Id == model.Id))
+            {
+                AddClientMessage(ClientMessage.Warning, "Range is in use, so cannot be deleted");
+                return View(model);
+            }
+
+            var cost = DataContext.Costs.Find(model.Id);
+
             DataContext.Costs.Remove(cost);
 
             return RedirectToAction("Index");

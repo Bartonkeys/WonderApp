@@ -227,9 +227,11 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InfaStructure\ClientMessage.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CostViewModel.cs" />
     <Compile Include="Models\DealCreateModel.cs" />
@@ -419,6 +421,9 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Cost\Index.cshtml" />
     <Content Include="Views\Cost\Edit.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\Company\Delete.cshtml" />
+    <Content Include="Views\Cost\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
