@@ -53,3 +53,16 @@ div.form-text {
     height: 100%;
     width: 100%;
 }
+
+.table-nonfluid {
+    table-layout: fixed;
+    width: 100%;
+    overflow: hidden;
+}
+.table-nonfluid td
+{
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
