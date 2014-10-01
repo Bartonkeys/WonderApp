@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
+using WonderApp.Web.InfaStructure;
 
 namespace WonderApp.Web.Controllers
 {
@@ -14,12 +15,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(Mapper.Map<List<CostModel>>(DataContext.Costs.ToList()));
         }
 
         public ActionResult Create()
@@ -45,15 +41,16 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(Mapper.Map<CostModel>(DataContext.Costs.Find(id)));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CostModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                var cost = DataContext.Costs.Find((model.Id));
+                Mapper.Map(model, cost);
 
                 return RedirectToAction("Index");
             }
@@ -65,22 +62,24 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = Mapper.Map<CostModel>(DataContext.Costs.Find(id));
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(CostModel model)
         {
-            try
+            if (DataContext.Deals.Any(x => x.Cost.Id == model.Id))
             {
-                // TODO: Add delete logic here
+                AddClientMessage(ClientMessage.Warning, "Range is in use, so cannot be deleted");
+                return View(model);
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var cost = DataContext.Costs.Find(model.Id);
+
+            DataContext.Costs.Remove(cost);
+
+            return RedirectToAction("Index");
         }
     }
 }

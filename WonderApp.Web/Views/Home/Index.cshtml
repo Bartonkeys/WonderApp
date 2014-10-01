@@ -7,15 +7,36 @@
     <h2>“The ultimate discovery application for the ‘get out there’ mobile generation”</h2>
     <p class="lead">WonderApp is a mobile application which enables consumers to discover things (events, dining, fashion) to spend their disposable income on, whilst on the move or during downtime.
 </p>
-    <p><a href="@Url.Action("Create","Deal")" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p><a href="@Url.Action("Index","Deal")" class="btn btn-primary btn-lg">See the deals &raquo;</a></p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>Getting started</h2>
         <p>
-            Welcome to the Content Management System (CMS) for WonderApp. This will allow you to create deals.
+            Welcome to the Content Management System (CMS) for WonderApp. First we need to create our categories.
         </p>
-        <p><a class="btn btn-default" href="@Url.Action("Create","Deal")">Create a deal &raquo;</a></p>
+        <p><a class="btn btn-success" href="@Url.Action("Create","Category")">Create categories &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Next step</h2>
+        <p>
+            This will allow you to create the cost ranges.
+        </p>
+        <p><a class="btn btn-success" href="@Url.Action("Create","Cost")">Create a range &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Nearly there</h2>
+        <p>
+            Create a company or companies.
+        </p>
+        <p><a class="btn btn-success" href="@Url.Action("Create","Company")">Create a company &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>We are ready</h2>
+        <p>
+            Go ahead and start creating deals, with images, tags and associated location
+        </p>
+        <p><a class="btn btn-success" href="@Url.Action("Create","Deal")">Create a deal &raquo;</a></p>
     </div>
 </div>

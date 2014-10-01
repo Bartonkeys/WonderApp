@@ -32,6 +32,9 @@ namespace WonderApp.Web
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                       "~/Scripts/site.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                     "~/Scripts/moment.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/location").Include(
                       "~/App/Location/location.js"));
 

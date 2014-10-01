@@ -1,4 +1,4 @@
-﻿@model WonderApp.Web.Models.DealViewModel
+﻿@model WonderApp.Web.Models.DealEditModel
 
 @{
     ViewBag.Title = "Edit";
@@ -7,13 +7,12 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
-{
+<form action="" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-body">
             <div class="form-horizontal">
-                
+
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.DealModel.Id)
 
@@ -48,13 +47,13 @@
                             @Html.ValidationMessageFor(model => model.TagString, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                   
+
                     <div class="form-group col-md-6">
                         @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker" })
+                            @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker", @style = "width: 100%" })
                             @Html.ValidationMessageFor(model => model.DealModel.ExpiryDate, "", new { @class = "text-danger" })
-                        </div>  
+                        </div>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -78,15 +77,26 @@
                             @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    
+                </fieldset>
+                <fieldset>
+                    <div class="form-header">Edit Image</div>
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Likes, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2">Image</label>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.DealModel.Likes, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.DealModel.Likes, "", new { @class = "text-danger" })
+                            @foreach (var image in Model.DealModel.Images)
+                            {
+                                <img src="@image.url" style="height: 300px" />
+                            }
                         </div>
                     </div>
 
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Image, new { type = "file" })
+                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </fieldset>
                 <fieldset>
                     <div class="form-header">Edit Location</div>
@@ -103,8 +113,9 @@
                         <div id="mapContainer">
                             <div id="map_canvas"></div>
                             <a href="#" id="removeLocation" style="@(Model.DealModel.Location.Id == 0 ? "" : "display:none;")">Remove Location from this widget</a>
-                            @Html.HiddenFor(m => m.DealModel.Location.Latitude, new { id = "Latitude" })
-                            @Html.HiddenFor(m => m.DealModel.Location.Longitude, new { id = "Longitude" })
+                            @Html.HiddenFor(m => m.DealModel.Location.Latitude, new { @id = "Latitude" })
+                            @Html.HiddenFor(m => m.DealModel.Location.Longitude, new { @id = "Longitude" })
+                            @Html.HiddenFor(m => m.DealModel.Location.Id)
                         </div>
                     </div>
 
@@ -121,21 +132,20 @@
 
         </div>
     </div>
-}
+  </form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/tagSearchJs")
-    @Scripts.Render("~/bundles/location")
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/tagSearchJs")
+        @Scripts.Render("~/bundles/location")
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            initializeLocationTab();
-        })
-    </script>
-
-}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                initializeLocationTab();
+            })
+        </script>
+    }

@@ -3,16 +3,17 @@
 /// <reference path="../../scripts/typings/jqueryui/jqueryui.d.ts" />
 
     function initializeLocationTab() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-        'callback=initializeMap';
-        document.body.appendChild(script);
+            if (document.getElementById('locationScript') == null) {
+                var script = document.createElement('script');
+                script.setAttribute('id', 'locationScript');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=initializeMap';
+                document.body.appendChild(script);
+            }
     }
 
     function initializeMap() {
         var viewModel = new LocationViewModel($('#map_canvas')[0]);
-
         $("#removeLocation").click(function () { viewModel.removeLocation(); });
     }
 

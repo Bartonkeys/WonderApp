@@ -1,32 +1,42 @@
-﻿@model IEnumerable<WonderApp.Models.CategoryModel>
+﻿@using WonderApp.Web.Extensions
+@model IEnumerable<WonderApp.Models.CategoryModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Categories";
 }
 
-<h2>Index</h2>
+<h2>Categories</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-success" href="@Url.Action("Create")">Create category</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@if (!Model.Any())
+{
+    <p>No categories at moment.</p>
 }
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                </td>
+            </tr>
+        }
+
+    </table>
+}

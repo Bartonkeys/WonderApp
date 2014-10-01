@@ -1,130 +1,149 @@
-﻿@model WonderApp.Web.Models.DealViewModel
+﻿@model WonderApp.Web.Models.DealCreateModel
 
 @{
     ViewBag.Title = "Create Deal";
 }
 
-@using (Html.BeginForm())
-{
+<form action="" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
-    <div class="panel panel-default" style="margin-top: 10px">
+    <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-horizontal">
+                <div class="tab-content">
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <fieldset>
-                    <div class="form-header">Create a deal</div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Title, "", new { @class = "text-danger" })
-                        </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="tab-pane active" id="tab-details">
+                        <fieldset>
+                            <div class="form-header">Create a deal</div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%", rows="5" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.DealModel.Url, htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Url, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.TagString, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input type="hidden" class="select2-offscreen" id="tagstring-hdn" style="width:100%" value="@Model.TagString" />
+                                    <input type="text" class="hidden" id="tagstring" name="TagString" value="@Model.TagString" />
+                                    @Html.ValidationMessageFor(model => model.TagString, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                   @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker", @style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.ExpiryDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Cost.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.DealModel.Cost.Id, Model.CostRanges, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Cost.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Category.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.DealModel.Category.Id, Model.Categories, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Category.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Description, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="tab-pane active" id="tab-image">
+                        <fieldset>
+                            <div class="form-header">Add Image</div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(m => m.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Image, new { type = "file" })
+                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Url, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.DealModel.Url, htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Url, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.TagString, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input type="hidden" class="select2-offscreen" id="tagstring-hdn" style="width:100%" value="@Model.TagString" />
-                            <input type="text" class="hidden" id="tagstring" name="TagString" value="@Model.TagString" />
-                            @Html.ValidationMessageFor(model => model.TagString, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker" })
-                            @Html.ValidationMessageFor(model => model.DealModel.ExpiryDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Cost.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.DealModel.Cost.Id, Model.CostRanges, "Please Select", htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Cost.Id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Category.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.DealModel.Category.Id, Model.Categories, "Please Select", htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Category.Id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select", htmlAttributes: new { style = "width: 100%" })
-                            @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-header">Add Location</div>
+                    <div class="tab-pane active" id="tab-location">
+                        <fieldset>
+                            <div class="form-header">Add Location</div>
 
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(model => model.DealModel.Location.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.DealModel.Location.Name)
-                            <a href="#" id="searchLocation" onclick="event.preventDefault();" class="btn btn-info">Search</a>
-                        </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.DealModel.Location.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.DealModel.Location.Name)
+                                    <a href="#" id="searchLocation" onclick="event.preventDefault();" class="btn btn-info">Search</a>
+                                    @Html.ValidationMessageFor(model => model.DealModel.Location.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div id="mapContainer">
+                                    <div id="map_canvas"></div>
+                                    <a href="#" id="removeLocation" style="@(Model.DealModel.Location.Id == 0 ? "" : "display:none;")">Remove Location from this widget</a>
+                                    @Html.HiddenFor(m => m.DealModel.Location.Latitude, new { @id = "Latitude" })
+                                    @Html.HiddenFor(m => m.DealModel.Location.Longitude, new { @id = "Longitude" })
+                                </div>
+                            </div>
+
+                        </fieldset>
                     </div>
 
-                    <div class="form-group col-md-12">
-                        <div id="mapContainer">
-                            <div id="map_canvas"></div>
-                            <a href="#" id="removeLocation" style="@(Model.DealModel.Location.Id == 0 ? "" : "display:none;")">Remove Location from this widget</a>
-                            @Html.HiddenFor(m => m.DealModel.Location.Latitude, new { id = "Latitude" })
-                            @Html.HiddenFor(m => m.DealModel.Location.Longitude, new { id = "Longitude" })
-                        </div>
-                    </div>
-
-                </fieldset>
+                </div>
             </div>
-
             <div class="panel-footer">
                 <div id="container_actions" class="row">
-                        <div class="col-md-offset-5 col-md-7">
-                            <input type="submit" value="Create Deal" class="btn btn-primary" />
-                        </div>
+                    <div class="col-md-offset-5 col-md-7">
+                        <input type="submit" value="Create Deal" class="btn btn-primary" />
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+</form>
 
-}
+    <div>
+        @Html.ActionLink("Back to Deals", "Index")
+    </div>
 
-            <div>
-                @Html.ActionLink("Back to List", "Index")
-            </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/tagSearchJs")
+        @Scripts.Render("~/bundles/location")
 
-            @section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-                @Scripts.Render("~/bundles/tagSearchJs")
-                @Scripts.Render("~/bundles/location")
+        <script type="text/javascript">
+            $(document).ready(function () {
+                initializeLocationTab();
+            })
+        </script>
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        initializeLocationTab();
-                    })
-                </script>
+    }
 
-            }
 
-            @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-                <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.5.0/select2.js"></script>*@
+    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.5.0/select2.js"></script>*@
+
 

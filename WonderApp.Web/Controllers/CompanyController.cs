@@ -7,6 +7,7 @@ using System.Web.UI;
 using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
+using WonderApp.Web.InfaStructure;
 
 namespace WonderApp.Web.Controllers
 {
@@ -63,6 +64,28 @@ namespace WonderApp.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var model = Mapper.Map<CompanyModel>(DataContext.Companies.Find(id));
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(CompanyModel model)
+        {
+            if (DataContext.Deals.Any(x => x.Company.Id == model.Id))
+            {
+                AddClientMessage(ClientMessage.Warning, "Company is in use, so cannot be deleted");
+                return View(model);
+            }
+
+            var company = DataContext.Companies.Find(model.Id);
+
+            DataContext.Companies.Remove(company);
+
+            return RedirectToAction("Index");
         }
 
     }
