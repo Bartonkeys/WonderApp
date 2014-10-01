@@ -17,6 +17,11 @@ namespace WonderApp.Models
         [Required(ErrorMessage = "Please enter a description")]
         public string Description { get; set; }
 
+        [Display(Name = "Introduction Description")]
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessage = "Please enter a description for the popup introduction")]
+        public string IntroDescription { get; set; }
+
         [Required(ErrorMessage = "Please enter a url")]
         public string Url { get; set; }
 
