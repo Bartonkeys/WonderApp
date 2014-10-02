@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<WonderApp.Models.DealModel>
 
 @{
-    ViewBag.Title = "Deals";
+    ViewBag.Title = "Wonders";
 }
 
-<h2>Deals</h2>
+<h2>Wonders</h2>
 
 <p>
-    <a class="btn btn-success" href="@Url.Action("Create")">Create Deal</a>
+    <a class="btn btn-success" href="@Url.Action("Create")">Create Wonder</a>
 </p>
 
 @if (!Model.Any())
 {
-<p>No deals at moment.</p>
+<p>No wonders at moment.</p>
 }
 else
 {
