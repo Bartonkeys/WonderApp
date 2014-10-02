@@ -21,7 +21,7 @@ else
             <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th class="col-md-4">
+            <th class="col-md-3">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th class="col-md-2">
@@ -33,7 +33,7 @@ else
             <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.Likes)
             </th>
-            <th class="col-md-1"></th>
+            <th class="col-md-2"></th>
         </tr>
         @foreach (var item in Model)
         {
@@ -55,8 +55,10 @@ else
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}) |
+                    @Html.ActionLink("Copy", "Copy", new { id = item.Id })
                 </td>
+
             </tr>
         }
 

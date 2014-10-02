@@ -109,9 +109,13 @@ namespace WonderApp.Web.Controllers
             var model = CreateDealViewModel<DealEditModel>();
             model.DealModel = dealModel;
 
-            var tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
-            tagString = tagString.Remove(tagString.Length - 1, 1);
-            model.TagString = tagString;
+            var tagString = "";
+            if (dealModel.Tags.Count > 0)
+            {
+                tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
+                tagString = tagString.Remove(tagString.Length - 1, 1);
+                model.TagString = tagString;
+            }
             return View(model);
         }
 
@@ -180,6 +184,41 @@ namespace WonderApp.Web.Controllers
                 Companies = Mapper.Map<List<CompanyModel>>(DataContext.Companies).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
             };
+        }
+
+        public ActionResult Copy(int id)
+        {
+            DealModel dealCreateModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
+            Deal deal = Mapper.Map<Deal>(dealCreateModel);
+
+            deal.Title += " COPY";
+
+            var tagList = dealCreateModel.Tags;
+            foreach (var tag in tagList)
+            {
+                deal.Tags.Add(DataContext.Tags.First(t => t.Id == tag.Id));
+            }
+
+            deal.Category = DataContext.Categories.First(m => m.Id == dealCreateModel.Category.Id);
+            deal.Company = DataContext.Companies.First(m => m.Id == dealCreateModel.Company.Id);
+            deal.Cost = DataContext.Costs.First(m => m.Id == dealCreateModel.Cost.Id);
+
+            foreach (var image in dealCreateModel.Images)
+            {
+                Image dataImage = DataContext.Images.First(m => m.Id == image.Id);
+                Image newImage = new Data.Image
+                {
+                    url = dataImage.url,
+                    Device = DataContext.Devices.FirstOrDefault(x => x.Type == "iPhone")
+                };
+
+                deal.Images.Add(newImage);
+            }
+
+            
+            DataContext.Deals.Add(deal);
+            DataContext.Commit();
+            return RedirectToAction("Edit", "Deal", new { id = deal.Id });
         }
 
 
