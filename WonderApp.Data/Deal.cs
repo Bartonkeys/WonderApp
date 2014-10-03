@@ -30,6 +30,7 @@ namespace WonderApp.Data
         public int Likes { get; set; }
         public bool Publish { get; set; }
         public bool Archived { get; set; }
+        public string IntroDescription { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
@@ -39,6 +40,5 @@ namespace WonderApp.Data
         public virtual ICollection<AspNetUser> MyRejectUsers { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Image> Images { get; set; }
-
     }
 }

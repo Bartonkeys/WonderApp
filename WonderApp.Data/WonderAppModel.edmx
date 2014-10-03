@@ -114,6 +114,7 @@
           <Property Name="Cost_Id" Type="int" />
           <Property Name="Category_Id" Type="int" />
           <Property Name="Archived" Type="bit" Nullable="false" />
+          <Property Name="IntroDescription" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -674,6 +675,7 @@
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
           <Property Name="Publish" Type="Boolean" Nullable="false" />
           <Property Name="Archived" Type="Boolean" Nullable="false" />
+          <Property Name="IntroDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -681,8 +683,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="10" />
-          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealLocation" FromRole="Location" ToRole="Deal" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.AspNetUserLocation" FromRole="Location" ToRole="AspNetUser" />
         </EntityType>
@@ -917,7 +919,8 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
-          <ScalarProperty Name="Archived" ColumnName="Archived" />
+          <ScalarProperty Name="IntroDescription" ColumnName="IntroDescription" />
+                <ScalarProperty Name="Archived" ColumnName="Archived" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Description" ColumnName="Description" />
