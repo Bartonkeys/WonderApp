@@ -1,8 +1,9 @@
-﻿@model IEnumerable<WonderApp.Models.DealModel>
+﻿@model IEnumerable<WonderApp.Models.DealSummaryModel>
 
 @{
     ViewBag.Title = "Wonders";
 }
+
 
 <h2>Wonders</h2>
 
@@ -16,51 +17,100 @@
 }
 else
 {
-    <table class="table table-striped table-responsive table-nonfluid" >
-        <tr>
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th class="col-md-3">
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.ExpiryDate)
-            </th>
-            <th class="col-md-1">
-                @Html.DisplayNameFor(model => model.Likes)
-            </th>
-            <th class="col-md-2"></th>
-        </tr>
-        @foreach (var item in Model)
-        {
+    <table class="table table-striped table-responsive table-nonfluid" id="dealList">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Url)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExpiryDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Likes)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}) |
-                    @Html.ActionLink("Copy", "Copy", new { id = item.Id })
-                </td>
-
+                <th class="col-md-1 details-control">
+                    
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th class="col-md-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th class="col-md-2">
+                    @Html.DisplayNameFor(model => model.Url)
+                </th>
+                <th class="col-md-2">
+                    @Html.DisplayNameFor(model => model.ExpiryDate)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Likes)
+                </th>
+                <th class="col-md-2"></th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="details-control" id="@item.Id"></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Url)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Likes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                        @Html.ActionLink("Copy", "Copy", new { id = item.Id })
+                    </td>
 
+                </tr>
+            }
+        </tbody>
     </table>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/dataTables")
+        
+      
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+
+                var dTable;
+               
+                // Add event listener for opening and closing details
+                $('#dealList tbody').on('click', 'td.details-control', function() {
+                    var tr = $(this).closest('tr');
+                    var row = dTable.row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    } else {
+                        // Open this row
+                        var dealId = this.id; //$(this).attr("rel");                   
+                        $.get("Deal/DealDetail?dealId=" + dealId, function(deals) { 
+                            row.child(deals).show();
+                            tr.addClass('shown');
+                        });
+                    }
+
+                });
+
+                dTable = $('#dealList').DataTable({                   
+                });
+
+            });
+
+        </script>
+
+    }
+
+    
+    
 }

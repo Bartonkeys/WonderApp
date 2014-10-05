@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AutoMapperConfiguration\AutoMapperConfigurator.cs" />
     <Compile Include="CountryModel.cs" />
+    <Compile Include="DealSummaryModel.cs" />
     <Compile Include="DeviceModel.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="ImageModel.cs" />

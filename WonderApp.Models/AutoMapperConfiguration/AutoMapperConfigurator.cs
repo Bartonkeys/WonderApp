@@ -27,6 +27,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Images, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
+            Mapper.CreateMap<Deal, DealSummaryModel>();
+
             Mapper.CreateMap<Category, CategoryModel>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));
             Mapper.CreateMap<CategoryModel, Category>()
@@ -68,7 +70,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Device, DeviceModel>();
             Mapper.CreateMap<DeviceModel, Device>();
-            
+
+           
         }
 
     }

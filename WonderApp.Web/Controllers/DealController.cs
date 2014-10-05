@@ -30,7 +30,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            var model = Mapper.Map<List<DealModel>>(DataContext.Deals
+            var model = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
                 .Where(x => !x.Archived )
                 .OrderByDescending(x => x.ExpiryDate));
 
@@ -221,6 +221,19 @@ namespace WonderApp.Web.Controllers
             return RedirectToAction("Edit", "Deal", new { id = deal.Id });
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dealId"></param>
+        /// <returns></returns>
+        public ActionResult DealDetail(int? dealId)
+        {
+
+            var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == dealId));
+
+            return View(dealModel);
+        }
 
     }
 }

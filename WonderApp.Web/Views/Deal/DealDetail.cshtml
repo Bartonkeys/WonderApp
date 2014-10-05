@@ -1,0 +1,38 @@
+﻿@using Elmah.ContentSyndication
+@model WonderApp.Models.DealModel
+
+<table cellpadding="4" cellspacing="0" border="0" style="padding-left:50px;">
+    <tr>
+        <th>Image</th>
+        <th>Url</th>
+        <th>Tags</th>
+        <th>Intro Description</th>
+        <th>Cost</th>
+        <th>ExpiryDate</th>
+        <th>Likes</th>
+        <th>Company</th>
+        <th>Location</th>
+        <th>Category</th>
+
+
+    </tr>
+
+    <tr>
+        <td><img src="@Model.Images[0].url" width="100px" height="100px" /></td>
+        <td>@Model.Url</td>
+        <td>
+            @foreach (var tag in @Model.Tags)
+            {
+                <span>@(tag.Name), &nbsp; </span>
+            }
+        </td>
+        <td>@Model.IntroDescription</td>
+        <td>@Model.Cost</td>
+        <td>@Model.ExpiryDate</td>
+        <td>@Model.Likes</td>
+        <td>@Model.Company.Name</td>
+        <td>@Model.Location.Name</td>
+        <td>@Model.Category.Name</td>
+    </tr>
+
+</table>

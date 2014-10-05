@@ -38,11 +38,15 @@ namespace WonderApp.Web
             bundles.Add(new ScriptBundle("~/bundles/location").Include(
                       "~/App/Location/location.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                      "~/Plugins/DataTables-1.10.2/media/js/jquery.dataTables.js"));
+
             bundles.Add(new StyleBundle("~/Content/css_bundle").Include(
                   "~/Content/css/bootstrap.css",
                    "~/Content/css/bootstrap-datepicker.css",
                   "~/Content/css/site.css",
-                  "~/Content/css/select2.css"));
+                  "~/Content/css/select2.css",
+                  "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

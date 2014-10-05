@@ -66,3 +66,13 @@ div.form-text {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* These styles are for Datatables images*/
+td.details-control {
+    background: url('../images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../images/details_close.png') no-repeat center center;
+}
+
