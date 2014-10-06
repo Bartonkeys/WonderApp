@@ -27,7 +27,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Images, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
-            Mapper.CreateMap<Deal, DealSummaryModel>();
+            Mapper.CreateMap<Deal, DealSummaryModel>()
+                .ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
 
             Mapper.CreateMap<Category, CategoryModel>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));

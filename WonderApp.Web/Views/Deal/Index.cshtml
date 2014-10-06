@@ -23,10 +23,10 @@ else
                 <th class="col-md-1 details-control">
                     
                 </th>
-                <th class="col-md-1">
+                <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
-                <th class="col-md-3">
+                <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th class="col-md-2">
@@ -62,9 +62,9 @@ else
                         @Html.DisplayFor(modelItem => item.Likes)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                        @Html.ActionLink("Copy", "Copy", new { id = item.Id })
+                        <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})">E</a>
+                        <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})">D</a>
+                        <a title="Copy Wonder" class="btn btn-sm btn-warning" href="@Url.Action("Copy", new{id = item.Id})">C</a>
                     </td>
 
                 </tr>
