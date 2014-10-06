@@ -17,7 +17,7 @@ namespace WonderApp.Models
         [Required(ErrorMessage = "Please enter a description")]
         public string Description { get; set; }
 
-        [Display(Name = "Introduction Description")]
+        [Display(Name = "Introduction")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Please enter a description for the popup introduction")]
         public string IntroDescription { get; set; }
@@ -37,6 +37,7 @@ namespace WonderApp.Models
         public bool Publish { get; set; }
         public bool Archived { get; set; }
 
+        [Display(Name = "Tags")]
         public virtual List<TagModel> Tags { get; set; }
 
         public virtual LocationModel Location { get; set; }

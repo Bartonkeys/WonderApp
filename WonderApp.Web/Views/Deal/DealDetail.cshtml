@@ -1,38 +1,67 @@
 ﻿@using Elmah.ContentSyndication
 @model WonderApp.Models.DealModel
 
-<table cellpadding="4" cellspacing="0" border="0" style="padding-left:50px;">
-    <tr>
-        <th>Image</th>
-        <th>Url</th>
-        <th>Tags</th>
-        <th>Intro Description</th>
-        <th>Cost</th>
-        <th>ExpiryDate</th>
-        <th>Likes</th>
-        <th>Company</th>
-        <th>Location</th>
-        <th>Category</th>
-
-
-    </tr>
-
-    <tr>
-        <td><img src="@Model.Images[0].url" width="100px" height="100px" /></td>
-        <td>@Model.Url</td>
-        <td>
-            @foreach (var tag in @Model.Tags)
-            {
-                <span>@(tag.Name), &nbsp; </span>
-            }
-        </td>
-        <td>@Model.IntroDescription</td>
-        <td>@Model.Cost</td>
-        <td>@Model.ExpiryDate</td>
-        <td>@Model.Likes</td>
-        <td>@Model.Company.Name</td>
-        <td>@Model.Location.Name</td>
-        <td>@Model.Category.Name</td>
-    </tr>
-
-</table>
+<div class="container-fluid">
+    <div class="row">
+            <div class="col-md-2"><img src="@Model.Images[0].url" width="100%" height="100%" /></div>
+            <div class="col-md-5">
+                <div class="row">
+                    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @foreach (var tag in @Model.Tags)
+                    {
+                    <span class="select2-choice">@(tag.Name) &nbsp; </span>
+                    }
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.IntroDescription, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.IntroDescription)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    @Html.LabelFor(model => model.Cost.Range, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.Cost.Range)
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.ExpiryDate)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    @Html.LabelFor(model => model.Likes, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.Likes)
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Company.Id, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.Company.Name)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.Location.Name)
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Category.Id, htmlAttributes: new { @class = "col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(m => m.Category.Name)
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
