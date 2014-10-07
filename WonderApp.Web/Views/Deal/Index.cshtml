@@ -102,8 +102,9 @@ else
 
                 });
 
-                dTable = $('#dealList').DataTable({                   
-                });
+                dTable = $('#dealList').DataTable({
+                    "bSortable": false, "aTargets": [0,1]
+            });
 
             });
 

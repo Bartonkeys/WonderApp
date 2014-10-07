@@ -22,8 +22,9 @@ namespace WonderApp.Controllers
         /// <returns></returns>
         public async Task<HttpResponseMessage> GetDeals()
         {
-            var deals = Mapper.Map<List<DealModel>>(DataContext.Deals);
+            var deals = await Task.Run(() => { return Mapper.Map<List<DealModel>>(DataContext.Deals); });
             return Request.CreateResponse(HttpStatusCode.OK, deals);
         }
+
     }
 }
