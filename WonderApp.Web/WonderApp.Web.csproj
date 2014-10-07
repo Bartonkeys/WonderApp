@@ -658,6 +658,7 @@
     <Content Include="App\Location\Location.js.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\wonderapp-website.pubxml" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.woff" />
