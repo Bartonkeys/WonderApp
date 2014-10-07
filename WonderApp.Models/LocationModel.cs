@@ -6,19 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace WonderApp.Models
 {
     public class LocationModel
     {
+        [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please select a location")]
         [DisplayName("Location")]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "longitude")]
         public decimal Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "latitude")]
         public decimal Latitude { get; set; }
 
+        [JsonIgnore]
         public virtual List<DealModel> Deals { get; set; }
     }
 }
