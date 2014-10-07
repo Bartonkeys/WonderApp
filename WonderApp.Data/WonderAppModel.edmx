@@ -113,8 +113,8 @@
           <Property Name="Location_Id" Type="int" Nullable="false" />
           <Property Name="Cost_Id" Type="int" />
           <Property Name="Category_Id" Type="int" />
-          <Property Name="Archived" Type="bit" Nullable="false" />
-          <Property Name="IntroDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Archived" Type="bit" />
+          <Property Name="IntroDescription" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -170,7 +170,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDealReject">
           <Key>
@@ -674,8 +674,8 @@
           <NavigationProperty Name="Category" Relationship="WonderAppModel.CategoryDeal" FromRole="Deal" ToRole="Category" />
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
           <Property Name="Publish" Type="Boolean" Nullable="false" />
-          <Property Name="Archived" Type="Boolean" Nullable="false" />
-          <Property Name="IntroDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Archived" Type="Boolean" />
+          <Property Name="IntroDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -683,8 +683,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="10" />
-          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="10" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealLocation" FromRole="Location" ToRole="Deal" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.AspNetUserLocation" FromRole="Location" ToRole="AspNetUser" />
         </EntityType>
@@ -694,7 +694,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealTag" FromRole="Tag" ToRole="Deal" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
