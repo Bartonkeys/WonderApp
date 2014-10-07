@@ -145,6 +145,8 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 initializeLocationTab();
+                $('form').areYouSure();
+                $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
             })
         </script>
 
