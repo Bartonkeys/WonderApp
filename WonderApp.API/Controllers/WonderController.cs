@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using WonderApp.Models;
+using Elmah.Contrib.WebApi;
 
 namespace WonderApp.Controllers
 {

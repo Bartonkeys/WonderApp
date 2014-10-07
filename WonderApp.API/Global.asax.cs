@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elmah.Contrib.WebApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,7 @@ namespace WonderApp
     {
         protected void Application_Start()
         {
+            GlobalConfiguration.Configuration.Filters.Add(new ElmahHandleErrorApiAttribute());
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
