@@ -10,9 +10,17 @@ using WonderApp.Models;
 
 namespace WonderApp.Controllers
 {
+    /// <summary>
+    /// Handle all search queries
+    /// </summary>
     [RoutePrefix("api/search")]
     public class SearchController : BaseApiController
     {
+        /// <summary>
+        /// Search for tags
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
         [Route("tags/{searchString}")]
         public async Task<HttpResponseMessage> GetTags(string searchString)
         {
