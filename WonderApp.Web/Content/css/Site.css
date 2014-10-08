@@ -65,6 +65,7 @@ div.form-text {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    style="vertical-align: middle"
 }
 
 /* These styles are for Datatables images*/
@@ -86,5 +87,8 @@ tr.shown td.details-control {
     position: relative;
     float: left;
     margin-right: 1px;
+    margin-bottom: 2px;
 }
+
+
 
