@@ -21,10 +21,10 @@ namespace WonderApp.Models
         public string Name { get; set; }
 
         [JsonProperty(PropertyName = "longitude")]
-        public decimal Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         [JsonProperty(PropertyName = "latitude")]
-        public decimal Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         [JsonIgnore]
         public virtual List<DealModel> Deals { get; set; }

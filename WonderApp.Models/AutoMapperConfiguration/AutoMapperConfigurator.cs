@@ -7,6 +7,8 @@ using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Models.Extensions;
+using System.Data.Entity.Spatial;
+using WonderApp.Models.Helpers;
 
 namespace WonderApp.Models.AutoMapperConfiguration
 {
@@ -44,8 +46,13 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<CostModel, Cost>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
-            Mapper.CreateMap<Location, LocationModel>();
+            Mapper.CreateMap<Location, LocationModel>()
+                .ForMember(m => m.Latitude, opt => opt.MapFrom(e => e.Geography.Latitude))
+                .ForMember(m => m.Longitude, opt => opt.MapFrom(e => e.Geography.Longitude));
+
             Mapper.CreateMap<LocationModel, Location>()
+                .ForMember(e => e.Geography, opt => opt.MapFrom(m => 
+                    GeographyHelper.ConvertLatLonToDbGeography(m.Longitude.Value, m.Latitude.Value)))
                 .ForMember(e => e.Id, opt => opt.Ignore())
                 .ForMember(e => e.Deals, opt => opt.Ignore())
                 .ForMember(e => e.AspNetUser, opt => opt.Ignore());
@@ -74,6 +81,5 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
            
         }
-
     }
 }

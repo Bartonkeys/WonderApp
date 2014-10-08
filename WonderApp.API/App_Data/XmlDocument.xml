@@ -503,6 +503,18 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:WonderApp.Controllers.SearchController">
+            <summary>
+            Handle all search queries
+            </summary>
+        </member>
+        <member name="M:WonderApp.Controllers.SearchController.GetTags(System.String)">
+            <summary>
+            Search for tags
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.WonderController">
             <summary>
             The main API for communication with device
