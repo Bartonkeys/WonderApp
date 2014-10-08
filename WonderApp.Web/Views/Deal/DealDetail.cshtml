@@ -4,20 +4,17 @@
 <div class="container-fluid">
     <div class="row">
             <div class="col-md-2"><img src="@Model.Images[0].url" width="100%" height="100%" /></div>
-            <div class="col-md-5">
+            <div class="col-md-10">
                 <div class="row">
-                    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "col-md-4" })
-                    <div class="col-md-8">
-                        @foreach (var tag in @Model.Tags)
-                    {
-                    <span class="select2-choice">@(tag.Name) &nbsp; </span>
-                    }
+                    @Html.LabelFor(model => model.IntroDescription, htmlAttributes: new { @class = "col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(m => m.IntroDescription)
                     </div>
                 </div>
                 <div class="row">
-                    @Html.LabelFor(model => model.IntroDescription, htmlAttributes: new { @class = "col-md-4" })
-                    <div class="col-md-8">
-                        @Html.DisplayFor(m => m.IntroDescription)
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(m => m.Description)
                     </div>
                 </div>
             </div>

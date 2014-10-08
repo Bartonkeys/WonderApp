@@ -76,3 +76,15 @@ tr.shown td.details-control {
     background: url('../images/details_close.png') no-repeat center center;
 }
 
+.tags
+{
+    color: #fff;
+    background-color: #428bca;
+    border-radius: 4px;
+    padding: 5px 8px;
+    display: block;
+    position: relative;
+    float: left;
+    margin-right: 1px;
+}
+
