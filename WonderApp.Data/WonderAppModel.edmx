@@ -153,8 +153,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Longitude" Type="decimal" Precision="18" Scale="10" Nullable="false" />
-          <Property Name="Latitude" Type="decimal" Precision="18" Scale="10" Nullable="false" />
           <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Geography" Type="geography" />
         </EntityType>
