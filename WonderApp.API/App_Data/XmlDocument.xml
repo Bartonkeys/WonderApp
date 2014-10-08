@@ -525,7 +525,7 @@
             HTTP POST to return wonder deals. Send the following in body: 
             Current position in latitude and longitude, along with radius of search and maximum number of wonders to return.
             If no location will return most recent wonders up to max no. of wonder deals.
-            If no radius then will default to 5km (unless location isn't there).
+            If no radius then will default to 5 miles (unless location isn't there).
             if no max number of wonders, will default to 20.
             Returns HTTP StatusCode 200 with JSON list of wonder deals.
             If error, return Http Status Code 500 with error message.
