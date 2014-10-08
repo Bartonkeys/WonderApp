@@ -10,7 +10,8 @@ namespace WonderApp.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-2.1.1.js",
-                        "~/Scripts/select2.js"));
+                        "~/Scripts/select2.js",
+                        "~/Scripts/jquery.are-you-sure.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -46,7 +47,9 @@ namespace WonderApp.Web
                    "~/Content/css/bootstrap-datepicker.css",
                   "~/Content/css/site.css",
                   "~/Content/css/select2.css",
-                  "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css"));
+                  "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css",
+                  "~/Content/css/font-awesome/css/font-awesome.min.css"));
+
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
