@@ -246,9 +246,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\Location\Location.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\css\bootstrap-datepicker.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -655,9 +652,6 @@
     <Content Include="Plugins\DataTables-1.10.2\media\images\Sorting icons.psd" />
     <Content Include="Plugins\DataTables-1.10.2\package.json" />
     <Content Include="Plugins\DataTables-1.10.2\Readme.md" />
-    <Content Include="App\Location\Location.js.map">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Properties\PublishProfiles\wonderapp-website.pubxml" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />

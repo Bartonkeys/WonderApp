@@ -503,6 +503,22 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:WonderApp.Controllers.AccountController">
+            <summary>
+            This API handles all account related activities.
+            </summary>
+        </member>
+        <member name="M:WonderApp.Controllers.AccountController.GetFacebook(System.String)">
+            <summary>
+            Verify Facebook access token.
+            If not authorised with Facebook fire back a 403.
+            If authorised and already registered then return 200 with userId.
+            If authorised and not registered, then register and return 201 with userId
+            If any other error, return 500 with message.
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries
