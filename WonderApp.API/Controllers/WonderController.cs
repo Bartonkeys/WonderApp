@@ -9,6 +9,7 @@ using AutoMapper;
 using WonderApp.Models;
 using Elmah.Contrib.WebApi;
 using WonderApp.Models.Helpers;
+using WonderApp.Constants;
 
 namespace WonderApp.Controllers
 {
@@ -17,9 +18,6 @@ namespace WonderApp.Controllers
     /// </summary>
     public class WonderController : BaseApiController
     {
-        public const int DefaultRadius = 5;
-        public const int DefaultMaxNumberOfWonders = 20;
-
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, along with radius of search and maximum number of wonders to return.
@@ -36,8 +34,8 @@ namespace WonderApp.Controllers
             {
                 var wonders = new List<DealModel>();
 
-                model.RadiusInMiles = model.RadiusInMiles ?? DefaultRadius;
-                model.MaxWonders = model.MaxWonders ?? DefaultMaxNumberOfWonders;
+                model.RadiusInMiles = model.RadiusInMiles ?? WonderAppConstants.DefaultRadius;
+                model.MaxWonders = model.MaxWonders ?? WonderAppConstants.DefaultMaxNumberOfWonders;
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
@@ -46,7 +44,9 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition)*.00062 <= model.RadiusInMiles)
+                           .Where(w => w.Location.Geography.Distance(usersPosition)*.00062 <= model.RadiusInMiles
+                               && !w.Archived
+                               && w.MyRejectUsers.All(u => u.Id != model.UserId))
                            .Take(model.MaxWonders.Value));
                     });
                 }

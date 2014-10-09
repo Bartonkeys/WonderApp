@@ -54,10 +54,7 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var path = "https://graph.facebook.com/me?access_token=" + accessToken;
-                var client = new HttpClient();
-                var uri = new Uri(path);
-                var response = await client.GetAsync(uri);
+                var response = await GetFacebookResponse(accessToken);
 
                 if (!response.IsSuccessStatusCode) 
                     return Request.CreateResponse(HttpStatusCode.Unauthorized);
@@ -96,6 +93,14 @@ namespace WonderApp.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
 
+        }
+
+        private async Task<HttpResponseMessage> GetFacebookResponse(string accessToken)
+        {
+            var path = WonderAppConstants.FacebookTokenUrl + accessToken;
+            var client = new HttpClient();
+            var uri = new Uri(path);
+            return await client.GetAsync(uri);
         }
 
         private void PopulateFacebookEmailWithDummyData(FacebookUserModel facebookUser)

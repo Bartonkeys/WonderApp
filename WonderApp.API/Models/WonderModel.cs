@@ -8,6 +8,9 @@ namespace WonderApp.Models
 {
     public class WonderModel
     {
+        [JsonProperty(PropertyName = "userId")]
+        public string UserId { get; set; }
+
         [JsonProperty(PropertyName="latitude")]
         public double? Latitude { get; set; }
 
