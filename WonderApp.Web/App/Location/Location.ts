@@ -64,7 +64,7 @@
             var location: google.maps.LatLng;
 
             // Use existing location
-            if (latitude != 0 && longitude != 0) {
+            if (Number(latitude) && Number(longitude)) {
                 location = new google.maps.LatLng(latitude, longitude);
                 this.setInitialLocation(location, true);
                 return;

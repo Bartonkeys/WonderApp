@@ -503,14 +503,48 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:WonderApp.Controllers.AccountController">
+            <summary>
+            This API handles all account related activities.
+            </summary>
+        </member>
+        <member name="M:WonderApp.Controllers.AccountController.GetFacebook(System.String)">
+            <summary>
+            Verify Facebook access token.
+            If not authorised with Facebook fire back a 403.
+            If authorised and already registered then return 200 with userId.
+            If authorised and not registered, then register and return 201 with userId
+            If any other error, return 500 with message.
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WonderApp.Controllers.SearchController">
+            <summary>
+            Handle all search queries
+            </summary>
+        </member>
+        <member name="M:WonderApp.Controllers.SearchController.GetTags(System.String)">
+            <summary>
+            Search for tags
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.WonderController">
             <summary>
             The main API for communication with device
             </summary>
         </member>
-        <member name="M:WonderApp.Controllers.WonderController.GetDeals">
+        <member name="M:WonderApp.Controllers.WonderController.PostWonders(WonderApp.Models.WonderModel)">
             <summary>
-            Return all deals
+            HTTP POST to return wonder deals. Send the following in body: 
+            Current position in latitude and longitude, along with radius of search and maximum number of wonders to return.
+            If no location will return most recent wonders up to max no. of wonder deals.
+            If no radius then will default to 5 miles (unless location isn't there).
+            if no max number of wonders, will default to 20.
+            Returns HTTP StatusCode 200 with JSON list of wonder deals.
+            If error, return Http Status Code 500 with error message.
             </summary>
             <returns></returns>
         </member>

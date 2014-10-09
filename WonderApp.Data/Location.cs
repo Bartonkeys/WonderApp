@@ -21,8 +21,7 @@ namespace WonderApp.Data
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Longitude { get; set; }
-        public decimal Latitude { get; set; }
+        public System.Data.Entity.Spatial.DbGeography Geography { get; set; }
     
         public virtual ICollection<Deal> Deals { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }

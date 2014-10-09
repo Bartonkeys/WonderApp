@@ -27,7 +27,7 @@ else
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th class="col-md-2">
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.Tags)
                 </th>
                 <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.Url)
@@ -50,10 +50,15 @@ else
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
+                            @foreach (var tag in item.Tags)
+                            {
+                                <span class="tags">
+                                    @(tag.Name)
+                                </span>
+                            }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Url)
+                        <a href="@item.Url" target="_blank">Click here</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ExpiryDate)

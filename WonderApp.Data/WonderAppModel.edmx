@@ -113,7 +113,7 @@
           <Property Name="Location_Id" Type="int" Nullable="false" />
           <Property Name="Cost_Id" Type="int" />
           <Property Name="Category_Id" Type="int" />
-          <Property Name="Archived" Type="bit" />
+          <Property Name="Archived" Type="bit" Nullable="false" />
           <Property Name="IntroDescription" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DealTag">
@@ -153,9 +153,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Longitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Latitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Geography" Type="geography" />
         </EntityType>
         <EntityType Name="Reminders">
           <Key>
@@ -384,18 +383,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DealTag_Tag">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
-          <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tags">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DealTag">
-              <PropertyRef Name="Tags_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DeviceImage">
           <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
           <End Role="Images" Type="Self.Images" Multiplicity="*" />
@@ -541,10 +528,6 @@
             <End Role="Deals" EntitySet="Deals" />
             <End Role="DealTag" EntitySet="DealTag" />
           </AssociationSet>
-          <AssociationSet Name="FK_DealTag_Tag" Association="Self.FK_DealTag_Tag">
-            <End Role="Tags" EntitySet="Tags" />
-            <End Role="DealTag" EntitySet="DealTag" />
-          </AssociationSet>
           <AssociationSet Name="FK_DeviceImage" Association="Self.FK_DeviceImage">
             <End Role="Devices" EntitySet="Devices" />
             <End Role="Images" EntitySet="Images" />
@@ -674,7 +657,7 @@
           <NavigationProperty Name="Category" Relationship="WonderAppModel.CategoryDeal" FromRole="Deal" ToRole="Category" />
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
           <Property Name="Publish" Type="Boolean" Nullable="false" />
-          <Property Name="Archived" Type="Boolean" />
+          <Property Name="Archived" Type="Boolean" Nullable="false" />
           <Property Name="IntroDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Location">
@@ -683,10 +666,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealLocation" FromRole="Location" ToRole="Deal" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.AspNetUserLocation" FromRole="Location" ToRole="AspNetUser" />
+          <Property Name="Geography" Type="Geography" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -934,10 +916,9 @@
     <EntitySetMapping Name="Locations">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Location)">
         <MappingFragment StoreEntitySet="Locations">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Geography" ColumnName="Geography" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

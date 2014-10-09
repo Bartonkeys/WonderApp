@@ -28,7 +28,7 @@ var LocationViewModel = (function () {
             var location;
 
             // Use existing location
-            if (latitude != 0 && longitude != 0) {
+            if (Number(latitude) && Number(longitude)) {
                 location = new google.maps.LatLng(latitude, longitude);
                 _this.setInitialLocation(location, true);
                 return;
