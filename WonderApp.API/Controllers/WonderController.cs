@@ -54,7 +54,10 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        return Mapper.Map<List<DealModel>>(DataContext.Deals.OrderByDescending(x => x.Id).Take(model.MaxWonders.Value));
+                        return Mapper.Map<List<DealModel>>(DataContext.Deals
+                            .Where(w => !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .OrderByDescending(x => x.Id)
+                            .Take(model.MaxWonders.Value));
                     });
                 }
 
