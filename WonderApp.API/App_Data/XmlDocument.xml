@@ -539,7 +539,7 @@
         <member name="M:WonderApp.Controllers.WonderController.PostWonders(WonderApp.Models.WonderModel)">
             <summary>
             HTTP POST to return wonder deals. Send the following in body: 
-            Current position in latitude and longitude, along with radius of search and maximum number of wonders to return.
+            Current position in latitude and longitude, city, along with radius of search and maximum number of wonders to return.
             If no location will return most recent wonders up to max no. of wonder deals.
             If no radius then will default to 5 miles (unless location isn't there).
             if no max number of wonders, will default to 20.

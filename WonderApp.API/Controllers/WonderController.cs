@@ -20,7 +20,7 @@ namespace WonderApp.Controllers
     {
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
-        /// Current position in latitude and longitude, along with radius of search and maximum number of wonders to return.
+        /// Current position in latitude and longitude, city, along with radius of search and maximum number of wonders to return.
         /// If no location will return most recent wonders up to max no. of wonder deals.
         /// If no radius then will default to 5 miles (unless location isn't there).
         /// if no max number of wonders, will default to 20.
@@ -43,11 +43,32 @@ namespace WonderApp.Controllers
 
                     wonders = await Task.Run(() =>
                     {
-                        return Mapper.Map<List<DealModel>>(DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition)*.00062 <= model.RadiusInMiles
-                               && !w.Archived
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId))
-                           .Take(model.MaxWonders.Value));
+                        var nearestWonders = DataContext.Deals
+                           .Where(w => w.Location.Geography.Distance(usersPosition)*.00062 <= model.RadiusInMiles && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                           .OrderBy(x => Guid.NewGuid())
+                           .Take(6);
+
+                        var priorityWonders = DataContext.Deals
+                            .Where(w => w.Priority.HasValue && w.Priority.Value && w.CityId == model.CityId && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .OrderBy(x => Guid.NewGuid())
+                            .Take(6);
+
+                        var popularWonders = DataContext.Deals
+                            .Where(w => w.CityId == model.CityId && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .OrderByDescending(w => w.Likes)
+                            .Take(50)
+                            .OrderBy(x => Guid.NewGuid())
+                            .Take(6);
+
+                        var randomWonders = DataContext.Deals
+                            .Where(w => w.CityId == model.CityId && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .OrderBy(x => Guid.NewGuid())
+                            .Take(2);
+
+                        var results = nearestWonders.Union(priorityWonders).Union(popularWonders).Union(randomWonders);
+                        results = results.OrderBy(x => Guid.NewGuid());
+
+                        return Mapper.Map<List<DealModel>>(results);
                     });
                 }
                 else

@@ -11,6 +11,9 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
+        [JsonProperty(PropertyName = "cityId")]
+        public int CityId { get; set; }
+
         [JsonProperty(PropertyName="latitude")]
         public double? Latitude { get; set; }
 

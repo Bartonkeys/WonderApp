@@ -73,6 +73,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Companies">
           <Key>
             <PropertyRef Name="Id" />
@@ -84,6 +91,7 @@
           <Property Name="County" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Country_Id" Type="int" />
+          <Property Name="CityId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Costs">
           <Key>
@@ -117,6 +125,7 @@
           <Property Name="Archived" Type="bit" Nullable="false" />
           <Property Name="IntroDescription" Type="nvarchar(max)" />
           <Property Name="Priority" Type="bit" />
+          <Property Name="CityId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -285,6 +294,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Companies_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyCountry">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
@@ -373,6 +394,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Deals_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DealTag_Deal">
           <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
           <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
@@ -453,6 +486,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
@@ -498,6 +532,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
+          <AssociationSet Name="FK_Companies_Cities" Association="Self.FK_Companies_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyCountry" Association="Self.FK_CompanyCountry">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Companies" EntitySet="Companies" />
@@ -524,6 +562,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DealLocation" Association="Self.FK_DealLocation">
             <End Role="Locations" EntitySet="Locations" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deals_Cities" Association="Self.FK_Deals_Cities">
+            <End Role="Cities" EntitySet="Cities" />
             <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_DealTag_Deal" Association="Self.FK_DealTag_Deal">
@@ -639,6 +681,15 @@
             <End Role="Device" EntitySet="Devices" />
             <End Role="Image" EntitySet="Images" />
           </AssociationSet>
+          <EntitySet Name="Cities" EntityType="WonderAppModel.City" />
+          <AssociationSet Name="FK_Companies_Cities" Association="WonderAppModel.FK_Companies_Cities">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deals_Cities" Association="WonderAppModel.FK_Deals_Cities">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Deal">
           <Key>
@@ -662,6 +713,8 @@
           <Property Name="Archived" Type="Boolean" Nullable="false" />
           <Property Name="IntroDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Priority" Type="Boolean" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="WonderAppModel.FK_Deals_Cities" FromRole="Deal" ToRole="City" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -702,6 +755,8 @@
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealCompany" FromRole="Company" ToRole="Deal" />
           <NavigationProperty Name="Country" Relationship="WonderAppModel.CompanyCountry" FromRole="Company" ToRole="Country" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="WonderAppModel.FK_Companies_Cities" FromRole="Company" ToRole="City" />
         </EntityType>
         <EntityType Name="Reminder">
           <Key>
@@ -896,6 +951,39 @@
           <End Type="WonderAppModel.Device" Role="Device" Multiplicity="1" />
           <End Type="WonderAppModel.Image" Role="Image" Multiplicity="*" />
         </Association>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Companies" Relationship="WonderAppModel.FK_Companies_Cities" FromRole="City" ToRole="Company" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deals_Cities" FromRole="City" ToRole="Deal" />
+        </EntityType>
+        <Association Name="FK_Companies_Cities">
+          <End Type="WonderAppModel.City" Role="City" Multiplicity="1" />
+          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deals_Cities">
+          <End Type="WonderAppModel.City" Role="City" Multiplicity="1" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deal">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -905,7 +993,8 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
-          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="IntroDescription" ColumnName="IntroDescription" />
                 <ScalarProperty Name="Archived" ColumnName="Archived" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -946,7 +1035,8 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Company)">
         <MappingFragment StoreEntitySet="Companies">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="PostCode" ColumnName="PostCode" />
@@ -1175,6 +1265,14 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="WonderAppModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -66,5 +66,8 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "images")]
         public virtual List<ImageModel> Images { get; set; }
+
+        [JsonProperty(PropertyName = "city")]
+        public virtual CityModel City { get; set; }
     }
 }

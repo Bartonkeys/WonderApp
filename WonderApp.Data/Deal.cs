@@ -32,6 +32,7 @@ namespace WonderApp.Data
         public bool Archived { get; set; }
         public string IntroDescription { get; set; }
         public Nullable<bool> Priority { get; set; }
+        public int CityId { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
@@ -41,5 +42,6 @@ namespace WonderApp.Data
         public virtual ICollection<AspNetUser> MyRejectUsers { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Image> Images { get; set; }
+        public virtual City City { get; set; }
     }
 }
