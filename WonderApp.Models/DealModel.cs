@@ -48,6 +48,9 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "archived")]
         public bool Archived { get; set; }
 
+        [JsonProperty(PropertyName = "priority")]
+        public bool Priority { get; set; }
+
         [Display(Name = "Tags")]
         [JsonProperty(PropertyName = "tags")]
         public virtual List<TagModel> Tags { get; set; }

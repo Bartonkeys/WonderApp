@@ -64,6 +64,7 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Gender_Id" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -115,6 +116,7 @@
           <Property Name="Category_Id" Type="int" />
           <Property Name="Archived" Type="bit" Nullable="false" />
           <Property Name="IntroDescription" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="bit" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -659,6 +661,7 @@
           <Property Name="Publish" Type="Boolean" Nullable="false" />
           <Property Name="Archived" Type="Boolean" Nullable="false" />
           <Property Name="IntroDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Boolean" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -806,6 +809,7 @@
           <NavigationProperty Name="MyReminder" Relationship="WonderAppModel.AspNetUserReminder" FromRole="AspNetUser" ToRole="Reminder" />
           <NavigationProperty Name="Locations" Relationship="WonderAppModel.AspNetUserLocation" FromRole="AspNetUser" ToRole="Location" />
           <NavigationProperty Name="Categories" Relationship="WonderAppModel.AspNetUserCategory" FromRole="AspNetUser" ToRole="Category" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -901,7 +905,8 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
-          <ScalarProperty Name="IntroDescription" ColumnName="IntroDescription" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="IntroDescription" ColumnName="IntroDescription" />
                 <ScalarProperty Name="Archived" ColumnName="Archived" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1012,7 +1017,8 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUser)">
         <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
           <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />

@@ -31,6 +31,7 @@ namespace WonderApp.Data
         public bool Publish { get; set; }
         public bool Archived { get; set; }
         public string IntroDescription { get; set; }
+        public Nullable<bool> Priority { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
