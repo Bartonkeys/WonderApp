@@ -183,6 +183,8 @@ namespace WonderApp.Web.Controllers
                 new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
                 Companies = Mapper.Map<List<CompanyModel>>(DataContext.Companies).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }
 

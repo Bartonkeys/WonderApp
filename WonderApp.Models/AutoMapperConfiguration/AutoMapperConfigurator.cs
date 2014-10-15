@@ -27,6 +27,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Cost, opt => opt.Ignore())
                 .ForMember(e => e.Category, opt => opt.Ignore())
                 .ForMember(e => e.Images, opt => opt.Ignore())
+                .ForMember(e => e.City, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
             Mapper.CreateMap<Deal, DealSummaryModel>()
@@ -78,6 +79,9 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Device, DeviceModel>();
             Mapper.CreateMap<DeviceModel, Device>();
+
+            Mapper.CreateMap<City, CityModel>();
+            Mapper.CreateMap<CityModel, City>();
 
            
         }

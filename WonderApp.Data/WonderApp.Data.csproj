@@ -83,6 +83,9 @@
     <Compile Include="Category.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="City.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Company.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>

@@ -34,5 +34,6 @@ namespace WonderApp.Models
         [JsonIgnore]
         public List<DealModel> Deals { get; set; }
         public CountryModel Country { get; set; }
+        public CityModel City { get; set; }
     }
 }

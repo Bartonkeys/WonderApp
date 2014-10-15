@@ -8,6 +8,7 @@ using AutoMapper;
 using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.InfaStructure;
+using WonderApp.Web.Models;
 
 namespace WonderApp.Web.Controllers
 {
@@ -27,16 +28,20 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Create()
         {
-            var model = new CompanyModel();
+            var model = new CompanyViewModel {
+                CompanyModel = new CompanyModel(),
+                Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+            };
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(CompanyModel model)
+        public ActionResult Create(CompanyViewModel model)
         {
             if(model != null && ModelState.IsValid)
             {
-                var companyEntity = Mapper.Map<Company>(model);
+                var companyEntity = Mapper.Map<Company>(model.CompanyModel);
                 DataContext.Companies.Add(companyEntity);
 
                 return RedirectToAction("Index");
@@ -46,17 +51,21 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            var model = Mapper.Map<CompanyModel>(DataContext.Companies.Find(id));
+            var model = new CompanyViewModel {
+                CompanyModel = Mapper.Map<CompanyModel>(DataContext.Companies.Find(id)),
+                Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+            };
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(CompanyModel model)
+        public ActionResult Edit(CompanyViewModel model)
         {
             if(model != null && ModelState.IsValid)
             {
-                var company = DataContext.Deals.Find(model.Id);
-                Mapper.Map(model, company);
+                var company = DataContext.Deals.Find(model.CompanyModel.Id);
+                Mapper.Map(model.CompanyModel, company);
 
                 return RedirectToAction("Details", new { id = company.Id });
             }
