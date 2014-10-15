@@ -22,5 +22,8 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "maxWonders")]
         public int? MaxWonders { get; set; }
+
+        [JsonProperty(PropertyName = "tagId")]
+        public int TagId { get; set; }
     }
 }
