@@ -1,3 +1,2 @@
-﻿CREATE LOGIN [wonderapp]
-    WITH PASSWORD = N'SayTjpi;jWzfdlvu9cx~gj`vmsFT7_&#$!~<Hqyyuwsqld}z', SID = 0x0326EB07BA3DBF449229CA8CF29CF7A8, DEFAULT_DATABASE = [WonderApp], DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+﻿CREATE USER [wonderapp] FOR LOGIN [wonderapp];
 
