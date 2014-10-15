@@ -20,5 +20,7 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "longitude")]
         public double? Longitude { get; set; }
 
+        [JsonProperty(PropertyName = "tagId")]
+        public int TagId { get; set; }
     }
 }
