@@ -531,6 +531,13 @@
             <param name="searchString"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.SearchController.PostWonderModel(WonderApp.Models.WonderModel)">
+            <summary>
+            Search for wonders by WonderModel (with tag ID string)
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.WonderController">
             <summary>
             The main API for communication with device

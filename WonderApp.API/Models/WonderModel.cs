@@ -20,6 +20,13 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "longitude")]
         public double? Longitude { get; set; }
 
+        [JsonProperty(PropertyName = "radiusInMiles")]
+        public int? RadiusInMiles { get; set; }
+
+        [JsonProperty(PropertyName = "maxWonders")]
+        public int? MaxWonders { get; set; }
+
+       
 
         [JsonProperty(PropertyName = "tagId")]
         public int TagId { get; set; }
