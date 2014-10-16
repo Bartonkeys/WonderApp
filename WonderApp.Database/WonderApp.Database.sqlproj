@@ -7,14 +7,14 @@
     <Name>WonderApp.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{06b9f7e6-5de0-40e0-aae2-104fda788dcb}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <ProjectGuid>{0335d29f-4613-4710-b086-5792f2aaea7c}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
     <RootNamespace>WonderApp.Database</RootNamespace>
     <AssemblyName>WonderApp.Database</AssemblyName>
-    <ModelCollation>1033,CI</ModelCollation>
+    <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
@@ -23,8 +23,6 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
-    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -64,29 +62,28 @@
     <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Locations.sql" />
-    <Build Include="dbo\Tables\Tags.sql" />
-    <Build Include="dbo\Tables\Deals.sql" />
-    <Build Include="dbo\Tables\Cities.sql" />
-    <Build Include="dbo\Tables\Categories.sql" />
-    <Build Include="dbo\Tables\Companies.sql" />
-    <Build Include="dbo\Tables\Reminders.sql" />
-    <Build Include="dbo\Tables\Costs.sql" />
-    <Build Include="dbo\Tables\Genders.sql" />
-    <Build Include="dbo\Tables\Countries.sql" />
     <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserCategory.sql" />
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetUserLogins.sql" />
-    <Build Include="dbo\Tables\AspNetUsers.sql" />
-    <Build Include="dbo\Tables\Images.sql" />
-    <Build Include="dbo\Tables\Devices.sql" />
-    <Build Include="dbo\Tables\DealTag.sql" />
     <Build Include="dbo\Tables\AspNetUserRoles.sql" />
-    <Build Include="dbo\Tables\UserDealWonders.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\Categories.sql" />
+    <Build Include="dbo\Tables\Cities.sql" />
+    <Build Include="dbo\Tables\Companies.sql" />
+    <Build Include="dbo\Tables\Costs.sql" />
+    <Build Include="dbo\Tables\Countries.sql" />
+    <Build Include="dbo\Tables\Deals.sql" />
+    <Build Include="dbo\Tables\DealTag.sql" />
+    <Build Include="dbo\Tables\Devices.sql" />
+    <Build Include="dbo\Tables\Genders.sql" />
+    <Build Include="dbo\Tables\Images.sql" />
+    <Build Include="dbo\Tables\Locations.sql" />
+    <Build Include="dbo\Tables\Reminders.sql" />
+    <Build Include="dbo\Tables\Tags.sql" />
     <Build Include="dbo\Tables\UserDealReject.sql" />
-    <Build Include="dbo\Tables\AspNetUserCategory.sql" />
+    <Build Include="dbo\Tables\UserDealWonders.sql" />
     <Build Include="Security\wonderapp.sql" />
     <Build Include="Security\wonderapp_1.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
   </ItemGroup>
 </Project>

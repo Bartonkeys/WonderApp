@@ -46,9 +46,6 @@ namespace WonderApp.Controllers
             try
             {
                 var wonders = new List<DealModel>();
-
-                model.RadiusInMiles = model.RadiusInMiles ?? WonderAppConstants.DefaultRadius;
-                model.MaxWonders = model.MaxWonders ?? WonderAppConstants.DefaultMaxNumberOfWonders;
                 
                 if (model.Latitude != null && model.Longitude != null)
                 {
@@ -57,11 +54,11 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= model.RadiusInMiles
+                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius
                                && w.Tags.Any(x => model.TagId == x.Id)
                                && !w.Archived
                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
-                           .Take(model.MaxWonders.Value));
+                           .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
                 }
                 else
@@ -72,7 +69,7 @@ namespace WonderApp.Controllers
                             .Where(w => !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId)
                              && w.Tags.Any(x => model.TagId == x.Id))
                             .OrderByDescending(x => x.Id)
-                            .Take(model.MaxWonders.Value));
+                            .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
 
                 }

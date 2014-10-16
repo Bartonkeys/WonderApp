@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8C40AF
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WonderApp.Database", "WonderApp.Database\WonderApp.Database.sqlproj", "{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WonderApp.Database", "WonderApp.Database\WonderApp.Database.sqlproj", "{0335D29F-4613-4710-B086-5792F2AAEA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,18 +92,18 @@ Global
 		{F4F4AF3C-0C10-484B-B248-60CD448F5E9F}.Sandbox|Any CPU.Build.0 = Sandbox|Any CPU
 		{F4F4AF3C-0C10-484B-B248-60CD448F5E9F}.Training|Any CPU.ActiveCfg = Training|Any CPU
 		{F4F4AF3C-0C10-484B-B248-60CD448F5E9F}.Training|Any CPU.Build.0 = Training|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Sandbox|Any CPU.ActiveCfg = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Sandbox|Any CPU.Build.0 = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Sandbox|Any CPU.Deploy.0 = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Training|Any CPU.ActiveCfg = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Training|Any CPU.Build.0 = Debug|Any CPU
-		{06B9F7E6-5DE0-40E0-AAE2-104FDA788DCB}.Training|Any CPU.Deploy.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Sandbox|Any CPU.ActiveCfg = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Sandbox|Any CPU.Build.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Sandbox|Any CPU.Deploy.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Training|Any CPU.ActiveCfg = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Training|Any CPU.Build.0 = Debug|Any CPU
+		{0335D29F-4613-4710-B086-5792F2AAEA7C}.Training|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
