@@ -30,11 +30,14 @@ else
                     @Html.DisplayNameFor(model => model.Tags)
                 </th>
                 <th class="col-md-2">
+                    @Html.DisplayNameFor(model => model.IntroDescription)
+                </th>
+                @*<th class="col-md-2">
                     @Html.DisplayNameFor(model => model.Url)
                 </th>
                 <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.ExpiryDate)
-                </th>
+                </th>*@
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Likes)
                 </th>
@@ -50,19 +53,22 @@ else
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                            @foreach (var tag in item.Tags)
-                            {
-                                <span class="tags">
-                                    @(tag.Name)
-                                </span>
-                            }
+                        @foreach (var tag in item.Tags)
+                        {
+                            <span class="tags">
+                                @(tag.Name)
+                            </span>
+                        }
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.IntroDescription)
+                    </td>
+                    @*<td>
                         <a href="@item.Url" target="_blank">Click here</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ExpiryDate)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Likes)
                     </td>
