@@ -51,6 +51,13 @@ namespace WonderApp.Controllers
                 {
                     var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
 
+
+
+
+
+
+
+
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
