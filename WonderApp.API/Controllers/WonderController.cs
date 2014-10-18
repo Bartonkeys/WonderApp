@@ -16,6 +16,7 @@ namespace WonderApp.Controllers
     /// <summary>
     /// The main API for communication with device
     /// </summary>
+    [RoutePrefix("api/wonder")]
     public class WonderController : BaseApiController
     {
         /// <summary>
@@ -28,7 +29,7 @@ namespace WonderApp.Controllers
         /// Returns HTTP StatusCode 200 with JSON list of wonder deals.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>        
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)
         {
             try
@@ -45,25 +46,25 @@ namespace WonderApp.Controllers
 
                         var nearestWonders = DataContext.Deals
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
-                               && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                               && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
                            .Take(6);
 
                         var priorityWonders = DataContext.Deals
                             .Where(w => w.Priority.HasValue && w.Priority.Value && w.CityId == model.CityId 
-                                && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                                && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(6);
 
                         var popularWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
                             .Take(50)
                             .OrderBy(x => Guid.NewGuid())
                             .Take(6);
 
                         var randomWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(2);
 
@@ -78,7 +79,7 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(x => x.Id)
                             .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
@@ -92,7 +93,12 @@ namespace WonderApp.Controllers
             }
         }
 
-        
+        [Route("cities")]
+        public async Task<HttpResponseMessage> GetCities()
+        {
+            var listOfCities = await Task.Run(() => { return Mapper.Map<List<CityModel>>(DataContext.Cities); });
+            return Request.CreateResponse(HttpStatusCode.OK, listOfCities);
+        }
 
     }
 }
