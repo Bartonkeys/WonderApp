@@ -94,6 +94,7 @@ namespace WonderApp.Controllers
         }
 
         [Route("cities")]
+        [HttpGet]
         public async Task<HttpResponseMessage> GetCities()
         {
             var listOfCities = await Task.Run(() => { return Mapper.Map<List<CityModel>>(DataContext.Cities); });
