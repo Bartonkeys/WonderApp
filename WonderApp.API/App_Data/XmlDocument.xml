@@ -554,7 +554,7 @@
             Returns HTTP StatusCode 200 with JSON list of wonder deals.
             If error, return Http Status Code 500 with error message.
             </summary>
-            <returns></returns>
+            <returns></returns>        
         </member>
     </members>
 </doc>

@@ -16,6 +16,7 @@ namespace WonderApp.Controllers
     /// <summary>
     /// The main API for communication with device
     /// </summary>
+    [RoutePrefix("api/wonder")]
     public class WonderController : BaseApiController
     {
         /// <summary>
@@ -28,7 +29,7 @@ namespace WonderApp.Controllers
         /// Returns HTTP StatusCode 200 with JSON list of wonder deals.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>        
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)
         {
             try
@@ -92,7 +93,13 @@ namespace WonderApp.Controllers
             }
         }
 
-        
+        [Route("cities")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetCities()
+        {
+            var listOfCities = await Task.Run(() => { return Mapper.Map<List<CityModel>>(DataContext.Cities); });
+            return Request.CreateResponse(HttpStatusCode.OK, listOfCities);
+        }
 
     }
 }
