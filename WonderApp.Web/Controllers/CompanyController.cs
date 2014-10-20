@@ -64,7 +64,7 @@ namespace WonderApp.Web.Controllers
         {
             if(model != null && ModelState.IsValid)
             {
-                var company = DataContext.Deals.Find(model.CompanyModel.Id);
+                var company = DataContext.Companies.Find(model.CompanyModel.Id);
                 Mapper.Map(model.CompanyModel, company);
 
                 return RedirectToAction("Details", new { id = company.Id });

@@ -42,10 +42,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyModel.CompanyModel.City.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CompanyModel.City.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CompanyModel.CompanyModel.DealModel.City.Id, Model.Cities, "Please Select", htmlAttributes: new { style = "width: 100%" })
-                @Html.ValidationMessageFor(model => model.CompanyModel.CompanyModel.City.Id, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.CompanyModel.City.Id, Model.Cities, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                @Html.ValidationMessageFor(model => model.CompanyModel.City.Id, "", new { @class = "text-danger" })
             </div>
         </div>
 
