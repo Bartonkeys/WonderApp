@@ -40,6 +40,7 @@
         <EntityTypeShape EntityType="WonderAppModel.City" Width="1.5" PointX="9.625" PointY="7.25" />
         <AssociationConnector Association="WonderAppModel.FK_Companies_Cities" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Cities" />
+        <AssociationConnector Association="WonderAppModel.FK_Cities_Locations" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

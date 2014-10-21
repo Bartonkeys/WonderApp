@@ -17,6 +17,7 @@ namespace WonderApp.Data
         public Location()
         {
             this.Deals = new HashSet<Deal>();
+            this.Cities = new HashSet<City>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace WonderApp.Data
     
         public virtual ICollection<Deal> Deals { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
     }
 }

@@ -22,8 +22,10 @@ namespace WonderApp.Data
     
         public int Id { get; set; }
         public string Name { get; set; }
+        public Nullable<int> LocationId { get; set; }
     
         public virtual ICollection<Company> Companies { get; set; }
         public virtual ICollection<Deal> Deals { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

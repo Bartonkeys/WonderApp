@@ -18,5 +18,8 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "location")]
+        public virtual LocationModel Location { get; set; }
     }
 }

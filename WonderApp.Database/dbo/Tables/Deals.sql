@@ -14,6 +14,7 @@
     [IntroDescription] NVARCHAR (MAX) NULL,
     [Priority]         BIT            NULL,
     [CityId]           INT            CONSTRAINT [DF_Deals_CityId] DEFAULT ((1)) NOT NULL,
+    [AlwaysAvailable]  BIT            NULL,
     CONSTRAINT [PK_Deals] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_CategoryDeal] FOREIGN KEY ([Category_Id]) REFERENCES [dbo].[Categories] ([Id]),
     CONSTRAINT [FK_DealCompany] FOREIGN KEY ([Company_Id]) REFERENCES [dbo].[Companies] ([Id]),
@@ -21,6 +22,8 @@
     CONSTRAINT [FK_DealLocation] FOREIGN KEY ([Location_Id]) REFERENCES [dbo].[Locations] ([Id]),
     CONSTRAINT [FK_Deals_Cities] FOREIGN KEY ([CityId]) REFERENCES [dbo].[Cities] ([Id])
 );
+
+
 
 
 
