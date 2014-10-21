@@ -93,6 +93,10 @@ namespace WonderApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Return wonderfied Cities with Latitude and Longitude
+        /// </summary>
+        /// <returns></returns>
         [Route("cities")]
         [HttpGet]
         public async Task<HttpResponseMessage> GetCities()
