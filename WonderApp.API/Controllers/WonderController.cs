@@ -46,25 +46,25 @@ namespace WonderApp.Controllers
 
                         var nearestWonders = DataContext.Deals
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
-                               && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                               && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
                            .Take(6);
 
                         var priorityWonders = DataContext.Deals
                             .Where(w => w.Priority.HasValue && w.Priority.Value && w.CityId == model.CityId 
-                                && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                                && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(6);
 
                         var popularWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
                             .Take(50)
                             .OrderBy(x => Guid.NewGuid())
                             .Take(6);
 
                         var randomWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(2);
 
@@ -79,7 +79,7 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => !w.Archived && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(x => x.Id)
                             .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
