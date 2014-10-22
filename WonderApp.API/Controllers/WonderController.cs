@@ -48,25 +48,25 @@ namespace WonderApp.Controllers
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
                                && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
-                           .Take(6);
+                           .Take(5);
 
                         var priorityWonders = DataContext.Deals
                             .Where(w => w.Priority.HasValue && w.Priority.Value && w.CityId == model.CityId 
                                 && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(6);
+                            .Take(5);
 
                         var popularWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
                             .Take(50)
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(6);
+                            .Take(5);
 
                         var randomWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(2);
+                            .Take(5);
 
                         var results = nearestWonders.Union(priorityWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
@@ -84,6 +84,29 @@ namespace WonderApp.Controllers
                             .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
                 }
+
+                return Request.CreateResponse(HttpStatusCode.OK, wonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Return all Wonders that the user has liked
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("myWonders/{userId}")]
+        public async Task<HttpResponseMessage> GetMyWonders(string userId)
+        {
+            try
+            {
+                var wonders = await Task.Run(() =>
+                {
+                    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
+                });
 
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }

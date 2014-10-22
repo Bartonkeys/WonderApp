@@ -556,5 +556,18 @@
             </summary>
             <returns></returns>        
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetMyWonders(System.String)">
+            <summary>
+            Return all Wonders that the user has liked
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetCities">
+            <summary>
+            Return wonderfied Cities with Latitude and Longitude
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
