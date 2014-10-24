@@ -569,5 +569,21 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.Like(System.String,System.Int32)">
+            <summary>
+            Add a Wonder to a Users "MyWonders" collection
+            </summary>
+            <param name="userId"></param>
+            <param name="wonderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.WonderController.Dislike(System.String,System.Int32)">
+            <summary>
+            Remove a Wonder from a Users "MyWonders" collection
+            </summary>
+            <param name="userId"></param>
+            <param name="wonderId"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

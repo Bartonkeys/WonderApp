@@ -128,5 +128,104 @@ namespace WonderApp.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, listOfCities);
         }
 
+
+
+        /// <summary>
+        /// Add a Wonder to a Users "MyWonders" collection
+        /// Returns new MyWonders collection
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="wonderId"></param>
+        /// <returns></returns>
+        [Route("like/{userId}/{wonderId}")]
+        public async Task<HttpResponseMessage> Like(string userId, int wonderId)
+        {
+            try
+            {
+                var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+                var deal = DataContext.Deals.FirstOrDefault(w => w.Id == wonderId);
+                if (deal != null && user != null)
+                {
+                    //Should never be true - but belt and braces :D
+                    if (user.MyRejects.Contains(deal))
+                    {
+                        user.MyRejects.Remove(deal);
+                    }
+
+                    if (!user.MyWonders.Contains(deal))
+                    {
+                        user.MyWonders.Add(deal);  
+                    }
+
+                    deal.Likes++;
+                    DataContext.Commit();
+
+                    //Return list of MyWonders 
+                    var wonders = await Task.Run(() =>
+                    {
+                        return Mapper.Map<List<DealModel>>(user.MyWonders);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
+                
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Add a Wonder to a Users "MyRejects" collection
+        /// Returns new MyRejects collection
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="wonderId"></param>
+        /// <returns></returns>
+        [Route("dislike/{userId}/{wonderId}")]
+        public async Task<HttpResponseMessage> Dislike(string userId, int wonderId)
+        {
+            try
+            {
+                var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+                var deal = DataContext.Deals.FirstOrDefault(w => w.Id == wonderId);
+                if (deal != null && user != null)
+                {
+                    //Should never be true - but belt and braces :D
+                    if (user.MyWonders.Contains(deal))
+                    {
+                        user.MyWonders.Remove(deal);  
+                    }
+
+                    if (!user.MyRejects.Contains(deal))
+                    {
+                        user.MyRejects.Add(deal);
+                    }
+
+                    deal.Likes--;
+                    DataContext.Commit();
+
+                    //Return list of MyWonders 
+                    var wonders = await Task.Run(() =>
+                    {
+                        return Mapper.Map<List<DealModel>>(user.MyRejects);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
     }
 }
