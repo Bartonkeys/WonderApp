@@ -154,10 +154,11 @@ namespace WonderApp.Controllers
 
                     if (!user.MyWonders.Contains(deal))
                     {
-                        user.MyWonders.Add(deal);  
+                        user.MyWonders.Add(deal);
+                        deal.Likes++;
                     }
 
-                    deal.Likes++;
+                    
                     DataContext.Commit();
 
                     //Return list of MyWonders 
@@ -204,9 +205,10 @@ namespace WonderApp.Controllers
                     if (!user.MyRejects.Contains(deal))
                     {
                         user.MyRejects.Add(deal);
+                        deal.Likes--;
                     }
 
-                    deal.Likes--;
+                    
                     DataContext.Commit();
 
                     //Return list of MyWonders 
