@@ -229,5 +229,46 @@ namespace WonderApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a Wonder from "MyWonders" collection
+        /// Returns new MyWonders collection
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="wonderId"></param>
+        /// <returns></returns>
+        [Route("removeLike/{userId}/{wonderId}")]
+        public async Task<HttpResponseMessage> RemoveLike(string userId, int wonderId)
+        {
+            try
+            {
+                var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+                var deal = DataContext.Deals.FirstOrDefault(w => w.Id == wonderId);
+                if (deal != null && user != null)
+                {
+                    if (user.MyWonders.Contains(deal))
+                    {
+                        user.MyWonders.Remove(deal);
+                    }
+
+                    DataContext.Commit();
+
+                    //Return list of MyWonders 
+                    var wonders = await Task.Run(() =>
+                    {
+                        return Mapper.Map<List<DealModel>>(user.MyRejects);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
     }
 }
