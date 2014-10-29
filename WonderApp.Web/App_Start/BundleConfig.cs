@@ -15,6 +15,9 @@ namespace WonderApp.Web
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+                        //"~/Scripts/MvcFoolproofJQueryValidation.min.js",
+                        //"~/Scripts/MvcFoolproofValidation.min.js",
+                        //"~/Scripts/mvcfoolproof.unobtrusive.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/tagSearchJs").Include(
                        "~/Scripts/select2.js",

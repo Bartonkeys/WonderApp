@@ -12,7 +12,7 @@ namespace WonderApp.Models
     public class CityModel
     {
         [Required(ErrorMessage = "Please select a city")]
-        [DisplayName("Nearest City")]
+        [DisplayName("City")]
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 

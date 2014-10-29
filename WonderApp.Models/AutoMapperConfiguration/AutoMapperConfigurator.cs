@@ -17,7 +17,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
         public static void Configure()
         {
             Mapper.CreateMap<Deal, DealModel>()
-                .ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
+                .ForMember(m => m.ExpiryDate, opt => opt.MapFrom(e => e.AlwaysAvailable != null && e.AlwaysAvailable.Value ? String.Empty : e.ExpiryDate.MapToString()));
             Mapper.CreateMap<DealModel, Deal>()
                 .ForMember(e => e.Id, opt => opt.Ignore())
                 .ForMember(e => e.MyRejectUsers, opt => opt.Ignore())
@@ -28,6 +28,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Category, opt => opt.Ignore())
                 .ForMember(e => e.Images, opt => opt.Ignore())
                 .ForMember(e => e.City, opt => opt.Ignore())
+                .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
             Mapper.CreateMap<Deal, DealSummaryModel>();
@@ -83,7 +84,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<City, CityModel>();
             Mapper.CreateMap<CityModel, City>();
 
-           
+            Mapper.CreateMap<Address, AddressModel>();
+            Mapper.CreateMap<AddressModel, Address>();
         }
     }
 }
