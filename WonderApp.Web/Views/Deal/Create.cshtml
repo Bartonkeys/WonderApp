@@ -74,9 +74,15 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @*@Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
+                                </div>*@
+                                @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input type="hidden" class="select2-offscreen" id="company-hdn" style="width:100%" value="@Model.DealModel.Company.Id" />
+                                    <input type="text" class="hidden" id="company-name" name="CompanyName" value="@Model.DealModel.Company.Name" />
                                     @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
                                 </div>
                             </div>

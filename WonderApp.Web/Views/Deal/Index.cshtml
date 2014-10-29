@@ -32,14 +32,11 @@ else
                 <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.IntroDescription)
                 </th>
-                @*<th class="col-md-2">
-                    @Html.DisplayNameFor(model => model.Url)
-                </th>
-                <th class="col-md-2">
-                    @Html.DisplayNameFor(model => model.ExpiryDate)
-                </th>*@
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Likes)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Priority)
                 </th>
                 <th class="col-md-2"></th>
             </tr>
@@ -63,14 +60,11 @@ else
                     <td>
                         @Html.DisplayFor(modelItem => item.IntroDescription)
                     </td>
-                    @*<td>
-                        <a href="@item.Url" target="_blank">Click here</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ExpiryDate)
-                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Likes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Priority)
                     </td>
                     <td>
                         <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
@@ -115,7 +109,8 @@ else
 
                 dTable = $('#dealList').DataTable({
                     "bSortable": false, "aTargets": [0,1]
-            });
+                }).makeEditable();
+               
 
             });
 

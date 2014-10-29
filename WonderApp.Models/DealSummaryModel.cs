@@ -16,16 +16,14 @@ namespace WonderApp.Models
 
         public List<TagModel> Tags { get; set; }
 
-        //public string Url { get; set; }
-
-        //public String ExpiryDate { get; set; }
-
         public string IntroDescription { get; set; }
 
         public int Likes { get; set; }
 
         public bool Publish { get; set; }
         public bool Archived { get; set; }
+
+        public bool Priority { get; set; }
 
     }
 }
