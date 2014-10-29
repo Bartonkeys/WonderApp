@@ -15,6 +15,7 @@ using WonderApp.Core.Services;
 using WonderApp.Core.CloudImage;
 using Ninject;
 using System.IO;
+using WonderApp.Models.Extensions;
 
 namespace WonderApp.Web.Controllers
 {
@@ -62,7 +63,19 @@ namespace WonderApp.Web.Controllers
         {
             try
             {
+                if (!ModelState.IsValid) 
+                {
+                    var returnModel = CreateDealViewModel<DealCreateModel>();
+                    returnModel.DealModel = model.DealModel;
+                    returnModel.Image = model.Image;
+                    returnModel.TagString = model.TagString;
+                    return View(returnModel); 
+                }
+
                 var deal = Mapper.Map<Deal>(model.DealModel);
+
+                deal.Address.PostCode = model.DealModel.Location.Name;
+                if (model.DealModel.AlwaysAvailable) deal.ExpiryDate = DateTime.Now;
 
                 var tagList = model.TagString.Split(',').ToList();
                 foreach (var tag in tagList)
@@ -85,7 +98,7 @@ namespace WonderApp.Web.Controllers
             }
             catch
             {
-                return View(); 
+                return View(model); 
             }
         }
 
@@ -125,6 +138,22 @@ namespace WonderApp.Web.Controllers
         
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == model.DealModel.Id));
+                    var returnModel = CreateDealViewModel<DealEditModel>();
+                    returnModel.DealModel = dealModel;
+
+                    var tagString = "";
+                    if (dealModel.Tags.Count > 0)
+                    {
+                        tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
+                        tagString = tagString.Remove(tagString.Length - 1, 1);
+                        returnModel.TagString = tagString;
+                    }
+                    return View(returnModel);
+                }
+
                 var deal = DataContext.Deals.Find(model.DealModel.Id);
 
                 var tagList = !String.IsNullOrEmpty(model.TagString) 

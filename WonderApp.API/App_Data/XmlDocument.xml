@@ -587,5 +587,14 @@
             <param name="wonderId"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.RemoveLike(System.String,System.Int32)">
+            <summary>
+            Remove a Wonder from "MyWonders" collection
+            Returns new MyWonders collection
+            </summary>
+            <param name="userId"></param>
+            <param name="wonderId"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

@@ -16,7 +16,7 @@ namespace WonderApp.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please select a location")]
-        [DisplayName("Location")]
+        [DisplayName("PostCode")]
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 

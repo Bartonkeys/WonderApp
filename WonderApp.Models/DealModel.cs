@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using Foolproof;
 
 namespace WonderApp.Models
 {
@@ -28,12 +29,17 @@ namespace WonderApp.Models
 
         [Required(ErrorMessage = "Please enter a url")]
         [JsonProperty(PropertyName = "url")]
+        [Url]
         public string Url { get; set; }
 
+        [JsonProperty(PropertyName = "alwaysAvailable")]
+        [Display(Name = "Always Available?")]
+        public Boolean AlwaysAvailable { get; set; }
+
         [DisplayName("Expiry Date")]
-        [Required(ErrorMessage="Please enter date")]
         [DisplayFormat(DataFormatString = "{0:ddd d MMMM yyyy}", ApplyFormatInEditMode = true)]
         [JsonProperty(PropertyName = "expiryDate")]
+        [RequiredIfFalse("AlwaysAvailable", ErrorMessage = "Please select Expiry Date if Always Available not checked")]
         public String ExpiryDate { get; set; }
 
         [JsonProperty(PropertyName = "likes")]
@@ -69,5 +75,8 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "city")]
         public virtual CityModel City { get; set; }
+
+        [JsonProperty(PropertyName = "address")]
+        public virtual AddressModel Address { get; set; }
     }
 }

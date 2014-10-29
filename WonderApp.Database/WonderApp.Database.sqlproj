@@ -85,5 +85,6 @@
     <Build Include="dbo\Tables\UserDealWonders.sql" />
     <Build Include="Security\wonderapp.sql" />
     <Build Include="Security\wonderapp_1.sql" />
+    <Build Include="dbo\Tables\Addresses.sql" />
   </ItemGroup>
 </Project>

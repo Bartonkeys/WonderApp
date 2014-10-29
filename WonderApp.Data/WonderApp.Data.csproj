@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetRole.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>

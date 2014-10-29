@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" ZoomLevel="79" >
         <EntityTypeShape EntityType="WonderAppModel.Deal" Width="1.5" PointX="7.375" PointY="1.125" />
-        <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="7" PointY="6.25" />
+        <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="4.625" PointY="6.75" />
         <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.625" PointY="5.375" />
         <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.125" />
         <EntityTypeShape EntityType="WonderAppModel.Company" Width="1.5" PointX="11.25" PointY="1.125" />
@@ -41,7 +41,9 @@
         <AssociationConnector Association="WonderAppModel.FK_Companies_Cities" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Cities" />
         <AssociationConnector Association="WonderAppModel.FK_Cities_Locations" />
-      </Diagram>
+        <EntityTypeShape EntityType="WonderAppModel.Address" Width="1.5" PointX="7.125" PointY="9.125" />
+        <AssociationConnector Association="WonderAppModel.FK_Deals_Addresses" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
