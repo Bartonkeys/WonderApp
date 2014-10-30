@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WonderApp.Data;
 
 namespace WonderApp.Web.Controllers
 {
@@ -149,11 +150,38 @@ namespace WonderApp.Web.Controllers
                 int idInt;
                 if (int.TryParse(idStr, out idInt))
                 {
-                    items.Add(_tags.FirstOrDefault(m => m.id == idInt));
+                    items.Add(_companies.FirstOrDefault(m => m.id == idInt));
                 }
             }
 
             return items;
+        }
+
+        [HttpPost]
+        public int CreateCompany(string id)
+        {
+            try
+            {
+                var entity = new Company()
+                {
+                    Name = id,
+                    Address = "test",
+                    CityId = 1,
+                    Phone = "565656",
+                    PostCode = "ghghghg",
+                    County = "tets",
+
+                };
+                DataContext.Companies.Add(entity);
+                DataContext.Commit();
+                return entity.Id;
+            }
+
+            catch (Exception e)
+            {
+                return -1;
+            }
+
         }
 
 

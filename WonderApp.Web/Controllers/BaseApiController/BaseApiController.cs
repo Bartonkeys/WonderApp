@@ -20,7 +20,7 @@ namespace WonderApp.Web.Controllers
 
         public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
-            var response = base.ExecuteAsync(controllerContext, cancellationToken);
+             var response = base.ExecuteAsync(controllerContext, cancellationToken);
             try
             {
                 DataContext.Commit();

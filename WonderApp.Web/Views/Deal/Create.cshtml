@@ -89,7 +89,8 @@
                                 @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input type="hidden" class="select2-offscreen" id="company-hdn" style="width:100%" value="@Model.DealModel.Company.Id" />
-                                    <input type="text" class="hidden" id="company-name" name="CompanyName" value="@Model.DealModel.Company.Name" />
+                                    @*<input type="text" class="hidden" id="company-id" name="CompanyId" value="@Model.DealModel.Company.Id" />*@
+                                    @Html.TextBoxFor(m => m.DealModel.Company.Id, new { id = "company-id", @class = "hidden" })
                                     @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
                                 </div>
                             </div>
