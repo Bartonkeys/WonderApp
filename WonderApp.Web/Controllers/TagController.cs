@@ -165,11 +165,11 @@ namespace WonderApp.Web.Controllers
                 var entity = new Company()
                 {
                     Name = id,
-                    Address = "test",
+                    Address = "ADD ADDRESS",
                     CityId = 1,
-                    Phone = "565656",
-                    PostCode = "ghghghg",
-                    County = "tets",
+                    Phone = "00000000",
+                    PostCode = "ADD POSTCODE",
+                    County = "ADD COUNTY",
 
                 };
                 DataContext.Companies.Add(entity);
