@@ -15,13 +15,15 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
-        [DisplayName("Address Line 1")]
+        [DisplayName("Name")]
         [Required(ErrorMessage = "Please enter an address")]
         [JsonProperty(PropertyName = "addressLine1")]
+        [MaxLength(50)]
         public string AddressLine1 { get; set; }
 
-        [DisplayName("Address Line 2")]
+        [DisplayName("Street")]
         [JsonProperty(PropertyName = "addressLine2")]
+        [MaxLength(25)]
         public string AddressLine2 { get; set; }
 
         [JsonProperty(PropertyName = "postCode")]

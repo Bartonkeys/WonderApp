@@ -19,12 +19,14 @@ namespace WonderApp.Models
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Please enter a description")]
         [JsonProperty(PropertyName = "description")]
+        [MaxLength(200, ErrorMessage = "Intro is too long, 200 characters or less")]
         public string Description { get; set; }
 
         [Display(Name = "Introduction")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Please enter a description for the popup introduction")]
         [JsonProperty(PropertyName = "introDescription")]
+        [MaxLength(75, ErrorMessage="Intro is too long, 75 characters or less")]
         public string IntroDescription { get; set; }
 
         [Required(ErrorMessage = "Please enter a url")]
