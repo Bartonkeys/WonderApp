@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -186,8 +187,9 @@ namespace WonderApp.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Print(e.Message);
                 return View();
             }
         }

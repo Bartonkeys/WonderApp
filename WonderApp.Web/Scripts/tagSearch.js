@@ -41,13 +41,21 @@ function select2Dropdown(hiddenID, valueID, ph, listAction, getAction, isMultipl
             if (id !== null && id.length > 0) {
                 $.ajax("/api/" + getAction + "/" + id, {
                     dataType: "json"
-                }).done(function (data) { callback(data); });
+                }).done(function (data) {
+                    if (data.length < 2) {
+                        callback(data[0]);
+                    } else {
+                        callback(data);
+                    }
+                    
+                });
             }
         },
         formatResult: s2FormatResult,
         formatSelection: s2FormatSelection
     });
  
+
     $(document.body).on("change", sid, function (ev) {
         var choice;
         var values = ev.val;
