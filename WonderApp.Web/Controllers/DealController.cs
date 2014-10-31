@@ -117,10 +117,12 @@ namespace WonderApp.Web.Controllers
                 };
         }
 
+        //[Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
-
+            
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
+
             var model = CreateDealViewModel<DealEditModel>();
             model.DealModel = dealModel;
 

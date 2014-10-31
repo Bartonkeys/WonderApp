@@ -12,17 +12,19 @@ namespace WonderApp.Web.Controllers
 {
     public class CostController : BaseController
     {
-
+        
         public ActionResult Index()
         {
             return View(Mapper.Map<List<CostModel>>(DataContext.Costs.ToList()));
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(CostModel model)
         {
@@ -39,11 +41,13 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             return View(Mapper.Map<CostModel>(DataContext.Costs.Find(id)));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(CostModel model)
         {
