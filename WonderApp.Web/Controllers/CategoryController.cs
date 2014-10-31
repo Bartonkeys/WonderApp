@@ -64,12 +64,14 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var model = Mapper.Map<CategoryModel>(DataContext.Categories.Find(id));
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Delete(CategoryModel model)
         {

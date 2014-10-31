@@ -64,12 +64,14 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var model = Mapper.Map<CostModel>(DataContext.Costs.Find(id));
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Delete(CostModel model)
         {
