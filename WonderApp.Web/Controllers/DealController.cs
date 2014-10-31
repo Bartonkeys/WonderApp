@@ -269,5 +269,25 @@ namespace WonderApp.Web.Controllers
             return View(dealModel);
         }
 
+
+        [HttpPut]
+        public bool UpdatePriority(int dealId, bool priority)
+        {
+
+            try
+            {
+
+                return true;
+            }
+
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+        }
+
+
+
     }
 }

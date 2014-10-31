@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Routing.Constraints;
 using WonderApp.Data;
 
 namespace WonderApp.Web.Controllers
@@ -184,6 +185,25 @@ namespace WonderApp.Web.Controllers
 
         }
 
+
+        [HttpPut]
+        public bool? UpdatePriority(int? id)
+        {
+            try
+            {
+
+                Deal d = DataContext.Deals.FirstOrDefault(w => w.Id == id);
+                d.Priority = !d.Priority;
+                DataContext.Commit();
+                return d.Priority;
+            }
+
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
 
     } //end class
 
