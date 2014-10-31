@@ -25,5 +25,9 @@ namespace WonderApp.Models
 
         public bool Priority { get; set; }
 
+        public CompanyModel Company { get; set; }
+
+        public virtual CityModel City { get; set; }
+
     }
 }
