@@ -97,8 +97,9 @@ namespace WonderApp.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Print(e.Message);
                 return View(model); 
             }
         }

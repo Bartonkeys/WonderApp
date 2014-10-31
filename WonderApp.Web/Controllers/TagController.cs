@@ -166,7 +166,7 @@ namespace WonderApp.Web.Controllers
                 {
                     Name = id,
                     Address = "ADD ADDRESS",
-                    CityId = 1,
+                    CityId = DataContext.Cities.FirstOrDefault().Id,
                     Phone = "00000000",
                     PostCode = "ADD POSTCODE",
                     County = "ADD COUNTY",
