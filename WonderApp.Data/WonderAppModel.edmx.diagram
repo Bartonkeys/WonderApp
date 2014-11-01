@@ -43,6 +43,10 @@
         <AssociationConnector Association="WonderAppModel.FK_Cities_Locations" />
         <EntityTypeShape EntityType="WonderAppModel.Address" Width="1.5" PointX="7.125" PointY="9.125" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Addresses" />
+        <EntityTypeShape EntityType="WonderAppModel.Like" Width="1.5" PointX="12.625" PointY="6.75" />
+        <AssociationConnector Association="WonderAppModel.FK_Deal_Creator" />
+        <AssociationConnector Association="WonderAppModel.FK_UserLike" />
+        <AssociationConnector Association="WonderAppModel.FK_DealLike" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

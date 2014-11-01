@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WonderApp.Models.UserModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Userss</h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Create")">Create user</a>
+</p>
+@if (!Model.Any())
+{
+    <p>No users at moment.</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -80,5 +80,9 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "address")]
         public virtual AddressModel Address { get; set; }
+
+        [JsonProperty(PropertyName = "creator")]
+        public virtual UserModel Creator { get; set; }
+
     }
 }
