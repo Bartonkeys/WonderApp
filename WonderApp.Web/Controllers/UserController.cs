@@ -10,12 +10,12 @@ using WonderApp.Web.InfaStructure;
 
 namespace WonderApp.Web.Controllers
 {
-    public class CostController : BaseController
+    public class UserController : BaseController
     {
-        
+
         public ActionResult Index()
         {
-            return View(Mapper.Map<List<CostModel>>(DataContext.Costs.ToList()));
+            return View(Mapper.Map<List<UserModel>>(DataContext.AspNetUsers.ToList()));
         }
 
         [Authorize(Roles = "Admin")]
@@ -26,12 +26,12 @@ namespace WonderApp.Web.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Create(CostModel model)
+        public ActionResult Create(UserModel model)
         {
             try
             {
-                var cost = Mapper.Map<Cost>(model);
-                DataContext.Costs.Add(cost);
+                var user = Mapper.Map<AspNetUser>(model);
+                DataContext.AspNetUsers.Add(user);
 
                 return RedirectToAction("Create");
             }
@@ -44,17 +44,17 @@ namespace WonderApp.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
-            return View(Mapper.Map<CostModel>(DataContext.Costs.Find(id)));
+            return View(Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id)));
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Edit(CostModel model)
+        public ActionResult Edit(UserModel model)
         {
             try
             {
-                var cost = DataContext.Costs.Find((model.Id));
-                Mapper.Map(model, cost);
+                var user = DataContext.AspNetUsers.Find((model.Id));
+                Mapper.Map(model, user);
 
                 return RedirectToAction("Index");
             }
@@ -67,23 +67,23 @@ namespace WonderApp.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            var model = Mapper.Map<CostModel>(DataContext.Costs.Find(id));
+            var model = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Delete(CostModel model)
+        public ActionResult Delete(UserModel model)
         {
-            if (DataContext.Deals.Any(x => x.Cost.Id == model.Id))
+            if (DataContext.Deals.Any(x => x.Creator_User_Id == model.Id))
             {
-                AddClientMessage(ClientMessage.Warning, "Range is in use, so cannot be deleted");
+                AddClientMessage(ClientMessage.Warning, "User has created wonders, so cannot be deleted");
                 return View(model);
             }
 
-            var cost = DataContext.Costs.Find(model.Id);
+            var user = DataContext.AspNetUsers.Find(model.Id);
 
-            DataContext.Costs.Remove(cost);
+            DataContext.AspNetUsers.Remove(user);
 
             return RedirectToAction("Index");
         }

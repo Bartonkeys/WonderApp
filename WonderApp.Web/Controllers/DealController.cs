@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -96,8 +97,9 @@ namespace WonderApp.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Print(e.Message);
                 return View(model); 
             }
         }
@@ -115,10 +117,12 @@ namespace WonderApp.Web.Controllers
                 };
         }
 
+        //[Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
-
+            
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
+
             var model = CreateDealViewModel<DealEditModel>();
             model.DealModel = dealModel;
 
@@ -186,8 +190,9 @@ namespace WonderApp.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Print(e.Message);
                 return View();
             }
         }
@@ -265,6 +270,26 @@ namespace WonderApp.Web.Controllers
 
             return View(dealModel);
         }
+
+
+        [HttpPut]
+        public bool UpdatePriority(int dealId, bool priority)
+        {
+
+            try
+            {
+
+                return true;
+            }
+
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+        }
+
+
 
     }
 }

@@ -18,11 +18,13 @@ namespace WonderApp.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View(new CategoryModel());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(CategoryModel model)
         {
@@ -38,12 +40,14 @@ namespace WonderApp.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var model = Mapper.Map<CategoryModel>(DataContext.Categories.Find(id));
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(CategoryModel model)
         {
@@ -60,12 +64,14 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var model = Mapper.Map<CategoryModel>(DataContext.Categories.Find(id));
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Delete(CategoryModel model)
         {
