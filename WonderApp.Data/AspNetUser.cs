@@ -25,7 +25,6 @@ namespace WonderApp.Data
             this.Locations = new HashSet<Location>();
             this.Categories = new HashSet<Category>();
             this.Deals = new HashSet<Deal>();
-            this.Likes = new HashSet<Like>();
         }
     
         public string Id { get; set; }
@@ -52,6 +51,5 @@ namespace WonderApp.Data
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Deal> Deals { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
     }
 }

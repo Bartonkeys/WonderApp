@@ -20,7 +20,6 @@ namespace WonderApp.Data
             this.MyWonderUsers = new HashSet<AspNetUser>();
             this.MyRejectUsers = new HashSet<AspNetUser>();
             this.Images = new HashSet<Image>();
-            this.Likes1 = new HashSet<Like>();
         }
     
         public int Id { get; set; }
@@ -49,6 +48,5 @@ namespace WonderApp.Data
         public virtual City City { get; set; }
         public virtual Address Address { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<Like> Likes1 { get; set; }
     }
 }

@@ -18,7 +18,11 @@
                                 <div class="row" style="margin-bottom:10px;">
                                     @Html.LabelFor(model => model.DealModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })
+                                        <div class="input-group">
+                                            <span class="input-group-addon">#</span>
+                                            @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })  
+                                        </div>
+                                        
                                         @Html.ValidationMessageFor(model => model.DealModel.Title, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

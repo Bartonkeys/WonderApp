@@ -171,15 +171,6 @@
           <Property Name="Deal_Id" Type="int" Nullable="false" />
           <Property Name="Device_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Likes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="User_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Deal_Id" Type="int" Nullable="false" />
-          <Property Name="Timestamp" Type="datetime" />
-        </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="Id" />
@@ -328,6 +319,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Companies_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyCountry">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
@@ -416,18 +419,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DealLike">
-          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Deals">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Likes">
-              <PropertyRef Name="Deal_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DealLocation">
           <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
           <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
@@ -473,18 +464,6 @@
             </Principal>
             <Dependent Role="DealTag">
               <PropertyRef Name="Deals_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DealTag_Tag">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
-          <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tags">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DealTag">
-              <PropertyRef Name="Tags_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -548,18 +527,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserLike">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Likes">
-              <PropertyRef Name="User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="WonderAppModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -578,7 +545,6 @@
           <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
@@ -620,6 +586,10 @@
             <End Role="Locations" EntitySet="Locations" />
             <End Role="Cities" EntitySet="Cities" />
           </AssociationSet>
+          <AssociationSet Name="FK_Companies_Cities" Association="Self.FK_Companies_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyCountry" Association="Self.FK_CompanyCountry">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Companies" EntitySet="Companies" />
@@ -648,10 +618,6 @@
             <End Role="Deals" EntitySet="Deals" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_DealLike" Association="Self.FK_DealLike">
-            <End Role="Deals" EntitySet="Deals" />
-            <End Role="Likes" EntitySet="Likes" />
-          </AssociationSet>
           <AssociationSet Name="FK_DealLocation" Association="Self.FK_DealLocation">
             <End Role="Locations" EntitySet="Locations" />
             <End Role="Deals" EntitySet="Deals" />
@@ -666,10 +632,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_DealTag_Deal" Association="Self.FK_DealTag_Deal">
             <End Role="Deals" EntitySet="Deals" />
-            <End Role="DealTag" EntitySet="DealTag" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DealTag_Tag" Association="Self.FK_DealTag_Tag">
-            <End Role="Tags" EntitySet="Tags" />
             <End Role="DealTag" EntitySet="DealTag" />
           </AssociationSet>
           <AssociationSet Name="FK_DeviceImage" Association="Self.FK_DeviceImage">
@@ -691,10 +653,6 @@
           <AssociationSet Name="FK_UserDealWonders_Deal" Association="Self.FK_UserDealWonders_Deal">
             <End Role="Deals" EntitySet="Deals" />
             <End Role="UserDealWonders" EntitySet="UserDealWonders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserLike" Association="Self.FK_UserLike">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -803,18 +761,9 @@
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Deal" EntitySet="Deals" />
           </AssociationSet>
-          <EntitySet Name="Likes" EntityType="WonderAppModel.Like" />
           <AssociationSet Name="FK_Deal_Creator" Association="WonderAppModel.FK_Deal_Creator">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Deal" EntitySet="Deals" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserLike" Association="WonderAppModel.FK_UserLike">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Like" EntitySet="Likes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DealLike" Association="WonderAppModel.FK_DealLike">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Like" EntitySet="Likes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Deal">
@@ -846,7 +795,6 @@
           <NavigationProperty Name="Address" Relationship="WonderAppModel.FK_Deals_Addresses" FromRole="Deal" ToRole="Address" />
           <Property Name="Creator_User_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_Deal_Creator" FromRole="Deal" ToRole="AspNetUser" />
-          <NavigationProperty Name="Likes1" Relationship="WonderAppModel.FK_DealLike" FromRole="Deal" ToRole="Like" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -999,7 +947,6 @@
           <NavigationProperty Name="Categories" Relationship="WonderAppModel.AspNetUserCategory" FromRole="AspNetUser" ToRole="Category" />
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deal_Creator" FromRole="AspNetUser" ToRole="Deal" />
-          <NavigationProperty Name="Likes" Relationship="WonderAppModel.FK_UserLike" FromRole="AspNetUser" ToRole="Like" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -1155,17 +1102,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Like">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="User_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Deal_Id" Type="Int32" Nullable="false" />
-          <Property Name="Timestamp" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_UserLike" FromRole="Like" ToRole="AspNetUser" />
-          <NavigationProperty Name="Deal" Relationship="WonderAppModel.FK_DealLike" FromRole="Like" ToRole="Deal" />
-        </EntityType>
         <Association Name="FK_Deal_Creator">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
@@ -1175,30 +1111,6 @@
             </Principal>
             <Dependent Role="Deal">
               <PropertyRef Name="Creator_User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserLike">
-          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="WonderAppModel.Like" Role="Like" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Like">
-              <PropertyRef Name="User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DealLike">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
-          <End Type="WonderAppModel.Like" Role="Like" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Deal">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Like">
-              <PropertyRef Name="Deal_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1501,16 +1413,6 @@
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
                 <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Likes">
-            <EntityTypeMapping TypeName="WonderAppModel.Like">
-              <MappingFragment StoreEntitySet="Likes">
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="Deal_Id" ColumnName="Deal_Id" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

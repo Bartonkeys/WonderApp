@@ -42,6 +42,5 @@ namespace WonderApp.Data
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
-        public virtual DbSet<Like> Likes { get; set; }
     }
 }
