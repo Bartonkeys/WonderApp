@@ -243,6 +243,8 @@ namespace WonderApp.Web.Controllers
             deal.Category = DataContext.Categories.First(m => m.Id == dealCreateModel.Category.Id);
             deal.Company = DataContext.Companies.First(m => m.Id == dealCreateModel.Company.Id);
             deal.Cost = DataContext.Costs.First(m => m.Id == dealCreateModel.Cost.Id);
+            deal.Creator_User_Id = User.Identity.GetUserId();
+
 
             foreach (var image in dealCreateModel.Images)
             {
