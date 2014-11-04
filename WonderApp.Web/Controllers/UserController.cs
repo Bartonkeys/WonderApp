@@ -33,6 +33,8 @@ namespace WonderApp.Web.Controllers
                 var user = Mapper.Map<AspNetUser>(model);
                 DataContext.AspNetUsers.Add(user);
 
+
+
                 return RedirectToAction("Create");
             }
             catch
