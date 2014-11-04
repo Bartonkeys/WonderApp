@@ -1,18 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.InfaStructure;
+using WonderApp.Web.Models;
 
 namespace WonderApp.Web.Controllers
 {
     public class UserController : BaseController
     {
+        private ApplicationUserManager _userManager;
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public UserController()
+        {
+
+        }
+
+        public UserController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+
+        }
         public ActionResult Index()
         {
             return View(Mapper.Map<List<UserModel>>(DataContext.AspNetUsers.ToList()));
@@ -26,14 +54,27 @@ namespace WonderApp.Web.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Create(UserModel model)
+        public async Task<ActionResult> Create(UserModel model)
         {
             try
             {
                 var user = Mapper.Map<AspNetUser>(model);
-                DataContext.AspNetUsers.Add(user);
-
-
+                
+                var newUser = new ApplicationUser
+                {
+                    UserName = user.Name,
+                    Email = user.Email
+                };
+               
+                var result = await UserManager.CreateAsync(newUser, "Y)rma1234");
+                if (result.Succeeded)
+                {
+                   
+                }
+                else
+                {
+                    Debug.Print(result.ToString());
+                }
 
                 return RedirectToAction("Create");
             }
@@ -44,7 +85,7 @@ namespace WonderApp.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             return View(Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id)));
         }
@@ -67,7 +108,7 @@ namespace WonderApp.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             var model = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
             return View(model);
