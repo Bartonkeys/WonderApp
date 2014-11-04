@@ -35,6 +35,7 @@ namespace WonderApp.Core.EFDataContext
         public IDbSet<Device> Devices { get { return _context.Devices; } }
         public IDbSet<Image> Images { get { return _context.Images; } }
         public IDbSet<City> Cities { get { return _context.Cities; } }
+        public IDbSet<Season> Seasons { get { return _context.Seasons; } }
 
         public void Commit()
         {

@@ -117,6 +117,9 @@
     <Compile Include="Reminder.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Season.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tag.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
