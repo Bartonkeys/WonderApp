@@ -101,6 +101,7 @@
     <Compile Include="GenderModel.cs" />
     <Compile Include="AspNetUserLoginModel.cs" />
     <Compile Include="ReminderModel.cs" />
+    <Compile Include="SeasonModel.cs" />
     <Compile Include="TagModel.cs" />
     <Compile Include="CompanyModel.cs" />
     <Compile Include="DealModel.cs" />

@@ -56,7 +56,8 @@ namespace WonderApp.Web.Controllers
                 Category = new CategoryModel(),
                 Company = new CompanyModel(),
                 Cost = new CostModel(),
-                Location = new LocationModel()
+                Location = new LocationModel(),
+                Season = new SeasonModel()
             };
 
             return View(model);
@@ -223,6 +224,8 @@ namespace WonderApp.Web.Controllers
                 Companies = Mapper.Map<List<CompanyModel>>(DataContext.Companies).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
                 Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Seasons = Mapper.Map<List<SeasonModel>>(DataContext.Seasons).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }
@@ -243,6 +246,8 @@ namespace WonderApp.Web.Controllers
             deal.Category = DataContext.Categories.First(m => m.Id == dealCreateModel.Category.Id);
             deal.Company = DataContext.Companies.First(m => m.Id == dealCreateModel.Company.Id);
             deal.Cost = DataContext.Costs.First(m => m.Id == dealCreateModel.Cost.Id);
+            deal.Creator_User_Id = User.Identity.GetUserId();
+
 
             foreach (var image in dealCreateModel.Images)
             {

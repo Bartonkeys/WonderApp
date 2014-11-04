@@ -139,6 +139,7 @@
           <Property Name="AlwaysAvailable" Type="bit" />
           <Property Name="AddressId" Type="int" />
           <Property Name="Creator_User_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Season_Id" Type="int" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -187,6 +188,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
           <Property Name="User_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Seasons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -455,6 +463,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Deals_Seasons">
+          <End Role="Seasons" Type="Self.Seasons" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seasons">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="Season_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DealTag_Deal">
           <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
           <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
@@ -547,6 +567,7 @@
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seasons" EntityType="Self.Seasons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealReject" EntityType="Self.UserDealReject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealWonders" EntityType="Self.UserDealWonders" Schema="dbo" store:Type="Tables" />
@@ -630,6 +651,10 @@
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
+          <AssociationSet Name="FK_Deals_Seasons" Association="Self.FK_Deals_Seasons">
+            <End Role="Seasons" EntitySet="Seasons" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
           <AssociationSet Name="FK_DealTag_Deal" Association="Self.FK_DealTag_Deal">
             <End Role="Deals" EntitySet="Deals" />
             <End Role="DealTag" EntitySet="DealTag" />
@@ -670,24 +695,24 @@
           <EntitySet Name="Genders" EntityType="WonderAppModel.Gender" />
           <EntitySet Name="Countries" EntityType="WonderAppModel.Country" />
           <AssociationSet Name="DealCompany" Association="WonderAppModel.DealCompany">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Company" EntitySet="Companies" />
+            <End EntitySet="Deals" Role="Deal" />
+            <End EntitySet="Companies" Role="Company" />
           </AssociationSet>
           <AssociationSet Name="CompanyCountry" Association="WonderAppModel.CompanyCountry">
             <End Role="Company" EntitySet="Companies" />
             <End Role="Country" EntitySet="Countries" />
           </AssociationSet>
           <AssociationSet Name="DealTag" Association="WonderAppModel.DealTag">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Tag" EntitySet="Tags" />
+            <End EntitySet="Deals" Role="Deal" />
+            <End EntitySet="Tags" Role="Tag" />
           </AssociationSet>
           <AssociationSet Name="DealLocation" Association="WonderAppModel.DealLocation">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Location" EntitySet="Locations" />
+            <End EntitySet="Deals" Role="Deal" />
+            <End EntitySet="Locations" Role="Location" />
           </AssociationSet>
           <AssociationSet Name="DealCost" Association="WonderAppModel.DealCost">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Cost" EntitySet="Costs" />
+            <End EntitySet="Deals" Role="Deal" />
+            <End EntitySet="Costs" Role="Cost" />
           </AssociationSet>
           <EntitySet Name="AspNetRoles" EntityType="WonderAppModel.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="WonderAppModel.AspNetUserClaim" />
@@ -710,12 +735,12 @@
             <End Role="Gender" EntitySet="Genders" />
           </AssociationSet>
           <AssociationSet Name="UserDealWonders" Association="WonderAppModel.UserDealWonders">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Deal" EntitySet="Deals" />
+            <End EntitySet="AspNetUsers" Role="AspNetUser" />
+            <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
           <AssociationSet Name="UserDealReject" Association="WonderAppModel.UserDealReject">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Deal" EntitySet="Deals" />
+            <End EntitySet="AspNetUsers" Role="AspNetUser" />
+            <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserReminder" Association="WonderAppModel.AspNetUserReminder">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -730,13 +755,13 @@
             <End Role="Category" EntitySet="Categories" />
           </AssociationSet>
           <AssociationSet Name="CategoryDeal" Association="WonderAppModel.CategoryDeal">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Deal" EntitySet="Deals" />
+            <End EntitySet="Categories" Role="Category" />
+            <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
           <EntitySet Name="Images" EntityType="WonderAppModel.Image" />
           <AssociationSet Name="DealImage" Association="WonderAppModel.DealImage">
-            <End Role="Deal" EntitySet="Deals" />
-            <End Role="Image" EntitySet="Images" />
+            <End EntitySet="Deals" Role="Deal" />
+            <End EntitySet="Images" Role="Image" />
           </AssociationSet>
           <EntitySet Name="Devices" EntityType="WonderAppModel.Device" />
           <AssociationSet Name="DeviceImage" Association="WonderAppModel.DeviceImage">
@@ -749,8 +774,8 @@
             <End Role="Company" EntitySet="Companies" />
           </AssociationSet>
           <AssociationSet Name="FK_Deals_Cities" Association="WonderAppModel.FK_Deals_Cities">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="Deal" EntitySet="Deals" />
+            <End EntitySet="Cities" Role="City" />
+            <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
           <AssociationSet Name="FK_Cities_Locations" Association="WonderAppModel.FK_Cities_Locations">
             <End Role="Location" EntitySet="Locations" />
@@ -758,11 +783,16 @@
           </AssociationSet>
           <EntitySet Name="Addresses" EntityType="WonderAppModel.Address" />
           <AssociationSet Name="FK_Deals_Addresses" Association="WonderAppModel.FK_Deals_Addresses">
-            <End Role="Address" EntitySet="Addresses" />
-            <End Role="Deal" EntitySet="Deals" />
+            <End EntitySet="Addresses" Role="Address" />
+            <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
           <AssociationSet Name="FK_Deal_Creator" Association="WonderAppModel.FK_Deal_Creator">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End EntitySet="AspNetUsers" Role="AspNetUser" />
+            <End EntitySet="Deals" Role="Deal" />
+          </AssociationSet>
+          <EntitySet Name="Seasons" EntityType="WonderAppModel.Season" />
+          <AssociationSet Name="FK_Deals_Seasons" Association="WonderAppModel.FK_Deals_Seasons">
+            <End Role="Season" EntitySet="Seasons" />
             <End Role="Deal" EntitySet="Deals" />
           </AssociationSet>
           </EntityContainer>
@@ -770,12 +800,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Likes" Type="Int32" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Title" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Url" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="ExpiryDate" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="Likes" Nullable="false" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="WonderAppModel.DealCompany" FromRole="Deal" ToRole="Company" />
           <NavigationProperty Name="Tags" Relationship="WonderAppModel.DealTag" FromRole="Deal" ToRole="Tag" />
           <NavigationProperty Name="Location" Relationship="WonderAppModel.DealLocation" FromRole="Deal" ToRole="Location" />
@@ -784,17 +814,19 @@
           <NavigationProperty Name="MyRejectUsers" Relationship="WonderAppModel.UserDealReject" FromRole="Deal" ToRole="AspNetUser" />
           <NavigationProperty Name="Category" Relationship="WonderAppModel.CategoryDeal" FromRole="Deal" ToRole="Category" />
           <NavigationProperty Name="Images" Relationship="WonderAppModel.DealImage" FromRole="Deal" ToRole="Image" />
-          <Property Name="Publish" Type="Boolean" Nullable="false" />
+          <Property Name="Publish" Nullable="false" Type="Boolean" />
           <Property Name="Archived" Type="Boolean" />
-          <Property Name="IntroDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IntroDescription" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="Priority" Type="Boolean" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="CityId" Nullable="false" Type="Int32" />
           <NavigationProperty Name="City" Relationship="WonderAppModel.FK_Deals_Cities" FromRole="Deal" ToRole="City" />
           <Property Name="AlwaysAvailable" Type="Boolean" />
           <Property Name="AddressId" Type="Int32" />
           <NavigationProperty Name="Address" Relationship="WonderAppModel.FK_Deals_Addresses" FromRole="Deal" ToRole="Address" />
-          <Property Name="Creator_User_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_User_Id" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_Deal_Creator" FromRole="Deal" ToRole="AspNetUser" />
+          <Property Name="Season_Id" Type="Int32" />
+          <NavigationProperty Name="Season" Relationship="WonderAppModel.FK_Deals_Seasons" FromRole="Deal" ToRole="Season" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -872,24 +904,24 @@
           <NavigationProperty Name="Companies" Relationship="WonderAppModel.CompanyCountry" FromRole="Country" ToRole="Company" />
         </EntityType>
         <Association Name="DealCompany">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
-          <End Type="WonderAppModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
+          <End Type="WonderAppModel.Company" Multiplicity="1" Role="Company" />
         </Association>
         <Association Name="CompanyCountry">
           <End Type="WonderAppModel.Company" Role="Company" Multiplicity="*" />
           <End Type="WonderAppModel.Country" Role="Country" Multiplicity="0..1" />
         </Association>
         <Association Name="DealTag">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
-          <End Type="WonderAppModel.Tag" Role="Tag" Multiplicity="*" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
+          <End Type="WonderAppModel.Tag" Multiplicity="*" Role="Tag" />
         </Association>
         <Association Name="DealLocation">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
-          <End Type="WonderAppModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
+          <End Type="WonderAppModel.Location" Multiplicity="1" Role="Location" />
         </Association>
         <Association Name="DealCost">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
-          <End Type="WonderAppModel.Cost" Role="Cost" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
+          <End Type="WonderAppModel.Cost" Multiplicity="0..1" Role="Cost" />
         </Association>
         <EntityType Name="AspNetRole">
           <Key>
@@ -985,12 +1017,12 @@
           <End Type="WonderAppModel.Gender" Role="Gender" Multiplicity="0..1" />
         </Association>
         <Association Name="UserDealWonders">
-          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.AspNetUser" Multiplicity="*" Role="AspNetUser" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
         </Association>
         <Association Name="UserDealReject">
-          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.AspNetUser" Multiplicity="*" Role="AspNetUser" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
         </Association>
         <Association Name="AspNetUserReminder">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -1005,8 +1037,8 @@
           <End Type="WonderAppModel.Category" Role="Category" Multiplicity="*" />
         </Association>
         <Association Name="CategoryDeal">
-          <End Type="WonderAppModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Category" Multiplicity="0..1" Role="Category" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
         </Association>
         <EntityType Name="Image">
           <Key>
@@ -1018,8 +1050,8 @@
           <NavigationProperty Name="Device" Relationship="WonderAppModel.DeviceImage" FromRole="Image" ToRole="Device" />
         </EntityType>
         <Association Name="DealImage">
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="1" />
-          <End Type="WonderAppModel.Image" Role="Image" Multiplicity="*" />
+          <End Type="WonderAppModel.Deal" Multiplicity="1" Role="Deal" />
+          <End Type="WonderAppModel.Image" Multiplicity="*" Role="Image" />
         </Association>
         <EntityType Name="Device">
           <Key>
@@ -1057,8 +1089,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deals_Cities">
-          <End Type="WonderAppModel.City" Role="City" Multiplicity="1" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.City" Multiplicity="1" Role="City" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id" />
@@ -1091,8 +1123,8 @@
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deals_Addresses" FromRole="Address" ToRole="Deal" />
         </EntityType>
         <Association Name="FK_Deals_Addresses">
-          <End Type="WonderAppModel.Address" Role="Address" Multiplicity="0..1" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.Address" Multiplicity="0..1" Role="Address" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
           <ReferentialConstraint>
             <Principal Role="Address">
               <PropertyRef Name="Id" />
@@ -1103,14 +1135,34 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deal_Creator">
-          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <End Type="WonderAppModel.AspNetUser" Multiplicity="0..1" Role="AspNetUser" />
+          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
           <ReferentialConstraint>
             <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Deal">
               <PropertyRef Name="Creator_User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deals_Seasons" FromRole="Season" ToRole="Deal" />
+        </EntityType>
+        <Association Name="FK_Deals_Seasons">
+          <End Type="WonderAppModel.Season" Role="Season" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deal">
+              <PropertyRef Name="Season_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1123,7 +1175,8 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
-          <ScalarProperty Name="Creator_User_Id" ColumnName="Creator_User_Id" />
+                <ScalarProperty Name="Season_Id" ColumnName="Season_Id" />
+                <ScalarProperty Name="Creator_User_Id" ColumnName="Creator_User_Id" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="AlwaysAvailable" ColumnName="AlwaysAvailable" />
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
@@ -1413,6 +1466,14 @@
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
                 <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seasons">
+            <EntityTypeMapping TypeName="WonderAppModel.Season">
+              <MappingFragment StoreEntitySet="Seasons">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

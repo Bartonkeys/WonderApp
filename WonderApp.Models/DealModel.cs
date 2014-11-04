@@ -84,5 +84,8 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "creator")]
         public virtual UserModel Creator { get; set; }
 
+        [JsonProperty(PropertyName = "season")]
+        public virtual SeasonModel Season { get; set; }
+
     }
 }
