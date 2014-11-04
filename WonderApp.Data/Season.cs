@@ -12,14 +12,16 @@ namespace WonderApp.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Like
+    public partial class Season
     {
-        public long Id { get; set; }
-        public string User_Id { get; set; }
-        public int Deal_Id { get; set; }
-        public Nullable<System.DateTime> Timestamp { get; set; }
+        public Season()
+        {
+            this.Deals = new HashSet<Deal>();
+        }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Deal Deal { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<Deal> Deals { get; set; }
     }
 }
