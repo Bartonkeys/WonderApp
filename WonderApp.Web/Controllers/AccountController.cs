@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using WonderApp.Models;
 using WonderApp.Web.Models;
 
 namespace WonderApp.Web.Controllers
@@ -403,6 +404,16 @@ namespace WonderApp.Web.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        // POST: /Account/CreateUser
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ApplicationUser CreateUser(string username, string password)
+        {
+            var newUser = new ApplicationUser {UserName = username};
+            var user = UserManager.Create(newUser, password);
+            return newUser;
         }
 
         #region Helpers

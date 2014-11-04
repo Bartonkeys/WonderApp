@@ -29,6 +29,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Images, opt => opt.Ignore())
                 .ForMember(e => e.City, opt => opt.Ignore())
                 .ForMember(e => e.AspNetUser, opt => opt.Ignore())
+                .ForMember(e => e.Season, opt => opt.Ignore())
                 .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 

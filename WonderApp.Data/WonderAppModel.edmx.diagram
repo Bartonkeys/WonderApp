@@ -37,14 +37,14 @@
         <AssociationConnector Association="WonderAppModel.DealImage" />
         <EntityTypeShape EntityType="WonderAppModel.Device" Width="1.5" PointX="13.125" PointY="0.5" />
         <AssociationConnector Association="WonderAppModel.DeviceImage" />
-        <EntityTypeShape EntityType="WonderAppModel.City" Width="1.5" PointX="9.625" PointY="7.25" />
+        <EntityTypeShape EntityType="WonderAppModel.City" Width="1.5" PointX="9.5" PointY="7.25" />
         <AssociationConnector Association="WonderAppModel.FK_Companies_Cities" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Cities" />
         <AssociationConnector Association="WonderAppModel.FK_Cities_Locations" />
         <EntityTypeShape EntityType="WonderAppModel.Address" Width="1.5" PointX="7.125" PointY="9.125" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Addresses" />
         <AssociationConnector Association="WonderAppModel.FK_Deal_Creator" />
-        <EntityTypeShape EntityType="WonderAppModel.Season" Width="1.5" PointX="9.625" PointY="9.75" />
+        <EntityTypeShape EntityType="WonderAppModel.Season" Width="1.5" PointX="9.5" PointY="9.625" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Seasons" />
         </Diagram>
     </edmx:Diagrams>

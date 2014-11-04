@@ -4,37 +4,37 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="WonderAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
+    <Schema Namespace="WonderAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Addresses">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="AddressLine1" MaxLength="200" Type="nvarchar" />
-          <Property Name="AddressLine2" MaxLength="200" Type="nvarchar" />
-          <Property Name="PostCode" MaxLength="50" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="200" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="200" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="Name" Nullable="false" MaxLength="256" Type="nvarchar" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserCategory">
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="Categories_Id" />
           </Key>
-          <Property Name="UserId" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="Categories_Id" Nullable="false" Type="int" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Categories_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ClaimType" Type="nvarchar(max)" />
           <Property Name="ClaimValue" Type="nvarchar(max)" />
         </EntityType>
@@ -44,101 +44,101 @@
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="ProviderKey" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" Type="nvarchar" />
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
             <PropertyRef Name="RoleId" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="RoleId" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" Type="nvarchar" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="Email" MaxLength="256" Type="nvarchar" />
-          <Property Name="EmailConfirmed" Nullable="false" Type="bit" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
           <Property Name="SecurityStamp" Type="nvarchar(max)" />
           <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Nullable="false" Type="bit" />
-          <Property Name="TwoFactorEnabled" Nullable="false" Type="bit" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
           <Property Name="LockoutEndDateUtc" Type="datetime" />
-          <Property Name="LockoutEnabled" Nullable="false" Type="bit" />
-          <Property Name="AccessFailedCount" Nullable="false" Type="int" />
-          <Property Name="UserName" Nullable="false" MaxLength="256" Type="nvarchar" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Gender_Id" Type="int" />
-          <Property Name="Name" MaxLength="512" Type="nvarchar" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Cities">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" MaxLength="100" Type="varchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="LocationId" Type="int" />
         </EntityType>
         <EntityType Name="Companies">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="Address" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="PostCode" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="County" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="Phone" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="County" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Country_Id" Type="int" />
-          <Property Name="CityId" Nullable="false" Type="int" />
+          <Property Name="CityId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Costs">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Range" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Range" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Deals">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Title" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="Description" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="Url" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="ExpiryDate" Nullable="false" Type="datetime" />
-          <Property Name="Likes" Nullable="false" Type="int" />
-          <Property Name="Publish" Nullable="false" Type="bit" />
-          <Property Name="Company_Id" Nullable="false" Type="int" />
-          <Property Name="Location_Id" Nullable="false" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+          <Property Name="Likes" Type="int" Nullable="false" />
+          <Property Name="Publish" Type="bit" Nullable="false" />
+          <Property Name="Company_Id" Type="int" Nullable="false" />
+          <Property Name="Location_Id" Type="int" Nullable="false" />
           <Property Name="Cost_Id" Type="int" />
           <Property Name="Category_Id" Type="int" />
           <Property Name="Archived" Type="bit" />
           <Property Name="IntroDescription" Type="nvarchar(max)" />
           <Property Name="Priority" Type="bit" />
-          <Property Name="CityId" Nullable="false" Type="int" />
+          <Property Name="CityId" Type="int" Nullable="false" />
           <Property Name="AlwaysAvailable" Type="bit" />
           <Property Name="AddressId" Type="int" />
-          <Property Name="Creator_User_Id" MaxLength="128" Type="nvarchar" />
+          <Property Name="Creator_User_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Season_Id" Type="int" />
         </EntityType>
         <EntityType Name="DealTag">
@@ -146,82 +146,82 @@
             <PropertyRef Name="Deals_Id" />
             <PropertyRef Name="Tags_Id" />
           </Key>
-          <Property Name="Deals_Id" Nullable="false" Type="int" />
-          <Property Name="Tags_Id" Nullable="false" Type="int" />
+          <Property Name="Deals_Id" Type="int" Nullable="false" />
+          <Property Name="Tags_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Devices">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Type" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Genders">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="url" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="Deal_Id" Nullable="false" Type="int" />
-          <Property Name="Device_Id" Nullable="false" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Deal_Id" Type="int" Nullable="false" />
+          <Property Name="Device_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="AspNetUser_Id" MaxLength="128" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Geography" Type="geography" />
         </EntityType>
         <EntityType Name="Reminders">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Time" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="User_Id" MaxLength="128" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="User_Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Seasons">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" MaxLength="50" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDealReject">
           <Key>
             <PropertyRef Name="MyRejectUsers_Id" />
             <PropertyRef Name="MyRejects_Id" />
           </Key>
-          <Property Name="MyRejectUsers_Id" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="MyRejects_Id" Nullable="false" Type="int" />
+          <Property Name="MyRejectUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="MyRejects_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDealWonders">
           <Key>
             <PropertyRef Name="MyWonderUsers_Id" />
             <PropertyRef Name="MyWonders_Id" />
           </Key>
-          <Property Name="MyWonderUsers_Id" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="MyWonders_Id" Nullable="false" Type="int" />
+          <Property Name="MyWonderUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="MyWonders_Id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUserCategory_AspNetUser">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.AspNetUserCategory" Multiplicity="*" Role="AspNetUserCategory" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUserCategory" Type="Self.AspNetUserCategory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -232,8 +232,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserCategory_Category">
-          <End Type="Self.Categories" Multiplicity="1" Role="Categories" />
-          <End Type="Self.AspNetUserCategory" Multiplicity="*" Role="AspNetUserCategory" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="AspNetUserCategory" Type="Self.AspNetUserCategory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="Id" />
@@ -244,8 +244,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserGender">
-          <End Type="Self.Genders" Multiplicity="0..1" Role="Genders" />
-          <End Type="Self.AspNetUsers" Multiplicity="*" Role="AspNetUsers" />
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Genders">
               <PropertyRef Name="Id" />
@@ -256,8 +256,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserLocation">
-          <End Type="Self.AspNetUsers" Multiplicity="0..1" Role="AspNetUsers" />
-          <End Type="Self.Locations" Multiplicity="*" Role="Locations" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -268,8 +268,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserReminder">
-          <End Type="Self.AspNetUsers" Multiplicity="0..1" Role="AspNetUsers" />
-          <End Type="Self.Reminders" Multiplicity="*" Role="Reminders" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -280,8 +280,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserRoles_AspNetRole">
-          <End Type="Self.AspNetRoles" Multiplicity="1" Role="AspNetRoles" />
-          <End Type="Self.AspNetUserRoles" Multiplicity="*" Role="AspNetUserRoles" />
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetRoles">
               <PropertyRef Name="Id" />
@@ -292,8 +292,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserRoles_AspNetUser">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.AspNetUserRoles" Multiplicity="*" Role="AspNetUserRoles" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -304,8 +304,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CategoryDeal">
-          <End Type="Self.Categories" Multiplicity="0..1" Role="Categories" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="Id" />
@@ -316,8 +316,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cities_Locations">
-          <End Type="Self.Locations" Multiplicity="0..1" Role="Locations" />
-          <End Type="Self.Cities" Multiplicity="*" Role="Cities" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Locations">
               <PropertyRef Name="Id" />
@@ -328,8 +328,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Companies_Cities">
-          <End Type="Self.Cities" Multiplicity="1" Role="Cities" />
-          <End Type="Self.Companies" Multiplicity="*" Role="Companies" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cities">
               <PropertyRef Name="Id" />
@@ -340,8 +340,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CompanyCountry">
-          <End Type="Self.Countries" Multiplicity="0..1" Role="Countries" />
-          <End Type="Self.Companies" Multiplicity="*" Role="Companies" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Countries">
               <PropertyRef Name="Id" />
@@ -352,10 +352,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Self.AspNetUserClaims" Multiplicity="*" Role="AspNetUserClaims" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -366,10 +366,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Self.AspNetUserLogins" Multiplicity="*" Role="AspNetUserLogins" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -380,8 +380,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deal_Creator">
-          <End Type="Self.AspNetUsers" Multiplicity="0..1" Role="AspNetUsers" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -392,8 +392,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DealCompany">
-          <End Type="Self.Companies" Multiplicity="1" Role="Companies" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Companies">
               <PropertyRef Name="Id" />
@@ -404,8 +404,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DealCost">
-          <End Type="Self.Costs" Multiplicity="0..1" Role="Costs" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Costs" Type="Self.Costs" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Costs">
               <PropertyRef Name="Id" />
@@ -416,8 +416,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DealImage">
-          <End Type="Self.Deals" Multiplicity="1" Role="Deals" />
-          <End Type="Self.Images" Multiplicity="*" Role="Images" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Deals">
               <PropertyRef Name="Id" />
@@ -428,8 +428,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DealLocation">
-          <End Type="Self.Locations" Multiplicity="1" Role="Locations" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Locations">
               <PropertyRef Name="Id" />
@@ -440,8 +440,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deals_Addresses">
-          <End Type="Self.Addresses" Multiplicity="0..1" Role="Addresses" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Addresses" Type="Self.Addresses" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Addresses">
               <PropertyRef Name="Id" />
@@ -452,8 +452,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deals_Cities">
-          <End Type="Self.Cities" Multiplicity="1" Role="Cities" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cities">
               <PropertyRef Name="Id" />
@@ -464,8 +464,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Deals_Seasons">
-          <End Type="Self.Seasons" Multiplicity="0..1" Role="Seasons" />
-          <End Type="Self.Deals" Multiplicity="*" Role="Deals" />
+          <End Role="Seasons" Type="Self.Seasons" Multiplicity="0..1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Seasons">
               <PropertyRef Name="Id" />
@@ -476,8 +476,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DealTag_Deal">
-          <End Type="Self.Deals" Multiplicity="1" Role="Deals" />
-          <End Type="Self.DealTag" Multiplicity="*" Role="DealTag" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="DealTag" Type="Self.DealTag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Deals">
               <PropertyRef Name="Id" />
@@ -488,8 +488,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeviceImage">
-          <End Type="Self.Devices" Multiplicity="1" Role="Devices" />
-          <End Type="Self.Images" Multiplicity="*" Role="Images" />
+          <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Devices">
               <PropertyRef Name="Id" />
@@ -500,8 +500,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserDealReject_AspNetUser">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.UserDealReject" Multiplicity="*" Role="UserDealReject" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserDealReject" Type="Self.UserDealReject" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -512,8 +512,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserDealReject_Deal">
-          <End Type="Self.Deals" Multiplicity="1" Role="Deals" />
-          <End Type="Self.UserDealReject" Multiplicity="*" Role="UserDealReject" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="UserDealReject" Type="Self.UserDealReject" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Deals">
               <PropertyRef Name="Id" />
@@ -524,8 +524,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserDealWonders_AspNetUser">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.UserDealWonders" Multiplicity="*" Role="UserDealWonders" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserDealWonders" Type="Self.UserDealWonders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -536,8 +536,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserDealWonders_Deal">
-          <End Type="Self.Deals" Multiplicity="1" Role="Deals" />
-          <End Type="Self.UserDealWonders" Multiplicity="*" Role="UserDealWonders" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="UserDealWonders" Type="Self.UserDealWonders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Deals">
               <PropertyRef Name="Id" />
@@ -572,112 +572,112 @@
           <EntitySet Name="UserDealReject" EntityType="Self.UserDealReject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealWonders" EntityType="Self.UserDealWonders" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetUserCategory_AspNetUser" Association="Self.FK_AspNetUserCategory_AspNetUser">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="AspNetUserCategory" Role="AspNetUserCategory" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserCategory_Category" Association="Self.FK_AspNetUserCategory_Category">
-            <End EntitySet="Categories" Role="Categories" />
-            <End EntitySet="AspNetUserCategory" Role="AspNetUserCategory" />
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserGender" Association="Self.FK_AspNetUserGender">
-            <End EntitySet="Genders" Role="Genders" />
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserLocation" Association="Self.FK_AspNetUserLocation">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="Locations" Role="Locations" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Locations" EntitySet="Locations" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserReminder" Association="Self.FK_AspNetUserReminder">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="Reminders" Role="Reminders" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
-            <End EntitySet="AspNetRoles" Role="AspNetRoles" />
-            <End EntitySet="AspNetUserRoles" Role="AspNetUserRoles" />
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="AspNetUserRoles" Role="AspNetUserRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_CategoryDeal" Association="Self.FK_CategoryDeal">
-            <End EntitySet="Categories" Role="Categories" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_Cities_Locations" Association="Self.FK_Cities_Locations">
-            <End EntitySet="Locations" Role="Locations" />
-            <End EntitySet="Cities" Role="Cities" />
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Cities" EntitySet="Cities" />
           </AssociationSet>
           <AssociationSet Name="FK_Companies_Cities" Association="Self.FK_Companies_Cities">
-            <End EntitySet="Cities" Role="Cities" />
-            <End EntitySet="Companies" Role="Companies" />
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Companies" EntitySet="Companies" />
           </AssociationSet>
           <AssociationSet Name="FK_CompanyCountry" Association="Self.FK_CompanyCountry">
-            <End EntitySet="Countries" Role="Countries" />
-            <End EntitySet="Companies" Role="Companies" />
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Companies" EntitySet="Companies" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="AspNetUserClaims" Role="AspNetUserClaims" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="AspNetUserLogins" Role="AspNetUserLogins" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
           <AssociationSet Name="FK_Deal_Creator" Association="Self.FK_Deal_Creator">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_DealCompany" Association="Self.FK_DealCompany">
-            <End EntitySet="Companies" Role="Companies" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_DealCost" Association="Self.FK_DealCost">
-            <End EntitySet="Costs" Role="Costs" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Costs" EntitySet="Costs" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_DealImage" Association="Self.FK_DealImage">
-            <End EntitySet="Deals" Role="Deals" />
-            <End EntitySet="Images" Role="Images" />
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="Images" EntitySet="Images" />
           </AssociationSet>
           <AssociationSet Name="FK_DealLocation" Association="Self.FK_DealLocation">
-            <End EntitySet="Locations" Role="Locations" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_Deals_Addresses" Association="Self.FK_Deals_Addresses">
-            <End EntitySet="Addresses" Role="Addresses" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Addresses" EntitySet="Addresses" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_Deals_Cities" Association="Self.FK_Deals_Cities">
-            <End EntitySet="Cities" Role="Cities" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_Deals_Seasons" Association="Self.FK_Deals_Seasons">
-            <End EntitySet="Seasons" Role="Seasons" />
-            <End EntitySet="Deals" Role="Deals" />
+            <End Role="Seasons" EntitySet="Seasons" />
+            <End Role="Deals" EntitySet="Deals" />
           </AssociationSet>
           <AssociationSet Name="FK_DealTag_Deal" Association="Self.FK_DealTag_Deal">
-            <End EntitySet="Deals" Role="Deals" />
-            <End EntitySet="DealTag" Role="DealTag" />
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="DealTag" EntitySet="DealTag" />
           </AssociationSet>
           <AssociationSet Name="FK_DeviceImage" Association="Self.FK_DeviceImage">
-            <End EntitySet="Devices" Role="Devices" />
-            <End EntitySet="Images" Role="Images" />
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="Images" EntitySet="Images" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDealReject_AspNetUser" Association="Self.FK_UserDealReject_AspNetUser">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="UserDealReject" Role="UserDealReject" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserDealReject" EntitySet="UserDealReject" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDealReject_Deal" Association="Self.FK_UserDealReject_Deal">
-            <End EntitySet="Deals" Role="Deals" />
-            <End EntitySet="UserDealReject" Role="UserDealReject" />
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="UserDealReject" EntitySet="UserDealReject" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDealWonders_AspNetUser" Association="Self.FK_UserDealWonders_AspNetUser">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="UserDealWonders" Role="UserDealWonders" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserDealWonders" EntitySet="UserDealWonders" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDealWonders_Deal" Association="Self.FK_UserDealWonders_Deal">
-            <End EntitySet="Deals" Role="Deals" />
-            <End EntitySet="UserDealWonders" Role="UserDealWonders" />
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="UserDealWonders" EntitySet="UserDealWonders" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -792,8 +792,8 @@
           </AssociationSet>
           <EntitySet Name="Seasons" EntityType="WonderAppModel.Season" />
           <AssociationSet Name="FK_Deals_Seasons" Association="WonderAppModel.FK_Deals_Seasons">
-            <End EntitySet="Seasons" Role="Season" />
-            <End EntitySet="Deals" Role="Deal" />
+            <End Role="Season" EntitySet="Seasons" />
+            <End Role="Deal" EntitySet="Deals" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Deal">
@@ -1150,13 +1150,13 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deals_Seasons" FromRole="Season" ToRole="Deal" />
         </EntityType>
         <Association Name="FK_Deals_Seasons">
-          <End Type="WonderAppModel.Season" Multiplicity="0..1" Role="Season" />
-          <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
+          <End Type="WonderAppModel.Season" Role="Season" Multiplicity="0..1" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Season">
               <PropertyRef Name="Id" />
