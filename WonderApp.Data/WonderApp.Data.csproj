@@ -110,9 +110,6 @@
     <Compile Include="Image.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Like.cs">
-      <DependentUpon>WonderAppModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>

@@ -18,7 +18,11 @@
                                 <div class="row" style="margin-bottom:10px;">
                                     @Html.LabelFor(model => model.DealModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })
+                                        <div class="input-group">
+                                            <span class="input-group-addon">#</span>
+                                            @Html.TextBoxFor(model => model.DealModel.Title, htmlAttributes: new { style = "width: 100%" })  
+                                        </div>
+                                        
                                         @Html.ValidationMessageFor(model => model.DealModel.Title, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -81,9 +85,9 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                @Html.LabelFor(model => model.DealModel.Season.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.DealModel.Season.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.DealModel.Season.Id, Model.Seasons, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                    @Html.DropDownListFor(model => model.DealModel.Season.Id, Model.Seasons, htmlAttributes: new { style = "width: 100%" })
                                     @Html.ValidationMessageFor(model => model.DealModel.Season.Id, "", new { @class = "text-danger" })
                                 </div>
                             </div>

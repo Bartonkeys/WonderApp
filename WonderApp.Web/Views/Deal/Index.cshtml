@@ -53,7 +53,11 @@ else
                 <tr>
                     <td class="details-control" id="@item.Id"></td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <div class="input-group">
+                            <span class="input-group-addon">#</span>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </div>
+                        
                     </td>
                     <td>
                         @foreach (var tag in item.Tags)

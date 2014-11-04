@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" ZoomLevel="79" >
-        <EntityTypeShape EntityType="WonderAppModel.Deal" Width="1.5" PointX="7.375" PointY="1.125" />
+        <EntityTypeShape EntityType="WonderAppModel.Deal" PointX="7.375" PointY="0.75" Width="1.5" />
         <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="4.625" PointY="6.75" />
         <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.625" PointY="5.375" />
         <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.125" />

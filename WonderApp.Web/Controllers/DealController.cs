@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.Models;
@@ -23,6 +25,7 @@ namespace WonderApp.Web.Controllers
     public class DealController : BaseController
     {
         protected CloudImageService CloudImageService;
+
 
         [Inject]
         public DealController(ICloudImageProvider cloudImageProvider)
@@ -93,6 +96,8 @@ namespace WonderApp.Web.Controllers
                 var image = CreateImage(model.Image);
                 deal.Images.Add(image);
 
+                deal.Creator_User_Id = User.Identity.GetUserId(); ;
+                
                 DataContext.Deals.Add(deal);
                 DataContext.Commit();
 
