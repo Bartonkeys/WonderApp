@@ -37,7 +37,7 @@ namespace WonderApp.Web.Controllers
         {
             var model = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
                 .Where(x => (bool) !x.Archived )
-                .OrderByDescending(x => x.ExpiryDate));
+                .OrderByDescending(x => x.Id));
 
             return View(model);
         }
@@ -206,8 +206,14 @@ namespace WonderApp.Web.Controllers
         public ActionResult Delete(int id)
         {
             var deal = DataContext.Deals.Find(id);
-            deal.Archived = true;
 
+            if (User.Identity.GetUserId() == deal.Creator_User_Id ||
+                User.IsInRole("Admin"))
+            {
+                deal.Archived = true;
+
+            }
+            
             return RedirectToAction("Index");
         }
 
