@@ -236,7 +236,8 @@ namespace WonderApp.Web.Controllers
             };
         }
 
-        public ActionResult Copy(int id)
+        [HttpPost]
+        public int Copy(int id)
         {
             DealModel dealCreateModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
             Deal deal = Mapper.Map<Deal>(dealCreateModel);
@@ -270,7 +271,7 @@ namespace WonderApp.Web.Controllers
             
             DataContext.Deals.Add(deal);
             DataContext.Commit();
-            return RedirectToAction("Edit", "Deal", new { id = deal.Id });
+            return deal.Id;
         }
 
 

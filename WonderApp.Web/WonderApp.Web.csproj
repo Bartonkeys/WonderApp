@@ -279,6 +279,7 @@
     <Content Include="Content\css\font-awesome\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\css\isloading.css" />
     <Content Include="Content\css\select2-spinner.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -294,6 +295,7 @@
     <Content Include="Content\css\Site.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\images\details_close.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -703,6 +705,7 @@
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.are-you-sure.js" />
+    <Content Include="Scripts\jquery.isloading.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -774,6 +777,7 @@
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\tagSearch.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
