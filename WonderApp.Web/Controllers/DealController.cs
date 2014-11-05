@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using WonderApp.Data;
 using WonderApp.Models;
+using WonderApp.Web.InfaStructure;
 using WonderApp.Web.Models;
 using Image = WonderApp.Data.Image;
 using WonderApp.Core.Services;
@@ -205,17 +206,33 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            var deal = DataContext.Deals.Find(id);
+            var model = Mapper.Map<DealModel>(DataContext.Deals.Find(id));
+            return View(model);
+                   
+        }
 
-            if (User.IsInRole("Admin") || 
+        [HttpPost]
+        public ActionResult Delete(DealModel dealModel)
+        {
+            var deal = DataContext.Deals.Find(dealModel.Id);
+
+            if (User.IsInRole("Admin") ||
                 deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
             {
                 deal.Archived = true;
+                return RedirectToAction("Index");
 
             }
-            
-            return RedirectToAction("Index");
+
+            else
+            {
+                AddClientMessage(ClientMessage.Warning, "Only Administrators and Wonder creator may delete a Wonder");
+                return View();
+            }
+
         }
+
+
 
         private T CreateDealViewModel<T>() where T: DealViewModel, new()
         {
