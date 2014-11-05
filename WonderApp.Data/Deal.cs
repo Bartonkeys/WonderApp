@@ -37,6 +37,7 @@ namespace WonderApp.Data
         public Nullable<int> AddressId { get; set; }
         public string Creator_User_Id { get; set; }
         public Nullable<int> Season_Id { get; set; }
+        public string Phone { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }

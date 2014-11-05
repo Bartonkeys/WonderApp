@@ -140,6 +140,7 @@
           <Property Name="AddressId" Type="int" />
           <Property Name="Creator_User_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Season_Id" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -827,6 +828,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_Deal_Creator" FromRole="Deal" ToRole="AspNetUser" />
           <Property Name="Season_Id" Type="Int32" />
           <NavigationProperty Name="Season" Relationship="WonderAppModel.FK_Deals_Seasons" FromRole="Deal" ToRole="Season" />
+          <Property Name="Phone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1175,6 +1177,7 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Season_Id" ColumnName="Season_Id" />
                 <ScalarProperty Name="Creator_User_Id" ColumnName="Creator_User_Id" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
