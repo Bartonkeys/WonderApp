@@ -16,6 +16,11 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = "Please enter a phone number")]
+        [JsonProperty(PropertyName = "phone")]
+        [MaxLength(200, ErrorMessage = "Phone number is too long, 200 characters or less")]
+        public string Phone { get; set; }
+
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Please enter a description")]
         [JsonProperty(PropertyName = "description")]

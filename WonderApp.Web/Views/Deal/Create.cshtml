@@ -103,6 +103,13 @@
                                     @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.DealModel.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.DealModel.Phone, htmlAttributes: new { style = "width: 100%" })
+                                    @Html.ValidationMessageFor(model => model.DealModel.Phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="tab-pane active" id="tab-image">
