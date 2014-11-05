@@ -62,21 +62,29 @@ namespace WonderApp.Web.Controllers
                 
                 var newUser = new ApplicationUser
                 {
-                    UserName = user.Name,
+                    UserName = user.UserName,
                     Email = user.Email
                 };
                
-                var result = await UserManager.CreateAsync(newUser, "Y)rma1234");
+                var result = await UserManager.CreateAsync(newUser, "P@ssw0rd1234");
                 if (result.Succeeded)
                 {
-                   
+                    return RedirectToAction("Index");
                 }
                 else
                 {
                     Debug.Print(result.ToString());
+                    var errorString = "User not created: \n";
+                    foreach(var error in result.Errors)
+                    {
+                       errorString += error + "\n";
+                    }
+                    ModelState.AddModelError(string.Empty, errorString);
+
+                    return View();
                 }
 
-                return RedirectToAction("Create");
+               
             }
             catch
             {
@@ -92,19 +100,41 @@ namespace WonderApp.Web.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Edit(UserModel model)
+        public async Task <ActionResult> Edit(UserModel model)
         {
             try
             {
-                var user = DataContext.AspNetUsers.Find((model.Id));
-                Mapper.Map(model, user);
+                var user = await UserManager.FindByIdAsync(model.Id);
+
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    Debug.Print(result.ToString());
+                    var errorString = "User not updated: \n";
+                    foreach (var error in result.Errors)
+                    {
+                        errorString += error + "\n";
+                    }
+                    ModelState.AddModelError(string.Empty, errorString);
+
+                    return View();
+                }
+
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
+           
         }
 
         [Authorize(Roles = "Admin")]

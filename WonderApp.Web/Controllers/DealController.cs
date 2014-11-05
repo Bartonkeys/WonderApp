@@ -207,8 +207,8 @@ namespace WonderApp.Web.Controllers
         {
             var deal = DataContext.Deals.Find(id);
 
-            if (User.Identity.GetUserId() == deal.Creator_User_Id ||
-                User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || 
+                deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
             {
                 deal.Archived = true;
 
