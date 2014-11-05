@@ -37,7 +37,7 @@ namespace WonderApp.Web.Controllers
         {
             var model = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
                 .Where(x => (bool) !x.Archived )
-                .OrderByDescending(x => x.ExpiryDate));
+                .OrderByDescending(x => x.Id));
 
             return View(model);
         }
