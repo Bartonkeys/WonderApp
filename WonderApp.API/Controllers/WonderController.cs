@@ -46,25 +46,37 @@ namespace WonderApp.Controllers
 
                         var nearestWonders = DataContext.Deals
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
-                               && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                               && w.Archived == false
+                               && (w.AlwaysAvailable == true|| w.ExpiryDate >= DateTime.Now) 
+                               && w.MyRejectUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
                            .Take(5);
 
                         var priorityWonders = DataContext.Deals
-                            .Where(w => w.Priority.HasValue && w.Priority.Value && w.CityId == model.CityId 
-                                && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.Priority.HasValue 
+                                && (w.Priority.HasValue && w.Priority.Value)
+                                && w.CityId == model.CityId
+                                 && w.Archived == false
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(5);
 
                         var popularWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId
+                                 && w.Archived == false
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
                             .Take(50)
                             .OrderBy(x => Guid.NewGuid())
                             .Take(5);
 
                         var randomWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId && !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => w.CityId == model.CityId
+                                && w.Archived == false
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(5);
 
