@@ -249,6 +249,8 @@ namespace WonderApp.Web.Controllers
                 Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
                 Seasons = Mapper.Map<List<SeasonModel>>(DataContext.Seasons).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Genders = Mapper.Map<List<GenderModel>>(DataContext.Genders).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }

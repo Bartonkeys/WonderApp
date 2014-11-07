@@ -92,5 +92,8 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "season")]
         public virtual SeasonModel Season { get; set; }
 
+        [JsonProperty(PropertyName = "gender")]
+        public virtual GenderModel Gender { get; set; }
+
     }
 }
