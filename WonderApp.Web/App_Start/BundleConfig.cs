@@ -45,13 +45,21 @@ namespace WonderApp.Web
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
                       "~/Plugins/DataTables-1.10.2/media/js/jquery.dataTables.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/isloading").Include(
+                      "~/Scripts/jquery.isloading.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+                      "~/Scripts/toastr.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css_bundle").Include(
                   "~/Content/css/bootstrap.css",
                    "~/Content/css/bootstrap-datepicker.css",
                   "~/Content/css/site.css",
                   "~/Content/css/select2.css",
                   "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css",
-                  "~/Content/css/font-awesome/css/font-awesome.min.css"));
+                  "~/Content/css/font-awesome/css/font-awesome.min.css",
+                  "~/Content/css/isloading.css",
+                  "~/Content/css/toastr.min.css"));
 
 
             // Set EnableOptimizations to false for debugging. For more information,
