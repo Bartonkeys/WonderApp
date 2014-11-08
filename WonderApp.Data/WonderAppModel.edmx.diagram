@@ -46,6 +46,7 @@
         <AssociationConnector Association="WonderAppModel.FK_Deal_Creator" />
         <EntityTypeShape EntityType="WonderAppModel.Season" Width="1.5" PointX="9.5" PointY="9.625" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Seasons" />
+        <AssociationConnector Association="WonderAppModel.FK_Deals_Genders" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

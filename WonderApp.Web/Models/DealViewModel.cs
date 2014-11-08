@@ -22,6 +22,7 @@ namespace WonderApp.Web.Models
         public IEnumerable<SelectListItem> Locations { get; set; }
         public IEnumerable<SelectListItem> Cities { get; set; }
         public IEnumerable<SelectListItem> Seasons { get; set; }
+        public IEnumerable<SelectListItem> Genders { get; set; }
 
     }
 }

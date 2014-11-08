@@ -17,11 +17,13 @@ namespace WonderApp.Data
         public Gender()
         {
             this.AspNetUsers = new HashSet<AspNetUser>();
+            this.Deals = new HashSet<Deal>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
     
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual ICollection<Deal> Deals { get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace WonderApp.Data
         public string Creator_User_Id { get; set; }
         public Nullable<int> Season_Id { get; set; }
         public string Phone { get; set; }
+        public Nullable<int> Gender_Id { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
@@ -51,5 +52,6 @@ namespace WonderApp.Data
         public virtual Address Address { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Season Season { get; set; }
+        public virtual Gender Gender { get; set; }
     }
 }
