@@ -28,14 +28,14 @@
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.IntroDescription, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.DealModel.IntroDescription, htmlAttributes: new { style = "width: 100%", rows = 3, maxlength = 200 })
+                                    @Html.TextAreaFor(model => model.DealModel.IntroDescription, htmlAttributes: new { style = "width: 100%", rows = 3, maxlength = 75 })
                                     @Html.ValidationMessageFor(model => model.DealModel.IntroDescription, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%", rows="5" , maxlength = 400 })
+                                    @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%", rows="5" , maxlength = 200 })
                                     @Html.ValidationMessageFor(model => model.DealModel.Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -202,11 +202,14 @@
         @Scripts.Render("~/bundles/location")
 
         <script type="text/javascript">
-            $(document).ready(function () {
+            $(document).ready(function() {
                 initializeLocationTab();
                 $('form').areYouSure();
                 $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
-            })
+            });
+
+           
+            
         </script>
 
     }
