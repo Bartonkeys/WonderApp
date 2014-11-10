@@ -7,7 +7,7 @@ namespace WonderApp.Constants
 {
     public static class WonderAppConstants
     {
-        public const int DefaultRadius = 2;
+        public const int DefaultRadius = 5;
         public const int DefaultMaxNumberOfWonders = 20;
         public const string Facebook = "facebook";
         public const string UserAlreadyRegisted = "User is registered with different facebook credentials";
