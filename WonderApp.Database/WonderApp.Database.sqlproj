@@ -87,5 +87,7 @@
     <Build Include="Security\wonderapp_1.sql" />
     <Build Include="dbo\Tables\Addresses.sql" />
     <Build Include="dbo\Tables\Seasons.sql" />
+    <Build Include="dbo\Tables\DealAge.sql" />
+    <Build Include="dbo\Tables\Ages.sql" />
   </ItemGroup>
 </Project>
