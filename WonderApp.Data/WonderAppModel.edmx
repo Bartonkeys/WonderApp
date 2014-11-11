@@ -14,6 +14,13 @@
           <Property Name="AddressLine2" Type="nvarchar" MaxLength="200" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Ages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -116,6 +123,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DealAge">
+          <Key>
+            <PropertyRef Name="Deals_Id" />
+            <PropertyRef Name="Ages_Id" />
+          </Key>
+          <Property Name="Deals_Id" Type="int" Nullable="false" />
+          <Property Name="Ages_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Deals">
           <Key>
@@ -393,6 +408,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DealAge_Age">
+          <End Role="Ages" Type="Self.Ages" Multiplicity="1" />
+          <End Role="DealAge" Type="Self.DealAge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DealAge">
+              <PropertyRef Name="Ages_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DealAge_Deal">
+          <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
+          <End Role="DealAge" Type="Self.DealAge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DealAge">
+              <PropertyRef Name="Deals_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DealCompany">
           <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
           <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
@@ -563,6 +602,7 @@
         </Association>
         <EntityContainer Name="WonderAppModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ages" EntityType="Self.Ages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserCategory" EntityType="Self.AspNetUserCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -574,6 +614,7 @@
           <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DealAge" EntityType="Self.DealAge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Deals" EntityType="Self.Deals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DealTag" EntityType="Self.DealTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
@@ -640,6 +681,14 @@
           <AssociationSet Name="FK_Deal_Creator" Association="Self.FK_Deal_Creator">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealAge_Age" Association="Self.FK_DealAge_Age">
+            <End Role="Ages" EntitySet="Ages" />
+            <End Role="DealAge" EntitySet="DealAge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DealAge_Deal" Association="Self.FK_DealAge_Deal">
+            <End Role="Deals" EntitySet="Deals" />
+            <End Role="DealAge" EntitySet="DealAge" />
           </AssociationSet>
           <AssociationSet Name="FK_DealCompany" Association="Self.FK_DealCompany">
             <End Role="Companies" EntitySet="Companies" />
@@ -817,6 +866,11 @@
             <End Role="Gender" EntitySet="Genders" />
             <End Role="Deal" EntitySet="Deals" />
           </AssociationSet>
+          <EntitySet Name="Ages" EntityType="WonderAppModel.Age" />
+          <AssociationSet Name="DealAge" Association="WonderAppModel.DealAge">
+            <End Role="Age" EntitySet="Ages" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Deal">
           <Key>
@@ -852,6 +906,7 @@
           <Property Name="Phone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Gender_Id" Type="Int32" />
           <NavigationProperty Name="Gender" Relationship="WonderAppModel.FK_Deals_Genders" FromRole="Deal" ToRole="Gender" />
+          <NavigationProperty Name="Ages" Relationship="WonderAppModel.DealAge" FromRole="Deal" ToRole="Age" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1204,6 +1259,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Age">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Deals" Relationship="WonderAppModel.DealAge" FromRole="Age" ToRole="Deal" />
+        </EntityType>
+        <Association Name="DealAge">
+          <End Type="WonderAppModel.Age" Role="Age" Multiplicity="*" />
+          <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1518,6 +1585,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Ages">
+            <EntityTypeMapping TypeName="WonderAppModel.Age">
+              <MappingFragment StoreEntitySet="Ages">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DealAge" TypeName="WonderAppModel.DealAge" StoreEntitySet="DealAge">
+            <EndProperty Name="Deal">
+              <ScalarProperty Name="Id" ColumnName="Deals_Id" />
+            </EndProperty>
+            <EndProperty Name="Age">
+              <ScalarProperty Name="Id" ColumnName="Ages_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

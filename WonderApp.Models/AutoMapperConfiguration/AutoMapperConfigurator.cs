@@ -32,6 +32,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Creator_User_Id, opt => opt.Ignore())
                 .ForMember(e => e.Season, opt => opt.Ignore())
                 .ForMember(e => e.Gender, opt => opt.Ignore())
+                .ForMember(e => e.Ages, opt => opt.Ignore())
                 .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
@@ -94,6 +95,10 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Season, SeasonModel>();
             Mapper.CreateMap<SeasonModel, Season>();
+
+            Mapper.CreateMap<Age, AgeModel>();
+            Mapper.CreateMap<AgeModel, Age>()
+                .ForMember(e => e.Deals, opt => opt.Ignore());
         }
     }
 }

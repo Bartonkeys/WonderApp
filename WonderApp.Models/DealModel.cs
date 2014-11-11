@@ -95,5 +95,9 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "gender")]
         public virtual GenderModel Gender { get; set; }
 
+        [Display(Name = "Ages")]
+        [JsonProperty(PropertyName = "ages")]
+        public virtual List<AgeModel> Ages { get; set; }
+
     }
 }

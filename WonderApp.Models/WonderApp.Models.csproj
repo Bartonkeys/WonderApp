@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressModel.cs" />
+    <Compile Include="AgeModel.cs" />
     <Compile Include="AutoMapperConfiguration\AutoMapperConfigurator.cs" />
     <Compile Include="CityModel.cs" />
     <Compile Include="CountryModel.cs" />

@@ -47,6 +47,8 @@
         <EntityTypeShape EntityType="WonderAppModel.Season" Width="1.5" PointX="9.5" PointY="9.625" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Seasons" />
         <AssociationConnector Association="WonderAppModel.FK_Deals_Genders" />
+        <EntityTypeShape EntityType="WonderAppModel.Age" Width="1.5" PointX="0.75" PointY="9.75" />
+        <AssociationConnector Association="WonderAppModel.DealAge" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

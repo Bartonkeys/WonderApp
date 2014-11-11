@@ -43,5 +43,6 @@ namespace WonderApp.Data
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
+        public virtual DbSet<Age> Ages { get; set; }
     }
 }
