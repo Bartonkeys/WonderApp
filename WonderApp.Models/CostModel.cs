@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,9 @@ namespace WonderApp.Models
     {
         [Required(ErrorMessage = "Please select a cost range")]
         [DisplayName("Cost Range")]
+        [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
+        [JsonProperty(PropertyName = "name")]
         public string Range { get; set; }
     }
 }

@@ -59,6 +59,7 @@ namespace WonderApp.Models
         public bool Publish { get; set; }
 
         [JsonProperty(PropertyName = "archived")]
+        [JsonIgnore]
         public bool Archived { get; set; }
 
         [JsonProperty(PropertyName = "priority")]
@@ -71,7 +72,7 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "location")]
         public virtual LocationModel Location { get; set; }
 
-        [JsonProperty(PropertyName = "cost")]
+        [JsonProperty(PropertyName = "range")]
         public virtual CostModel Cost { get; set; }
 
         [JsonProperty(PropertyName = "category")]
@@ -87,6 +88,7 @@ namespace WonderApp.Models
         public virtual AddressModel Address { get; set; }
 
         [JsonProperty(PropertyName = "creator")]
+        [JsonIgnore]
         public virtual UserModel Creator { get; set; }
 
         [JsonProperty(PropertyName = "season")]

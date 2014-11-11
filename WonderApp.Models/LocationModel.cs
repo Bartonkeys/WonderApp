@@ -18,6 +18,7 @@ namespace WonderApp.Models
         [Required(ErrorMessage = "Please select a location")]
         [DisplayName("PostCode")]
         [JsonProperty(PropertyName = "name")]
+        [JsonIgnore]
         public string Name { get; set; }
 
         [JsonProperty(PropertyName = "longitude")]

@@ -42,8 +42,6 @@ namespace WonderApp.Controllers
 
                     wonders = await Task.Run(() =>
                     {
-                        //TODO Expiry Date and always available
-
                         var nearestWonders = DataContext.Deals
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
                                && w.Archived == false
