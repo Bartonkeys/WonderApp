@@ -103,7 +103,7 @@ namespace WonderApp.Web.Controllers
                 DataContext.Commit();
 
                 //return RedirectToAction("Index");
-                return RedirectToAction("Edit/" + model.DealModel.Id);
+                return RedirectToAction("Edit/" + deal.Id);
             }
             catch (Exception e)
             {
