@@ -62,14 +62,14 @@
                                 </div>
                             </div>
                             
-                            <div class="form-group col-md-12">
+                            @*<div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.Ages, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @foreach(var cb in model.DealModel.Ages)
                                     @Html.CheckBoxFor(model => model.DealModel.Ages)
                                     @Html.ValidationMessageFor(model => model.DealModel.AlwaysAvailable, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })

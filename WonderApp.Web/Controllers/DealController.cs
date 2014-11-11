@@ -102,7 +102,8 @@ namespace WonderApp.Web.Controllers
                 DataContext.Deals.Add(deal);
                 DataContext.Commit();
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Edit/" + model.DealModel.Id);
             }
             catch (Exception e)
             {
@@ -195,7 +196,8 @@ namespace WonderApp.Web.Controllers
 
                 Mapper.Map(model.DealModel, deal);
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Edit/" + model.DealModel.Id);
             }
             catch (Exception e)
             {
