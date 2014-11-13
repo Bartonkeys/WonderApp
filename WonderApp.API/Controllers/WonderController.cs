@@ -25,7 +25,7 @@ namespace WonderApp.Controllers
         /// There is an algorthim in place which takes 6 random Wonders from the following: 
         /// proximity of 2 miles, priority and popularity. It also includes 2 completely random
         /// wonders. There will be no duplicates in the list and user will not see wonders 
-        /// they have previously disliked.
+        /// they have previously disliked OR wonders they ahve previously liked.
         /// Returns HTTP StatusCode 200 with JSON list of wonder deals.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
@@ -46,9 +46,10 @@ namespace WonderApp.Controllers
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
                                && w.Archived == false
                                && (w.AlwaysAvailable == true|| w.ExpiryDate >= DateTime.Now) 
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
-                           .Take(5);
+                           .Take(10);
 
                         var priorityWonders = DataContext.Deals
                             .Where(w => w.Priority.HasValue 
@@ -56,27 +57,30 @@ namespace WonderApp.Controllers
                                 && w.CityId == model.CityId
                                  && w.Archived == false
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var popularWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
                                  && w.Archived == false
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
-                            .Take(50)
+                            .Take(100)
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var randomWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
                                 && w.Archived == false
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var results = nearestWonders.Union(priorityWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
@@ -89,7 +93,9 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                            .Where(w => !w.Archived.Value 
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(x => x.Id)
                             .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });

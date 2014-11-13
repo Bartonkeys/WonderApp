@@ -57,7 +57,8 @@ namespace WonderApp.Controllers
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius
                                && w.Tags.Any(x => model.TagId == x.Id)
                                && !w.Archived.Value
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId))
+                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
                            .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });
                 }
@@ -66,8 +67,10 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => !w.Archived.Value && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                             && w.Tags.Any(x => model.TagId == x.Id))
+                            .Where(w => !w.Archived.Value 
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId)
+                                && w.Tags.Any(x => model.TagId == x.Id))
                             .OrderByDescending(x => x.Id)
                             .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
                     });

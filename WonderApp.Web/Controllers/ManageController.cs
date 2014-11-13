@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using WonderApp.Models;
 using WonderApp.Web.Models;
 
 namespace WonderApp.Web.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         public ManageController()
         {
@@ -311,6 +314,53 @@ namespace WonderApp.Web.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+
+        // GET: /Manage/ManageWonders
+        public ActionResult ManageWonders()
+        {
+            //var userId = (User.Identity.GetUserId());
+            //var myRejectedDeals = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
+            //    .Where(w => (bool)!w.Archived
+            //        && w.MyRejectUsers.All(u => u.Id != userId))
+            //    .OrderByDescending(w => w.Id));
+
+            //var myWonderUsers = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
+            //    .Where(w => (bool)!w.Archived
+            //        && w.MyWonderUsers.All(u => u.Id != userId))
+            //    .OrderByDescending(w => w.Id));
+
+            var userId = (User.Identity.GetUserId());
+            var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                ViewBag.MyRejectedDeals = user.MyRejects.ToList();
+                ViewBag.MyLikedDeals = user.MyWonders.ToList();   
+            }
+
+            return View();
+        }
+
+
+        // POST: /Manage/DeleteAllUserWonders
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteAllUserWonders()
+        {
+            var userId = (User.Identity.GetUserId());
+           
+            var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                user.MyRejects.Clear();
+                user.MyWonders.Clear();
+
+                ViewBag.MyRejectedDeals = user.MyRejects.ToList();
+                ViewBag.MyLikedDeals = user.MyWonders.ToList();
+            }
+
+            return RedirectToAction("ManageWonders");
+        }
+        
 #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
