@@ -344,7 +344,7 @@ namespace WonderApp.Web.Controllers
         // POST: /Manage/DeleteAllUserWonders
         [HttpGet]
         //[ValidateAntiForgeryToken]
-        public async Task<bool> DeleteAllUserWonders()
+        public ActionResult DeleteAllUserWonders()
         {
             var userId = (User.Identity.GetUserId());
            
@@ -352,11 +352,13 @@ namespace WonderApp.Web.Controllers
             if (user != null)
             {
                 user.MyRejects.Clear();
+                user.MyWonders.Clear();
 
-                user.MyWonders.Clear();           
+                ViewBag.MyRejectedDeals = user.MyRejects.ToList();
+                ViewBag.MyLikedDeals = user.MyWonders.ToList();
             }
 
-            return true;
+            return RedirectToAction("ManageWonders");
         }
         
 #region Helpers
