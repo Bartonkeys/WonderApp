@@ -102,7 +102,8 @@ namespace WonderApp.Web.Controllers
                 DataContext.Deals.Add(deal);
                 DataContext.Commit();
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Edit/" + deal.Id);
             }
             catch (Exception e)
             {
@@ -195,7 +196,8 @@ namespace WonderApp.Web.Controllers
 
                 Mapper.Map(model.DealModel, deal);
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
             }
             catch (Exception e)
             {
@@ -249,6 +251,8 @@ namespace WonderApp.Web.Controllers
                 Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
                 Seasons = Mapper.Map<List<SeasonModel>>(DataContext.Seasons).Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Genders = Mapper.Map<List<GenderModel>>(DataContext.Genders).Select(x =>
                     new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }

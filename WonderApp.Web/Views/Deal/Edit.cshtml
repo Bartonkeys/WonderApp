@@ -217,38 +217,54 @@
                 $.isLoading({ text: "Saving wonder..." });
             }
 
+            function GetQueryStringParams(sParam) {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
 
-    $(document).ready(function () {
-        initializeLocationTab();
-        $('form').areYouSure();
-        $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
 
-
-        // Handle the form submit event, and make the Ajax request:
-        //$("#editWonderForm").on("submit", function (event) {
-        //    event.preventDefault();
-
-        //        $.isLoading({ text: "Saving wonder..." });
-        //        var url = $(this).attr("action");
-        //        var formData = $(this).serialize();
-        //        $.ajax({
-        //            url: url ,
-        //            type: "POST",
-        //            data: formData,
-        //            success: function (data) {
-        //                $.isLoading("hide");
-        //                toastr.success('Wonder successfully saved');
-        //            },
-        //            error: function (jqXHR, textStatus, errorThrown) {
-        //                $.isLoading("hide");
-        //                toastr.error('Error saving wonder');
-        //            }
-        //    })
-        //});
+            if (GetQueryStringParams("edit") == "true") {
+                toastr.success("Wonder successfully saved");
+            }
 
 
+            $(document).ready(function () {
+                initializeLocationTab();
+                $('form').areYouSure();
+                $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
 
-    })
+
+                // Handle the form submit event, and make the Ajax request:
+                //$("#editWonderForm").on("submit", function (event) {
+                //    event.preventDefault();
+
+                //        $.isLoading({ text: "Saving wonder..." });
+                //        var url = $(this).attr("action");
+                //        var formData = $(this).serialize();
+                //        $.ajax({
+                //            url: url ,
+                //            type: "POST",
+                //            data: formData,
+                //            success: function (data) {
+                //                $.isLoading("hide");
+                //                toastr.success('Wonder successfully saved');
+                //            },
+                //            error: function (jqXHR, textStatus, errorThrown) {
+                //                $.isLoading("hide");
+                //                toastr.error('Error saving wonder');
+                //            }
+                //    })
+                //});
+
+
+
+            });
 
 
 
