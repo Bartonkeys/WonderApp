@@ -1,0 +1,49 @@
+﻿@using WonderApp.Core.EFDataContext
+@using WonderApp.Data
+@using WonderApp.Models
+
+
+@{
+    ViewBag.Title = "Manage your wonders";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+<div>My Rejected Deals</div>
+<ul id="MyRejectedDeals">
+
+    @foreach (var wonder in (List<Deal>)ViewBag.MyRejectedDeals)
+    {
+        <li>
+            @wonder.Title
+        </li>
+    }
+
+</ul>
+
+<div>My Liked Deals</div>
+<ul id="MyRejectedDeals">
+
+    @foreach (var wonder in (List<Deal>)ViewBag.MyLikedDeals)
+    {
+        <li>
+            @wonder.Title
+        </li>
+    }
+
+</ul>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        @*<input type="submit" value="Delete" class="btn btn-default" /> |*@
+        @Html.ActionLink("Delete", "DeleteAllUserWonders")
+    </div>
+}
+
+
+

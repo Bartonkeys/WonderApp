@@ -49,7 +49,7 @@ namespace WonderApp.Controllers
                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
                            .OrderBy(x => Guid.NewGuid())
-                           .Take(5);
+                           .Take(10);
 
                         var priorityWonders = DataContext.Deals
                             .Where(w => w.Priority.HasValue 
@@ -60,7 +60,7 @@ namespace WonderApp.Controllers
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var popularWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
@@ -69,9 +69,9 @@ namespace WonderApp.Controllers
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(w => w.Likes)
-                            .Take(50)
+                            .Take(100)
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var randomWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
@@ -80,7 +80,7 @@ namespace WonderApp.Controllers
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
-                            .Take(5);
+                            .Take(10);
 
                         var results = nearestWonders.Union(priorityWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());

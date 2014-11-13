@@ -843,6 +843,7 @@
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Deal\Delete.cshtml" />
+    <Content Include="Views\Manage\ManageWonders.cshtml" />
     <None Include="Web.Sandbox.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

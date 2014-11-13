@@ -550,7 +550,7 @@
             There is an algorthim in place which takes 6 random Wonders from the following: 
             proximity of 2 miles, priority and popularity. It also includes 2 completely random
             wonders. There will be no duplicates in the list and user will not see wonders 
-            they have previously disliked.
+            they have previously disliked OR wonders they ahve previously liked.
             Returns HTTP StatusCode 200 with JSON list of wonder deals.
             If error, return Http Status Code 500 with error message.
             </summary>
