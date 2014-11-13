@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-<form action="" method="post" enctype="multipart/form-data">
+<form id="editWonderForm" action="" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-body">
@@ -192,7 +192,7 @@
             <div class="panel-footer">
                 <div id="container_actions" class="row">
                     <div class="col-md-offset-5 col-md-7">
-                        <input type="submit" value="Update Wonder" class="btn btn-primary" />
+                        <input onclick="saveWonder();" type="submit" value="Update Wonder" class="btn btn-primary" />
                         @Html.LabelFor(m => m.DealModel.Priority) @Html.CheckBoxFor(m => m.DealModel.Priority)
                     </div>
                 </div>
@@ -212,12 +212,45 @@
         @Scripts.Render("~/bundles/location")
 
         <script type="text/javascript">
-            $(document).ready(function () {
-                initializeLocationTab();
-                $('form').areYouSure();
-                $('form').areYouSure( {'message':'Your wonder details are not saved!'} );
-            })
 
-            
+            function saveWonder() {
+                $.isLoading({ text: "Saving wonder..." });
+            }
+
+
+    $(document).ready(function () {
+        initializeLocationTab();
+        $('form').areYouSure();
+        $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
+
+
+        // Handle the form submit event, and make the Ajax request:
+        //$("#editWonderForm").on("submit", function (event) {
+        //    event.preventDefault();
+
+        //        $.isLoading({ text: "Saving wonder..." });
+        //        var url = $(this).attr("action");
+        //        var formData = $(this).serialize();
+        //        $.ajax({
+        //            url: url ,
+        //            type: "POST",
+        //            data: formData,
+        //            success: function (data) {
+        //                $.isLoading("hide");
+        //                toastr.success('Wonder successfully saved');
+        //            },
+        //            error: function (jqXHR, textStatus, errorThrown) {
+        //                $.isLoading("hide");
+        //                toastr.error('Error saving wonder');
+        //            }
+        //    })
+        //});
+
+
+
+    })
+
+
+
         </script>
     }
