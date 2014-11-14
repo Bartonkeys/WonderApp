@@ -62,6 +62,9 @@ namespace WonderApp.Web.Controllers
                 Season = new SeasonModel()
             };
 
+            model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+            
+
             return View(model);
         }
 
@@ -89,6 +92,15 @@ namespace WonderApp.Web.Controllers
                 {
                     int tagId;
                     deal.Tags.Add(int.TryParse(tag, out tagId) ? DataContext.Tags.Find(tagId) : new Tag {Name = tag});
+                }
+
+                deal.Ages.Clear();
+                foreach (var age in model.AgeString)
+                {
+                    int ageId;
+                    deal.Ages.Add(int.TryParse(age, out ageId)
+                        ? DataContext.Ages.First(t => t.Id == ageId)
+                        : new Age { Name = age });
                 }
 
                 deal.Category = DataContext.Categories.Find(model.DealModel.Category.Id);
