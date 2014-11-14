@@ -4,7 +4,7 @@
     ViewBag.Title = "Create Deal";
 }
 
-<form action="" method="post" enctype="multipart/form-data">
+<form id="createWonderForm" action="" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="panel panel-default">
         <div class="panel-body">
@@ -35,7 +35,7 @@
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%", rows="5" , maxlength = 200 })
+                                    @Html.TextAreaFor(model => model.DealModel.Description, htmlAttributes: new { style = "width: 100%", rows = "5", maxlength = 200 })
                                     @Html.ValidationMessageFor(model => model.DealModel.Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -61,20 +61,20 @@
                                     @Html.ValidationMessageFor(model => model.DealModel.AlwaysAvailable, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            
+
                             @*<div class="form-group col-md-12">
-                                @Html.LabelFor(model => model.DealModel.Ages, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @foreach(var cb in model.DealModel.Ages)
-                                    @Html.CheckBoxFor(model => model.DealModel.Ages)
-                                    @Html.ValidationMessageFor(model => model.DealModel.AlwaysAvailable, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
+                                    @Html.LabelFor(model => model.DealModel.Ages, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @foreach(var cb in model.DealModel.Ages)
+                                        @Html.CheckBoxFor(model => model.DealModel.Ages)
+                                        @Html.ValidationMessageFor(model => model.DealModel.AlwaysAvailable, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
 
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                   @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker", @style = "width: 50%" })
+                                    @Html.TextBoxFor(model => model.DealModel.ExpiryDate, htmlAttributes: new { @class = "datepicker", @style = "width: 50%" })
                                     @Html.ValidationMessageFor(model => model.DealModel.ExpiryDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                     @Html.ValidationMessageFor(model => model.DealModel.Season.Id, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            
+
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.DealModel.Gender.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
@@ -109,10 +109,10 @@
                             </div>
                             <div class="form-group col-md-12">
                                 @*@Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select", htmlAttributes: new { style = "width: 100%" })
-                                    @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
-                                </div>*@
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.DealModel.Company.Id, Model.Companies, "Please Select", htmlAttributes: new { style = "width: 100%" })
+                                        @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
+                                    </div>*@
                                 @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input type="hidden" class="select2-offscreen" id="company-hdn" style="width:50%" value="@Model.DealModel.Company.Id" />
@@ -192,7 +192,7 @@
             <div class="panel-footer">
                 <div id="container_actions" class="row">
                     <div class="col-md-offset-5 col-md-7">
-                        <input type="submit" value="Create Wonder" class="btn btn-primary" />
+                        <input onclick="saveWonder();" type="submit" value="Create Wonder" class="btn btn-primary" />
                         @Html.LabelFor(m => m.DealModel.Priority) @Html.CheckBoxFor(m => m.DealModel.Priority)
                     </div>
                 </div>
@@ -212,6 +212,16 @@
         @Scripts.Render("~/bundles/location")
 
         <script type="text/javascript">
+
+            function saveWonder() {
+                if ($('#createWonderForm').valid()) {
+                    $.isLoading({ text: "Creating wonder..." });
+                }
+            }
+
+            if (GetQueryStringParams("edit") == "true") {
+                toastr.success("Wonder successfully created");
+            }
             $(document).ready(function() {
                 initializeLocationTab();
                 $('form').areYouSure();
