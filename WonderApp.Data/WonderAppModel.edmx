@@ -408,18 +408,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DealAge_Age">
-          <End Role="Ages" Type="Self.Ages" Multiplicity="1" />
-          <End Role="DealAge" Type="Self.DealAge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ages">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DealAge">
-              <PropertyRef Name="Ages_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DealAge_Deal">
           <End Role="Deals" Type="Self.Deals" Multiplicity="1" />
           <End Role="DealAge" Type="Self.DealAge" Multiplicity="*" />
@@ -681,10 +669,6 @@
           <AssociationSet Name="FK_Deal_Creator" Association="Self.FK_Deal_Creator">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Deals" EntitySet="Deals" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DealAge_Age" Association="Self.FK_DealAge_Age">
-            <End Role="Ages" EntitySet="Ages" />
-            <End Role="DealAge" EntitySet="DealAge" />
           </AssociationSet>
           <AssociationSet Name="FK_DealAge_Deal" Association="Self.FK_DealAge_Deal">
             <End Role="Deals" EntitySet="Deals" />

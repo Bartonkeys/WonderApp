@@ -23,6 +23,7 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<Image> Images { get; }
         IDbSet<City> Cities { get; }
         IDbSet<Season> Seasons { get; }
+        IDbSet<Age> Ages { get; }
         void Commit();
     }
 }

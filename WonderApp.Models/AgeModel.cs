@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace WonderApp.Models
 {
-    public class AgeModel
+    public class AgeModel : BaseModel
     {
-        [JsonProperty(PropertyName="id")]
-        public int Id { get; set; }
-
+        
         [MaxLength(10)]
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

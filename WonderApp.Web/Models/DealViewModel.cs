@@ -16,6 +16,14 @@ namespace WonderApp.Web.Models
         [Required(ErrorMessage = "Please add at least 1 tag")]
         [DisplayName("Tags")]
         public string TagString { get; set; }
+
+        
+        [Required(ErrorMessage = "Please add at least 1 age")]
+        [DisplayName("Ages")]
+        public string[] AgeString { get; set; }
+
+        public List<AgeModel> AgesAvailable { get; set; }
+       
         public IEnumerable<SelectListItem> CostRanges { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
         public IEnumerable<SelectListItem> Companies { get; set; }

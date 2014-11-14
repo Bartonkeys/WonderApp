@@ -124,6 +124,19 @@
                             @Html.ValidationMessageFor(model => model.DealModel.Phone, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group col-md-12">
+                        @Html.LabelFor(model => model.DealModel.Ages, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxListFor(x => x.AgeString,  // checkbox list name, 'PostedCities.CityIDs' in this case
+                                                  x => x.AgesAvailable,       // List<City>()
+                                                  x => x.Id,                    // City.Id
+                                                  x => x.Name,                  // City.Name
+                                                  x => x.DealModel.Ages)       <!--- List<city>() - should contain only cities to be selected -->
+                            @Html.ValidationMessageFor(model => model.DealModel.Ages, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+
                 </fieldset>
                 <fieldset>
                     <div class="form-header">Edit Image</div>

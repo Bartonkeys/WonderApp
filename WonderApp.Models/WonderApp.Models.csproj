@@ -89,6 +89,7 @@
     <Compile Include="AddressModel.cs" />
     <Compile Include="AgeModel.cs" />
     <Compile Include="AutoMapperConfiguration\AutoMapperConfigurator.cs" />
+    <Compile Include="BaseModel.cs" />
     <Compile Include="CityModel.cs" />
     <Compile Include="CountryModel.cs" />
     <Compile Include="DealSummaryModel.cs" />

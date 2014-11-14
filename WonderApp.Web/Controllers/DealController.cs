@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WonderApp.Core.Utilities;
 using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.InfaStructure;
@@ -142,6 +143,9 @@ namespace WonderApp.Web.Controllers
                 tagString = tagString.Remove(tagString.Length - 1, 1);
                 model.TagString = tagString;
             }
+
+            model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+            
             return View(model);
         }
 
@@ -178,6 +182,15 @@ namespace WonderApp.Web.Controllers
                     deal.Tags.Add(int.TryParse(tag, out tagId)
                         ? DataContext.Tags.First(t => t.Id == tagId)
                         : new Tag {Name = tag});
+                }
+
+                deal.Ages.Clear();
+                foreach (var age in model.AgeString)
+                {
+                    int ageId;
+                    deal.Ages.Add(int.TryParse(age, out ageId)
+                        ? DataContext.Ages.First(t => t.Id == ageId)
+                        : new Age { Name = age });
                 }
 
                 //todo Can the AuotMapper config handle this somehow?
