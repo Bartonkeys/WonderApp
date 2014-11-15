@@ -79,6 +79,8 @@ namespace WonderApp.Web.Controllers
                     returnModel.DealModel = model.DealModel;
                     returnModel.Image = model.Image;
                     returnModel.TagString = model.TagString;
+                    returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+           
                     return View(returnModel); 
                 }
 
@@ -180,6 +182,9 @@ namespace WonderApp.Web.Controllers
                         tagString = tagString.Remove(tagString.Length - 1, 1);
                         returnModel.TagString = tagString;
                     }
+
+                    returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+           
                     return View(returnModel);
                 }
 

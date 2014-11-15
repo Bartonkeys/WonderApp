@@ -132,7 +132,7 @@
                                                   x => x.Id,                    // City.Id
                                                   x => x.Name,                  // City.Name
                                                   x => x.DealModel.Ages)       <!--- List<city>() - should contain only cities to be selected -->
-                            @Html.ValidationMessageFor(model => model.DealModel.Ages, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.AgeString, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     
