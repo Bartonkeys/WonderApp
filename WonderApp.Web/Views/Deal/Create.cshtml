@@ -204,7 +204,7 @@
             <div class="panel-footer">
                 <div id="container_actions" class="row">
                     <div class="col-md-offset-5 col-md-7">
-                        <input onclick="saveWonder();" type="submit" value="Create Wonder" class="btn btn-primary" />
+                        <a title="Create Wonder" class="btn btn-primary" onclick="saveWonder()">Create Wonder</a>
                         @Html.LabelFor(m => m.DealModel.Priority) @Html.CheckBoxFor(m => m.DealModel.Priority)
                     </div>
                 </div>
@@ -225,9 +225,77 @@
 
         <script type="text/javascript">
 
-            function saveWonder() {
+            //function saveWonder() {
+            //    if ($('#createWonderForm').valid()) {
+            //        $.isLoading({ text: "Creating wonder..." });
+            //    }
+            //}
+
+            function submitForm() {
                 if ($('#createWonderForm').valid()) {
-                    $.isLoading({ text: "Creating wonder..." });
+                    $.isLoading({ text: "Saving wonder..." });
+                }
+                $('#createWonderForm').submit();
+            }
+
+            function saveWonder() {
+
+                    if ($("#Image").val() == "") {
+                        submitForm();
+                    }
+                    else {
+
+                        var filename = getNameFromPath($("#Image").val());
+                        if (filename != null) {
+                            var extension = filename.substr((filename.lastIndexOf('.') + 1));
+                            if (extension != 'jpg') {
+                                var errorArray = {};
+                                errorArray["Image"] = 'Incorrect filetype - only .jpg files can be uploaded';
+                                $('#createWonderForm').validate().showErrors(errorArray);
+                                $("#Image").focus()
+                                return;
+                            }
+
+                        }
+
+
+                        var _URL = window.URL || window.webkitURL;
+                        var file = $("#Image")[0].files[0]
+                        img = new Image();
+
+                        img.onload = function () {
+                            var wid = this.width;
+                            var ht = this.height;
+                            if (wid != 410 || ht != 546) {
+                                var errorArray = {};
+                                errorArray["Image"] = 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )';
+                                $('#createWonderForm').validate().showErrors(errorArray);
+                                $("#Image").focus()
+                                return;
+                            }
+                            else {
+                                submitForm();
+                            }
+
+
+                        };
+
+                        img.src = _URL.createObjectURL(file);
+                    }
+                
+
+
+            }
+
+            function getNameFromPath(strFilepath) {
+                var objRE = new RegExp(/([^\/\\]+)$/);
+                var strName = objRE.exec(strFilepath);
+
+                if (strName == null) {
+                    return null;
+                }
+                else {
+                    return strName[0];
                 }
             }
 
