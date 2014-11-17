@@ -85,7 +85,7 @@ else
                     <td>
                         <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
 
-                        @if (ViewBag.isAdmin || (ViewBag.userId == item.Creator_User_Id))
+                        @if (ViewBag.isAdmin || item.Creator != null && item.Creator.Id == ViewBag.userId)
                         {
                             <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
                             <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
