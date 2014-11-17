@@ -34,7 +34,7 @@ namespace WonderApp.Controllers
         {
             try
             {
-                if(DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
                 }
