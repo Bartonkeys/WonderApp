@@ -41,6 +41,9 @@ namespace WonderApp.Web.Controllers
                 .Where(x => (bool) !x.Archived )
                 .OrderByDescending(x => x.Id));
 
+            ViewBag.isAdmin = User.IsInRole("Admin");
+            ViewBag.userId = User.Identity.GetUserId();
+            
             return View(model);
         }
 
@@ -62,7 +65,7 @@ namespace WonderApp.Web.Controllers
                 Season = new SeasonModel(),
                 Ages = new List<AgeModel>
                 {
-                    Mapper.Map<AgeModel>( DataContext.Ages.FirstOrDefault(a => a.Name == "All"))
+                    Mapper.Map<AgeModel>( DataContext.Ages.FirstOrDefault(a => a.Name.ToLower() == "all"))
                 }
             };
 

@@ -41,6 +41,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Deal, DealSummaryModel>();
                 //.ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
+           
 
             Mapper.CreateMap<Category, CategoryModel>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));
