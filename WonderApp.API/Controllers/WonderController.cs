@@ -52,10 +52,9 @@ namespace WonderApp.Controllers
                            .Take(10);
 
                         var priorityWonders = DataContext.Deals
-                            .Where(w => w.Priority.HasValue 
-                                && (w.Priority.HasValue && w.Priority.Value)
+                            .Where(w => w.Priority == true
                                 && w.CityId == model.CityId
-                                 && w.Archived == false
+                                && w.Archived == false
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -64,7 +63,7 @@ namespace WonderApp.Controllers
 
                         var popularWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
-                                 && w.Archived == false
+                                && w.Archived == false
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -221,7 +220,6 @@ namespace WonderApp.Controllers
                     if (!user.MyRejects.Contains(deal))
                     {
                         user.MyRejects.Add(deal);
-                        deal.Likes--;
                     }
 
                     
