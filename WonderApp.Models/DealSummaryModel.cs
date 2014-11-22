@@ -29,5 +29,6 @@ namespace WonderApp.Models
 
         public virtual CityModel City { get; set; }
 
+        public virtual UserModel Creator { get; set; }
     }
 }

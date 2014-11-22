@@ -20,7 +20,10 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(m => m.ExpiryDate, 
                     opt => opt.MapFrom(e => e.AlwaysAvailable == true 
                         ? String.Empty : e.ExpiryDate.MapToString()))
-                .ForMember(e => e.Phone, opt => opt.NullSubstitute(String.Empty));
+                .ForMember(e => e.Phone, opt => opt.NullSubstitute(String.Empty))
+                .ForMember(dest => dest.Creator,
+                           opts => opts.MapFrom(src => src.AspNetUser));
+
             Mapper.CreateMap<DealModel, Deal>()
                 .ForMember(e => e.Id, opt => opt.Ignore())
                 .ForMember(e => e.MyRejectUsers, opt => opt.Ignore())
@@ -39,8 +42,11 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
-            Mapper.CreateMap<Deal, DealSummaryModel>();
+            Mapper.CreateMap<Deal, DealSummaryModel>()
+             .ForMember(dest => dest.Creator,
+                           opts => opts.MapFrom(src => src.AspNetUser));
                 //.ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
+           
 
             Mapper.CreateMap<Category, CategoryModel>()
                 .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));

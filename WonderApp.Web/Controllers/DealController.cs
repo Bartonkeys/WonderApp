@@ -41,6 +41,9 @@ namespace WonderApp.Web.Controllers
                 .Where(x => (bool) !x.Archived )
                 .OrderByDescending(x => x.Id));
 
+            ViewBag.isAdmin = User.IsInRole("Admin");
+            ViewBag.userId = User.Identity.GetUserId();
+            
             return View(model);
         }
 
@@ -59,12 +62,15 @@ namespace WonderApp.Web.Controllers
                 Company = new CompanyModel(),
                 Cost = new CostModel(),
                 Location = new LocationModel(),
-                Season = new SeasonModel()
+                Season = new SeasonModel(),
+                Ages = new List<AgeModel>
+                {
+                    Mapper.Map<AgeModel>( DataContext.Ages.FirstOrDefault(a => a.Name.ToLower() == "all"))
+                }
             };
 
             model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
-            
-
+           
             return View(model);
         }
 
@@ -146,21 +152,35 @@ namespace WonderApp.Web.Controllers
         {
             
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
+            var deal = DataContext.Deals.Find(dealModel.Id);
 
-            var model = CreateDealViewModel<DealEditModel>();
-            model.DealModel = dealModel;
-
-            var tagString = "";
-            if (dealModel.Tags.Count > 0)
+            if (User.IsInRole("Admin") ||
+               deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
             {
-                tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
-                tagString = tagString.Remove(tagString.Length - 1, 1);
-                model.TagString = tagString;
+                var model = CreateDealViewModel<DealEditModel>();
+                model.DealModel = dealModel;
+
+                var tagString = "";
+                if (dealModel.Tags.Count > 0)
+                {
+                    tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
+                    tagString = tagString.Remove(tagString.Length - 1, 1);
+                    model.TagString = tagString;
+                }
+
+                model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+
+                return View(model);
+
             }
 
-            model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+            else
+            {
+                //This should be caught by client side JS
+                AddClientMessage(ClientMessage.Warning, "Only Administrators and Wonder creator may edit a Wonder");
+                return RedirectToAction("Index");
+            }
             
-            return View(model);
         }
 
         [HttpPost]
@@ -190,45 +210,73 @@ namespace WonderApp.Web.Controllers
 
                 var deal = DataContext.Deals.Find(model.DealModel.Id);
 
-                var tagList = !String.IsNullOrEmpty(model.TagString) 
+                if (User.IsInRole("Admin") ||
+                deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
+                {
+                    var tagList = !String.IsNullOrEmpty(model.TagString)
                     ? model.TagString.Split(',').ToList() : new List<string>();
-                deal.Tags.Clear();
-                foreach (var tag in tagList)
-                {
-                    int tagId;
-                    deal.Tags.Add(int.TryParse(tag, out tagId)
-                        ? DataContext.Tags.First(t => t.Id == tagId)
-                        : new Tag {Name = tag});
+                    deal.Tags.Clear();
+                    foreach (var tag in tagList)
+                    {
+                        int tagId;
+                        deal.Tags.Add(int.TryParse(tag, out tagId)
+                            ? DataContext.Tags.First(t => t.Id == tagId)
+                            : new Tag { Name = tag });
+                    }
+
+                    deal.Ages.Clear();
+                    foreach (var age in model.AgeString)
+                    {
+                        int ageId;
+                        deal.Ages.Add(int.TryParse(age, out ageId)
+                            ? DataContext.Ages.First(t => t.Id == ageId)
+                            : new Age { Name = age });
+                    }
+
+                    //todo Can the AuotMapper config handle this somehow?
+                    deal.Category = DataContext.Categories.First(m => m.Id == model.DealModel.Category.Id);
+                    deal.Company = DataContext.Companies.First(m => m.Id == model.DealModel.Company.Id);
+                    deal.Cost = DataContext.Costs.First(m => m.Id == model.DealModel.Cost.Id);
+
+                    if (model.Image != null)
+                    {
+                        var image = CreateImage(model.Image);
+
+                        var oldImage = deal.Images.First();
+                        deal.Images.Clear();
+                        DataContext.Images.Remove(oldImage);
+                        deal.Images.Add(image);
+                    }
+
+                    Mapper.Map(model.DealModel, deal);
+
+                    //return RedirectToAction("Index");
+                    return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
+
                 }
 
-                deal.Ages.Clear();
-                foreach (var age in model.AgeString)
+                else
                 {
-                    int ageId;
-                    deal.Ages.Add(int.TryParse(age, out ageId)
-                        ? DataContext.Ages.First(t => t.Id == ageId)
-                        : new Age { Name = age });
+                    AddClientMessage(ClientMessage.Warning, "Only Administrators and Wonder creator may edit a Wonder");
+
+                    var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == model.DealModel.Id));
+                    var returnModel = CreateDealViewModel<DealEditModel>();
+                    returnModel.DealModel = dealModel;
+
+                    var tagString = "";
+                    if (dealModel.Tags.Count > 0)
+                    {
+                        tagString = dealModel.Tags.Aggregate("", (current, tagModel) => current + (tagModel.Id + ","));
+                        tagString = tagString.Remove(tagString.Length - 1, 1);
+                        returnModel.TagString = tagString;
+                    }
+
+                    returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+
+                    return View(returnModel);
                 }
 
-                //todo Can the AuotMapper config handle this somehow?
-                deal.Category = DataContext.Categories.First(m => m.Id == model.DealModel.Category.Id);
-                deal.Company = DataContext.Companies.First(m => m.Id == model.DealModel.Company.Id);
-                deal.Cost = DataContext.Costs.First(m => m.Id == model.DealModel.Cost.Id);
-
-                if (model.Image != null)
-                {
-                    var image = CreateImage(model.Image);
-
-                    var oldImage = deal.Images.First();                   
-                    deal.Images.Clear();
-                    DataContext.Images.Remove(oldImage);
-                    deal.Images.Add(image);
-                }
-
-                Mapper.Map(model.DealModel, deal);
-
-                //return RedirectToAction("Index");
-                return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
+                
             }
             catch (Exception e)
             {

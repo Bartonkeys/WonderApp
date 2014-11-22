@@ -34,6 +34,11 @@ namespace WonderApp.Controllers
         {
             try
             {
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
+                }
+
                 var wonders = new List<DealModel>();
 
                 if (model.Latitude != null && model.Longitude != null)
