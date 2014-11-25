@@ -40,6 +40,7 @@ namespace WonderApp.Data
         public Nullable<int> Season_Id { get; set; }
         public string Phone { get; set; }
         public Nullable<int> Gender_Id { get; set; }
+        public Nullable<bool> Expired { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }

@@ -50,6 +50,7 @@ namespace WonderApp.Controllers
                         var nearestWonders = DataContext.Deals
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
                                && w.Archived == false
+                               && w.Expired != true
                                && (w.AlwaysAvailable == true|| w.ExpiryDate >= DateTime.Now) 
                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -60,6 +61,7 @@ namespace WonderApp.Controllers
                             .Where(w => w.Priority == true
                                 && w.CityId == model.CityId
                                 && w.Archived == false
+                                && w.Expired != true
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -69,6 +71,7 @@ namespace WonderApp.Controllers
                         var popularWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
                                 && w.Archived == false
+                                && w.Expired != true
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -80,6 +83,7 @@ namespace WonderApp.Controllers
                         var randomWonders = DataContext.Deals
                             .Where(w => w.CityId == model.CityId
                                 && w.Archived == false
+                                && w.Expired != true
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -97,7 +101,8 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => !w.Archived.Value 
+                            .Where(w => w.Archived == false
+                                && w.Expired != true
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderByDescending(x => x.Id)

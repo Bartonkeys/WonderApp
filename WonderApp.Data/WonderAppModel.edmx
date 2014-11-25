@@ -157,6 +157,7 @@
           <Property Name="Season_Id" Type="int" />
           <Property Name="Phone" Type="nvarchar" MaxLength="200" />
           <Property Name="Gender_Id" Type="int" />
+          <Property Name="Expired" Type="bit" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -891,6 +892,7 @@
           <Property Name="Gender_Id" Type="Int32" />
           <NavigationProperty Name="Gender" Relationship="WonderAppModel.FK_Deals_Genders" FromRole="Deal" ToRole="Gender" />
           <NavigationProperty Name="Ages" Relationship="WonderAppModel.DealAge" FromRole="Deal" ToRole="Age" />
+          <Property Name="Expired" Type="Boolean" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1264,6 +1266,7 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
                 <ScalarProperty Name="Gender_Id" ColumnName="Gender_Id" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Season_Id" ColumnName="Season_Id" />

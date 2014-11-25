@@ -205,6 +205,25 @@ namespace WonderApp.Web.Controllers
 
         }
 
+        [HttpPut]
+        public bool? UpdateExpired(int? id)
+        {
+            try
+            {
+
+                Deal d = DataContext.Deals.FirstOrDefault(w => w.Id == id);
+                d.Expired = d.Expired == null ? true : !d.Expired;
+                DataContext.Commit();
+                return d.Expired;
+            }
+
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
     } //end class
 
 

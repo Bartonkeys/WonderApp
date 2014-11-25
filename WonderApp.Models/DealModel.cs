@@ -63,6 +63,11 @@ namespace WonderApp.Models
         [JsonIgnore]
         public bool Archived { get; set; }
 
+        [JsonProperty(PropertyName = "expired")]
+        [JsonIgnore]
+        [Display(Name = "Expire")]
+        public bool Expired { get; set; }
+
         [JsonProperty(PropertyName = "priority")]
         public bool Priority { get; set; }
 

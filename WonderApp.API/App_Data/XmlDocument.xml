@@ -519,6 +519,14 @@
             <param name="accessToken"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.AccountController.GetAllUsers">
+            <summary>
+            Get All Users as a List of UserModel objects
+            If any error, return 500 with message.
+            </summary>
+            
+            <returns>HttpResponseMessage</returns>
+        </member>
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries
