@@ -123,8 +123,8 @@ namespace WonderApp.Web.Controllers
                 DataContext.Deals.Add(deal);
                 DataContext.Commit();
 
-                //return RedirectToAction("Index");
-                return RedirectToAction("Edit/", new { id = deal.Id, edit = "true" });
+                return RedirectToAction("Index");
+                //return RedirectToAction("Edit/", new { id = deal.Id, edit = "true" });
 
             }
             catch (Exception e)
@@ -252,8 +252,8 @@ namespace WonderApp.Web.Controllers
 
                     deal.Address.PostCode = model.DealModel.Location.Name;
 
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
+                    return RedirectToAction("Index");
+                    //return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
 
                 }
 
