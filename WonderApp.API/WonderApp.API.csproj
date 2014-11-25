@@ -242,7 +242,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\XMLDocument.xml" />
+    <Content Include="App_Data\XMLDocument.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

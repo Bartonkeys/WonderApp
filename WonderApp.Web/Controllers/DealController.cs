@@ -83,7 +83,12 @@ namespace WonderApp.Web.Controllers
                 {
                     var returnModel = CreateDealViewModel<DealCreateModel>();
                     returnModel.DealModel = model.DealModel;
-                    returnModel.Image = model.Image;
+                    if (model.Image != null)
+                    {
+                        var returnImage = CreateImage(model.Image);
+                        returnModel.UploadedImage = returnImage;
+                    }
+                    
                     returnModel.TagString = model.TagString;
                     returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
            
@@ -115,8 +120,13 @@ namespace WonderApp.Web.Controllers
                 deal.Company = DataContext.Companies.Find(model.DealModel.Company.Id);
                 deal.Cost = DataContext.Costs.Find(model.DealModel.Cost.Id);
 
-                var image = CreateImage(model.Image);
-                deal.Images.Add(image);
+                if (model.UploadedImage == null)
+                {
+                    model.UploadedImage = CreateImage(model.Image);
+                
+                }
+               
+                deal.Images.Add(model.UploadedImage);
 
                 deal.Creator_User_Id = User.Identity.GetUserId(); ;
                 
@@ -129,8 +139,22 @@ namespace WonderApp.Web.Controllers
             }
             catch (Exception e)
             {
+                //TODO: Add user message to show why save failed
                 Debug.Print(e.Message);
-                return View(model); 
+
+                var returnModel = CreateDealViewModel<DealCreateModel>();
+                returnModel.DealModel = model.DealModel;
+                if (model.Image != null)
+                {
+                    var returnImage = CreateImage(model.Image);
+                    returnModel.UploadedImage = returnImage;
+                }
+
+                returnModel.TagString = model.TagString;
+                returnModel.AgeString = model.AgeString;
+                returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+
+                return View(returnModel); 
             }
         }
 
@@ -204,7 +228,7 @@ namespace WonderApp.Web.Controllers
                     }
 
                     returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
-           
+
                     return View(returnModel);
                 }
 

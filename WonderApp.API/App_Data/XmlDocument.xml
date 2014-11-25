@@ -519,6 +519,7 @@
             <param name="accessToken"></param>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:WonderApp.Controllers.AccountController.GetAllUsers" -->
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries

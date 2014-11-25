@@ -101,7 +101,7 @@ namespace WonderApp.Controllers
         /// Get All Users as a List of UserModel objects
         /// If any error, return 500 with message.
         /// </summary>
-        /// 
+        /// <param name></param>
         /// <returns>HttpResponseMessage</returns>
         [AllowAnonymous]
         [Route("Users")]
