@@ -250,6 +250,8 @@ namespace WonderApp.Web.Controllers
 
                     Mapper.Map(model.DealModel, deal);
 
+                    deal.Address.PostCode = model.DealModel.Location.Name;
+
                     //return RedirectToAction("Index");
                     return RedirectToAction("Edit/", new { id = model.DealModel.Id, edit = "true" });
 
