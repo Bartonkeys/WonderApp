@@ -35,14 +35,20 @@ else
                 <th class="col-md-2">
                     Company
                 </th>
-                <th class="col-md-2">
+                <th class="col-md-1">
                     City
+                </th>
+                <th class="col-md-1">
+                    Season
                 </th>
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Likes)
                 </th>
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Expired)
                 </th>
                 <th class="col-md-2"></th>
             </tr>
@@ -77,16 +83,28 @@ else
                         @Html.DisplayFor(modelItem => item.City.Name)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Season.Name)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Likes)
                     </td>
                     <td id="@item.Id" onclick="priorityClicked(@item.Id)">
                         @Html.CheckBoxFor(modelItem => item.Priority)
                     </td>
+                    <td id="@item.Id" onclick="expiredClicked(@item.Id)">
+                        @Html.CheckBoxFor(modelItem => item.Expired)
+                    </td>
                     <td>
-                        <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                        <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
                         <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
 
+                        @if (ViewBag.isAdmin || item.Creator != null && item.Creator.Id == ViewBag.userId)
+                        {
+                            <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                            <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
+                       
+                        }
+
+                        
                     </td>
 
                 </tr>
@@ -140,6 +158,26 @@ else
                     $.isLoading("hide");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     toastr.error('Error setting the priority - please try again')
+                    $.isLoading("hide");
+
+                });
+            }
+
+            function expiredClicked(cid){
+                
+
+                $.isLoading({ text: "Updating expired..." });
+                $.ajax("/api/Tag/UpdateExpired/" + cid, {
+                    dataType: "json",
+                    type: "PUT"
+                }).done(function (data) {
+                    if (data != null) {
+                        $(this).prop('checked', data);
+                        toastr.success('Expired successfully updated')
+                    }
+                    $.isLoading("hide");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    toastr.error('Error setting the wonder expired - please try again')
                     $.isLoading("hide");
 
                 });

@@ -1,8 +1,9 @@
 ﻿/// <reference path="../../scripts/typings/google/google.maps.d.ts" />
 /// <reference path="../../scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../../scripts/typings/jqueryui/jqueryui.d.ts" />
-
-    function initializeLocationTab() {
+var locationDivId = '#DealModel_Location_Name';
+function initializeLocationTab(divId) {
+    locationDivId = divId;
             if (document.getElementById('locationScript') == null) {
                 var script = document.createElement('script');
                 script.setAttribute('id', 'locationScript');
@@ -137,7 +138,7 @@
         };
 
         findAddressFromSearch = () => {
-            var searchAddress = $('#DealModel_Location_Name').val();
+            var searchAddress = $(locationDivId).val();
             if (searchAddress != "") {
                 this.geocoder.geocode({ 'address': searchAddress }, (results, status) => {
                     if ((status == google.maps.GeocoderStatus.OK) && (results.length >= 0)) {

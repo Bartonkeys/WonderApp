@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +92,29 @@ namespace WonderApp.Controllers
                 return Request.CreateResponse(HttpStatusCode.Created, user.Id);
             }
             catch(Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Get All Users as a List of UserModel objects
+        /// If any error, return 500 with message.
+        /// </summary>
+        /// 
+        /// <returns>HttpResponseMessage</returns>
+        [AllowAnonymous]
+        [Route("Users")]
+        public HttpResponseMessage GetAllUsers()
+        {
+            try
+            {
+                var users = Mapper.Map<List<UserModel>>(DataContext.AspNetUsers);
+                return Request.CreateResponse(HttpStatusCode.OK, users);
+            }
+            catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }

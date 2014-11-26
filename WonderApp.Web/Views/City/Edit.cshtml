@@ -1,0 +1,68 @@
+﻿@model WonderApp.Web.Models.CityViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit City</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.HiddenFor(model => model.CityModel.Id)
+        @Html.HiddenFor(model => model.CityModel.Location.Id)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CityModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CityModel.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CityModel.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.CityModel.Location.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CityModel.Location.Name)
+                <a href="#" id="searchLocation" onclick="event.preventDefault();" class="btn btn-info">Search</a>
+                @Html.ValidationMessageFor(model => model.CityModel.Location.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div id="mapContainer">
+                <div id="map_canvas"></div>
+                <a href="#" id="removeLocation" style="@(Model.CityModel.Location != null && Model.CityModel.Location.Id == 0 ? "" : "display:none;")">Remove Location from this widget</a>
+                @Html.HiddenFor(m => m.CityModel.Location.Latitude, new { @id = "Latitude" })
+                @Html.HiddenFor(m => m.CityModel.Location.Longitude, new { @id = "Longitude" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update City" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to cities", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/location")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initializeLocationTab('#CityModel_Location_Name');
+        });
+    </script>
+}

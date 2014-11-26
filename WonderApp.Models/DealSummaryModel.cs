@@ -21,13 +21,19 @@ namespace WonderApp.Models
         public int Likes { get; set; }
 
         public bool Publish { get; set; }
+
         public bool Archived { get; set; }
 
         public bool Priority { get; set; }
+
+        public bool Expired { get; set; }
 
         public CompanyModel Company { get; set; }
 
         public virtual CityModel City { get; set; }
 
+        public virtual UserModel Creator { get; set; }
+
+        public virtual SeasonModel Season { get; set; }
     }
 }

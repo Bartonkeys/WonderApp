@@ -1,0 +1,37 @@
+﻿@model WonderApp.Models.CityModel
+
+<div>
+    <h4>CityModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Latitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location.Latitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Longitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location.Longitude)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

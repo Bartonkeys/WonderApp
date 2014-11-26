@@ -20,6 +20,7 @@
     [Season_Id]        INT            NULL,
     [Phone]            NVARCHAR (200) NULL,
     [Gender_Id]        INT            NULL,
+    [Expired]          BIT            NULL,
     CONSTRAINT [PK_Deals] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_CategoryDeal] FOREIGN KEY ([Category_Id]) REFERENCES [dbo].[Categories] ([Id]),
     CONSTRAINT [FK_Deal_Creator] FOREIGN KEY ([Creator_User_Id]) REFERENCES [dbo].[AspNetUsers] ([Id]),
@@ -31,6 +32,8 @@
     CONSTRAINT [FK_Deals_Genders] FOREIGN KEY ([Gender_Id]) REFERENCES [dbo].[Genders] ([Id]),
     CONSTRAINT [FK_Deals_Seasons] FOREIGN KEY ([Season_Id]) REFERENCES [dbo].[Seasons] ([Id])
 );
+
+
 
 
 

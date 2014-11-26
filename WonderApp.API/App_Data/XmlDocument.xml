@@ -519,7 +519,15 @@
             <param name="accessToken"></param>
             <returns></returns>
         </member>
-        <member name="M:WonderApp.Controllers.AccountController.PostPersonal(WonderApp.Models.UserInfoModel,System.String)">
+        <member name="M:WonderApp.Controllers.AccountController.GetAllUsers">
+            <summary>
+            Get All Users as a List of UserModel objects
+            If any error, return 500 with message.
+            </summary>
+            
+            <returns>HttpResponseMessage</returns>
+        </member>
+        <member name="M:WonderApp.Controllers.AccountController.PostPersonal(WonderApp.Models.UserInfoModel)">
             <summary>
             HTTP POST to save personal information.
             Returns HTTP StatusCode 200.

@@ -233,6 +233,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController\BaseApiController.cs" />
     <Compile Include="Controllers\BaseController\BaseController.cs" />
+    <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CostController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -248,6 +249,7 @@
     </Compile>
     <Compile Include="InfaStructure\ClientMessage.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CityViewModel.cs" />
     <Compile Include="Models\CompanyViewModel.cs" />
     <Compile Include="Models\CostViewModel.cs" />
     <Compile Include="Models\DealCreateModel.cs" />
@@ -782,7 +784,9 @@
     <Content Include="Scripts\tagSearch.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -847,6 +851,11 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Deal\Delete.cshtml" />
     <Content Include="Views\Manage\ManageWonders.cshtml" />
+    <Content Include="Views\City\Index.cshtml" />
+    <Content Include="Views\City\Details.cshtml" />
+    <Content Include="Views\City\Create.cshtml" />
+    <Content Include="Views\City\Edit.cshtml" />
+    <Content Include="Views\City\Delete.cshtml" />
     <None Include="Web.Sandbox.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -18,12 +18,12 @@ namespace WonderApp.Models
         [DisplayName("Name")]
         [Required(ErrorMessage = "Please enter an address")]
         [JsonProperty(PropertyName = "addressLine1")]
-        [MaxLength(50)]
+        [MaxLength(15)]
         public string AddressLine1 { get; set; }
 
         [DisplayName("Street")]
         [JsonProperty(PropertyName = "addressLine2")]
-        [MaxLength(25)]
+        [MaxLength(15)]
         public string AddressLine2 { get; set; }
 
         [JsonProperty(PropertyName = "postCode")]
