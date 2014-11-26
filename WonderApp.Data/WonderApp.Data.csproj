@@ -126,6 +126,9 @@
     <Compile Include="Tag.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserPreference.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WonderAppModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

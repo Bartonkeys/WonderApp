@@ -103,6 +103,15 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<Age, AgeModel>();
             Mapper.CreateMap<AgeModel, Age>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
+
+            Mapper.CreateMap<UserPreference, UserPreferenceModel>();
+            Mapper.CreateMap<UserPreferenceModel, UserPreference>();
+
+            Mapper.CreateMap<AspNetUser, UserInfoModel>();
+
+            Mapper.CreateMap<UserInfoModel, AspNetUser>()
+                .ForMember(e => e.Gender, opt => opt.Ignore())
+                .ForMember(e => e.UserPreference, opt => opt.Ignore());
         }
     }
 }

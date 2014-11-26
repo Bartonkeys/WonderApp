@@ -13,9 +13,13 @@
     [UserName]             NVARCHAR (256) NOT NULL,
     [Gender_Id]            INT            NULL,
     [Name]                 NVARCHAR (512) NULL,
+    [Forename]             NVARCHAR (512) NULL,
+    [Surname]              NVARCHAR (512) NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AspNetUserGender] FOREIGN KEY ([Gender_Id]) REFERENCES [dbo].[Genders] ([Id])
 );
+
+
 
 
 GO

@@ -89,5 +89,6 @@
     <Build Include="dbo\Tables\Seasons.sql" />
     <Build Include="dbo\Tables\DealAge.sql" />
     <Build Include="dbo\Tables\Ages.sql" />
+    <Build Include="dbo\Tables\UserPreferences.sql" />
   </ItemGroup>
 </Project>

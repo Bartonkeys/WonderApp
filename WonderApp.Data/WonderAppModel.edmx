@@ -81,6 +81,8 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Gender_Id" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="512" />
+          <Property Name="Forename" Type="nvarchar" MaxLength="512" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -204,7 +206,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Time" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="User_Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Seasons">
           <Key>
@@ -235,6 +236,13 @@
           </Key>
           <Property Name="MyWonderUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="MyWonders_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ReminderId" Type="int" />
         </EntityType>
         <Association Name="FK_AspNetUserCategory_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -281,18 +289,6 @@
             </Principal>
             <Dependent Role="Locations">
               <PropertyRef Name="AspNetUser_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserReminder">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Reminders">
-              <PropertyRef Name="User_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -588,6 +584,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserPreferences_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPreferences_Reminders">
+          <End Role="Reminders" Type="Self.Reminders" Multiplicity="0..1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reminders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="ReminderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WonderAppModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ages" EntityType="Self.Ages" Schema="dbo" store:Type="Tables" />
@@ -614,6 +634,7 @@
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealReject" EntityType="Self.UserDealReject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealWonders" EntityType="Self.UserDealWonders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetUserCategory_AspNetUser" Association="Self.FK_AspNetUserCategory_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserCategory" EntitySet="AspNetUserCategory" />
@@ -629,10 +650,6 @@
           <AssociationSet Name="FK_AspNetUserLocation" Association="Self.FK_AspNetUserLocation">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Locations" EntitySet="Locations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserReminder" Association="Self.FK_AspNetUserReminder">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -730,6 +747,14 @@
             <End Role="Deals" EntitySet="Deals" />
             <End Role="UserDealWonders" EntitySet="UserDealWonders" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserPreferences_AspNetUsers" Association="Self.FK_UserPreferences_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPreferences_Reminders" Association="Self.FK_UserPreferences_Reminders">
+            <End Role="Reminders" EntitySet="Reminders" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -793,10 +818,6 @@
             <End EntitySet="AspNetUsers" Role="AspNetUser" />
             <End EntitySet="Deals" Role="Deal" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserReminder" Association="WonderAppModel.AspNetUserReminder">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Reminder" EntitySet="Reminders" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserLocation" Association="WonderAppModel.AspNetUserLocation">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Location" EntitySet="Locations" />
@@ -854,6 +875,15 @@
           <AssociationSet Name="DealAge" Association="WonderAppModel.DealAge">
             <End Role="Age" EntitySet="Ages" />
             <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <EntitySet Name="UserPreferences" EntityType="WonderAppModel.UserPreference" />
+          <AssociationSet Name="FK_UserPreferences_AspNetUsers" Association="WonderAppModel.FK_UserPreferences_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserPreference" EntitySet="UserPreferences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPreferences_Reminders" Association="WonderAppModel.FK_UserPreferences_Reminders">
+            <End Role="Reminder" EntitySet="Reminders" />
+            <End Role="UserPreference" EntitySet="UserPreferences" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Deal">
@@ -941,7 +971,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Time" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="User" Relationship="WonderAppModel.AspNetUserReminder" FromRole="Reminder" ToRole="AspNetUser" />
+          <NavigationProperty Name="UserPreferences" Relationship="WonderAppModel.FK_UserPreferences_Reminders" FromRole="Reminder" ToRole="UserPreference" />
         </EntityType>
         <EntityType Name="Cost">
           <Key>
@@ -1039,11 +1069,13 @@
           <NavigationProperty Name="Gender" Relationship="WonderAppModel.AspNetUserGender" FromRole="AspNetUser" ToRole="Gender" />
           <NavigationProperty Name="MyWonders" Relationship="WonderAppModel.UserDealWonders" FromRole="AspNetUser" ToRole="Deal" />
           <NavigationProperty Name="MyRejects" Relationship="WonderAppModel.UserDealReject" FromRole="AspNetUser" ToRole="Deal" />
-          <NavigationProperty Name="MyReminder" Relationship="WonderAppModel.AspNetUserReminder" FromRole="AspNetUser" ToRole="Reminder" />
           <NavigationProperty Name="Locations" Relationship="WonderAppModel.AspNetUserLocation" FromRole="AspNetUser" ToRole="Location" />
           <NavigationProperty Name="Categories" Relationship="WonderAppModel.AspNetUserCategory" FromRole="AspNetUser" ToRole="Category" />
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deal_Creator" FromRole="AspNetUser" ToRole="Deal" />
+          <Property Name="Forename" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserPreference" Relationship="WonderAppModel.FK_UserPreferences_AspNetUsers" FromRole="AspNetUser" ToRole="UserPreference" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -1088,10 +1120,6 @@
         <Association Name="UserDealReject">
           <End Type="WonderAppModel.AspNetUser" Multiplicity="*" Role="AspNetUser" />
           <End Type="WonderAppModel.Deal" Multiplicity="*" Role="Deal" />
-        </Association>
-        <Association Name="AspNetUserReminder">
-          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="WonderAppModel.Reminder" Role="Reminder" Multiplicity="*" />
         </Association>
         <Association Name="AspNetUserLocation">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -1255,6 +1283,39 @@
           <End Type="WonderAppModel.Age" Role="Age" Multiplicity="*" />
           <End Type="WonderAppModel.Deal" Role="Deal" Multiplicity="*" />
         </Association>
+        <EntityType Name="UserPreference">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ReminderId" Type="Int32" />
+          <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_UserPreferences_AspNetUsers" FromRole="UserPreference" ToRole="AspNetUser" />
+          <NavigationProperty Name="Reminder" Relationship="WonderAppModel.FK_UserPreferences_Reminders" FromRole="UserPreference" ToRole="Reminder" />
+        </EntityType>
+        <Association Name="FK_UserPreferences_AspNetUsers">
+          <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="WonderAppModel.UserPreference" Role="UserPreference" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPreference">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPreferences_Reminders">
+          <End Type="WonderAppModel.Reminder" Role="Reminder" Multiplicity="0..1" />
+          <End Type="WonderAppModel.UserPreference" Role="UserPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reminder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPreference">
+              <PropertyRef Name="ReminderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1384,7 +1445,9 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUser)">
         <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Forename" ColumnName="Forename" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -1491,15 +1554,6 @@
         <ScalarProperty Name="Id" ColumnName="MyRejects_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="AspNetUserReminder" TypeName="WonderAppModel.AspNetUserReminder" StoreEntitySet="Reminders">
-      <EndProperty Name="AspNetUser">
-        <ScalarProperty Name="Id" ColumnName="User_Id" />
-      </EndProperty>
-      <EndProperty Name="Reminder">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="User_Id" IsNull="false" />
-    </AssociationSetMapping>
     <AssociationSetMapping Name="AspNetUserLocation" TypeName="WonderAppModel.AspNetUserLocation" StoreEntitySet="Locations">
       <EndProperty Name="AspNetUser">
         <ScalarProperty Name="Id" ColumnName="AspNetUser_Id" />
@@ -1585,6 +1639,14 @@
               <ScalarProperty Name="Id" ColumnName="Ages_Id" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="UserPreferences">
+            <EntityTypeMapping TypeName="WonderAppModel.UserPreference">
+              <MappingFragment StoreEntitySet="UserPreferences">
+                <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -29,7 +29,6 @@
         <AssociationConnector Association="WonderAppModel.AspNetUserGender" />
         <AssociationConnector Association="WonderAppModel.UserDealWonders" />
         <AssociationConnector Association="WonderAppModel.UserDealReject" />
-        <AssociationConnector Association="WonderAppModel.AspNetUserReminder" />
         <AssociationConnector Association="WonderAppModel.AspNetUserLocation" />
         <AssociationConnector Association="WonderAppModel.AspNetUserCategory" />
         <AssociationConnector Association="WonderAppModel.CategoryDeal" />
@@ -49,6 +48,9 @@
         <AssociationConnector Association="WonderAppModel.FK_Deals_Genders" />
         <EntityTypeShape EntityType="WonderAppModel.Age" Width="1.5" PointX="0.75" PointY="9.75" />
         <AssociationConnector Association="WonderAppModel.DealAge" />
+        <EntityTypeShape EntityType="WonderAppModel.UserPreference" Width="1.5" PointX="5.375" PointY="2.375" />
+        <AssociationConnector Association="WonderAppModel.FK_UserPreferences_AspNetUsers" />
+        <AssociationConnector Association="WonderAppModel.FK_UserPreferences_Reminders" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

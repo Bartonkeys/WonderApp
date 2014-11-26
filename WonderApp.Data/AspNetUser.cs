@@ -21,7 +21,6 @@ namespace WonderApp.Data
             this.Roles = new HashSet<AspNetRole>();
             this.MyWonders = new HashSet<Deal>();
             this.MyRejects = new HashSet<Deal>();
-            this.MyReminder = new HashSet<Reminder>();
             this.Locations = new HashSet<Location>();
             this.Categories = new HashSet<Category>();
             this.Deals = new HashSet<Deal>();
@@ -40,6 +39,8 @@ namespace WonderApp.Data
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
+        public string Forename { get; set; }
+        public string Surname { get; set; }
     
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
@@ -47,9 +48,9 @@ namespace WonderApp.Data
         public virtual Gender Gender { get; set; }
         public virtual ICollection<Deal> MyWonders { get; set; }
         public virtual ICollection<Deal> MyRejects { get; set; }
-        public virtual ICollection<Reminder> MyReminder { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Deal> Deals { get; set; }
+        public virtual UserPreference UserPreference { get; set; }
     }
 }

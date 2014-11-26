@@ -17,6 +17,8 @@ using Microsoft.Owin.Security.OAuth;
 using WonderApp.Models;
 using System.Net;
 using WonderApp.Constants;
+using AutoMapper;
+using WonderApp.Data;
 
 namespace WonderApp.Controllers
 {
@@ -112,6 +114,71 @@ namespace WonderApp.Controllers
                           .Select(s => s[random.Next(s.Length)])
                           .ToArray());
             facebookUser.Email = facebookUser.Email ?? String.Format("{0}@test.com", randomUserName);
+        }
+
+        /// <summary>
+        /// HTTP POST to save personal information.
+        /// Returns HTTP StatusCode 200.
+        /// If error, return Http Status Code 500 with error message.
+        /// </summary>
+        /// <returns></returns>   
+        [Route("personal")]
+        public async Task<HttpResponseMessage> PostPersonal([FromBody]UserInfoModel userPersonal)
+        {
+            try
+            {
+                var user = DataContext.AspNetUsers.Find(userPersonal.Id);
+
+                user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                List<Data.Category> categories = new List<Data.Category>();
+                foreach (CategoryModel cat in userPersonal.MyCategories)
+                {
+                    categories.Add(DataContext.Categories.FirstOrDefault(c => c.Id == cat.Id));
+                }
+                user.Categories.Clear();
+                user.Categories = categories;
+                if (user.UserPreference == null)
+                {
+                    user.UserPreference = new Data.UserPreference();
+                }
+                user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
+
+                Mapper.Map(userPersonal, user);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Return all User preferences/personal data
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("personal/{userId}")]
+        public async Task<HttpResponseMessage> GetUserInfo(string userId)
+        {
+            try
+            {
+                var user = await Task.Run(() =>
+                {
+                    AspNetUser aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
+                    List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
+
+                    UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
+                    userInfo.MyCategories = categories;
+                    return userInfo;
+                });
+
+                return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
     }
