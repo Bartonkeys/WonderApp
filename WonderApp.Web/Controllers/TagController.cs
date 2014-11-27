@@ -9,6 +9,7 @@ using WonderApp.Data;
 
 namespace WonderApp.Web.Controllers
 {
+    [RoutePrefix("api/tag")]
     public class TagController : BaseApiController
     {
 
@@ -215,6 +216,29 @@ namespace WonderApp.Web.Controllers
                 d.Expired = d.Expired == null ? true : !d.Expired;
                 DataContext.Commit();
                 return d.Expired;
+            }
+
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        [HttpPut]
+        [Route("expireAll/{id}/{expire}")]
+        public bool? UpdateAllExpired(int? id, bool expire)
+        {
+            try
+            {
+                var season = DataContext.Seasons.FirstOrDefault(w => w.Id == id);
+                
+                foreach (var wonder in season.Deals)
+                {
+                    wonder.Expired = expire;
+                }
+
+                return expire;
             }
 
             catch (Exception e)

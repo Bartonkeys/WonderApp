@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WonderApp.Web.Models.SeasonExpiryViewModel>
+
+@{
+    ViewBag.Title = "Season";
+}
+
+<h2>Expire by Season</h2>
+
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>
+            Season
+        </th>
+        <th>
+            Expired?
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Season.Name)
+            </td>
+            <td onclick="expiredClicked(@item.Season.Id)">
+                @Html.CheckBoxFor(modelItem => item.Expired, new { id = item.Season.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+            function expiredClicked(cid){
+
+                var expireWonders = $('#' + cid).prop('checked');
+
+                $.isLoading({ text: "Updating expire all..." });
+                $.ajax("/api/Tag/expireAll/" + cid + "/" + expireWonders, {
+                    dataType: "json",
+                    type: "PUT"
+                }).statusCode()
+                    .done(function (data) {
+                    if (data != null) {
+                        $(this).prop('checked', data);
+                        toastr.success('Expired successfully updated')
+                    }
+                    $.isLoading("hide");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    toastr.error('Error setting the wonders expired - please try again')
+                    $.isLoading("hide");
+
+                });
+            }
+
+    </script>
+
+}
