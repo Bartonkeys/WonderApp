@@ -542,6 +542,13 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.AccountController.Delete(System.String)">
+            <summary>
+            Completely remove user, delete the lot; user detail and wonder likes / dislikes
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries

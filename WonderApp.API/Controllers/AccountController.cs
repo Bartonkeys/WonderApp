@@ -205,5 +205,27 @@ namespace WonderApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Completely remove user, delete the lot; user detail and wonder likes / dislikes
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("delete/{userId}")]
+        [HttpDelete]
+        public async Task<HttpResponseMessage> Delete(string userId)
+        {
+            try
+            {
+                var aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
+                DataContext.AspNetUsers.Remove(aspNetUser);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
     }
 }
