@@ -217,7 +217,14 @@ namespace WonderApp.Controllers
             try
             {
                 var aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
-                DataContext.AspNetUsers.Remove(aspNetUser);
+
+                if (aspNetUser != null)
+                {
+                    aspNetUser.MyRejects.Clear();
+                    aspNetUser.MyWonders.Clear();
+                    DataContext.AspNetUsers.Remove(aspNetUser);
+                }
+                  
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
