@@ -53,6 +53,7 @@ namespace WonderApp.Controllers
                         var amountToSkip = 100;
                         while (popularWonders.Count() == 0)
                         {
+                            if (NoMoreWonders(model, amountToSkip)) break;
                             popularWonders = GetPopularWonders(model, amountToSkip);
                             amountToSkip += 100;
                         }
@@ -75,6 +76,7 @@ namespace WonderApp.Controllers
                         var amountToSkip = 100;
                         while (popularWonders.Count() == 0)
                         {
+                            if (NoMoreWonders(model, amountToSkip)) break;
                             popularWonders = GetPopularWonders(model, amountToSkip);
                             amountToSkip += 100;
                         }
@@ -94,6 +96,22 @@ namespace WonderApp.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
+        }
+
+        private bool NoMoreWonders(WonderModel model, int amountToSkip)
+        {
+            var wonders = DataContext.Deals
+            .Where(w => w.CityId == model.CityId
+                && w.Archived == false
+                && w.Expired != true
+                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                && w.MyWonderUsers.All(u => u.Id != model.UserId))
+            .OrderByDescending(w => w.Likes)
+            .Skip(amountToSkip)
+            .Take(100);
+
+            return wonders.Count() == 0;
         }
 
         private IQueryable<Data.Deal> GetNearestWonders(WonderModel model)
