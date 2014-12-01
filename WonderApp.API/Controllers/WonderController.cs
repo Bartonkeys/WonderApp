@@ -22,10 +22,11 @@ namespace WonderApp.Controllers
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, cityId and userId.
-        /// There is an algorthim in place which takes 6 random Wonders from the following: 
-        /// proximity of 2 miles, priority and popularity. It also includes 2 completely random
+        /// There is an algorthim in place which takes 10 random Wonders from the following: 
+        /// proximity of 5 miles, priority and popularity. It also includes 10 completely random
         /// wonders. There will be no duplicates in the list and user will not see wonders 
-        /// they have previously disliked OR wonders they ahve previously liked.
+        /// they have previously disliked OR wonders they have previously liked.
+        /// If no location just returns priority, random and popular.
         /// Returns HTTP StatusCode 200 with JSON list of wonder deals.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
@@ -43,52 +44,20 @@ namespace WonderApp.Controllers
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
-                    var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
-
                     wonders = await Task.Run(() =>
                     {
-                        var nearestWonders = DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius 
-                               && w.Archived == false
-                               && w.Expired != true
-                               && (w.AlwaysAvailable == true|| w.ExpiryDate >= DateTime.Now) 
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                           .OrderBy(x => Guid.NewGuid())
-                           .Take(10);
+                        var nearestWonders = GetNearestWonders(model);
+                        var priorityWonders = GetPriorityWonders(model);
 
-                        var priorityWonders = DataContext.Deals
-                            .Where(w => w.Priority == true
-                                && w.CityId == model.CityId
-                                && w.Archived == false
-                                && w.Expired != true
-                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                            .OrderBy(x => Guid.NewGuid())
-                            .Take(10);
+                        var popularWonders = GetPopularWonders(model, amountToSkip: 0);
+                        var amountToSkip = 100;
+                        while (popularWonders.Count() == 0)
+                        {
+                            popularWonders = GetPopularWonders(model, amountToSkip);
+                            amountToSkip += 100;
+                        }
 
-                        var popularWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId
-                                && w.Archived == false
-                                && w.Expired != true
-                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                            .OrderByDescending(w => w.Likes)
-                            .Take(100)
-                            .OrderBy(x => Guid.NewGuid())
-                            .Take(10);
-
-                        var randomWonders = DataContext.Deals
-                            .Where(w => w.CityId == model.CityId
-                                && w.Archived == false
-                                && w.Expired != true
-                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now) 
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                            .OrderBy(x => Guid.NewGuid())
-                            .Take(10);
+                        var randomWonders = GetRandomWonders(model);
 
                         var results = nearestWonders.Union(priorityWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
@@ -100,13 +69,22 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        return Mapper.Map<List<DealModel>>(DataContext.Deals
-                            .Where(w => w.Archived == false
-                                && w.Expired != true
-                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                            .OrderByDescending(x => x.Id)
-                            .Take(WonderAppConstants.DefaultMaxNumberOfWonders));
+                        var priorityWonders = GetPriorityWonders(model);
+
+                        var popularWonders = GetPopularWonders(model, amountToSkip: 0);
+                        var amountToSkip = 100;
+                        while (popularWonders.Count() == 0)
+                        {
+                            popularWonders = GetPopularWonders(model, amountToSkip);
+                            amountToSkip += 100;
+                        }
+
+                        var randomWonders = GetRandomWonders(model);
+
+                        var results = priorityWonders.Union(popularWonders).Union(randomWonders);
+                        results = results.OrderBy(x => Guid.NewGuid());
+
+                        return Mapper.Map<List<DealModel>>(results);
                     });
                 }
 
@@ -116,6 +94,63 @@ namespace WonderApp.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
+        }
+
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model)
+        {
+            var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
+            return DataContext.Deals
+                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= WonderAppConstants.DefaultRadius
+                               && w.Archived == false
+                               && w.Expired != true
+                               && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
+                           .OrderBy(x => Guid.NewGuid())
+                           .Take(10);
+        }
+
+        private IQueryable<Data.Deal> GetPriorityWonders(WonderModel model)
+        {
+            return DataContext.Deals
+                            .Where(w => w.Priority == true
+                                && w.CityId == model.CityId
+                                && w.Archived == false
+                                && w.Expired != true
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
+                            .OrderBy(x => Guid.NewGuid())
+                            .Take(10);
+        }
+
+        private IQueryable<Data.Deal> GetPopularWonders(WonderModel model, int amountToSkip)
+        {
+            return DataContext.Deals
+            .Where(w => w.CityId == model.CityId
+                && w.Archived == false
+                && w.Expired != true
+                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                && w.MyWonderUsers.All(u => u.Id != model.UserId))
+            .OrderByDescending(w => w.Likes)
+            .Skip(amountToSkip)
+            .Take(100)
+            .OrderBy(x => Guid.NewGuid())
+            .Take(10);
+        }
+
+        private IQueryable<Data.Deal> GetRandomWonders(WonderModel model)
+        {
+            return DataContext.Deals
+                            .Where(w => w.CityId == model.CityId
+                                && w.Archived == false
+                                && w.Expired != true
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
+                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
+                            .OrderBy(x => Guid.NewGuid())
+                            .Take(10);
         }
 
         /// <summary>

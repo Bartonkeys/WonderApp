@@ -577,10 +577,11 @@
             <summary>
             HTTP POST to return wonder deals. Send the following in body: 
             Current position in latitude and longitude, cityId and userId.
-            There is an algorthim in place which takes 6 random Wonders from the following: 
-            proximity of 2 miles, priority and popularity. It also includes 2 completely random
+            There is an algorthim in place which takes 10 random Wonders from the following: 
+            proximity of 5 miles, priority and popularity. It also includes 10 completely random
             wonders. There will be no duplicates in the list and user will not see wonders 
-            they have previously disliked OR wonders they ahve previously liked.
+            they have previously disliked OR wonders they have previously liked.
+            If no location just returns priority, random and popular.
             Returns HTTP StatusCode 200 with JSON list of wonder deals.
             If error, return Http Status Code 500 with error message.
             </summary>
