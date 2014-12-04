@@ -486,6 +486,11 @@
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColReorder\js\dataTables.colReorder.js" />
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColReorder\js\dataTables.colReorder.min.js" />
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColReorder\Readme.txt" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\jquery.dataTables.columnFilter.js" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\example.html" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\jquery.dataTables.yadcf.css" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\jquery.dataTables.yadcf.js" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\LICENSE-MIT.txt" />
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColVis\css\dataTables.colVis.css" />
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
     <Content Include="Plugins\DataTables-1.10.2\extensions\ColVis\css\dataTables.colVis.min.css" />
@@ -673,6 +678,10 @@
     <Content Include="Plugins\DataTables-1.10.2\media\images\Sorting icons.psd" />
     <Content Include="Plugins\DataTables-1.10.2\package.json" />
     <Content Include="Plugins\DataTables-1.10.2\Readme.md" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\ChangeLog.markdown" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\contributing.md" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\README.md" />
+    <Content Include="Plugins\DataTables-1.10.2\extensions\ColumnFilter\yadcf-0.8.6\yadcf.jquery.json" />
     <None Include="Properties\PublishProfiles\wonderapp-website.pubxml" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />

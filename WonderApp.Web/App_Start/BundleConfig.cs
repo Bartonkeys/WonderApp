@@ -43,7 +43,8 @@ namespace WonderApp.Web
                       "~/App/Location/location.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
-                      "~/Plugins/DataTables-1.10.2/media/js/jquery.dataTables.js"));
+                "~/Plugins/DataTables-1.10.2/media/js/jquery.dataTables.js",
+                "~/Plugins/DataTables-1.10.2/extensions/ColumnFilter/yadcf-0.8.6/jquery.dataTables.yadcf.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/isloading").Include(
                       "~/Scripts/jquery.isloading.js"));
@@ -56,10 +57,13 @@ namespace WonderApp.Web
                    "~/Content/css/bootstrap-datepicker.css",
                   "~/Content/css/site.css",
                   "~/Content/css/select2.css",
-                  "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css",
                   "~/Content/css/font-awesome/css/font-awesome.min.css",
                   "~/Content/css/isloading.css",
                   "~/Content/css/toastr.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css_bundle_datatables").Include(
+                "~/Plugins/DataTables-1.10.2/media/css/jquery.dataTables.css",
+               "~/Plugins/DataTables-1.10.2/extensions/ColumnFilter/yadcf-0.8.6/jquery.dataTables.yadcf.css"));
 
 
             // Set EnableOptimizations to false for debugging. For more information,

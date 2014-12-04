@@ -37,7 +37,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            var model = Mapper.Map<List<DealSummaryModel>>(DataContext.Deals
+            var model = Mapper.Map<List<DealModel>>(DataContext.Deals
                 .Where(x => (bool) !x.Archived )
                 .OrderByDescending(x => x.Id));
 
