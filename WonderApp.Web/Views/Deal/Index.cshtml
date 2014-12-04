@@ -1,7 +1,8 @@
-﻿@model IEnumerable<WonderApp.Models.DealSummaryModel>
+﻿@model IEnumerable<WonderApp.Models.DealModel>
+@Styles.Render("~/Content/css_bundle_datatables")
 
 @{
-    ViewBag.Title = "Wonders";
+    ViewBag.Title = "Wonders";    
 }
 
 
@@ -50,7 +51,13 @@ else
                 <th class="col-md-1">
                     <i class="fa fa-ban"></i>
                 </th>
-                <th class="col-md-2"></th>
+                <th class="col-md-2">
+                    
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>*@
+               
             </tr>
         </thead>
         <tbody>
@@ -106,8 +113,13 @@ else
 
                         
                     </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
 
                 </tr>
+                
             }
         </tbody>
     </table>
@@ -118,7 +130,6 @@ else
       
         <script type="text/javascript">
 
-
             function copyClicked(cid) {
 
 
@@ -126,57 +137,56 @@ else
                 $.ajax("/Deal/Copy/" + cid, {
                     dataType: "json",
                     type: "POST"
-                }).done(function (data) {
+                }).done(function(data) {
                     if (data != null) {
                         $.isLoading("hide");
                         toastr.success('Wonder successfully copied');
                         $.isLoading({ text: "Loading new wonder..." });
-                        $(location).attr('href','/Deal/Edit/' + data);
-                    }
-                    else{
+                        $(location).attr('href', '/Deal/Edit/' + data);
+                    } else {
                         $.isLoading("hide");
                     }
-                }).fail(function (jqXHR, textStatus, errorThrown) {
+                }).fail(function(jqXHR, textStatus, errorThrown) {
                     toastr.error('Error copying wonder - please try again')
                     $.isLoading("hide");
 
                 });
             }
 
-            function priorityClicked(cid){
-                
+            function priorityClicked(cid) {
+
 
                 $.isLoading({ text: "Updating priority..." });
                 $.ajax("/api/Tag/UpdatePriority/" + cid, {
                     dataType: "json",
                     type: "PUT"
-                }).done(function (data) {
+                }).done(function(data) {
                     if (data != null) {
                         $(this).prop('checked', data);
                         toastr.success('Priority successfully updated')
                     }
                     $.isLoading("hide");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
+                }).fail(function(jqXHR, textStatus, errorThrown) {
                     toastr.error('Error setting the priority - please try again')
                     $.isLoading("hide");
 
                 });
             }
 
-            function expiredClicked(cid){
-                
+            function expiredClicked(cid) {
+
 
                 $.isLoading({ text: "Updating expired..." });
                 $.ajax("/api/Tag/UpdateExpired/" + cid, {
                     dataType: "json",
                     type: "PUT"
-                }).done(function (data) {
+                }).done(function(data) {
                     if (data != null) {
                         $(this).prop('checked', data);
                         toastr.success('Expired successfully updated')
                     }
                     $.isLoading("hide");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
+                }).fail(function(jqXHR, textStatus, errorThrown) {
                     toastr.error('Error setting the wonder expired - please try again')
                     $.isLoading("hide");
 
@@ -186,7 +196,7 @@ else
             $(document).ready(function() {
 
                 var dTable;
-               
+
                 // Add event listener for opening and closing details
                 $('#dealList tbody').on('click', 'td.details-control', function() {
                     var tr = $(this).closest('tr');
@@ -200,28 +210,66 @@ else
                         // Open this row
                         $.isLoading({ text: "Loading wonder detail..." });
                         var dealId = this.id; //$(this).attr("rel");                   
-                        $.get("/Deal/DealDetail?dealId=" + dealId, function(deals) { 
+                        $.get("/Deal/DealDetail?dealId=" + dealId, function(deals) {
                             row.child(deals).show();
                             tr.addClass('shown');
                             $.isLoading("hide");
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
                             toastr.error('Error loading the wonder detail - please try again')
                             $.isLoading("hide");
 
-                        });;
+                        });
+                        ;
                     }
 
                 });
 
+                //dTable = $('#dealList').DataTable({
+                //    "bSortable": false, "aTargets": [0,1]
+                //});
+
                 dTable = $('#dealList').DataTable({
-                    "bSortable": false, "aTargets": [0,1]
+                    "aoColumns": [
+                        { "bVisible": true, "bSearchable": false, "bSortable": false},
+                        { "bVisible": true, "bSearchable": true, "bSortable": false},
+                        { "bVisible": true, "bSearchable": true, "bSortable": false},
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": false, "bSearchable": true, "bSortable": false }
+                    ],
+                    "aaSorting": []
                 });
-               
 
-            });
-            
+                //yadcf.init(dTable, [{
+                //    column_number: 4,
+                //    filter_default_label: "Choose"
+                //}, {
+                //    column_number: 5,
+                //    filter_default_label: "Choose"
+                //}, {
+                //    column_number: 6,
+                //    filter_default_label: "Choose"
+                //}
+                //{column_number : 0},
+                //{column_number : 1, filter_type: "range_number_slider", filter_container_id: "external_filter_container"},
+                //{column_number : 2, data: ["Yes", "No"], filter_default_label: "Select Yes/No"},
+                //{column_number : 3, filter_type: "auto_complete", text_data_delimiter: ","},
+                //{column_number : 4, column_data_type: "html", html_data_type: "text", filter_default_label: "Select tag"}
+                //]);
 
-            //Add a clickable link to the priority checkbox
+                
+                
+             
+
+            });            
+
+        //Add a clickable link to the priority checkbox
             //$("#dealList").on("click", "td", function () {
             //    alert($(this).text());
             //});
