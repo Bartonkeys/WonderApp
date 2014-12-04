@@ -34,13 +34,13 @@ else
                     @Html.DisplayNameFor(model => model.IntroDescription)
                 </th>
                 <th class="col-md-2">
-                    Company
-                </th>
-                <th class="col-md-2">
                     City
                 </th>
                 <th class="col-md-2">
                     Season
+                </th>
+                <th class="col-md-2">
+                    Company
                 </th>
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Likes)
@@ -84,13 +84,13 @@ else
                         @Html.DisplayFor(modelItem => item.IntroDescription)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Company.Name)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.City.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Season.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Company.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Likes)
