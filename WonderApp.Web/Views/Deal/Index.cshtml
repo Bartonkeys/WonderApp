@@ -24,19 +24,19 @@ else
                 <th class="col-md-1 details-control">
                     
                 </th>
-                <th class="col-md-2">
+                <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
-                <th class="col-md-2">
+                <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Tags)
                 </th>
                 <th class="col-md-2">
                     Intro
                 </th>
-                <th class="col-md-1">
+                <th class="col-md-2">
                     <i class="fa fa-university"></i>
                 </th>
-                <th class="col-md-1">
+                <th class="col-md-2">
                     <i class="fa fa-building"></i>
                 </th>
                 <th class="col-md-1">
@@ -148,13 +148,13 @@ else
                     Company
                 </th>
                 <th class="col-md-1">
-                    @Html.DisplayNameFor(model => model.Likes)
+                    
                 </th>
                 <th class="col-md-1">
-                    @Html.DisplayNameFor(model => model.Priority)
+                  
                 </th>
                 <th class="col-md-1">
-                    @Html.DisplayNameFor(model => model.Expired)
+                   
                 </th>
                 <th class="col-md-2">
 
@@ -274,10 +274,10 @@ else
                 // Setup - add a text input to each footer cell
                 $('#dealList tfoot th').each( function () {
                     
-                    var title = $('#dealList thead th').eq( $(this).index() ).text().replace(/\s/g, "");
+                    var title = $('#dealList tfoot th').eq( $(this).index() ).text().replace(/\s/g, "");
                     if (title != '' && title != 'Likes' && title != 'Priority'
                         && title != 'Expire') {
-                        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+                        $(this).html( '<input type="text" placeholder="Search" />' );
                     }
                    
                 } );
