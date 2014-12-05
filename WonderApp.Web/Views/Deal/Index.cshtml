@@ -30,13 +30,13 @@ else
                 <th class="col-md-1">
                     @Html.DisplayNameFor(model => model.Tags)
                 </th>
-                <th class="col-md-1">
+                <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.IntroDescription)
                 </th>
-                <th class="col-md-2">
+                <th class="col-md-1">
                     City
                 </th>
-                <th class="col-md-2">
+                <th class="col-md-1">
                     Season
                 </th>
                 <th class="col-md-2">
@@ -64,7 +64,9 @@ else
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="details-control" id="@item.Id"></td>
+                    <td class="details-control" id="@item.Id">
+                        
+                    </td>
                     <td>
                         <div class="input-group">
                             <span class="input-group-addon">#</span>
@@ -122,6 +124,47 @@ else
                 
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <th >
+
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Tags)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.IntroDescription)
+                </th>
+                <th class="col-md-2">
+                    City
+                </th>
+                <th class="col-md-2">
+                    Season
+                </th>
+                <th class="col-md-2">
+                    Company
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Likes)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.Expired)
+                </th>
+                <th class="col-md-2">
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+
+            </tr>
+        </tfoot>
     </table>
 
     @section Scripts {
@@ -227,45 +270,68 @@ else
                 //dTable = $('#dealList').DataTable({
                 //    "bSortable": false, "aTargets": [0,1]
                 //});
+                
+                // Setup - add a text input to each footer cell
+                $('#dealList tfoot th').each( function () {
+                    
+                    var title = $('#dealList thead th').eq( $(this).index() ).text().replace(/\s/g, "");
+                    if (title != '' && title != 'Likes' && title != 'Priority'
+                        && title != 'Expire') {
+                        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+                    }
+                   
+                } );
+                
 
+ 
+                
                 dTable = $('#dealList').DataTable({
                     "aoColumns": [
                         { "bVisible": true, "bSearchable": false, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": false, "bSearchable": true, "bSortable": false }
+                        { "bVisible": true, "bSearchable": true, "bSortable": true},
+                        { "bVisible": true, "bSearchable": true, "bSortable": true},
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": false, "bSearchable": true, "bSortable": true }
                     ],
                     "aaSorting": []
                 });
-
-                yadcf.init(dTable, [{
-                    column_number: 4,
-                    filter_default_label: "Choose"
-                }, {
-                    column_number: 5,
-                    filter_default_label: "Choose"
-                }, {
-                    column_number: 6,
-                    filter_default_label: "Choose"
-                }
-                //{column_number : 0},
-                //{column_number : 1, filter_type: "range_number_slider", filter_container_id: "external_filter_container"},
-                //{column_number : 2, data: ["Yes", "No"], filter_default_label: "Select Yes/No"},
-                //{column_number : 3, filter_type: "auto_complete", text_data_delimiter: ","},
-                //{column_number : 4, column_data_type: "html", html_data_type: "text", filter_default_label: "Select tag"}
-                ]);
-
                 
                 
-             
+ 
+                // Apply the search
+                dTable.columns().eq( 0 ).each( function ( colIdx ) {
+                    $( 'input', dTable.column( colIdx ).footer() ).on( 'keyup change', function () {
+                        dTable
+                            .column( colIdx )
+                            .search( this.value )
+                            .draw();
+                    } );
+                } );
+
+                //yadcf.init(dTable, [{
+                //    column_number: 4,
+                //    filter_default_label: "Choose"
+                //}, {
+                //    column_number: 5,
+                //    filter_default_label: "Choose"
+                //}, {
+                //    column_number: 6,
+                //    filter_default_label: "Choose"
+                //}
+                ////{column_number : 0},
+                ////{column_number : 1, filter_type: "range_number_slider", filter_container_id: "external_filter_container"},
+                ////{column_number : 2, data: ["Yes", "No"], filter_default_label: "Select Yes/No"},
+                ////{column_number : 3, filter_type: "auto_complete", text_data_delimiter: ","},
+                ////{column_number : 4, column_data_type: "html", html_data_type: "text", filter_default_label: "Select tag"}
+                //]);
+          
 
             });            
 

@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Some adtional CSS for the main DataTable search boxes in footer*/
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
