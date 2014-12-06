@@ -124,7 +124,7 @@ else
                 
             }
         </tbody>
-        <tfoot>
+        @*<tfoot>
             <tr>
                 <th >
 
@@ -164,7 +164,7 @@ else
                 </th>
 
             </tr>
-        </tfoot>
+        </tfoot>*@
     </table>
 
     @section Scripts {
@@ -272,12 +272,22 @@ else
                 //});
                 
                 // Setup - add a text input to each footer cell
-                $('#dealList tfoot th').each( function () {
+                $('#dealList thead th').each( function () {
                     
-                    var title = $('#dealList tfoot th').eq( $(this).index() ).text().replace(/\s/g, "");
-                    if (title != '' && title != 'Likes' && title != 'Priority'
-                        && title != 'Expire') {
-                        $(this).html( '<input type="text" placeholder="Search" />' );
+                    var title = $('#dealList thead th').eq( $(this).index() ).text();
+                    var item = $('#dealList thead th').eq($(this).index())[0];
+                    var innerHtml = item.innerHTML;
+                    var index = $(this).index();
+                    title = title.replace(/\s/g, "");
+                    //if (title != '' && title != 'Likes' && title != 'Priority'
+                    //    && title != 'Expire') {
+                    //    $(this).html( '<input type="text" placeholder="Search" />' );
+                    //}
+                    if (index != 0 && index != 7 && index != 8
+                        && index != 9 && index != 10) {
+                        $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
+                    } else {
+                        $(this).html( innerHtml + '<br />');
                     }
                    
                 } );
@@ -286,19 +296,33 @@ else
  
                 
                 dTable = $('#dealList').DataTable({
+                    //"aoColumns": [
+                    //    { "bVisible": true, "bSearchable": false, "bSortable": false},
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true},
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true},
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
+                    //    { "bVisible": false, "bSearchable": true, "bSortable": true }
+                    //],
                     "aoColumns": [
                         { "bVisible": true, "bSearchable": false, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": true},
-                        { "bVisible": true, "bSearchable": true, "bSortable": true},
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": false, "bSearchable": true, "bSortable": true }
+                        { "bVisible": true, "bSearchable": true, "bSortable": false},
+                        { "bVisible": true, "bSearchable": true, "bSortable": false},
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": false, "bSearchable": true, "bSortable": false }
                     ],
                     "aaSorting": []
                 });
@@ -318,7 +342,7 @@ else
  
                 // Apply the search
                 dTable.columns().eq( 0 ).each( function ( colIdx ) {
-                    $( 'input', dTable.column( colIdx ).footer() ).on( 'keyup change', function () {
+                    $( 'input', dTable.column( colIdx ).header() ).on( 'keyup change', function () {
                         dTable
                             .column( colIdx )
                             .search( this.value )
