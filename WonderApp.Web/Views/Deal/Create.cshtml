@@ -164,6 +164,7 @@
                                     @Html.TextBoxFor(m => m.DealModel.Location.Name)
                                     <a href="#" id="searchLocation" onclick="event.preventDefault();" class="btn btn-info">Search</a>
                                     @Html.ValidationMessageFor(model => model.DealModel.Location.Name, "", new { @class = "text-danger" })
+                                    <br />
 									@Html.ValidationMessageFor(model => model.DealModel.Location.Longitude, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -225,6 +226,8 @@
         @Scripts.Render("~/bundles/location")
 
         <script type="text/javascript">
+
+            $.validator.setDefaults({ ignore: null });
 
             //function saveWonder() {
             //    if ($('#createWonderForm').valid()) {
@@ -303,11 +306,12 @@
             if (GetQueryStringParams("edit") == "true") {
                 toastr.success("Wonder successfully created");
             }
-            $(document).ready(function() {
+            $(document).ready(function () {
+
                 initializeLocationTab('#DealModel_Location_Name');
                 $('form').areYouSure();
                 $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
-				$.validator.setDefaults({ ignore: null });
+				
             });
 
            
