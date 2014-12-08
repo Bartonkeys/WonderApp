@@ -21,6 +21,7 @@ namespace WonderApp.Models
         [JsonIgnore]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please hit search button to establish location")]
         [JsonProperty(PropertyName = "longitude")]
         public double? Longitude { get; set; }
 

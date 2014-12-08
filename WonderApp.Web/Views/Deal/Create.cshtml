@@ -164,6 +164,7 @@
                                     @Html.TextBoxFor(m => m.DealModel.Location.Name)
                                     <a href="#" id="searchLocation" onclick="event.preventDefault();" class="btn btn-info">Search</a>
                                     @Html.ValidationMessageFor(model => model.DealModel.Location.Name, "", new { @class = "text-danger" })
+									@Html.ValidationMessageFor(model => model.DealModel.Location.Longitude, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
