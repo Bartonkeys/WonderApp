@@ -193,7 +193,7 @@
                                     <div id="map_canvas"></div>
                                     <a href="#" id="removeLocation" style="@(Model.DealModel.Location.Id == 0 ? "" : "display:none;")">Remove Location from this widget</a>
                                     @Html.HiddenFor(m => m.DealModel.Location.Latitude, new { @id = "Latitude" })
-                                    @Html.TextBoxFor(m => m.DealModel.Location.Longitude, new { @id = "Longitude",  @class = "hidden" })
+                                    @Html.HiddenFor(m => m.DealModel.Location.Longitude, new { @id = "Longitude" })
                                 </div>
                             </div>
 
@@ -307,6 +307,7 @@
                 initializeLocationTab('#DealModel_Location_Name');
                 $('form').areYouSure();
                 $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
+				$.validator.setDefaults({ ignore: null });
             });
 
            
