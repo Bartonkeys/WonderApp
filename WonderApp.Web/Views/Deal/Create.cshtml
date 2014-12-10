@@ -278,7 +278,7 @@
                         var filename = getNameFromPath($("#Image").val());
                         if (filename != null) {
                             var extension = filename.substr((filename.lastIndexOf('.') + 1));
-                            if (extension != 'jpg') {
+                            if (extension.toLowerCase() != 'jpg') {
                                 //var errorArray = {};
                                 errorArray["Image"] = 'Incorrect filetype - only .jpg files can be uploaded';
                                 errorArray.push({ 'Image': 'Incorrect filetype - only .jpg files can be uploaded' });
@@ -286,7 +286,7 @@
                                 $("#Image").focus();
                                 return;
                             }
-
+                            
                         }
 
 
@@ -301,6 +301,7 @@
                                 
                                 errorArray["Image"] = 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )';
                                 errorArray.push({ 'Image': 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )' });
+                                $('#createWonderForm').validate().showErrors(errorArray);
                                 $("#Image").focus();
                                 return;
                             } else {
