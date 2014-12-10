@@ -115,7 +115,7 @@
                                     </div>*@
                                 @Html.LabelFor(model => model.DealModel.Company.Id, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    <input type="hidden" class="select2-offscreen" id="company-hdn" style="width:50%" value="@Model.DealModel.Company.Id" />
+                                    <input type="text" class="select2-offscreen" id="company-hdn" style="width:50%" value="@Model.DealModel.Company.Id" />
                                     @*<input type="text" class="hidden" id="company-id" name="CompanyId" value="@Model.DealModel.Company.Id" />*@
                                     @Html.TextBoxFor(m => m.DealModel.Company.Id, new { id = "company-id", @class = "hidden" })
                                     @Html.ValidationMessageFor(model => model.DealModel.Company.Id, "", new { @class = "text-danger" })
@@ -227,7 +227,17 @@
 
         <script type="text/javascript">
 
-            $.validator.setDefaults({ ignore: null });
+            var errorArray = [];
+            //$.validator.setDefaults({ ignore: null });
+            $.validator.setDefaults({
+                ignore: null,
+                showErrors: function(errorMap, errorList) {
+                    this.errorList = $.grep(errorList, function(error) {
+                        return error.element !== undefined;
+                    });
+                    this.defaultShowErrors();
+                }
+            });
 
             //function saveWonder() {
             //    if ($('#createWonderForm').valid()) {
@@ -236,27 +246,44 @@
             //}
 
             function submitForm() {
-                if ($('#createWonderForm').valid()) {
+                if ($('#createWonderForm').valid() && errorArray.length < 1) {
                     $.isLoading({ text: "Saving wonder..." });
+                    $('#createWonderForm').submit();
+                } else {
+                    $('#createWonderForm').validate().showErrors(errorArray);
                 }
-                $('#createWonderForm').submit();
+
             }
 
             function saveWonder() {
 
+                errorArray = [];
+
+                validateImage();
+                validateCompany();
+                validateTags();
+                validateExpiry();
+
+                submitForm();
+
+                $('#createWonderForm').validate().showErrors(errorArray);
+
+
+                function validateImage() {
+
                     if ($("#Image").val() == "") {
-                        submitForm();
-                    }
-                    else {
+                        //submitForm();
+                    } else {
 
                         var filename = getNameFromPath($("#Image").val());
                         if (filename != null) {
                             var extension = filename.substr((filename.lastIndexOf('.') + 1));
                             if (extension != 'jpg') {
-                                var errorArray = {};
+                                //var errorArray = {};
                                 errorArray["Image"] = 'Incorrect filetype - only .jpg files can be uploaded';
-                                $('#createWonderForm').validate().showErrors(errorArray);
-                                $("#Image").focus()
+                                errorArray.push({ 'Image': 'Incorrect filetype - only .jpg files can be uploaded' });
+                                //$('#createWonderForm').validate().showErrors(errorArray);
+                                $("#Image").focus();
                                 return;
                             }
 
@@ -264,30 +291,56 @@
 
 
                         var _URL = window.URL || window.webkitURL;
-                        var file = $("#Image")[0].files[0]
+                        var file = $("#Image")[0].files[0];
                         img = new Image();
 
-                        img.onload = function () {
+                        img.onload = function() {
                             var wid = this.width;
                             var ht = this.height;
                             if (wid != 410 || ht != 546) {
-                                var errorArray = {};
+                                
                                 errorArray["Image"] = 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )';
-                                $('#createWonderForm').validate().showErrors(errorArray);
-                                $("#Image").focus()
+                                errorArray.push({ 'Image': 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )' });
+                                $("#Image").focus();
                                 return;
+                            } else {
+                               
                             }
-                            else {
-                                submitForm();
-                            }
-
-
                         };
 
                         img.src = _URL.createObjectURL(file);
                     }
-                
+                }
 
+                function validateCompany() {
+                    if ($("#company-hdn").val() == '0') {
+                        errorArray["DealModel.Company.Id"] = 'You must select a Company';
+                        errorArray.push({'DealModel.Company.Id':'You must select a Company'});
+                       
+                        $("#company-hdn").focus();
+                        return;
+                    }
+                }
+
+                function validateTags() {
+                    if ($("#tagstring-hdn").val() == '') {
+                        errorArray["TagString"] = 'You must add at least one tag';
+                        errorArray.push({ 'TagString': 'You must add at least one tag' });
+                        $("#tagstring-hdn").focus();
+                        return;
+                    }
+
+                }
+
+                function validateExpiry() {
+
+                    if (!$("#DealModel_AlwaysAvailable").prop('checked') && $("#DealModel_ExpiryDate").val() == '') {
+                        errorArray["DealModel.ExpiryDate"] = 'You must add an expiry date';
+                        errorArray.push({ '"DealModel.ExpiryDate': 'You must add an expiry date' });
+                        $("#DealModel_ExpiryDate").focus();
+                        return;
+                    }
+                }
 
             }
 
@@ -297,8 +350,7 @@
 
                 if (strName == null) {
                     return null;
-                }
-                else {
+                } else {
                     return strName[0];
                 }
             }
@@ -306,15 +358,13 @@
             if (GetQueryStringParams("edit") == "true") {
                 toastr.success("Wonder successfully created");
             }
-            $(document).ready(function () {
+            $(document).ready(function() {
 
                 initializeLocationTab('#DealModel_Location_Name');
                 $('form').areYouSure();
                 $('form').areYouSure({ 'message': 'Your wonder details are not saved!' });
-				
-            });
 
-           
+            });           
             
         </script>
 
