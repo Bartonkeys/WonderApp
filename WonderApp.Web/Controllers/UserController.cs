@@ -156,13 +156,26 @@ namespace WonderApp.Web.Controllers
                 user.UserName = userModel.UserName;
                 user.Email = userModel.Email;
                 
-                var result = await UserManager.UpdateAsync(user);
-                if (result.Succeeded)
+                var updateUserResult = await UserManager.UpdateAsync(user);
+                if (updateUserResult.Succeeded)
                 {
                     //Set PW and admin if required
                     if (model.NewPassword != null)
                     {
-                        UserManager.ChangePassword(model.UserModel.Id, model.OldPassword, model.NewPassword);
+                        var pwChangeResult = await UserManager.ChangePasswordAsync(model.UserModel.Id, model.OldPassword, model.NewPassword);
+                        if (!pwChangeResult.Succeeded)
+                        {
+                            Debug.Print(pwChangeResult.ToString());
+                            var errorString = "Password not updated: \n";
+                            foreach (var error in pwChangeResult.Errors)
+                            {
+                                errorString += error + "\n";
+                            }
+                            ModelState.AddModelError(string.Empty, errorString);
+
+                            return View();
+                        }
+                        
                     }
 
                     if (model.IsAdmin)
@@ -185,9 +198,9 @@ namespace WonderApp.Web.Controllers
                 }
                 else
                 {
-                    Debug.Print(result.ToString());
+                    Debug.Print(updateUserResult.ToString());
                     var errorString = "User not updated: \n";
-                    foreach (var error in result.Errors)
+                    foreach (var error in updateUserResult.Errors)
                     {
                         errorString += error + "\n";
                     }
