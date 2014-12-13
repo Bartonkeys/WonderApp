@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Configuration;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -43,32 +44,64 @@ namespace WonderApp.Web.Controllers
         }
         public ActionResult Index()
         {
-            return View(Mapper.Map<List<UserModel>>(DataContext.AspNetUsers.ToList()));
+            var userViews = new List<UserViewModel>();
+            var users = Mapper.Map<List<UserModel>>(DataContext.AspNetUsers.ToList());
+
+            foreach (var userModel in users)
+            {
+                var userViewModel = new UserViewModel();
+                userViewModel.UserModel = userModel;
+                userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
+                userViews.Add(userViewModel);
+            }
+
+            return View(userViews);
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            return View();
+            var model = new UserViewModel();
+            model.UserModel = new UserModel();
+            model.NewPassword = null;
+            model.IsAdmin = false;
+
+            return View(model);
+
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> Create(UserModel model)
+        public async Task<ActionResult> Create(UserViewModel model)
         {
+
             try
             {
-                var user = Mapper.Map<AspNetUser>(model);
+                UserModel userModel = model.UserModel;
+                var password = "P@ssw0rd1234";
+
+                var user = Mapper.Map<AspNetUser>(userModel);
                 
                 var newUser = new ApplicationUser
                 {
                     UserName = user.UserName,
                     Email = user.Email
                 };
+
+                if (model.NewPassword != null)
+                {
+                    password = model.NewPassword;
+                }
                
-                var result = await UserManager.CreateAsync(newUser, "P@ssw0rd1234");
+                var result = await UserManager.CreateAsync(newUser, password);
                 if (result.Succeeded)
                 {
+              
+                    if (model.IsAdmin)
+                    {
+                         UserManager.AddToRole(newUser.Id, "Admin");
+                    }
+                   
                     return RedirectToAction("Index");
                 }
                 else
@@ -86,8 +119,14 @@ namespace WonderApp.Web.Controllers
 
                
             }
-            catch
+            catch (Exception e)
             {
+                
+                var errorString = "User not created: \n";
+                errorString += e.Message + "\n";
+
+                
+                ModelState.AddModelError(string.Empty, errorString);
                 return View();
             }
         }
@@ -95,23 +134,53 @@ namespace WonderApp.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
-            return View(Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id)));
+            var model = new UserViewModel();
+            model.UserModel = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
+
+            model.NewPassword = null;
+            model.IsAdmin = UserManager.IsInRole(id, "Admin");
+
+            return View(model);        
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task <ActionResult> Edit(UserModel model)
+        public async Task <ActionResult> Edit(UserViewModel model)
         {
             try
             {
-                var user = await UserManager.FindByIdAsync(model.Id);
+                UserModel userModel = model.UserModel;
 
-                user.UserName = model.UserName;
-                user.Email = model.Email;
+                var user = await UserManager.FindByIdAsync(userModel.Id);
 
+                user.UserName = userModel.UserName;
+                user.Email = userModel.Email;
+                
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
+                    //Set PW and admin if required
+                    if (model.NewPassword != null)
+                    {
+                        UserManager.ChangePassword(model.UserModel.Id, model.OldPassword, model.NewPassword);
+                    }
+
+                    if (model.IsAdmin)
+                    {
+                        if (!UserManager.IsInRole(model.UserModel.Id, "Admin"))
+                        {
+                            UserManager.AddToRole(model.UserModel.Id, "Admin");
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (UserManager.IsInRole(model.UserModel.Id, "Admin"))
+                        {
+                            UserManager.RemoveFromRole(model.UserModel.Id, "Admin");
+                        }
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else

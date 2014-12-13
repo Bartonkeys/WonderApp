@@ -262,9 +262,7 @@
                 validateCompany();
                 validateTags();
                 validateExpiry();
-                validateImage();
-
-                
+                validateImage(); //NB SUBMIT FORM MOVED TO THIS METHOD SO MUST COME LAST!
 
                 $('#createWonderForm').validate().showErrors(errorArray);
 
@@ -275,10 +273,8 @@
                     } else {
                         var _URL = window.URL || window.webkitURL;
                         var file = $("#Image")[0].files[0];
-                        img = new Image();
-
+                        var img = new Image();
                         img.onload = processImage;
-   
                         img.src = _URL.createObjectURL(file);
 
                         return;
@@ -308,15 +304,10 @@
                         errorArray.push({ 'Image': 'Invalid image dimensions - please ensure your image is exactly 410px x 546px. (Attempted image dimensions : ' + wid + 'px x ' + ht + 'px )' });
                         $("#Image").focus();
                         
-                    } else {
-
                     }
                     
                     submitForm();
-                    
-                }
-
-               
+                }        
 
                 function validateCompany() {
                     if ($("#company-hdn").val() == '0') {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WonderApp.Models.UserModel>
+﻿@model IEnumerable<WonderApp.Web.Models.UserViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -18,10 +18,13 @@ else
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.UserModel.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.UserModel.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAdmin)
             </th>
             
         </tr>
@@ -30,14 +33,17 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    @Html.DisplayFor(modelItem => item.UserModel.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.UserModel.Email)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.UserModel.Id}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.UserModel.Id})
                 </td>
             </tr>
         }
