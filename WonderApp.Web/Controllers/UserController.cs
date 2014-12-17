@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using WonderApp.Data;
@@ -19,7 +20,7 @@ namespace WonderApp.Web.Controllers
     public class UserController : BaseController
     {
         private ApplicationUserManager _userManager;
-
+       
         public ApplicationUserManager UserManager
         {
             get
@@ -34,7 +35,7 @@ namespace WonderApp.Web.Controllers
 
         public UserController()
         {
-
+            
         }
 
         public UserController(ApplicationUserManager userManager)
@@ -134,6 +135,7 @@ namespace WonderApp.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
+
             var model = new UserViewModel();
             model.UserModel = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
 
@@ -222,6 +224,7 @@ namespace WonderApp.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
+            
             var model = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
             return View(model);
         }
@@ -230,6 +233,18 @@ namespace WonderApp.Web.Controllers
         [HttpPost]
         public ActionResult Delete(UserModel model)
         {
+            //Do not allow deletion of the main accounts
+            var adminAccounts = DataContext.AspNetUsers.Where(u =>
+                   u.UserName == "mulhall.jason@gmail.com" ||
+                   u.UserName == "james.mcclurg@gmail.com" ||
+                   u.UserName == "admin@wonderapp.com"
+               ).ToList();
+            if (adminAccounts.Any(a => a.Id == model.Id))
+            {
+                AddClientMessage(ClientMessage.Warning, "This is a reserved user which cannot be deleted");
+                return View(model);
+            }
+
             if (DataContext.Deals.Any(x => x.Creator_User_Id == model.Id))
             {
                 AddClientMessage(ClientMessage.Warning, "User has created wonders, so cannot be deleted");
