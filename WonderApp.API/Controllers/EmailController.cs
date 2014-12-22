@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WonderApp.Core.Services;
+using WonderApp.Models;
 
 namespace WonderApp.Controllers
 {
@@ -22,11 +23,11 @@ namespace WonderApp.Controllers
         /// </summary>
         /// <returns></returns>   
         [Route("MyWonders")]
-        public async Task<HttpResponseMessage> PostEmailMyWonders([FromBody]string passsword)
+        public async Task<HttpResponseMessage> PostEmailMyWonders([FromBody]AuthModel authModel)
         {
             try
             {
-                if (passsword.Equals("SendMyWonderEmails"))
+                if (authModel.Password.Equals("SendMyWonderEmails"))
                 {
 
                     EmailService.SendMyWonderEmails(DataContext);

@@ -554,7 +554,7 @@
             This API handles all email related activities.
             </summary>
         </member>
-        <member name="M:WonderApp.Controllers.EmailController.PostEmailMyWonders(System.String)">
+        <member name="M:WonderApp.Controllers.EmailController.PostEmailMyWonders(WonderApp.Models.AuthModel)">
             <summary>
             HTTP POST to send emails
             Returns HTTP StatusCode 200.
