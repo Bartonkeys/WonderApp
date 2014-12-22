@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" ZoomLevel="79" >
+      <Diagram DiagramId="b9209faa026f4e13aeb47f76955d6d0a" Name="Diagram1" ZoomLevel="63" >
         <EntityTypeShape EntityType="WonderAppModel.Deal" PointX="7.375" PointY="0.75" Width="1.5" />
         <EntityTypeShape EntityType="WonderAppModel.Location" Width="1.5" PointX="4.625" PointY="6.75" />
         <EntityTypeShape EntityType="WonderAppModel.Tag" Width="1.5" PointX="9.625" PointY="5.375" />
-        <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.125" />
+        <EntityTypeShape EntityType="WonderAppModel.Category" Width="1.5" PointX="5.375" PointY="4.375" />
         <EntityTypeShape EntityType="WonderAppModel.Company" Width="1.5" PointX="11.25" PointY="1.125" />
         <EntityTypeShape EntityType="WonderAppModel.Reminder" Width="1.5" PointX="5.25" PointY="0.625" />
         <EntityTypeShape EntityType="WonderAppModel.Cost" Width="1.5" PointX="9.5" PointY="2.875" />
@@ -51,6 +51,9 @@
         <EntityTypeShape EntityType="WonderAppModel.UserPreference" Width="1.5" PointX="5.375" PointY="2.375" />
         <AssociationConnector Association="WonderAppModel.FK_UserPreferences_AspNetUsers" />
         <AssociationConnector Association="WonderAppModel.FK_UserPreferences_Reminders" />
+        <EntityTypeShape EntityType="WonderAppModel.NotificationEmail" Width="1.5" PointX="5.125" PointY="11.5" />
+        <EntityTypeShape EntityType="WonderAppModel.Template" Width="1.5" PointX="2.875" PointY="11.75" />
+        <AssociationConnector Association="WonderAppModel.FK_NotificationEmail_ToTemplate" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

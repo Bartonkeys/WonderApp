@@ -549,6 +549,19 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="T:WonderApp.Controllers.EmailController">
+            <summary>
+            This API handles all email related activities.
+            </summary>
+        </member>
+        <member name="M:WonderApp.Controllers.EmailController.PostEmailMyWonders(System.String)">
+            <summary>
+            HTTP POST to save personal information.
+            Returns HTTP StatusCode 200.
+            If error, return Http Status Code 500 with error message.
+            </summary>
+            <returns></returns>   
+        </member>
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries

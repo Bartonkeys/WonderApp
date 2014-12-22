@@ -45,5 +45,7 @@ namespace WonderApp.Data
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Age> Ages { get; set; }
         public virtual DbSet<UserPreference> UserPreferences { get; set; }
+        public virtual DbSet<NotificationEmail> NotificationEmails { get; set; }
+        public virtual DbSet<Template> Templates { get; set; }
     }
 }

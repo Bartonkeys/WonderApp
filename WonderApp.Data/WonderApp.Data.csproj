@@ -116,6 +116,9 @@
     <Compile Include="Location.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NotificationEmail.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reminder.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
@@ -124,6 +127,9 @@
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tag.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Template.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UserPreference.cs">

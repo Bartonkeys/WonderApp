@@ -118,6 +118,14 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<UserInfoModel, AspNetUser>()
                 .ForMember(e => e.Gender, opt => opt.Ignore())
                 .ForMember(e => e.UserPreference, opt => opt.Ignore());
+
+            Mapper.CreateMap<Template, TemplateModel>();
+            Mapper.CreateMap<TemplateModel, Template>();
+
+            Mapper.CreateMap<NotificationEmail, NotificationEmailModel>();
+            Mapper.CreateMap<NotificationEmailModel, NotificationEmail>()
+                .ForMember(e => e.Template, opt => opt.Ignore());
+
         }
     }
 }

@@ -201,6 +201,17 @@
           <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Geography" Type="geography" />
         </EntityType>
+        <EntityType Name="NotificationEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Sent" Type="datetime" />
+          <Property Name="RecipientEmail" Type="nvarchar(max)" />
+          <Property Name="RecipientName" Type="nvarchar(max)" />
+          <Property Name="Template_Id" Type="int" />
+        </EntityType>
         <EntityType Name="Reminders">
           <Key>
             <PropertyRef Name="Id" />
@@ -221,6 +232,15 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="200" />
+          <Property Name="Thumbnail" Type="nvarchar" MaxLength="20" />
+          <Property Name="File" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="UserDealReject">
           <Key>
@@ -244,6 +264,7 @@
           </Key>
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ReminderId" Type="int" />
+          <Property Name="EmailMyWonders" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUserCategory_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -537,6 +558,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NotificationEmail_ToTemplate">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="NotificationEmail" Type="Self.NotificationEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NotificationEmail">
+              <PropertyRef Name="Template_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDealReject_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="UserDealReject" Type="Self.UserDealReject" Multiplicity="*" />
@@ -630,9 +663,11 @@
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationEmail" EntityType="Self.NotificationEmail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seasons" EntityType="Self.Seasons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealReject" EntityType="Self.UserDealReject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDealWonders" EntityType="Self.UserDealWonders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
@@ -731,6 +766,10 @@
           <AssociationSet Name="FK_DeviceImage" Association="Self.FK_DeviceImage">
             <End Role="Devices" EntitySet="Devices" />
             <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationEmail_ToTemplate" Association="Self.FK_NotificationEmail_ToTemplate">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="NotificationEmail" EntitySet="NotificationEmail" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDealReject_AspNetUser" Association="Self.FK_UserDealReject_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -885,6 +924,12 @@
           <AssociationSet Name="FK_UserPreferences_Reminders" Association="WonderAppModel.FK_UserPreferences_Reminders">
             <End Role="Reminder" EntitySet="Reminders" />
             <End Role="UserPreference" EntitySet="UserPreferences" />
+          </AssociationSet>
+          <EntitySet Name="NotificationEmails" EntityType="WonderAppModel.NotificationEmail" />
+          <EntitySet Name="Templates" EntityType="WonderAppModel.Template" />
+          <AssociationSet Name="FK_NotificationEmail_ToTemplate" Association="WonderAppModel.FK_NotificationEmail_ToTemplate">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="NotificationEmail" EntitySet="NotificationEmails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Deal">
@@ -1293,6 +1338,7 @@
           <Property Name="ReminderId" Type="Int32" />
           <NavigationProperty Name="AspNetUser" Relationship="WonderAppModel.FK_UserPreferences_AspNetUsers" FromRole="UserPreference" ToRole="AspNetUser" />
           <NavigationProperty Name="Reminder" Relationship="WonderAppModel.FK_UserPreferences_Reminders" FromRole="UserPreference" ToRole="Reminder" />
+          <Property Name="EmailMyWonders" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_UserPreferences_AspNetUsers">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1315,6 +1361,40 @@
             </Principal>
             <Dependent Role="UserPreference">
               <PropertyRef Name="ReminderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="NotificationEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Sent" Type="DateTime" Precision="3" />
+          <Property Name="RecipientEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Template_Id" Type="Int32" />
+          <NavigationProperty Name="Template" Relationship="WonderAppModel.FK_NotificationEmail_ToTemplate" FromRole="NotificationEmail" ToRole="Template" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="Thumbnail" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="File" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NotificationEmails" Relationship="WonderAppModel.FK_NotificationEmail_ToTemplate" FromRole="Template" ToRole="NotificationEmail" />
+        </EntityType>
+        <Association Name="FK_NotificationEmail_ToTemplate">
+          <End Type="WonderAppModel.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="WonderAppModel.NotificationEmail" Role="NotificationEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NotificationEmail">
+              <PropertyRef Name="Template_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1645,8 +1725,31 @@
           <EntitySetMapping Name="UserPreferences">
             <EntityTypeMapping TypeName="WonderAppModel.UserPreference">
               <MappingFragment StoreEntitySet="UserPreferences">
+                <ScalarProperty Name="EmailMyWonders" ColumnName="EmailMyWonders" />
                 <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotificationEmails">
+            <EntityTypeMapping TypeName="WonderAppModel.NotificationEmail">
+              <MappingFragment StoreEntitySet="NotificationEmail">
+                <ScalarProperty Name="Template_Id" ColumnName="Template_Id" />
+                <ScalarProperty Name="RecipientName" ColumnName="RecipientName" />
+                <ScalarProperty Name="RecipientEmail" ColumnName="RecipientEmail" />
+                <ScalarProperty Name="Sent" ColumnName="Sent" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="WonderAppModel.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="File" ColumnName="File" />
+                <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

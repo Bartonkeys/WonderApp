@@ -12,13 +12,15 @@ namespace WonderApp.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class UserPreference
+    public partial class NotificationEmail
     {
-        public string UserId { get; set; }
-        public Nullable<int> ReminderId { get; set; }
-        public bool EmailMyWonders { get; set; }
+        public int Id { get; set; }
+        public Nullable<System.DateTime> Created { get; set; }
+        public Nullable<System.DateTime> Sent { get; set; }
+        public string RecipientEmail { get; set; }
+        public string RecipientName { get; set; }
+        public Nullable<int> Template_Id { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Reminder Reminder { get; set; }
+        public virtual Template Template { get; set; }
     }
 }
