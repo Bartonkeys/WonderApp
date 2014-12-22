@@ -14,9 +14,7 @@ namespace WonderApp.Core.Services
   
     public class EmailService
     {
-        //[Inject]
-        //public static IDataContext DataContext { get; set; }
-
+       
         public static List<AspNetUser> SendMyWonderEmails(IDataContext dataContext)
         {
 
@@ -24,14 +22,18 @@ namespace WonderApp.Core.Services
 
             foreach (var user in usersToSendEmailTo)
             {
-                CreateMyWondersEmailAndSend(user);   
+                var email = CreateMyWondersEmailAndSend(user);
+                if (email != null)
+                {
+                    dataContext.NotificationEmails.Add(email);
+                }
             }
 
             return usersToSendEmailTo;
 
         }
 
-        private static void CreateMyWondersEmailAndSend(AspNetUser user)
+        private static NotificationEmail CreateMyWondersEmailAndSend(AspNetUser user)
         {
             string emailtext = "MyWonders = \n";
 
@@ -45,48 +47,64 @@ namespace WonderApp.Core.Services
                 emailtext += wonder.Title + "\n";
             }
 
-            NotificationEmail email = new NotificationEmail();
-            email.Created = DateTime.UtcNow;
-            email.RecipientEmail = user.Email;
-            email.RecipientName = user.UserName;
+            var email = new NotificationEmail
+            {
+                Created = DateTime.UtcNow,
+                RecipientEmail = user.Email,
+                RecipientName = user.UserName
+            };
 
-            SendEmailWithTemplate(email, emailtext);
+            return SendEmailWithTemplate(email, emailtext);
 
         }
 
-        private static void SendEmailWithTemplate(NotificationEmail email, string emailText)
+        private static NotificationEmail SendEmailWithTemplate(NotificationEmail email, string emailText)
         {
-            // Create the email object first, then add the properties.
-            var myMessage = new SendGridMessage();
-
-            // Add the message properties.
-            myMessage.From = new MailAddress("emails@thewonderapp.co");
-
-            // Add multiple addresses to the To field.
-            List<String> recipients = new List<String>
+            try
             {
-                @"" + email.RecipientName + " <" + email.RecipientEmail + ">"
-            };
+                // Create the email object first, then add the properties.
+                var myMessage = new SendGridMessage();
 
-            myMessage.AddTo(recipients);
+                // Add the message properties.
+                myMessage.From = new MailAddress("emails@thewonderapp.co");
 
-            myMessage.Subject = "Here are your MyWonders";
+                // Add multiple addresses to the To field.
+                List<String> recipients = new List<String>
+                {
+                    @"" + email.RecipientName + " <" + email.RecipientEmail + ">"
+                };
 
-            //Add the HTML and Text bodies
-            myMessage.Html = "<p> "+ emailText +" </p>";
-            myMessage.Text = emailText;
+                myMessage.AddTo(recipients);
 
-            // Create network credentials to access your SendGrid account.
-            var username = "yerma";
-            var pswd = "Y)rm91234";
+                myMessage.Subject = "Here are your MyWonders";
 
-            var credentials = new NetworkCredential(username, pswd);
+                //Add the HTML and Text bodies
+                myMessage.Html = "<p> " + emailText + " </p>";
+                myMessage.Text = emailText;
 
-            // Create an Web transport for sending email.
-            var transportWeb = new Web(credentials);
+                // Create network credentials to access your SendGrid account.
+                var username = "yerma";
+                var pswd = "Y)rm91234";
 
-            // Send the email.
-            transportWeb.Deliver(myMessage);
+                var credentials = new NetworkCredential(username, pswd);
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+
+                // Send the email.
+                transportWeb.Deliver(myMessage);
+
+                email.Sent = DateTime.UtcNow;
+
+                return email;
+            }
+
+            catch (Exception e)
+            {
+                return email;
+            }
+
+            
 
         }
     }
