@@ -90,5 +90,7 @@
     <Build Include="dbo\Tables\DealAge.sql" />
     <Build Include="dbo\Tables\Ages.sql" />
     <Build Include="dbo\Tables\UserPreferences.sql" />
+    <Build Include="dbo\Tables\Template.sql" />
+    <Build Include="dbo\Tables\NotificationEmail.sql" />
   </ItemGroup>
 </Project>

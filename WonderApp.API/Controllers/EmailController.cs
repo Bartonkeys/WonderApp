@@ -16,7 +16,7 @@ namespace WonderApp.Controllers
     public class EmailController : BaseApiController
     {
         /// <summary>
-        /// HTTP POST to save personal information.
+        /// HTTP POST to send emails
         /// Returns HTTP StatusCode 200.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
