@@ -1,57 +1,49 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Hello</title>
-</head>
-<body>
-    <table>
-        <tbody>
-            @foreach (var item in @Model)
-            {
+﻿
+    <!DOCTYPE HTML>
+
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body style="font-family:Arial;">
+        <table style="width:600px;">
             <tr>
-                <td>
-                    <span>#</span>
-                    @item.Title
+                <td style="text-align:center;">
+                    <img style="width:100px;" src="~/Content/images/wonderappLogo.jpg" alt="wonder app" />
                 </td>
-                <td>
-                    @foreach (var tag in @item.Tags)
-                    {
-                    <span class="tags">
-                        @tag.Name
-                    </span>
-                    }
-                </td>
-                <td>
-                    @if(@item.IntroDescription != null)
-                    {@item.IntroDescription}
-
-                </td>
-                <td>
-                    @if(@item.Company != null && @item.Company.Name != null)
-                    {@item.Company.Name} 
-                </td>
-                <td>
-                    @if(@item.City != null && @item.City.Name != null)
-                    {@item.City.Name}
-                </td>
-                <td>
-                    @if(@item.Season != null && @item.Season.Name != null)
-                    {@item.Season.Name}
-                </td>
-                <td>
-                    @if(@item.Likes != null)
-                    {@item.Likes}
-                </td>
-                
-                <td>
-                    @if(@item.Category != null)
-                    {@item.Category}
-                </td>
-
             </tr>
+            <tr>
+                <td style="text-align:center; font-size:40px; font-weight:bold; color:#1880e1;">
+                    My Wonders
+                </td>
+            </tr>
+            <tr>
+                <table cellpadding="5" style="width:600px;" style="border:1px solid black;">
+                    @foreach (var item in @Model)
+                    {
+                        <tr style="color: #FFFFFF;">
+                            <td style="width: 100px;">
+                                <img style="width: 100px;" src="@if (@item.Images != null && @item.Images.Count>0){@item.Images.FirstOrDefault().url}" alt="wonder app" />
+                            </td>
+                            <td style="background-color: #1880e1; width: 400px; padding-left: 10px;">
+                                <h3>@if (@item.Title != null)
+                                {@item.Title}</h3>
+                                <h5>@if (@item.Company != null && @item.Company.Name != null)
+                                {@item.Company.Name}</h5>
+                                @if (@item.Description != null)
+                                {@item.Description}
+                            </td>
+                            <td style="background-color: #1880e1; width: 100px; padding-left: 10px;">
+                                <img style="width: 30px;" src="~/Content/images/thumb.jpg" alt="wonder app" align="middle" /> @if (@item.Likes != null)
+                                {@item.Likes}
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </tr>
+        </table>
 
-            }
-        </tbody>
-    </table>
-</body>
+
+    </body>
 </html>
