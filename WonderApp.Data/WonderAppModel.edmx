@@ -238,9 +238,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="200" />
-          <Property Name="Thumbnail" Type="nvarchar" MaxLength="20" />
-          <Property Name="File" Type="nvarchar" MaxLength="20" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Thumbnail" Type="nvarchar" MaxLength="200" />
+          <Property Name="File" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="UserDealReject">
           <Key>
@@ -1381,9 +1381,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
-          <Property Name="Thumbnail" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="File" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Thumbnail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="File" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="NotificationEmails" Relationship="WonderAppModel.FK_NotificationEmail_ToTemplate" FromRole="Template" ToRole="NotificationEmail" />
         </EntityType>
         <Association Name="FK_NotificationEmail_ToTemplate">
