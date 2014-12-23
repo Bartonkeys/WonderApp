@@ -45,6 +45,13 @@ namespace WonderApp.Core.Services
             string emailPlainText = "MyWonders = \n";
             string emailHtmlText = "";
 
+            var email = new NotificationEmail
+            {
+                Created = DateTime.UtcNow,
+                RecipientEmail = user.Email,
+                RecipientName = user.UserName
+            };
+
             var wonders = user.MyWonders;
            //.Where(w => w.Archived == false
            //    && w.Expired != true
@@ -60,19 +67,12 @@ namespace WonderApp.Core.Services
             if (templateToUse != null)
             {
                 emailHtmlText = LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
+                email.Template_Id = templateToUse.Id;
             }
             else
             {
                 emailHtmlText = emailPlainText;
             }
-            
-            var email = new NotificationEmail
-            {
-                Created = DateTime.UtcNow,
-                RecipientEmail = user.Email,
-                RecipientName = user.UserName
-            };
-
             
             return SendEmail(email, emailPlainText, emailHtmlText);
 

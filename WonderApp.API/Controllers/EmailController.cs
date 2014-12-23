@@ -33,7 +33,7 @@ namespace WonderApp.Controllers
                     //Check time of last send
                     var twoDaysAgo = DateTime.Now.Subtract(new TimeSpan(2, 0, 0, 0));
 
-                    if (DataContext.NotificationEmails.Any(e => e.Sent > twoDaysAgo))
+                    if (DataContext.NotificationEmails.Any() && DataContext.NotificationEmails.Any(e => e.Sent > twoDaysAgo))
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "No need to run yet");
                     }
