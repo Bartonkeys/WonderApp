@@ -253,6 +253,8 @@
     <None Include="EmailTemplates\MyWondersEmailTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Content\images\thumb.jpg" />
+    <Content Include="Content\images\wonderappLogo.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
