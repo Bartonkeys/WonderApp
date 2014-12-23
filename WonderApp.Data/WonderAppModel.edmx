@@ -237,7 +237,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="200" />
           <Property Name="Thumbnail" Type="nvarchar" MaxLength="20" />
           <Property Name="File" Type="nvarchar" MaxLength="20" />

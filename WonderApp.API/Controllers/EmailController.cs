@@ -31,12 +31,12 @@ namespace WonderApp.Controllers
                 {
 
                     //Check time of last send
-                    var twoDaysAgo = DateTime.Now.Subtract(new TimeSpan(2, 0, 0, 0));
+                    //var twoDaysAgo = DateTime.Now.Subtract(new TimeSpan(2, 0, 0, 0));
 
-                    if (DataContext.NotificationEmails.Any(e => e.Sent > twoDaysAgo))
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK, "No need to run yet");
-                    }
+                    //if (DataContext.NotificationEmails.Any(e => e.Sent > twoDaysAgo))
+                    //{
+                    //    return Request.CreateResponse(HttpStatusCode.OK, "No need to run yet");
+                    //}
                        
 
                     EmailService.SendMyWonderEmails(DataContext);

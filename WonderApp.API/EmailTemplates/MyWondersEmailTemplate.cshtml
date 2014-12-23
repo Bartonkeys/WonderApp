@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hello</title>
+</head>
+<body>
+    <table>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+            <tr>
+                <td>
+                    <span>#</span>
+                    @item.Title
+                </td>
+                <td>
+                    @foreach (var tag in @item.Tags)
+                    {
+                    <span class="tags">
+                        @tag.Name
+                    </span>
+                    }
+                </td>
+                <td>
+                    @if(@item.IntroDescription != null)
+                    {@item.IntroDescription}
+
+                </td>
+                <td>
+                    @if(@item.Company != null && @item.Company.Name != null)
+                    {@item.Company.Name} 
+                </td>
+                <td>
+                    @if(@item.City != null && @item.City.Name != null)
+                    {@item.City.Name}
+                </td>
+                <td>
+                    @if(@item.Season != null && @item.Season.Name != null)
+                    {@item.Season.Name}
+                </td>
+                <td>
+                    @if(@item.Likes != null)
+                    {@item.Likes}
+                </td>
+                
+                <td>
+                    @if(@item.Category != null)
+                    {@item.Category}
+                </td>
+
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</body>
+</html>
