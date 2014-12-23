@@ -57,9 +57,15 @@ namespace WonderApp.Core.Services
 
 
             Template templateToUse = _dataContext.Templates.FirstOrDefault(t => t.Name.Equals("MyWondersEmail"));
-            //emailHtmlText = CreateEmailHtmlUsingTemplate(templateToUse, user.MyWonders);
-            emailHtmlText = LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
-
+            if (templateToUse != null)
+            {
+                emailHtmlText = LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
+            }
+            else
+            {
+                emailHtmlText = emailPlainText;
+            }
+            
             var email = new NotificationEmail
             {
                 Created = DateTime.UtcNow,
