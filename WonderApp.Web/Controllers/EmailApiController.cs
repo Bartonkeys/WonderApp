@@ -5,16 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WonderApp.Core.Services;
-using WonderApp.Models;
+using WonderApp.Web.Models;
 
-namespace WonderApp.Controllers
+namespace WonderApp.Web.Controllers
 {
-    /// <summary>
-    /// This API handles all email related activities.
-    /// </summary>
     [RoutePrefix("api/email")]
-    public class EmailController : BaseApiController
+    public class EmailApiController : BaseApiController
     {
         /// <summary>
         /// HTTP POST to send emails
@@ -38,9 +34,8 @@ namespace WonderApp.Controllers
                         return Request.CreateResponse(HttpStatusCode.OK, "No need to run yet");
                     }
 
-
                     //TODO - inject dependent on email provider
-                    var emailService = new EmailService();
+                    var emailService = new Core.Services.EmailService();
 
                     await emailService.SendMyWonderEmails(DataContext);
 
@@ -52,13 +47,13 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You are not authorized to execute this command");
                 }
             }
-           
+
 
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
-            
+
         }
     }
 }

@@ -12,6 +12,7 @@ using RazorEngine;
 using SendGrid;
 using WonderApp.Contracts.DataContext;
 using WonderApp.Data;
+using Encoding = System.Text.Encoding;
 using Template = WonderApp.Data.Template;
 
 namespace WonderApp.Core.Services
@@ -19,20 +20,21 @@ namespace WonderApp.Core.Services
   
     public class EmailService
     {
-        private static Template _templateToUse;
-        private static IDataContext _dataContext;
+        private Template _templateToUse;
+        private IDataContext _dataContext;
        
-        public static List<AspNetUser> SendMyWonderEmails(IDataContext dataContext)
+        async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
         {
             _dataContext = dataContext;
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => u.UserPreference.EmailMyWonders));
 
             foreach (var user in usersToSendEmailTo)
             {
-                var email = CreateMyWondersEmailAndSend(user);
+                var email = await CreateMyWondersEmailAndSend(user);
                 if (email != null)
                 {
                     _dataContext.NotificationEmails.Add(email);
+                    _dataContext.Commit();
                 }
             }
 
@@ -40,7 +42,7 @@ namespace WonderApp.Core.Services
 
         }
 
-        private static NotificationEmail CreateMyWondersEmailAndSend(AspNetUser user)
+        private async Task <NotificationEmail> CreateMyWondersEmailAndSend(AspNetUser user)
         {
             string emailPlainText = "MyWonders = \n";
             string emailHtmlText = "";
@@ -66,7 +68,7 @@ namespace WonderApp.Core.Services
             Template templateToUse = _dataContext.Templates.FirstOrDefault(t => t.Name.Equals("MyWondersEmail"));
             if (templateToUse != null)
             {
-                emailHtmlText = LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
+                emailHtmlText = await LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
                 email.Template_Id = templateToUse.Id;
             }
             else
@@ -74,11 +76,11 @@ namespace WonderApp.Core.Services
                 emailHtmlText = emailPlainText;
             }
             
-            return SendEmail(email, emailPlainText, emailHtmlText);
+            return await SendEmail(email, emailPlainText, emailHtmlText);
 
         }
 
-        private static NotificationEmail SendEmail(NotificationEmail email, string emailPlainText, string emailHtmlText)
+        private async Task<NotificationEmail> SendEmail(NotificationEmail email, string emailPlainText, string emailHtmlText)
         {
             try
             {
@@ -117,7 +119,7 @@ namespace WonderApp.Core.Services
                 var transportWeb = new Web(credentials);
 
                 // Send the email.
-                transportWeb.Deliver(emailMessage);
+                await transportWeb.DeliverAsync(emailMessage);
 
                 email.Sent = DateTime.UtcNow;
 
@@ -133,33 +135,35 @@ namespace WonderApp.Core.Services
 
 
 
-        public static string LoadTemplate(string template, object viewModel)
+        public async Task<string> LoadTemplate(string template, object viewModel)
         {
-            var templateContent = AttemptLoadEmailTemplate(template);
+            var templateContent = await AttemptLoadEmailTemplate(template);
             var compiledTemplate = Razor.Parse(templateContent, viewModel);
 
             return compiledTemplate;
         }
 
-        private static string AttemptLoadEmailTemplate(string name)
+        private async Task<string> AttemptLoadEmailTemplate(string name)
         {
             if (File.Exists(name))
             {
-                var templateText = File.ReadAllText(name);
+                var templateText = await FileEx.ReadAllTextAsync(name);
                 return templateText;
             }
 
-            var templateName = string.Format("~/EmailTemplates/{0}.cshtml", name); //Just put your path to a scpecific template
+            var templateName = string.Format("~/Views/EmailTemplates/{0}.cshtml", name); //Just put your path to a scpecific template
             var emailTemplate = HttpContext.Current.Server.MapPath(templateName);
 
             if (File.Exists(emailTemplate))
             {
-                var templateText = File.ReadAllText(emailTemplate);
+                var templateText = await FileEx.ReadAllTextAsync(emailTemplate);
                 return templateText;
             }
 
             return null;
         }
+
+
 
 #region "Currently unused methods for Email Attachments"
         //public bool SendEmailMessage(string template, object viewModel, string to, string @from, string subject, params string[] replyToAddresses)
@@ -204,6 +208,51 @@ namespace WonderApp.Core.Services
 
 
 
+    public static class FileEx
+    {
+        public static Task<string[]> ReadAllLinesAsync(string path)
+        {
+            return ReadAllLinesAsync(path, Encoding.UTF8);
+        }
+
+        public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding)
+        {
+            var lines = new List<string>();
+
+            using (var reader = new StreamReader(path, encoding))
+            {
+                string line;
+                while ((line = await reader.ReadLineAsync()) != null)
+                {
+                    lines.Add(line);
+                }
+            }
+
+            return lines.ToArray();
+        }
+
+
+        public static Task<string> ReadAllTextAsync(string path)
+        {
+            return ReadAllTextAsync(path, Encoding.UTF8);
+        }
+        public static async Task<string> ReadAllTextAsync(string path, Encoding encoding)
+        {
+            string alltext = "";
+
+            using (var reader = new StreamReader(path, encoding))
+            {
+                string line;
+                while ((line = await reader.ReadLineAsync()) != null)
+                {
+                    if (!line.StartsWith("@model"))
+                    {alltext += line;}
+                }
+            }
+
+            return alltext;
+        }
+    }
 
 
     

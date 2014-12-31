@@ -238,6 +238,7 @@
     <Compile Include="Controllers\CostController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DealController.cs" />
+    <Compile Include="Controllers\EmailApiController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\ExpiryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -251,6 +252,7 @@
     </Compile>
     <Compile Include="InfaStructure\ClientMessage.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\CityViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\CompanyViewModel.cs" />
