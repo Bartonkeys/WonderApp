@@ -257,6 +257,7 @@
           </Key>
           <Property Name="MyWonderUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="MyWonders_Id" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
         </EntityType>
         <EntityType Name="UserPreferences">
           <Key>
