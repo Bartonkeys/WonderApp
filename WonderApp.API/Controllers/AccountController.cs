@@ -154,18 +154,23 @@ namespace WonderApp.Controllers
                 var user = DataContext.AspNetUsers.Find(userPersonal.Id);
 
                 user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
-                List<Data.Category> categories = new List<Data.Category>();
-                foreach (CategoryModel cat in userPersonal.MyCategories)
+                var categories = new List<Data.Category>();
+                if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
                 {
-                    categories.Add(DataContext.Categories.FirstOrDefault(c => c.Id == cat.Id));
+                    foreach (CategoryModel cat in userPersonal.MyCategories)
+                    {
+                        categories.Add(DataContext.Categories.FirstOrDefault(c => c.Id == cat.Id));
+                    }
                 }
                 user.Categories.Clear();
                 user.Categories = categories;
+               
                 if (user.UserPreference == null)
                 {
                     user.UserPreference = new Data.UserPreference();
                 }
                 user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
+                user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
 
                 Mapper.Map(userPersonal, user);
 

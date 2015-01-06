@@ -10,5 +10,8 @@ namespace WonderApp.Models
     {
         public virtual ReminderModel Reminder { get; set; }
 
+        public bool EmailMyWonders { get; set; }
+    
+
     }
 }

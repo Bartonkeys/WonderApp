@@ -22,20 +22,31 @@ namespace WonderApp.Core.Services
     {
         private Template _templateToUse;
         private IDataContext _dataContext;
-       
+
         async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
         {
             _dataContext = dataContext;
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => u.UserPreference.EmailMyWonders));
+            var oneWeekAgo = DateTime.Now.AddDays(-7);
+            var oneMonthAgo = DateTime.Now.AddMonths(-1);
 
             foreach (var user in usersToSendEmailTo)
             {
-                var email = await CreateMyWondersEmailAndSend(user);
-                if (email != null)
+                var timeToCheck = user.UserPreference.Reminder.Time.ToLower().Equals("weekly")
+                    ? oneWeekAgo
+                    : oneMonthAgo;
+                //Check time of last send  
+                if (dataContext.NotificationEmails.Any()
+                    && dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck))
                 {
-                    _dataContext.NotificationEmails.Add(email);
-                    _dataContext.Commit();
+                    var email = await CreateMyWondersEmailAndSend(user);
+                    if (email != null)
+                    {
+                        _dataContext.NotificationEmails.Add(email);
+                        _dataContext.Commit();
+                    }
                 }
+         
             }
 
             return usersToSendEmailTo;
@@ -53,6 +64,7 @@ namespace WonderApp.Core.Services
                 RecipientEmail = user.Email,
                 RecipientName = user.UserName
             };
+
 
             var wonders = user.MyWonders;
            //.Where(w => w.Archived == false
