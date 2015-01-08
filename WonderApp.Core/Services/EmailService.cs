@@ -22,7 +22,7 @@ namespace WonderApp.Core.Services
     {
         private Template _templateToUse;
         private IDataContext _dataContext;
-
+        private const int NumberOfWonders = 10;
         async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
         {
             _dataContext = dataContext;
@@ -37,7 +37,7 @@ namespace WonderApp.Core.Services
                     : oneMonthAgo;
                 //Check time of last send  
                 if (dataContext.NotificationEmails.Any()
-                    && dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck))
+                    && !dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck))
                 {
                     var email = await CreateMyWondersEmailAndSend(user);
                     if (email != null)
@@ -66,7 +66,8 @@ namespace WonderApp.Core.Services
             };
 
 
-            var wonders = user.MyWonders;
+            var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
+            var wonders = recentWonders;
            //.Where(w => w.Archived == false
            //    && w.Expired != true
            //    && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).ToList();
