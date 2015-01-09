@@ -153,6 +153,11 @@ namespace WonderApp.Controllers
             {
                 var user = DataContext.AspNetUsers.Find(userPersonal.Id);
 
+                if (user == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "That user does not exist");
+                }
+
                 user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
                 var categories = new List<Data.Category>();
                 if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
