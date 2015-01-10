@@ -38,8 +38,9 @@ namespace WonderApp.Core.Services
                     ? oneWeekAgo
                     : oneMonthAgo;
                 //Check time of last send  
-                if (dataContext.NotificationEmails.Any()
-                    && !dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck))
+                if (!dataContext.NotificationEmails.Any() ||
+                    (dataContext.NotificationEmails.Any()
+                    && !dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck)))
                 {
                     var email = await CreateMyWondersEmailAndSend(user);
                     if (email != null)
