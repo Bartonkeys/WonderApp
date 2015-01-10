@@ -28,7 +28,9 @@ namespace WonderApp.Core.Services
         async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
         {
             _dataContext = dataContext;
-            var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => u.UserPreference.EmailMyWonders));
+            var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => 
+                u.UserPreference.EmailMyWonders &&
+                u.UserPreference.Reminder!= null));
             var oneWeekAgo = DateTime.Now.AddDays(-7);
             var oneMonthAgo = DateTime.Now.AddMonths(-1);
 
