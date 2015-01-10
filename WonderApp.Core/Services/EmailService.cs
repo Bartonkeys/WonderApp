@@ -88,7 +88,7 @@ namespace WonderApp.Core.Services
             Template templateToUse = _dataContext.Templates.FirstOrDefault(t => t.Name.Equals("MyWondersEmail"));
             if (templateToUse != null)
             {
-                emailHtmlText = await LoadTemplate(templateToUse.File.Trim(), user.MyWonders);
+                emailHtmlText = await LoadTemplate(templateToUse.File.Trim(), model);
                 email.Template_Id = templateToUse.Id;
             }
             else
