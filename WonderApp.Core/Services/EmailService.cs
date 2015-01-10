@@ -70,17 +70,16 @@ namespace WonderApp.Core.Services
 
             
             var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
-            var wonders = recentWonders;
-
+          
             var model = new EmailTemplateViewModel();
             model.User = Mapper.Map<UserModel>(user);
-            model.Wonders = Mapper.Map <List<DealModel>>(wonders);
+            model.Wonders = Mapper.Map<List<DealModel>>(recentWonders);
 
             //TODO: move these to config properties
             model.UrlString = "https://cms.thewonderapp.co/content/images/";
             model.UnsubscribeLink = "mailto:unsubscribe@thewonderapp.co";
-           
-            foreach (var wonder in wonders)
+
+            foreach (var wonder in recentWonders)
             {
                 emailPlainText += wonder.Title + "\n";
             }

@@ -16,6 +16,8 @@ namespace WonderApp.Web.Controllers
 {
     public class EmailTemplatesController : BaseController
     {
+        private const int NumberOfWonders = 10;
+
         // GET: Email
         public ActionResult Index()
         {
@@ -37,10 +39,11 @@ namespace WonderApp.Web.Controllers
                 var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == id);
                 if (user != null)
                 {
-                    var wonders = Mapper.Map<List<DealModel>>(user.MyWonders);
+                    var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
+                    
                     var model = new EmailTemplateViewModel();
                     model.User = Mapper.Map<UserModel>(user);
-                    model.Wonders = wonders;
+                    model.Wonders = Mapper.Map<List<DealModel>>(recentWonders);
 
                     //TODO: move these to config properties
                     model.UrlString = "https://cms.thewonderapp.co/content/images/";
