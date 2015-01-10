@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using WonderApp.Models;
 using WonderApp.Web.InfaStructure;
+using WonderApp.Web.Models;
 
 namespace WonderApp.Web.Controllers
 {
@@ -30,13 +31,21 @@ namespace WonderApp.Web.Controllers
         [System.Web.Mvc.Authorize(Roles = "Admin")]
         public ActionResult MyWondersEmailTemplate(string id)
         {
-           
+                
             try
             {
                 var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == id);
                 if (user != null)
                 {
-                    var model = Mapper.Map<List<DealModel>>(user.MyWonders);
+                    var wonders = Mapper.Map<List<DealModel>>(user.MyWonders);
+                    var model = new EmailTemplateViewModel();
+                    model.User = Mapper.Map<UserModel>(user);
+                    model.Wonders = wonders;
+
+                    //TODO: move these to config properties
+                    model.UrlString = "https://cms.thewonderapp.co/content/images/";
+                    model.UnsubscribeLink = "mailto:unsubscribe@thewonderapp.co";
+
                     return View(model);
                 }
                 return View();           

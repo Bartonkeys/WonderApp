@@ -94,6 +94,7 @@
     <Compile Include="CountryModel.cs" />
     <Compile Include="DealSummaryModel.cs" />
     <Compile Include="DeviceModel.cs" />
+    <Compile Include="EmailTemplateViewModel.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\GeographyHelper.cs" />
     <Compile Include="ImageModel.cs" />

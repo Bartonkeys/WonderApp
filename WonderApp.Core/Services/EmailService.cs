@@ -8,10 +8,12 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
 using RazorEngine;
 using SendGrid;
 using WonderApp.Contracts.DataContext;
 using WonderApp.Data;
+using WonderApp.Models;
 using Encoding = System.Text.Encoding;
 using Template = WonderApp.Data.Template;
 
@@ -65,13 +67,18 @@ namespace WonderApp.Core.Services
                 RecipientName = user.UserName
             };
 
-
+            
             var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
             var wonders = recentWonders;
-           //.Where(w => w.Archived == false
-           //    && w.Expired != true
-           //    && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).ToList();
 
+            var model = new EmailTemplateViewModel();
+            model.User = Mapper.Map<UserModel>(user);
+            model.Wonders = Mapper.Map <List<DealModel>>(wonders);
+
+            //TODO: move these to config properties
+            model.UrlString = "https://cms.thewonderapp.co/content/images/";
+            model.UnsubscribeLink = "mailto:unsubscribe@thewonderapp.co";
+           
             foreach (var wonder in wonders)
             {
                 emailPlainText += wonder.Title + "\n";
