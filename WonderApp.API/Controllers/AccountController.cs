@@ -155,7 +155,7 @@ namespace WonderApp.Controllers
 
                 if (user == null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "That user does not exist");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userPersonal.Id));
                 }
 
                 user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
