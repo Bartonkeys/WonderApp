@@ -228,20 +228,24 @@ namespace WonderApp.Controllers
             {
                 var aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
 
-                if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
-                }
-
                 if (aspNetUser != null)
                 {
+                    if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                    }
+
                     aspNetUser.MyRejects.Clear();
                     aspNetUser.MyWonders.Clear();
                     DataContext.AspNetUsers.Remove(aspNetUser);
-                }
-                  
+                    DataContext.Commit();
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user does not exist");
+                    
+                
             }
             catch (Exception ex)
             {
