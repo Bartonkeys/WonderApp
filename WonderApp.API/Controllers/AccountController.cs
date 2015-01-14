@@ -230,15 +230,16 @@ namespace WonderApp.Controllers
 
                 if (aspNetUser != null)
                 {
+                    aspNetUser.MyRejects.Clear();
+                    aspNetUser.MyWonders.Clear();
+                    DataContext.Commit();
+
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
                     {
                         return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     }
 
-                    aspNetUser.MyRejects.Clear();
-                    aspNetUser.MyWonders.Clear();
                     DataContext.AspNetUsers.Remove(aspNetUser);
-                    DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
