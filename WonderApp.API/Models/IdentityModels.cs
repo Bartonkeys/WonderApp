@@ -10,6 +10,9 @@ namespace WonderApp.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual string Name { get; set; }
+        public string Forename { get; set; }
+        public string Surname { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

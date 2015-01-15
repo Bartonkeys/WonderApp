@@ -77,7 +77,15 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.UserAlreadyRegisted);
                 }
                 
-                user = new ApplicationUser { UserName = facebookUser.Email, Email = facebookUser.Email, Name = facebookUser.Name };
+                user = new ApplicationUser
+                {
+                    UserName = facebookUser.Email, 
+                    Email = facebookUser.Email, 
+                    Name = facebookUser.Name,
+                    Forename = facebookUser.FirstName,
+                    Surname = facebookUser.LastName
+                    
+                };
                 
                 var result = await UserManager.CreateAsync(user);
                 if (!result.Succeeded)
