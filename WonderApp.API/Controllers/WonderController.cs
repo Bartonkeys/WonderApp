@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
+using WonderApp.Data;
 using WonderApp.Models;
 using Elmah.Contrib.WebApi;
 using WonderApp.Models.Helpers;
@@ -181,12 +183,150 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var wonders = await Task.Run(() =>
+                //var wonders = await Task.Run(() =>
+                //{
+                //    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
+                //});
+                
+                var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
                 {
-                    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
-                });
+                    var myWonders = user.MyWonders.ToList();
+                    
+                    var myWondersModel = new List<DealModel>();
+                    foreach (var myWonder in myWonders)
+                    {
+                        var dealModel = new DealModel();
+                       
+                        dealModel.Address = Mapper.Map<AddressModel>(myWonder.Address);
+                        
+                        var dealAges = new List<AgeModel>();
+                        foreach (var age in myWonder.Ages)
+                        {
+                            dealAges.Add(new AgeModel()
+                            {
+                                Id = age.Id,
+                                Name = age.Name
 
-                return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                            });
+                        }
+                        dealModel.Ages = dealAges;
+                            
+                        dealModel.AlwaysAvailable = myWonder.AlwaysAvailable != null && myWonder.AlwaysAvailable.Value ;
+                        dealModel.Archived = myWonder.Archived != null && myWonder.Archived.Value;
+                        
+                        dealModel.Category = new CategoryModel()
+                        {
+                            Id = myWonder.Category.Id,
+                            Name = myWonder.Category.Name
+                        };
+
+                        dealModel.City = new CityModel()
+                        {
+                            Id = myWonder.City.Id,
+                            Location = Mapper.Map<LocationModel>(myWonder.City.Location),
+                            Name = myWonder.City.Name
+                        };
+ 
+                        dealModel.Company = new CompanyModel()
+                        {
+                            Id = myWonder.Company.Id,
+                            Name = myWonder.Company.Name,
+                            Address = myWonder.Company.Address,
+                            //Country = new CountryModel()
+                            //{
+                            //    Id = myWonder.Company.Country.Id,
+                            //    Name = myWonder.Company.Country.Name
+                            //},
+                            County = myWonder.Company.County,
+                            Phone = myWonder.Company.Phone,
+                            City = new CityModel()
+                            {
+                                Id = myWonder.Company.City.Id,
+                                Name = myWonder.Company.City.Name,
+                                Location = Mapper.Map<LocationModel>(myWonder.Company.City.Location)
+                            },
+                            PostCode = myWonder.Company.PostCode
+                        };
+
+                        dealModel.Cost = new CostModel()
+                        {
+                            Id = myWonder.Cost.Id,
+                            Range = myWonder.Cost.Range
+                            
+                        };
+                        
+                        dealModel.Description = myWonder.Description;
+                        dealModel.Expired = myWonder.Expired  != null && myWonder.Expired.Value;
+                        dealModel.ExpiryDate = myWonder.ExpiryDate.ToString();
+ 
+                        dealModel.Gender = new GenderModel()
+                        {
+                            Id = myWonder.Gender.Id,
+                            Name = myWonder.Gender.Name
+                        };
+
+                        dealModel.Id = myWonder.Id;
+
+                        var dealImages = new List<ImageModel>();
+                        foreach (var image in myWonder.Images)
+                        {
+
+                            dealImages.Add(new ImageModel()
+                            {
+
+                                Device = new DeviceModel()
+                                {
+                                    Type = image.Device.Type,
+                                    Id = image.Device.Id
+                                },
+                                url = image.url
+                            });
+                        }
+                        dealModel.Images = dealImages;
+
+                        dealModel.IntroDescription = myWonder.IntroDescription;
+                        dealModel.Likes = myWonder.Likes;
+                       
+                        dealModel.Location = new LocationModel()
+                        {
+                            Id = myWonder.Location.Id,
+                            Name = myWonder.Location.Name
+                             
+                        };
+                        dealModel.Phone =  myWonder.Phone;
+                        dealModel.Priority =  myWonder.Priority != null && myWonder.Priority .Value;
+                        dealModel.Publish =  myWonder.Publish;
+                        
+                        dealModel.Season = new SeasonModel()
+                        {
+                            Id = myWonder.Season.Id,
+                            Name = myWonder.Season.Name
+                        };
+
+
+                        var dealTags = new List<TagModel>();
+                        foreach (var tag in myWonder.Tags)
+                        {
+                            dealTags.Add(new TagModel()
+                            {
+                               Id = tag.Id,
+                               Name = tag.Name
+                            });
+                        }
+                        dealModel.Tags = dealTags;
+
+                        dealModel.Title =  myWonder.Title;
+                        dealModel.Url = myWonder.Url;
+
+                        myWondersModel.Add(dealModel);
+                        
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, myWondersModel); 
+                }
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
