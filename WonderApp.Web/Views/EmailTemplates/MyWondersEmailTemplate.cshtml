@@ -25,13 +25,12 @@
                 <br /><br />
                 Below are the Wonders you saved recently, enjoy browsing and sharing with your friends.
                 <br /><br />
-                We've lots more great Wonders to discover on the <a href="" style="color:rgb(31,125,190); text-decoration:none;">
-                    WonderApp
-                </a>, so be sure to check it out this week!
+                We've lots more great Wonders to discover on <a href="" style="color:rgb(31,125,190); text-decoration:none;">
+                    Wonder</a>, so be sure to check it out this week!
                 <br /><br />
                 The Wonder Team
                 <br /><br />
-                Download Wonder App here: <a href="" style="color:rgb(31,125,190); text-decoration:none;">click here</a>
+                Download Wonder <a href="" style="color:rgb(31,125,190); text-decoration:none;">here</a>
             </td>
         </tr>
         <tr>
@@ -41,7 +40,7 @@
         </tr>
         <tr>
             <td style="text-align:center; font-size:40px; font-weight:bold; color:rgb(31,125,190);">
-                <img style="width:60px; vertical-align:middle;" src='@(Model.UrlString + "wonderappLogo.jpg")' alt="wonder app" /> My Wonders
+                Wonder
             </td>
         </tr>
         <tr>
@@ -49,38 +48,48 @@
                 <br /><br />
             </td>
         </tr>
-        <tr>
-            <td>
-                <a href="">
-                    <table cellpadding="5" style="width:600px;" style="border:1px solid black;">
-                        @foreach (var item in @Model.Wonders)
-                        {
-                        <tr style="color: #FFFFFF;">
-                            <td style="width: 100px;">
-                                <img style="width: 100px;" src="@if (@item.Images != null && @item.Images.Count>0){@item.Images.FirstOrDefault().url}" alt="wonder app" />
-                            </td>
-                            <td style="border:2px solid rgb(31,125,190); color:grey; width:400px; padding-left:10px;">
-                                <h3>
-                                    @if (@item.Title != null)
-                                    {@item.Title}
-                                </h3>
-                                <h5>
-                                    @if (@item.Company != null && @item.Company.Name != null)
-                                    {@item.Company.Name}
-                                </h5>
-                                @if (@item.Description != null)
-                                {@item.Description}
-                            </td>
-                            <td style="border:2px solid rgb(31,125,190); color:grey; width:100px; padding-left:10px;">
-                                <img style="width: 30px;" src="@(Model.UrlString + "thumb.png")" alt="wonder app" align="middle" /> @if (@item.Likes != null)
-                                {@item.Likes}
-                            </td>
-                        </tr>
-                        }
-                    </table>
-                </a>
-            </td>
-        </tr>
+
+
+        @foreach (var item in @Model.Wonders)
+        {
+            <tr>
+                <td>
+                    <a href="">
+                        <table cellpadding="5" style="width:600px;">
+                            <tr style="color: #FFFFFF;">
+                                <td style="width: 100px; text-align:center;">
+                                    <img style="width: 90px;" src="@if (@item.Images != null && @item.Images.Count>0){@item.Images.FirstOrDefault().url}" alt="wonder app" />
+                                </td>
+                                <td style="border:1px solid grey; color:grey; width:430px; padding-left:10px;">
+                                    <h3>
+                                        @if (@item.Title != null)
+                                        {@:#
+                                        @item.Title}
+                                    </h3>
+                                    <h5>
+                                        @if (@item.Company != null && @item.Company.Name != null)
+                                        {@item.Company.Name}
+                                        @if (@item.Address!=null && @item.Address.AddressLine1 != null)
+                                        {@:,
+                                        @item.Address.AddressLine1
+                                        }
+                                    </h5>
+                                    @if (@item.Description != null)
+                                    {@item.Description}
+                                </td>
+                                <td style="border:1px solid grey; color:grey; width:70px; padding-left:10px;">
+                                    <img style="width: 14px;" src="@(Model.UrlString + "thumb.png")" alt="wonder app" align="middle" /> @if (@item.Likes != null)
+                                    {@item.Likes}
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </td>
+            </tr>
+            <tr><td style="height:5px;"></td></tr>
+        }
+
+
         <tr>
             <td style="font-size:20px;">
                 <br /><br />
@@ -88,6 +97,9 @@
             </td>
         </tr>
     </table>
+
+
+
 
 
 </body>
