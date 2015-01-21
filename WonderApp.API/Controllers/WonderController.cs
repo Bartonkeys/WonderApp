@@ -183,152 +183,170 @@ namespace WonderApp.Controllers
         {
             try
             {
-                //var wonders = await Task.Run(() =>
-                //{
-                //    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
-                //});
-                
-                var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                var wonders = await Task.Run(() =>
                 {
-                    var myWonders = user.MyWonders.ToList();
+                    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).Select(w => w.MyWonders));
+                });
+                
+                //var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == userId);
+                //if (user != null)
+                //{
+                //    var myWonders = user.MyWonders.ToList();
                     
-                    var myWondersModel = new List<DealModel>();
-                    foreach (var myWonder in myWonders)
-                    {
-                        var dealModel = new DealModel();
+                //    var myWondersModel = new List<DealModel>();
+                //    foreach (var myWonder in myWonders)
+                //    {
+                //        var dealModel = new DealModel();
                        
-                        dealModel.Address = Mapper.Map<AddressModel>(myWonder.Address);
+                //        dealModel.Address = Mapper.Map<AddressModel>(myWonder.Address);
                         
-                        var dealAges = new List<AgeModel>();
-                        foreach (var age in myWonder.Ages)
-                        {
-                            dealAges.Add(new AgeModel()
-                            {
-                                Id = age.Id,
-                                Name = age.Name
+                //        //var dealAges = new List<AgeModel>();
+                //        //foreach (var age in myWonder.Ages)
+                //        //{
+                //        //    dealAges.Add(new AgeModel()
+                //        //    {
+                //        //        Id = age.Id,
+                //        //        Name = age.Name
 
-                            });
-                        }
-                        dealModel.Ages = dealAges;
+                //        //    });
+                //        //}
+                //        //dealModel.Ages = dealAges;
+                //        dealModel.Ages = Mapper.Map<List<AgeModel>>(myWonder.Ages);
                             
-                        dealModel.AlwaysAvailable = myWonder.AlwaysAvailable != null && myWonder.AlwaysAvailable.Value ;
-                        dealModel.Archived = myWonder.Archived != null && myWonder.Archived.Value;
+                //        dealModel.AlwaysAvailable = myWonder.AlwaysAvailable != null && myWonder.AlwaysAvailable.Value ;
+                //        dealModel.Archived = myWonder.Archived != null && myWonder.Archived.Value;
                         
-                        dealModel.Category = new CategoryModel()
-                        {
-                            Id = myWonder.Category.Id,
-                            Name = myWonder.Category.Name
-                        };
+                //        //dealModel.Category = new CategoryModel()
+                //        //{
+                //        //    Id = myWonder.Category.Id,
+                //        //    Name = myWonder.Category.Name
+                //        //};
+                //        dealModel.Category = Mapper.Map<CategoryModel>(myWonder.Category);
 
-                        dealModel.City = new CityModel()
-                        {
-                            Id = myWonder.City.Id,
-                            Location = Mapper.Map<LocationModel>(myWonder.City.Location),
-                            Name = myWonder.City.Name
-                        };
+                //        //dealModel.City = new CityModel()
+                //        //{
+                //        //    Id = myWonder.City.Id,
+                //        //    Location = Mapper.Map<LocationModel>(myWonder.City.Location),
+                //        //    Name = myWonder.City.Name
+                //        //};
+                //        dealModel.City = Mapper.Map<CityModel>(myWonder.City);
  
-                        dealModel.Company = new CompanyModel()
-                        {
-                            Id = myWonder.Company.Id,
-                            Name = myWonder.Company.Name,
-                            Address = myWonder.Company.Address,
-                            //Country = new CountryModel()
-                            //{
-                            //    Id = myWonder.Company.Country.Id,
-                            //    Name = myWonder.Company.Country.Name
-                            //},
-                            County = myWonder.Company.County,
-                            Phone = myWonder.Company.Phone,
-                            City = new CityModel()
-                            {
-                                Id = myWonder.Company.City.Id,
-                                Name = myWonder.Company.City.Name,
-                                Location = Mapper.Map<LocationModel>(myWonder.Company.City.Location)
-                            },
-                            PostCode = myWonder.Company.PostCode
-                        };
+                //        //dealModel.Company = new CompanyModel()
+                //        //{
+                //        //    Id = myWonder.Company.Id,
+                //        //    Name = myWonder.Company.Name,
+                //        //    Address = myWonder.Company.Address,
+                //        //    //Country = new CountryModel()
+                //        //    //{
+                //        //    //    Id = myWonder.Company.Country.Id,
+                //        //    //    Name = myWonder.Company.Country.Name
+                //        //    //},
+                //        //    County = myWonder.Company.County,
+                //        //    Phone = myWonder.Company.Phone,
+                //        //    City = new CityModel()
+                //        //    {
+                //        //        Id = myWonder.Company.City.Id,
+                //        //        Name = myWonder.Company.City.Name,
+                //        //        Location = Mapper.Map<LocationModel>(myWonder.Company.City.Location)
+                //        //    },
+                //        //    PostCode = myWonder.Company.PostCode
+                //        //};
+                //        dealModel.Company = Mapper.Map<CompanyModel>(myWonder.Company);
+ 
 
-                        dealModel.Cost = new CostModel()
-                        {
-                            Id = myWonder.Cost.Id,
-                            Range = myWonder.Cost.Range
+
+                //        //dealModel.Cost = new CostModel()
+                //        //{
+                //        //    Id = myWonder.Cost.Id,
+                //        //    Range = myWonder.Cost.Range
                             
-                        };
-                        
-                        dealModel.Description = myWonder.Description;
-                        dealModel.Expired = myWonder.Expired  != null && myWonder.Expired.Value;
-                        dealModel.ExpiryDate = myWonder.ExpiryDate.ToString();
+                //        //};
+                //        dealModel.Cost = Mapper.Map<CostModel>(myWonder.Cost);
  
-                        dealModel.Gender = new GenderModel()
-                        {
-                            Id = myWonder.Gender.Id,
-                            Name = myWonder.Gender.Name
-                        };
+                        
+                //        dealModel.Description = myWonder.Description;
+                //        dealModel.Expired = myWonder.Expired  != null && myWonder.Expired.Value;
+                //        dealModel.ExpiryDate = myWonder.ExpiryDate.ToString();
+ 
+                //        //dealModel.Gender = new GenderModel()
+                //        //{
+                //        //    Id = myWonder.Gender.Id,
+                //        //    Name = myWonder.Gender.Name
+                //        //};
+                //        dealModel.Gender = Mapper.Map<GenderModel>(myWonder.Gender);
+ 
 
-                        dealModel.Id = myWonder.Id;
+                //        dealModel.Id = myWonder.Id;
 
-                        var dealImages = new List<ImageModel>();
-                        foreach (var image in myWonder.Images)
-                        {
+                //        //var dealImages = new List<ImageModel>();
+                //        //foreach (var image in myWonder.Images)
+                //        //{
 
-                            dealImages.Add(new ImageModel()
-                            {
+                //        //    dealImages.Add(new ImageModel()
+                //        //    {
 
-                                Device = new DeviceModel()
-                                {
-                                    Type = image.Device.Type,
-                                    Id = image.Device.Id
-                                },
-                                url = image.url
-                            });
-                        }
-                        dealModel.Images = dealImages;
+                //        //        Device = new DeviceModel()
+                //        //        {
+                //        //            Type = image.Device.Type,
+                //        //            Id = image.Device.Id
+                //        //        },
+                //        //        url = image.url
+                //        //    });
+                //        //}
+                //        //dealModel.Images = dealImages;
+                //        dealModel.Images = Mapper.Map<List<ImageModel>>(myWonder.Images);
+ 
 
-                        dealModel.IntroDescription = myWonder.IntroDescription;
-                        dealModel.Likes = myWonder.Likes;
+                //        dealModel.IntroDescription = myWonder.IntroDescription;
+                //        dealModel.Likes = myWonder.Likes;
                        
-                        dealModel.Location = new LocationModel()
-                        {
-                            Id = myWonder.Location.Id,
-                            Name = myWonder.Location.Name,
-                            Latitude = myWonder.Location.Geography.Latitude,
-                            Longitude = myWonder.Location.Geography.Longitude
+                //        //dealModel.Location = new LocationModel()
+                //        //{
+                //        //    Id = myWonder.Location.Id,
+                //        //    Name = myWonder.Location.Name,
+                //        //    Latitude = myWonder.Location.Geography.Latitude,
+                //        //    Longitude = myWonder.Location.Geography.Longitude
                              
-                        };
-                        dealModel.Phone =  myWonder.Phone;
-                        dealModel.Priority =  myWonder.Priority != null && myWonder.Priority .Value;
-                        dealModel.Publish =  myWonder.Publish;
+                //        //};
+                //        dealModel.Location = Mapper.Map<LocationModel>(myWonder.Location);
+ 
+
+                //        dealModel.Phone =  myWonder.Phone;
+                //        dealModel.Priority =  myWonder.Priority != null && myWonder.Priority .Value;
+                //        dealModel.Publish =  myWonder.Publish;
                         
-                        dealModel.Season = new SeasonModel()
-                        {
-                            Id = myWonder.Season.Id,
-                            Name = myWonder.Season.Name
-                        };
+                //        //dealModel.Season = new SeasonModel()
+                //        //{
+                //        //    Id = myWonder.Season.Id,
+                //        //    Name = myWonder.Season.Name
+                //        //};
+                //        dealModel.Season = Mapper.Map<SeasonModel>(myWonder.Season);
+ 
 
+                //        //var dealTags = new List<TagModel>();
+                //        //foreach (var tag in myWonder.Tags)
+                //        //{
+                //        //    dealTags.Add(new TagModel()
+                //        //    {
+                //        //       Id = tag.Id,
+                //        //       Name = tag.Name
+                //        //    });
+                //        //}
+                //        //dealModel.Tags = dealTags;
+                //        dealModel.Tags = Mapper.Map<List<TagModel>>(myWonder.Tags);
+ 
 
-                        var dealTags = new List<TagModel>();
-                        foreach (var tag in myWonder.Tags)
-                        {
-                            dealTags.Add(new TagModel()
-                            {
-                               Id = tag.Id,
-                               Name = tag.Name
-                            });
-                        }
-                        dealModel.Tags = dealTags;
+                //        dealModel.Title =  myWonder.Title;
+                //        dealModel.Url = myWonder.Url;
 
-                        dealModel.Title =  myWonder.Title;
-                        dealModel.Url = myWonder.Url;
-
-                        myWondersModel.Add(dealModel);
+                //        myWondersModel.Add(dealModel);
                         
-                    }
-                    return Request.CreateResponse(HttpStatusCode.OK, myWondersModel); 
-                }
+                //    }
+                //    return Request.CreateResponse(HttpStatusCode.OK, myWondersModel); 
+                //}
 
 
-                return Request.CreateResponse(HttpStatusCode.OK, "");
+                return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
             catch (Exception ex)
             {
