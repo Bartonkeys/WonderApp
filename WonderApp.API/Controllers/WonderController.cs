@@ -291,7 +291,9 @@ namespace WonderApp.Controllers
                         dealModel.Location = new LocationModel()
                         {
                             Id = myWonder.Location.Id,
-                            Name = myWonder.Location.Name
+                            Name = myWonder.Location.Name,
+                            Latitude = myWonder.Location.Geography.Latitude,
+                            Longitude = myWonder.Location.Geography.Longitude
                              
                         };
                         dealModel.Phone =  myWonder.Phone;
