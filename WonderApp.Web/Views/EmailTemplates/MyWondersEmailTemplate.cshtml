@@ -52,6 +52,7 @@
 
         @foreach (var item in @Model.Wonders)
         {
+            var company = "";
             <tr>
                 <td>
                     <a href="">
@@ -68,11 +69,13 @@
                                     </h3>
                                     <h5>
                                         @if (@item.Company != null && @item.Company.Name != null)
-                                        {@item.Company.Name}
+                                        { company = item.Company.Name; }
                                         @if (@item.Address!=null && @item.Address.AddressLine1 != null)
-                                        {@:,
-                                        @item.Address.AddressLine1
+                                        {
+                                            company += ", " + item.Address.AddressLine1; 
+                                            @company
                                         }
+                                        
                                     </h5>
                                     @if (@item.Description != null)
                                     {@item.Description}
