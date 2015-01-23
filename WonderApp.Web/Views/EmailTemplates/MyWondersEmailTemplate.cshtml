@@ -57,7 +57,7 @@
             var company = "";
             <tr>
                 <td>
-                    <a href="">
+                    <a href="@item.Url" target="_blank">
                         <table cellpadding="5" style="width:600px;">
                             <tr style="color: #FFFFFF;">
                                 <td style="width: 100px; text-align:center;">
@@ -67,17 +67,17 @@
                                     <h3>
                                         @if (@item.Title != null)
                                         {@:#
-                                        @item.Title}
+                                            @item.Title}
                                     </h3>
                                     <h5>
                                         @if (@item.Company != null && @item.Company.Name != null)
                                         { company = item.Company.Name; }
-                                        @if (@item.Address!=null && @item.Address.AddressLine1 != null)
+                                        @if (@item.Address != null && @item.Address.AddressLine1 != null)
                                         {
-                                            company += ", " + item.Address.AddressLine1; 
+                                            company += ", " + item.Address.AddressLine1;
                                             @company
                                         }
-                                        
+
                                     </h5>
                                     @if (@item.Description != null)
                                     {@item.Description}
