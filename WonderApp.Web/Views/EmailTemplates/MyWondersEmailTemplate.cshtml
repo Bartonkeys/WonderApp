@@ -57,7 +57,7 @@
             var company = "";
             <tr>
                 <td>
-                    <a href="@item.Url" target="_blank">
+                    <a href="@(item.Url)" target="_blank">
                         <table cellpadding="5" style="width:600px;">
                             <tr style="color: #FFFFFF;">
                                 <td style="width: 100px; text-align:center;">
@@ -66,8 +66,7 @@
                                 <td style="border:1px solid grey; color:grey; width:430px; padding-left:10px;">
                                     <h3>
                                         @if (@item.Title != null)
-                                        {@:#
-                                            @item.Title}
+                                        {@("#" + item.Title)}
                                     </h3>
                                     <h5>
                                         @if (@item.Company != null && @item.Company.Name != null)

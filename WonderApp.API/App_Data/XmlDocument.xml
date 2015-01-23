@@ -554,14 +554,6 @@
             This API handles all email related activities.
             </summary>
         </member>
-        <member name="M:WonderApp.Controllers.EmailController.PostEmailMyWonders(WonderApp.Models.AuthModel)">
-            <summary>
-            HTTP POST to send emails
-            Returns HTTP StatusCode 200.
-            If error, return Http Status Code 500 with error message.
-            </summary>
-            <returns></returns>   
-        </member>
         <member name="T:WonderApp.Controllers.SearchController">
             <summary>
             Handle all search queries
