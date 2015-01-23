@@ -42,17 +42,18 @@ namespace WonderApp.Core.Services
                 //Check time of last send  
                 if (!dataContext.NotificationEmails.Any() ||
                     (dataContext.NotificationEmails.Any()
-                    && !dataContext.NotificationEmails.Any(e => e.Sent > timeToCheck)))
+                    && !dataContext.NotificationEmails.Any(e => e.RecipientEmail == user.Email && e.Sent > timeToCheck)))
                 {
                     var email = await CreateMyWondersEmailAndSend(user);
                     if (email != null)
                     {
                         _dataContext.NotificationEmails.Add(email);
-                        _dataContext.Commit();
                     }
                 }
          
             }
+
+            _dataContext.Commit();
 
             return usersToSendEmailTo;
 
