@@ -204,7 +204,7 @@ namespace WonderApp.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetCities()
         {
-            var listOfCities = await Task.Run(() => { return Mapper.Map<List<CityModel>>(DataContext.Cities); });
+            var listOfCities = await Task.Run(() => { return Mapper.Map<List<CityModel>>(DataContext.Cities.Where(c => !c.Archived)); });
             return Request.CreateResponse(HttpStatusCode.OK, listOfCities);
         }
 

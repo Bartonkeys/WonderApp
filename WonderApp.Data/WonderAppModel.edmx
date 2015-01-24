@@ -98,6 +98,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="LocationId" Type="int" />
+          <Property Name="Archived" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Companies">
           <Key>
@@ -249,6 +250,7 @@
           </Key>
           <Property Name="MyRejectUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="MyRejects_Id" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
         </EntityType>
         <EntityType Name="UserDealWonders">
           <Key>
@@ -1216,6 +1218,7 @@
           <NavigationProperty Name="Deals" Relationship="WonderAppModel.FK_Deals_Cities" FromRole="City" ToRole="Deal" />
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="WonderAppModel.FK_Cities_Locations" FromRole="City" ToRole="Location" />
+          <Property Name="Archived" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Companies_Cities">
           <End Type="WonderAppModel.City" Role="City" Multiplicity="1" />
@@ -1683,6 +1686,7 @@
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="WonderAppModel.City">
               <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="Archived" ColumnName="Archived" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

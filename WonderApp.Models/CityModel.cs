@@ -21,5 +21,10 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "location")]
         public virtual LocationModel Location { get; set; }
+
+        [DisplayName("Archived")]
+        [JsonProperty(PropertyName = "archived")]
+        [JsonIgnore]
+        public bool Archived { get; set; }
     }
 }
