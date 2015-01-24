@@ -25,7 +25,9 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<Season> Seasons { get; }
         IDbSet<Age> Ages { get; }
         IDbSet<Template> Templates { get; }
-        IDbSet<NotificationEmail> NotificationEmails { get; } 
+        IDbSet<NotificationEmail> NotificationEmails { get; }
+        IDbSet<UserPreference> Preferences { get; } 
+       
         void Commit();
     }
 }

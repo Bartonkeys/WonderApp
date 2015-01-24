@@ -38,7 +38,8 @@ namespace WonderApp.Core.EFDataContext
         public IDbSet<Season> Seasons { get { return _context.Seasons; } }
         public IDbSet<Age> Ages { get { return _context.Ages; } }
         public IDbSet<NotificationEmail> NotificationEmails { get { return _context.NotificationEmails; } }
-        public IDbSet<Template> Templates { get { return _context.Templates; } } 
+        public IDbSet<Template> Templates { get { return _context.Templates; } }
+        public IDbSet<UserPreference> Preferences { get { return _context.UserPreferences; }} 
        
 
         public void Commit()

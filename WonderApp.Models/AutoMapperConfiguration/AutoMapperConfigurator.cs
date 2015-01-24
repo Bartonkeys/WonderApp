@@ -82,7 +82,12 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<AspNetUser, UserModel>();
 
-            Mapper.CreateMap<UserModel, AspNetUser>();
+            Mapper.CreateMap<UserModel, AspNetUser>()
+                .ForMember(e => e.Deals, opt => opt.Ignore()); ;
+
+            Mapper.CreateMap<AspNetUser, UserBasicModel>();
+
+            Mapper.CreateMap<UserBasicModel, AspNetUser>();
 
             Mapper.CreateMap<AspNetUserLogin, AspNetUserLoginModel>();
             Mapper.CreateMap<AspNetUserLoginModel, AspNetUserLogin>();

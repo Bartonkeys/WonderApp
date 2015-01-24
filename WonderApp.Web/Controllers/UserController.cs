@@ -46,7 +46,7 @@ namespace WonderApp.Web.Controllers
         public ActionResult Index()
         {
             var userViews = new List<UserViewModel>();
-            var users = Mapper.Map<List<UserModel>>(DataContext.AspNetUsers.ToList());
+            var users = Mapper.Map<List<UserBasicModel>>(DataContext.AspNetUsers.ToList());
 
             foreach (var userModel in users)
             {
@@ -63,7 +63,7 @@ namespace WonderApp.Web.Controllers
         public ActionResult Create()
         {
             var model = new UserViewModel();
-            model.UserModel = new UserModel();
+            model.UserModel = new UserBasicModel();
             model.NewPassword = null;
             model.IsAdmin = false;
 
@@ -78,7 +78,7 @@ namespace WonderApp.Web.Controllers
 
             try
             {
-                UserModel userModel = model.UserModel;
+                UserBasicModel userModel = model.UserModel;
                 var password = "P@ssw0rd1234";
 
                 var user = Mapper.Map<AspNetUser>(userModel);
@@ -137,7 +137,7 @@ namespace WonderApp.Web.Controllers
         {
 
             var model = new UserViewModel();
-            model.UserModel = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
+            model.UserModel = Mapper.Map<UserBasicModel>(DataContext.AspNetUsers.Find(id));
 
             model.NewPassword = null;
             model.IsAdmin = UserManager.IsInRole(id, "Admin");
@@ -151,7 +151,7 @@ namespace WonderApp.Web.Controllers
         {
             try
             {
-                UserModel userModel = model.UserModel;
+                UserBasicModel userModel = model.UserModel;
 
                 var user = await UserManager.FindByIdAsync(userModel.Id);
 
@@ -225,13 +225,13 @@ namespace WonderApp.Web.Controllers
         public ActionResult Delete(string id)
         {
             
-            var model = Mapper.Map<UserModel>(DataContext.AspNetUsers.Find(id));
+            var model = Mapper.Map<UserBasicModel>(DataContext.AspNetUsers.Find(id));
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Delete(UserModel model)
+        public ActionResult Delete(UserBasicModel model)
         {
             //Do not allow deletion of the main accounts
             var adminAccounts = DataContext.AspNetUsers.Where(u =>
@@ -251,9 +251,20 @@ namespace WonderApp.Web.Controllers
                 return View(model);
             }
 
-            var user = DataContext.AspNetUsers.Find(model.Id);
+            var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == model.Id);
+            var userPrefs = DataContext.Preferences.FirstOrDefault(u => u.UserId == model.Id);
 
-            DataContext.AspNetUsers.Remove(user);
+            if (userPrefs != null)
+            {
+                DataContext.Preferences.Remove(userPrefs);
+            }
+
+            if (user != null)
+            {
+                user.MyRejects.Clear();
+                user.MyWonders.Clear();
+                DataContext.AspNetUsers.Remove(user);
+            }
 
             return RedirectToAction("Index");
         }

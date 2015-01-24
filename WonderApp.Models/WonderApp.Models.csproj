@@ -111,9 +111,11 @@
     <Compile Include="DealModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateModel.cs" />
+    <Compile Include="UserBasicModel.cs" />
     <Compile Include="UserInfoModel.cs" />
     <Compile Include="UserPreferenceModel.cs" />
     <Compile Include="UserModel.cs" />
+    <Compile Include="UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

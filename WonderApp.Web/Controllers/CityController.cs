@@ -88,7 +88,14 @@ namespace WonderApp.Web.Controllers
         {
             if (DataContext.Deals.Any(x => x.City.Id == model.Id))
             {
-                AddClientMessage(ClientMessage.Warning, "City is in use, so cannot be deleted");
+                var dealsWithCity = DataContext.Deals.Where(x => x.City.Id == model.Id);
+                string dealString = "Deals which link to this city:\n";
+                foreach (var deal in dealsWithCity)
+                {
+                    dealString += deal.Title + "\n";
+                }
+
+                AddClientMessage(ClientMessage.Warning, "City is in use, so cannot be deleted.\n" + dealString);
                 return View(model);
             }
 

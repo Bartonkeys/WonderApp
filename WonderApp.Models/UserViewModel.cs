@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.EnterpriseServices.Internal;
-using System.Linq;
-using System.Web;
-using WonderApp.Models;
 
-namespace WonderApp.Web.Models
+namespace WonderApp.Models
 {
     public class UserViewModel
     {
-        public UserModel UserModel { get; set;  }
+        public UserBasicModel UserModel { get; set;  }
 
         [DisplayName("Old Password")]
         public String OldPassword { get; set; }
