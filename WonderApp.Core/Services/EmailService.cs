@@ -71,8 +71,9 @@ namespace WonderApp.Core.Services
                 RecipientName = user.UserName
             };
 
-            
-            var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
+            var amountToSkip = user.MyWonders.Count <= NumberOfWonders ? 0 : user.MyWonders.Count - NumberOfWonders;
+            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip);
+            //var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
           
             var model = new EmailTemplateViewModel();
             model.User = Mapper.Map<UserModel>(user);
