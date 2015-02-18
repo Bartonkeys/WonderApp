@@ -20,13 +20,13 @@
             </td>
         </tr>
         <tr>
-            <td style="font-size:20px;">
+            <td>
                 Hi @(Model.User.Forename),
                 <br /><br />
                 Below are the Wonders you saved recently, enjoy browsing and sharing with your friends.
                 <br /><br />
-                We've lots more great Wonders to discover on <a href="" style="color:rgb(31,125,190); text-decoration:none;">
-                    Wonder</a>, so be sure to check it out this week!
+                We also add new exciting Wonders daily, which we hope you'll like, so be sure to check out the <a href="" style="color:rgb(31,125,190); text-decoration:none;">
+                App</a> this week!
                 <br /><br />
                 The Wonder Team
                 <br /><br />
@@ -58,12 +58,12 @@
             <tr>
                 <td>
                     <a href="@(item.Url)" target="_blank">
-                        <table cellpadding="5" style="width:600px;">
+                        <table cellpadding="5" style="width:600px; height:150px;">
                             <tr style="color: #FFFFFF;">
-                                <td style="width: 100px; text-align:center;">
-                                    <img style="width: 90px;" src="@if (@item.Images != null && @item.Images.Count>0){@item.Images.FirstOrDefault().url}" alt="wonder app" />
+                                <td style="width: 130px; text-align:center;">
+                                    <img style="width: 120px;" src="@if (@item.Images != null && @item.Images.Count>0){@item.Images.FirstOrDefault().url}" alt="wonder app" />
                                 </td>
-                                <td style="border:1px solid grey; color:grey; width:430px; padding-left:10px;">
+                                <td style="border:1px solid grey; color:grey; width:390px; padding-left:10px;">
                                     <h3>
                                         @if (@item.Title != null)
                                         {@("#" + item.Title)}
@@ -81,9 +81,18 @@
                                     @if (@item.Description != null)
                                     {@item.Description}
                                 </td>
-                                <td style="border:1px solid grey; color:grey; width:70px; padding-left:10px;">
-                                    <img style="width: 14px;" src="@(Model.UrlString + "thumb.png")" alt="wonder app" align="middle" /> @if (@item.Likes != null)
-                                    {@item.Likes}
+                                <td style="border:1px solid grey; color:grey; width:70px; padding-left:20px;">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <img style="width: 14px;" src="@(Model.UrlString + "thumb.png")" alt="wonder app" />
+                                            </td>
+                                            <td style="padding-top:6px; padding-left:4px;">
+                                                @if (@item.Likes != null)
+                                                {@item.Likes}
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
@@ -95,7 +104,7 @@
 
 
         <tr>
-            <td style="font-size:20px;">
+            <td>
                 <br /><br />
                 <a href="@(Model.UnsubscribeLink)" style="color:rgb(31,125,190); text-decoration:none;">Click here</a> to unsubscribe
             </td>
