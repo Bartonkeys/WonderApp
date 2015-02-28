@@ -80,7 +80,7 @@ namespace WonderApp.Core.Services
             };
 
             var amountToSkip = user.MyWonders.Count <= NumberOfWonders ? 0 : user.MyWonders.Count - NumberOfWonders;
-            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip);
+            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip).Reverse();
             //var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
           
             var model = new EmailTemplateViewModel();
