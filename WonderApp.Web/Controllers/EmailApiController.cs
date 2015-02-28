@@ -27,7 +27,7 @@ namespace WonderApp.Web.Controllers
                 {
 
                     //Check time of last send
-                    var oneweekAgo = DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0));
+                    var oneweekAgo = DateTime.Now.Subtract(new TimeSpan(6, 0, 0, 0));
 
                     if (DataContext.NotificationEmails.Any() && DataContext.NotificationEmails.Any(e => e.Sent > oneweekAgo))
                     {

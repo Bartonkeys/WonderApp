@@ -27,12 +27,20 @@ namespace WonderApp.Core.Services
         private const int NumberOfWonders = 10;
         async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
         {
+
+            //Only send emails on a Wednesday
+            var today = DateTime.Now;
+            if (today.DayOfWeek != DayOfWeek.Wednesday)
+            {
+                return null;
+            }
+
             _dataContext = dataContext;
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => 
                 u.UserPreference.EmailMyWonders &&
                 u.UserPreference.Reminder!= null));
-            var oneWeekAgo = DateTime.Now.AddDays(-7);
-            var oneMonthAgo = DateTime.Now.AddMonths(-1);
+            var oneWeekAgo = today.AddDays(-6);
+            var oneMonthAgo = today.AddMonths(-1).AddDays(-1);
 
             foreach (var user in usersToSendEmailTo)
             {
