@@ -13,12 +13,11 @@ namespace WonderApp.Web.Controllers
     {
         public ActionResult Season()
         {
-            var model = Mapper.Map<List<SeasonModel>>(DataContext.Seasons)
-                .Select(x => new SeasonExpiryViewModel
-                {
-                    Season = x,
-                    Expired = x.Deals.All(y => y.Expired == true)
-                });
+            var model = DataContext.Seasons.ToList().Select(x => new SeasonExpiryViewModel
+            {
+                Season = new SeasonModel { Id = x.Id, Name = x.Name },
+                Expired = x.Deals.Count > 0 && x.Deals.All(y => y.Expired == true)
+            });
 
             return View(model);
         }
