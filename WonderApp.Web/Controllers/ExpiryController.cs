@@ -17,7 +17,7 @@ namespace WonderApp.Web.Controllers
                 .Select(x => new SeasonExpiryViewModel
                 {
                     Season = x,
-                    Expired = x.Deals.All(y => y.Expired == true)
+                    Expired = x.Deals!=null? x.Deals.All(y => y.Expired == true) : false
                 });
 
             return View(model);
