@@ -41,18 +41,24 @@
                 $.isLoading({ text: "Updating expire all..." });
                 $.ajax("/api/Tag/expireAll/" + cid + "/" + expireWonders, {
                     dataType: "json",
-                    type: "PUT"
-                }).statusCode()
-                    .done(function (data) {
-                    if (data != null) {
-                        $(this).prop('checked', data);
-                        toastr.success('Expired successfully updated')
+                    type: "PUT",
+                    statusCode: {
+                        201: function(data) {
+                            if (data != null) {
+                                $(this).prop('checked', data);
+                                toastr.success('Expired successfully updated');
+                            }
+                            $.isLoading("hide");
+                        },
+                        204: function() {
+                            toastr.info('There are no Wonders for this season');
+                            $.isLoading("hide");
+                        },
+                        500:function(){
+                            toastr.error('Error setting the wonders expired - please try again');
+                            $.isLoading("hide");
+                        }
                     }
-                    $.isLoading("hide");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error setting the wonders expired - please try again')
-                    $.isLoading("hide");
-
                 });
             }
 
