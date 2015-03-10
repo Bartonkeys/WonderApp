@@ -330,7 +330,7 @@ else
                     "sPaginationType": "full_numbers",
                     "fnDrawCallback": function (o) {
                         if ( o._iDisplayStart != oldStart ) {
-                            var targetOffset = $('#dealList').offset().top;
+                            var targetOffset = 0;/// $('#dealList').offset().top;
                             $('html,body').animate({scrollTop: targetOffset}, 500);
                             oldStart = o._iDisplayStart;
                         }
