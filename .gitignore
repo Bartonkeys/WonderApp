@@ -6,3 +6,4 @@ packages
 
 /WonderApp.Database/Import Schema Logs/*.log
 *.suo
+/WonderApp.Database/*.dbmdl
