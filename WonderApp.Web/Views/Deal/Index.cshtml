@@ -266,6 +266,8 @@ else
                     }
 
                 });
+                
+               
 
                 //dTable = $('#dealList').DataTable({
                 //    "bSortable": false, "aTargets": [0,1]
@@ -293,8 +295,7 @@ else
                 } );
                 
 
- 
-                
+                var oldStart = 0;
                 dTable = $('#dealList').DataTable({
                     //"aoColumns": [
                     //    { "bVisible": true, "bSearchable": false, "bSortable": false},
@@ -324,7 +325,16 @@ else
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": false, "bSearchable": true, "bSortable": false }
                     ],
-                    "aaSorting": []
+                    "aaSorting": [],
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "fnDrawCallback": function (o) {
+                        if ( o._iDisplayStart != oldStart ) {
+                            var targetOffset = $('#dealList').offset().top;
+                            $('html,body').animate({scrollTop: targetOffset}, 500);
+                            oldStart = o._iDisplayStart;
+                        }
+                    }
                 });
                 //yadcf.init(dTable, [{
                 //    column_number: 4,
@@ -350,6 +360,7 @@ else
                     } );
                 } );
 
+               
                 //yadcf.init(dTable, [{
                 //    column_number: 4,
                 //    filter_default_label: "Choose"
@@ -394,6 +405,8 @@ else
 
             //    });
             //});
+            
+           
 
         </script>
 
