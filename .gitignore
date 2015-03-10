@@ -4,7 +4,5 @@ obj
 packages
 !packages/repositories.config
 
-*.map
-
 /WonderApp.Database/Import Schema Logs/*.log
 *.suo
