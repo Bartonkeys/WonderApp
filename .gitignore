@@ -7,3 +7,4 @@ packages
 *.map
 
 /WonderApp.Database/Import Schema Logs/*.log
+*.suo

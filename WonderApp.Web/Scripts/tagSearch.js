@@ -64,7 +64,7 @@ function select2Dropdown(hiddenID, valueID, ph, listAction, getAction, isMultipl
 
             if (ev.target == document.getElementById("company-hdn")) {
 
-                if (parseInt(values)) {
+                if ($.isNumeric(values)) {
                     choice = values;
                 } else {
                     $.ajax("/api/Tag/CreateCompany/" + values, {

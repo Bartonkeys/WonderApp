@@ -227,23 +227,25 @@ namespace WonderApp.Web.Controllers
 
         [HttpPut]
         [Route("expireAll/{id}/{expire}")]
-        public bool? UpdateAllExpired(int? id, bool expire)
+        public HttpResponseMessage UpdateAllExpired(int? id, bool expire)
         {
             try
             {
                 var season = DataContext.Seasons.FirstOrDefault(w => w.Id == id);
-                
+
+                if (season.Deals.Count == 0) return Request.CreateResponse(HttpStatusCode.NoContent, season.Name);
+
                 foreach (var wonder in season.Deals)
                 {
                     wonder.Expired = expire;
                 }
 
-                return expire;
+                return Request.CreateResponse(HttpStatusCode.Created, expire);
             }
 
             catch (Exception e)
             {
-                return null;
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
 
         }
