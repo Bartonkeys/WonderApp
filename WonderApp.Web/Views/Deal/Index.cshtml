@@ -98,10 +98,18 @@ else
                         @Html.DisplayFor(modelItem => item.Likes)
                     </td>
                     <td id="@item.Id" onclick="priorityClicked(@item.Id)">
-                        @Html.CheckBoxFor(modelItem => item.Priority)
+                        @Html.CheckBoxFor(modelItem => item.Priority,
+                         new
+                         {
+                             data_sort = item.Priority ? "1" : "0"
+                         })
                     </td>
-                    <td id="@item.Id" onclick="expiredClicked(@item.Id)">
-                        @Html.CheckBoxFor(modelItem => item.Expired)
+                    <td id="@item.Id" onclick="expiredClicked(@item.Id)" >
+                        @Html.CheckBoxFor(modelItem => item.Expired,
+                        new
+                        {
+                            data_sort = item.Expired ? "1" : "0"
+                        })
                     </td>
                     <td>
                         <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
@@ -210,7 +218,7 @@ else
                     }
                     $.isLoading("hide");
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error setting the priority - please try again')
+                    toastr.error('Error setting the priority - please try again');
                     $.isLoading("hide");
 
                 });
@@ -226,11 +234,11 @@ else
                 }).done(function(data) {
                     if (data != null) {
                         $(this).prop('checked', data);
-                        toastr.success('Expired successfully updated')
+                        toastr.success('Expired successfully updated');
                     }
                     $.isLoading("hide");
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error setting the wonder expired - please try again')
+                    toastr.error('Error setting the wonder expired - please try again');
                     $.isLoading("hide");
 
                 });
@@ -258,7 +266,7 @@ else
                             tr.addClass('shown');
                             $.isLoading("hide");
                         }).fail(function(jqXHR, textStatus, errorThrown) {
-                            toastr.error('Error loading the wonder detail - please try again')
+                            toastr.error('Error loading the wonder detail - please try again');
                             $.isLoading("hide");
 
                         });
@@ -285,8 +293,8 @@ else
                     //    && title != 'Expire') {
                     //    $(this).html( '<input type="text" placeholder="Search" />' );
                     //}
-                    if (index != 0 && index != 7 && index != 8
-                        && index != 9 && index != 10) {
+                    if (index != 0 && index != 6 && index != 7
+                        && index != 8 && index != 9) {
                         $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
                     } else {
                         $(this).html( innerHtml + '<br />');
@@ -314,14 +322,14 @@ else
                     "aoColumns": [
                         { "bVisible": true, "bSearchable": false, "bSortable": false},
                         { "bVisible": true, "bSearchable": true, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false},
+                        { "bVisible": false, "bSearchable": true, "bSortable": false},
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true },
+                        { "bVisible": true, "bSearchable": true, "bSortable": true ,  "sType": "checked-in"},
+                        { "bVisible": true, "bSearchable": true, "bSortable": true,  "sType": "checked-in"  },
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": false, "bSearchable": true, "bSortable": false }
                     ],
@@ -337,20 +345,7 @@ else
                     },
                     "iDisplayLength": 100
                 });
-                //yadcf.init(dTable, [{
-                //    column_number: 4,
-                //    filter_default_label: "Choose"
-                //}, {
-                //    column_number: 5,
-                //    filter_default_label: "Choose"
-                //}, {
-                //    column_number: 6,
-                //    filter_default_label: "Choose"
-                //}
-                //]);
-                
-                
- 
+               
                 // Apply the search
                 dTable.columns().eq( 0 ).each( function ( colIdx ) {
                     $( 'input', dTable.column( colIdx ).header() ).on( 'keyup change', function () {
@@ -359,55 +354,23 @@ else
                             .search( this.value )
                             .draw();
                     } );
-                } );
-
-               
-                //yadcf.init(dTable, [{
-                //    column_number: 4,
-                //    filter_default_label: "Choose"
-                //}, {
-                //    column_number: 5,
-                //    filter_default_label: "Choose"
-                //}, {
-                //    column_number: 6,
-                //    filter_default_label: "Choose"
-                //}
-                ////{column_number : 0},
-                ////{column_number : 1, filter_type: "range_number_slider", filter_container_id: "external_filter_container"},
-                ////{column_number : 2, data: ["Yes", "No"], filter_default_label: "Select Yes/No"},
-                ////{column_number : 3, filter_type: "auto_complete", text_data_delimiter: ","},
-                ////{column_number : 4, column_data_type: "html", html_data_type: "text", filter_default_label: "Select tag"}
-                //]);
-          
+                } );  
 
             });            
 
-        //Add a clickable link to the priority checkbox
-            //$("#dealList").on("click", "td", function () {
-            //    alert($(this).text());
-            //});
-            
-            //$('#dealList tr td').click(function () {
-            //    var cid = $(this).attr('id');
+      
+           //Sorting boolean (checklist) columns
+            jQuery.fn.dataTableExt.oSort['checked-in-asc']  = function(a,b) {
+                var a_sort = parseInt($(a).data("sort"));
+                var b_sort =  parseInt($(b).data("sort"));
+                return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ?  1 : 0));
+            };
 
-            //    $.isLoading({ text: "Updating priority..." });
-            //    $.ajax("/api/Tag/UpdatePriority/" + cid, {
-            //        dataType: "json",
-            //        type: "PUT"
-            //    }).done(function (data) {
-            //        if (data != null) {
-            //            $(this).prop('checked', data);
-            //            toastr.success('Priority successfully updated')
-            //        }
-            //        $.isLoading("hide");
-            //    }).fail(function (jqXHR, textStatus, errorThrown) {
-            //        toastr.error('Error setting the priority - please try again')
-            //        $.isLoading("hide");
-
-            //    });
-            //});
-            
-           
+            jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function(a,b) {
+                var a_sort = parseInt($(a).data("sort"));
+                var b_sort =  parseInt($(b).data("sort"));
+                return ((a_sort < b_sort) ?  1 : ((a_sort > b_sort) ? -1 : 0));
+            };
 
         </script>
 

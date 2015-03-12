@@ -53,6 +53,19 @@
         <dd>
             @Html.DisplayFor(model => model.Likes)
         </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+
+        <dd>
+            @foreach (var tag in Model.Tags)
+            {
+                <span class="tags">
+                    @(tag.Name)
+                </span>
+            }
+        </dd>
 
     </dl>
 </div>
