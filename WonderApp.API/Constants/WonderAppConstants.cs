@@ -9,6 +9,8 @@ namespace WonderApp.Constants
     {
         public const int DefaultRadius = 5;
         public const int DefaultMaxNumberOfWonders = 20;
+        public const int DefaultNumberOfWondersToTake = 5;
+        public const int Top100 = 100;
         public const string Facebook = "facebook";
         public const string UserAlreadyRegisted = "User is registered with different facebook credentials";
         public const string CreateUserError = "Error creating user";

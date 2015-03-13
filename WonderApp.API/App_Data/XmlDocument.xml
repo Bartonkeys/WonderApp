@@ -582,15 +582,22 @@
             <summary>
             HTTP POST to return wonder deals. Send the following in body: 
             Current position in latitude and longitude, cityId and userId.
-            There is an algorthim in place which takes 10 random Wonders from the following: 
-            proximity of 5 miles, priority and popularity. It also includes 10 completely random
-            wonders. There will be no duplicates in the list and user will not see wonders 
-            they have previously disliked OR wonders they have previously liked.
+            There is an algorthim in place which takes 20 random Wonders from the following: 
+            proximity of 1 mile, 3 miles, priority and popularity. It also includes completely random
+            wonders. There will be no duplicates in the list and user will 
+            not see wonders they have previously seen.
             If no location just returns priority, random and popular.
             Returns HTTP StatusCode 200 with JSON list of wonder deals.
             If error, return Http Status Code 500 with error message.
             </summary>
             <returns></returns>        
+        </member>
+        <member name="M:WonderApp.Controllers.WonderController.PostPriorityWonders(WonderApp.Models.WonderModel)">
+            <summary>
+            Return list of all priority wonders that user has not seen for specified city.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
         </member>
         <member name="M:WonderApp.Controllers.WonderController.GetMyWonders(System.String)">
             <summary>

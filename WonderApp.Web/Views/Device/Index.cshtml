@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_DeviceLayout.cshtml";
+    ViewBag.InitModule = "wonderModule";
+}
+
+<div ng-controller="wonderController" ng-init="init()" ng-show="data.isReady()">
+
+<form name="wonderForm" style="margin-top: 20px">
+    <div class="form-group">
+        <label>User</label>
+
+        <select id="users" ng-model="data.wonderModel.userId">
+            <option ng-repeat="r in data.users" value="{{r.Id}}">{{r.UserName}}</option>
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        <select id="cities" ng-model="data.wonderModel.cityId">
+            <option ng-repeat="r in data.cities" value="{{r.id}}">{{r.name}}</option>
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Get Wonders" ng-click="getWonders()" />
+        <input type="submit" class="btn btn-primary" value="Get Priority Wonders" ng-click="getPriorityWonders()" />
+        <input type="submit" class="btn btn-primary" value="Get 1 Mile Wonders" ng-click="getNearestWonders(1)" />
+        <input type="submit" class="btn btn-primary" value="Get 3 Mile Wonders" ng-click="getNearestWonders(3)" />
+        <input type="submit" class="btn btn-primary" value="Get Top 10 Wonder" ng-click="getPopularWonders()" />
+        <input type="submit" class="btn btn-primary" value="Get My Wonders" ng-click="getMyWonders()" />
+    </div>
+</form>
+
+<div class="row">
+    <div class="message row" data-ng-repeat="i in wonders">
+        <div class="title col-sm-10">{{ i.title }}</div>
+        <div class="date col-sm-2 pull-right">
+            <input type="button" class="btn btn-info" value="Like" ng-click="like(i.id)" ng-hide="isMyWonder" />
+            <input type="button" class="btn btn-info" value="DisLike" ng-click="disLike(i.id)" />
+        </div>
+        <div class="contents col-sm-3">
+            <img height="150" ng-src="{{i.images[0].url}}"/>
+        </div>
+        <div class="contents col-sm-9">
+            <p>Priority: {{i.priority}}</p>
+            <p>Address: {{i.address.addressLine1}} {{i.address.addressLine2}} {{i.address.postCode}}</p>
+            <p>Distance From user: {{i.distanceFrom}} km</p>
+            <p>Likes: {{i.likes}}</p>
+            <p ng-if="i.expiryDate != ''">Expiry: {{ i.expiryDate }}</p>
+            <p ng-if="i.expiryDate == ''">Always Available</p>
+        </div>
+        <div class="clearfix" />
+    </div>
+</div>
+
+</div>
+
+

@@ -90,5 +90,32 @@ tr.shown td.details-control {
     margin-bottom: 2px;
 }
 
+.message {
+  background: none repeat scroll 0 0 #eaeaea;
+  border: 1px solid #aaaaaa;
+  border-radius: 5px 5px 5px 5px;
+  margin-bottom: 5px;
+  margin-left: 0;
+  margin-right: -20px;
+  padding: 5px;
+}
+.message .title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.angular-google-map {
+position: relative;
+/*padding-bottom: 66.67%; /* aspectratio 3:2 */*/
+height: 0;
+overflow: hidden;
+}
+
+.angular-google-map-container {
+height: 325px; 
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 
 
