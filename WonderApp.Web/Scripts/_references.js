@@ -118,3 +118,4 @@
 /// <reference path="angular-scenario.js" />
 /// <reference path="angular-touch.js" />
 /// <reference path="angular.js" />
+/// <reference path="loading-bar.js" />
