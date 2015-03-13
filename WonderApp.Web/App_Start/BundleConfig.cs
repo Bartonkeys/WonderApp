@@ -9,7 +9,7 @@ namespace WonderApp.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-2.1.1.js",
+                        "~/Scripts/jquery-2.1.3.js",
                         "~/Scripts/select2.js",
                         "~/Scripts/jquery.are-you-sure.js"));
 
@@ -43,8 +43,8 @@ namespace WonderApp.Web
                       "~/App/Location/location.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
-                "~/Plugins/DataTables-1.10.2/media/js/jquery.dataTables.js",
-                "~/Plugins/DataTables-1.10.2/extensions/ColumnFilter/yadcf-0.8.6/jquery.dataTables.yadcf.js"));
+                "~/Plugins/DataTables-1.10.5/media/js/jquery.dataTables.js",
+                "~/Plugins/DataTables-1.10.5/extensions/ColumnFilter/yadcf-0.8.6/jquery.dataTables.yadcf.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/isloading").Include(
                       "~/Scripts/jquery.isloading.js"));

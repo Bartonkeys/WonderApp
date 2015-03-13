@@ -16,7 +16,7 @@ namespace WonderApp.Web.Controllers
     [RoutePrefix("api/app")]
     public class AppController : BaseApiController
     {
-        private readonly string baseUrl = ConfigurationManager.AppSettings["apiBaseUrl"];
+        private static string baseUrl = ConfigurationManager.AppSettings["apiBaseUrl"];
 
         [Route("wonders")]
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)

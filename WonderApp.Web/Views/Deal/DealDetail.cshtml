@@ -46,19 +46,34 @@
                     </div>
                 </div>*@
             </div>
-            <div class="col-md-5">
-                <div class="row">
-                    @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "col-md-4" })
-                    <div class="col-md-8">
-                        @Html.DisplayFor(m => m.Location.Name)
-                    </div>
+        <div class="col-md-5">
+            <div class="row">
+                @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "col-md-4" })
+                <div class="col-md-8">
+                    @Html.DisplayFor(m => m.Location.Name)
                 </div>
-                <div class="row">
-                    @Html.LabelFor(model => model.Category.Id, htmlAttributes: new { @class = "col-md-4" })
-                    <div class="col-md-8">
-                        @Html.DisplayFor(m => m.Category.Name)
-                    </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.Category.Id, htmlAttributes: new { @class = "col-md-4" })
+                <div class="col-md-8">
+                    @Html.DisplayFor(m => m.Category.Name)
                 </div>
             </div>
         </div>
+        
+        <div class="col-md-5">
+            <div class="row">
+                @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "col-md-8" })
+                <div class="col-md-8">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="tags">
+                            @(tag.Name)
+                        </span>
+                    }
+                </div>
+            </div>
+            
+        </div>
+    </div>
 </div>
