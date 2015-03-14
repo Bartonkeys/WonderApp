@@ -12,7 +12,7 @@ using WonderApp.Models;
 
 namespace WonderApp.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Admin")]
     [RoutePrefix("api/app")]
     public class AppController : BaseApiController
     {

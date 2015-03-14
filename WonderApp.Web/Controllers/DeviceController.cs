@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WonderApp.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DeviceController : Controller
     {
         // GET: App
