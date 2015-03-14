@@ -148,7 +148,7 @@ namespace WonderApp.Controllers
             }
         }
 
-        [Route("nearest/{radius}")]
+        [Route("nearest/{radiusFrom}/{radiusTo}")]
         public async Task<HttpResponseMessage> PostNearestWonders(int radiusFrom, int radiusTo, [FromBody]WonderModel model)
         {
             try
