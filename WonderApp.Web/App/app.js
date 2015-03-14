@@ -54,12 +54,12 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return deferred.promise;
     };
 
-    var _getNearestWonders = function (radius) {
+    var _getNearestWonders = function (radiusFrom, radiusTo) {
 
         var deferred = $q.defer();
         _populateLatLong();
 
-        $http.post("/api/app/nearest/" + radius, _wonderModel)
+        $http.post("/api/app/nearest/" + radiusFrom + "/" + radiusTo, _wonderModel)
           .then(function (result) {
               // success
               angular.copy(result.data, _wonders);
@@ -300,8 +300,8 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
         });
     };
 
-    $scope.getNearestWonders = function (radius) {
-        dataService.getNearestWonders(radius).then(function () {
+    $scope.getNearestWonders = function (radiusFrom, radiusTo) {
+        dataService.getNearestWonders(radiusFrom, radiusTo).then(function () {
             $scope.isMyWonder = false;
         });
     };

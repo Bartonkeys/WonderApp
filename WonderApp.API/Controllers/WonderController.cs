@@ -48,10 +48,10 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        var oneMileWonders = GetNearestWonders(model, mileRadius: 1, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
                         var extraToTake = WonderAppConstants.DefaultNumberOfWondersToTake - oneMileWonders.Count();
 
-                        var threeMileWonders = GetNearestWonders(model, mileRadius: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake + extraToTake);
+                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake + extraToTake);
                         extraToTake = 10 - threeMileWonders.Count();
 
                         var popularWonders = GetPopularWonders(model, 
@@ -149,7 +149,7 @@ namespace WonderApp.Controllers
         }
 
         [Route("nearest/{radius}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(int radius, [FromBody]WonderModel model)
+        public async Task<HttpResponseMessage> PostNearestWonders(int radiusFrom, int radiusTo, [FromBody]WonderModel model)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        var results = GetNearestWonders(model, mileRadius: radius, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var results = GetNearestWonders(model, mileRadiusFrom: radiusFrom, mileRadiusTo: radiusTo, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
                         return Mapper.Map<List<DealModel>>(results);
                     });
 
@@ -381,11 +381,12 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadius, int amountToTake)
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, int mileRadiusTo, int amountToTake)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
             return DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadius
+                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > mileRadiusFrom
+                               && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
                                && w.Archived == false
                                && w.Expired != true
                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)

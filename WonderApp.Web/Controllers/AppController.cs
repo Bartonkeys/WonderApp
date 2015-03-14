@@ -50,11 +50,11 @@ namespace WonderApp.Web.Controllers
         }
 
         [Route("nearest/{radius}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(int radius, [FromBody]WonderModel model)
+        public async Task<HttpResponseMessage> PostNearestWonders(int radiusFrom, int radiusTo, [FromBody]WonderModel model)
         {
             try
             {
-                var results = await PostWonders(model, api: @"wonder/nearest/" + radius);
+                var results = await PostWonders(model, api: @"wonder/nearest/" + radiusFrom + "/" + radiusTo);
                 return Request.CreateResponse(HttpStatusCode.Created, results);
 
             }
