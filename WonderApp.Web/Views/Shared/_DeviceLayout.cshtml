@@ -23,15 +23,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (Roles.IsUserInRole("Admin"))
-                    {
-                        <li>@Html.ActionLink("Users", "Index", "User")</li>
-                        <li>@Html.ActionLink("Categories", "Index", "Category")</li>
-                        <li>@Html.ActionLink("Cost Ranges", "Index", "Cost")</li>
-                        <li>@Html.ActionLink("Cities", "Index", "City")</li>
-                        <li>@Html.ActionLink("Expire", "Season", "Expiry")</li>
-                        <li>@Html.ActionLink("Device", "Index", "Device")</li>
-                    }
+                    <li>@Html.ActionLink("Users", "Index", "User")</li>
+                    <li>@Html.ActionLink("Categories", "Index", "Category")</li>
+                    <li>@Html.ActionLink("Cost Ranges", "Index", "Cost")</li>
+                    <li>@Html.ActionLink("Cities", "Index", "City")</li>
+                    <li>@Html.ActionLink("Expire", "Season", "Expiry")</li>
+                    <li>@Html.ActionLink("Device", "Index", "Device")</li>
                     <li>@Html.ActionLink("Wonders", "Index", "Deal")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
