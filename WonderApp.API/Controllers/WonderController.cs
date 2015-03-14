@@ -199,6 +199,29 @@ namespace WonderApp.Controllers
             }
         }
 
+        ///<summary>
+        /// Return all rejected Wonders that the user has dis-liked
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("rejectWonders/{userId}")]
+        public async Task<HttpResponseMessage> GetRejectWonders(string userId)
+        {
+            try
+            {
+                var wonders = await Task.Run(() =>
+                {
+                    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyRejects));
+                });
+
+                return Request.CreateResponse(HttpStatusCode.OK, wonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
         /// <summary>
         /// Return wonderfied Cities with Latitude and Longitude
         /// </summary>

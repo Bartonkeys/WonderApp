@@ -115,6 +115,26 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 
         return deferred.promise;
     };
+    
+    var _getRejectWonders = function () {
+        var deferred = $q.defer();
+        _populateLatLong();
+
+        $http.get("/api/app/rejectWonders/" + _wonderModel.userId)
+          .then(function (result) {
+              // success
+              angular.copy(result.data, _wonders);
+              _setDistanceForWonders();
+              _isInit = true;
+              deferred.resolve();
+          },
+          function () {
+              // error
+              deferred.reject();
+          });
+
+        return deferred.promise;
+    };
 
     var _getCities = function () {
         var deferred = $q.defer();
@@ -169,6 +189,40 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 
         return deferred.promise;
     };
+    
+    var _disLike = function (wonderId) {
+        var deferred = $q.defer();
+
+        $http.get("/api/app/dislike/" + _wonderModel.userId + "/" + wonderId)
+          .then(function (result) {
+              // success   
+              _wonders = $.grep(_wonders, function (o) { return o.id === wonderId; }, true);
+              deferred.resolve(_wonders);
+          },
+          function () {
+              // error
+              deferred.reject();
+          });
+
+        return deferred.promise;
+    };
+    
+    var _removeLike = function (wonderId) {
+        var deferred = $q.defer();
+
+        $http.get("/api/app/removeLike/" + _wonderModel.userId + "/" + wonderId)
+          .then(function (result) {
+              // success   
+              _wonders = $.grep(_wonders, function (o) { return o.id === wonderId; }, true);
+              deferred.resolve(_wonders);
+          },
+          function () {
+              // error
+              deferred.reject();
+          });
+
+        return deferred.promise;
+    };
 
     var _populateLatLong = function() {
         var city = $.grep(_cities, function(e) { return e.id == _wonderModel.cityId; });
@@ -213,7 +267,10 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         getNearestWonders: _getNearestWonders,
         getPopularWonders: _getPopularWonders,
         getMyWonders: _getMyWonders,
-        like: _like
+        like: _like,
+        disLike: _disLike,
+        removeLike: _removeLike,
+        getRejectWonders: _getRejectWonders
     };
 }]);
 
@@ -256,9 +313,27 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
             $scope.isMyWonder = true;
         });
     };
+    
+    $scope.getRejectWonders = function () {
+        dataService.getRejectWonders().then(function () {
+            $scope.isMyWonder = true;
+        });
+    };
 
     $scope.like = function (wonderId) {
         dataService.like(wonderId).then(function (wonders) {
+            $scope.wonders = wonders;
+        });
+    };
+    
+    $scope.disLike = function (wonderId) {
+        dataService.disLike(wonderId).then(function (wonders) {
+            $scope.wonders = wonders;
+        });
+    };
+    
+    $scope.removeLike = function (wonderId) {
+        dataService.removeLike(wonderId).then(function (wonders) {
             $scope.wonders = wonders;
         });
     };

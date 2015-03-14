@@ -17,6 +17,7 @@ namespace WonderApp.Web.Controllers
     public class AppController : BaseApiController
     {
         private static string baseUrl = ConfigurationManager.AppSettings["apiBaseUrl"];
+        //"https://api.thewonderapp.co/api/";
 
         [Route("wonders")]
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)
@@ -121,6 +122,20 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Route("rejectWonders/{userId}")]
+        public async Task<HttpResponseMessage> GetRejectWonders(string userId)
+        {
+            try
+            {
+                var results = await Task.Run(() => GetFor<DealModel>("wonder/rejectWonders/" + userId));
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
         [Route("like/{userId}/{wonderId}")]
         public async Task<HttpResponseMessage> GetLike(string userId, string wonderId)
         {
@@ -139,6 +154,56 @@ namespace WonderApp.Web.Controllers
                     throw new Exception(response.ReasonPhrase);
 
                 
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("dislike/{userId}/{wonderId}")]
+        public async Task<HttpResponseMessage> GetDisLike(string userId, string wonderId)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await Task.Run(() =>
+                    httpClient.PostAsync(baseUrl + "wonder/dislike/" + userId + "/" + wonderId,
+                    new StringContent(String.Empty, Encoding.UTF8, "application/json")));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                    throw new Exception(response.ReasonPhrase);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("removeLike/{userId}/{wonderId}")]
+        public async Task<HttpResponseMessage> GetRemoveLike(string userId, string wonderId)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await Task.Run(() =>
+                    httpClient.PostAsync(baseUrl + "wonder/removeLike/" + userId + "/" + wonderId,
+                    new StringContent(String.Empty, Encoding.UTF8, "application/json")));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                    throw new Exception(response.ReasonPhrase);
+
+
             }
             catch (Exception ex)
             {

@@ -606,6 +606,13 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetRejectWonders(System.String)">
+            <summary>
+             Return all rejected Wonders that the user has dis-liked
+             </summary>
+             <param name="userId"></param>
+             <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.WonderController.GetCities">
             <summary>
             Return wonderfied Cities with Latitude and Longitude

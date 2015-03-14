@@ -31,6 +31,7 @@
         <input type="submit" class="btn btn-primary" value="Get 3 Mile Wonders" ng-click="getNearestWonders(3)" />
         <input type="submit" class="btn btn-primary" value="Get Top 10 Wonder" ng-click="getPopularWonders()" />
         <input type="submit" class="btn btn-primary" value="Get My Wonders" ng-click="getMyWonders()" />
+        <input type="submit" class="btn btn-primary" value="Get My Rejects" ng-click="getRejectWonders()" />
     </div>
 </form>
 
@@ -40,6 +41,7 @@
         <div class="date col-sm-2 pull-right">
             <input type="button" class="btn btn-info" value="Like" ng-click="like(i.id)" ng-hide="isMyWonder" />
             <input type="button" class="btn btn-info" value="DisLike" ng-click="disLike(i.id)" />
+            <input type="button" class="btn btn-info" value="Reset" ng-click="removeLike(i.id)" ng-show="isMyWonder" />
         </div>
         <div class="contents col-sm-3">
             <img height="150" ng-src="{{i.images[0].url}}"/>
