@@ -335,7 +335,7 @@ namespace WonderApp.Controllers
         }
 
         /// <summary>
-        /// Remove a Wonder from "MyWonders" collection
+        /// Remove a Wonder from "MyWonders" or "MyRejects" collection
         /// Returns new MyWonders collection
         /// </summary>
         /// <param name="userId"></param>
@@ -353,6 +353,11 @@ namespace WonderApp.Controllers
                     if (user.MyWonders.Contains(deal))
                     {
                         user.MyWonders.Remove(deal);
+                    }
+
+                    if (user.MyRejects.Contains(deal))
+                    {
+                        user.MyRejects.Remove(deal);
                     }
 
                     DataContext.Commit();

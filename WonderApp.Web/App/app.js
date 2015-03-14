@@ -143,7 +143,9 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
           .then(function (result) {
               // success
               angular.copy(result.data, _cities);
-              _isInit = true;
+              if (_users.length > 0) {
+                  _isInit = true;
+              }
               deferred.resolve();
           },
           function () {
@@ -162,7 +164,9 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
           .then(function (result) {
               // success
               angular.copy(result.data, _users);
-              _isInit = true;
+              if (_cities.length > 0) {
+                  _isInit = true;
+              }
               deferred.resolve();
           },
           function () {

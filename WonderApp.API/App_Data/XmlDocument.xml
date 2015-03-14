@@ -639,7 +639,7 @@
         </member>
         <member name="M:WonderApp.Controllers.WonderController.RemoveLike(System.String,System.Int32)">
             <summary>
-            Remove a Wonder from "MyWonders" collection
+            Remove a Wonder from "MyWonders" or "MyRejects" collection
             Returns new MyWonders collection
             </summary>
             <param name="userId"></param>
