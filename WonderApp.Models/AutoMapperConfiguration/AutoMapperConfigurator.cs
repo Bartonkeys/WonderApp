@@ -19,7 +19,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<Deal, DealModel>()
                 .ForMember(m => m.ExpiryDate, 
                     opt => opt.MapFrom(e => e.AlwaysAvailable == true
-                        ? String.Empty : e.ExpiryDate.ToString("dd-MM-YYYY HH:mm:ss")))
+                        ? String.Empty : e.ExpiryDate.ToString("dd-MM-yyyy HH:mm:ss")))
                 .ForMember(e => e.Phone, opt => opt.NullSubstitute(String.Empty))
                 .ForMember(dest => dest.Creator,
                            opts => opts.MapFrom(src => src.AspNetUser));
