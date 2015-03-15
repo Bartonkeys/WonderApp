@@ -52,15 +52,18 @@ namespace WonderApp.Controllers
                         var extraToTake = WonderAppConstants.DefaultNumberOfWondersToTake - oneMileWonders.Count();
 
                         var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake + extraToTake);
-                        extraToTake = 10 - threeMileWonders.Count();
+                        extraToTake = (WonderAppConstants.DefaultNumberOfWondersToTake *2) - threeMileWonders.Count();
 
-                        var popularWonders = GetPopularWonders(model, 
-                            numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake, 
+                        var priorityWonders = GetPriorityWonders(model).Take(extraToTake);
+                        extraToTake = (WonderAppConstants.DefaultNumberOfWondersToTake * 3) - priorityWonders.Count();
+
+                        var popularWonders = GetPopularWonders(model,
+                            numberToTake: extraToTake, 
                             numberFromTop: WonderAppConstants.Top100);
 
                         var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
 
-                        var results = oneMileWonders.Union(threeMileWonders).Union(popularWonders).Union(randomWonders);
+                        var results = oneMileWonders.Union(threeMileWonders).Union(priorityWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
 
                         return Mapper.Map<List<DealModel>>(results);

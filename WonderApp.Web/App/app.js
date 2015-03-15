@@ -282,6 +282,8 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
     $scope.data = dataService;
     $scope.isMyWonder = false;
     $scope.wonders = dataService.wonders;
+    $scope.from = 0;
+    $scope.top = 0;
 
     $scope.init = function () {
         dataService.getCities();
@@ -307,7 +309,7 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
     };
 
     $scope.getPopularWonders = function () {
-        dataService.getPopularWonders(1, 10).then(function () {
+        dataService.getPopularWonders($scope.top, $scope.from ).then(function () {
             $scope.isMyWonder = false;
         });
     };
