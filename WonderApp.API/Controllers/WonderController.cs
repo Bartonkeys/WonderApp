@@ -49,17 +49,12 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var extraToTake = WonderAppConstants.DefaultNumberOfWondersToTake - oneMileWonders.Count();
-
-                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake + extraToTake);
-                        extraToTake = (WonderAppConstants.DefaultNumberOfWondersToTake *2) - threeMileWonders.Count();
-
-                        var priorityWonders = GetPriorityWonders(model).Take(extraToTake);
-                        extraToTake = (WonderAppConstants.DefaultNumberOfWondersToTake * 3) - priorityWonders.Count();
+                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var priorityWonders = GetPriorityWonders(model).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
 
                         var popularWonders = GetPopularWonders(model,
-                            numberToTake: extraToTake, 
-                            numberFromTop: WonderAppConstants.Top100);
+                            numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake, 
+                            numberFromTop: WonderAppConstants.Top100).ToList();
 
                         var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
 
