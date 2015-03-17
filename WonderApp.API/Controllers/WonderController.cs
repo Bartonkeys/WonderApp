@@ -54,7 +54,7 @@ namespace WonderApp.Controllers
 
                         var popularWonders = GetPopularWonders(model,
                             numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake, 
-                            numberFromTop: WonderAppConstants.Top100).ToList();
+                            numberFromTop: WonderAppConstants.Top100);
 
                         var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
 
