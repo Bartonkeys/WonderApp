@@ -147,7 +147,6 @@ namespace WonderApp.Web.Controllers
                 };
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             
