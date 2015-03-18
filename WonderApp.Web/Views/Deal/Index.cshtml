@@ -294,7 +294,7 @@ else
                     //    $(this).html( '<input type="text" placeholder="Search" />' );
                     //}
                     if (index != 0 && index != 6 && index != 7
-                        && index != 8 && index != 9) {
+                        && index != 8 && index != 9  && index != 10) {
                         $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
                     } else {
                         $(this).html( innerHtml + '<br />');
@@ -328,12 +328,12 @@ else
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": true, "bSearchable": true, "bSortable": false },
                         { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true ,  "sType": "checked-in"},
-                        { "bVisible": true, "bSearchable": true, "bSortable": true,  "sType": "checked-in"  },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": false, "bSearchable": true, "bSortable": false }
+                        { "bVisible": true, "bSearchable": false, "bSortable": true ,  "sType": "checked-in"},
+                        { "bVisible": true, "bSearchable": false, "bSortable": true,  "sType": "checked-in"  },
+                        { "bVisible": true, "bSearchable": false, "bSortable": false },
+                        { "bVisible": false, "bSearchable": false, "bSortable": false }
                     ],
-                    "aaSorting": [],
+                   
                     "bJQueryUI": true,
                     "sPaginationType": "full_numbers",
                     "fnDrawCallback": function (o) {

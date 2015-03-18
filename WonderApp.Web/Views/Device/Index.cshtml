@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_DeviceLayout.cshtml";
+    ViewBag.InitModule = "wonderModule";
+}
+
+<div ng-controller="wonderController" ng-init="init()" ng-show="data.isReady()">
+    
+    <h1>Device Simulator</h1>
+    <form name="wonderForm" style="margin-top: 20px">
+        <div class="form-group">
+            <p class="help-block">Mandatory fields. Select user and city, user's location will be set to city's central location</p>
+            <label>User</label>
+            <select id="users" ng-model="data.wonderModel.userId">
+                <option ng-repeat="r in data.users" value="{{r.Id}}">{{r.UserName}}</option>
+            </select>
+        
+            <label>City</label>
+            <select id="cities" ng-model="data.wonderModel.cityId">
+                <option ng-repeat="r in data.cities" value="{{r.id}}">{{r.name}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <p class="help-block">APIs that app calls directly.</p>
+            <input type="submit" class="btn btn-primary" value="Get Priority Wonders" ng-click="getPriorityWonders()" />
+            <input type="submit" class="btn btn-primary" value="Get Wonders via Algorithm" ng-click="getWonders()" />   
+            <input type="submit" class="btn btn-primary" value="Get My Wonders" ng-click="getMyWonders()" />  
+        </div>
+        <div class="form-group">
+            <p class="help-block">APIs to test each cateogry of Wonder.</p>
+            <input type="submit" class="btn btn-primary" value="Get 0-1 Mile Wonders" ng-click="getNearestWonders(0, 1)" />
+            <input type="submit" class="btn btn-primary" value="Get 1-3 Mile Wonders" ng-click="getNearestWonders(1, 3)" />
+            <input type="submit" class="btn btn-primary" value="Get My Rejects" ng-click="getRejectWonders()" />
+        </div>
+        <div class="form-group">
+            <p class="help-block">Most Popular wonders.</p>
+            Select <input type="number" style="width:60px" ng-model="top" /> Wonders from <input type="number" style="width:60px" ng-model="from"/> most popular
+            <input type="submit" class="btn btn-primary" value="Get Popular Wonders" ng-click="getPopularWonders()" />            
+        </div>
+</form>
+
+<div class="row">
+    <div class="message row" data-ng-repeat="i in wonders">
+        <div class="title col-sm-10">{{ i.title }}</div>
+        <div class="date col-sm-2 pull-right">
+            <input type="button" class="btn btn-info" value="Like" ng-click="like(i.id)" ng-hide="isMyWonder" />
+            <input type="button" class="btn btn-info" value="DisLike" ng-click="disLike(i.id)" />
+            <input type="button" class="btn btn-info" value="Reset" ng-click="removeLike(i.id)" ng-show="isMyWonder" />
+        </div>
+        <div class="contents col-sm-3">
+            <img height="150" ng-src="{{i.images[0].url}}"/>
+        </div>
+        <div class="contents col-sm-9">
+            <p>Priority: {{i.priority}}</p>
+            <p>Address: {{i.address.addressLine1}} {{i.address.addressLine2}} {{i.address.postCode}}</p>
+            <p>Distance From user: {{i.distanceFrom}} km</p>
+            <p>Likes: {{i.likes}}</p>
+            <p ng-if="i.expiryDate != ''">Expiry: {{ i.expiryDate }}</p>
+            <p ng-if="i.expiryDate == ''">Always Available</p>
+        </div>
+        <div class="clearfix" />
+    </div>
+</div>
+
+</div>
+
+
