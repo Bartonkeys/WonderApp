@@ -1024,6 +1024,8 @@
     <Content Include="Plugins\DataTables-1.10.5\extensions\ColumnFilter\yadcf-0.8.6\contributing.md" />
     <Content Include="Plugins\DataTables-1.10.5\extensions\ColumnFilter\yadcf-0.8.6\README.md" />
     <Content Include="Plugins\DataTables-1.10.5\extensions\ColumnFilter\yadcf-0.8.6\yadcf.jquery.json" />
+    <None Include="Properties\PublishProfiles\sb-wonderapp-website.pubxml" />
+    <None Include="Properties\PublishProfiles\wonderapp-website-sandbox.pubxml" />
     <None Include="Properties\PublishProfiles\wonderapp-website.pubxml" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />
