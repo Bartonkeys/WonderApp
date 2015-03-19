@@ -120,7 +120,8 @@ namespace WonderApp.Core.Services
                 var emailMessage = new SendGridMessage();
 
                 // Add the message properties.
-                emailMessage.From = new MailAddress("emails@thewonderapp.co");
+                emailMessage.From = new MailAddress("contact@thewonderapp.co", "The Wonder Team");
+              
 
                 // Add multiple addresses to the To field.
                 List<String> recipients = new List<String>
