@@ -32,7 +32,7 @@ namespace WonderApp.Core.Services
             var today = DateTime.Now;
             if (today.DayOfWeek != DayOfWeek.Wednesday)
             {
-                //return null;
+                return null;
             }
 
             _dataContext = dataContext;
