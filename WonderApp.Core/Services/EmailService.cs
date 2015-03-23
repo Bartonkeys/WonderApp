@@ -69,6 +69,7 @@ namespace WonderApp.Core.Services
 
         public async Task <NotificationEmail> CreateMyWondersEmailAndSend(AspNetUser user)
         {
+
             string emailPlainText = "MyWonders = \n";
             string emailHtmlText = "";
 
@@ -80,7 +81,7 @@ namespace WonderApp.Core.Services
             };
 
             var amountToSkip = user.MyWonders.Count <= NumberOfWonders ? 0 : user.MyWonders.Count - NumberOfWonders;
-            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip).Reverse();
+            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip).Reverse().ToList();
             //var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
           
             var model = new EmailTemplateViewModel();
