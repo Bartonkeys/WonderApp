@@ -24,8 +24,14 @@ namespace WonderApp.Core.Services
     {
         private Template _templateToUse;
         private IDataContext _dataContext;
+
+        public EmailService(IDataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+
         private const int NumberOfWonders = 10;
-        async public Task<List<AspNetUser>> SendMyWonderEmails(IDataContext dataContext)
+        async public Task<List<AspNetUser>> SendMyWonderEmails()
         {
 
             //Only send emails on a Wednesday
@@ -35,7 +41,6 @@ namespace WonderApp.Core.Services
                 return null;
             }
 
-            _dataContext = dataContext;
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => 
                 u.UserPreference.EmailMyWonders &&
                 u.UserPreference.Reminder!= null));
@@ -48,9 +53,9 @@ namespace WonderApp.Core.Services
                     ? oneWeekAgo
                     : oneMonthAgo;
                 //Check time of last send  
-                if (!dataContext.NotificationEmails.Any() ||
-                    (dataContext.NotificationEmails.Any()
-                    && !dataContext.NotificationEmails.Any(e => e.RecipientEmail == user.Email && e.Sent > timeToCheck)))
+                if (!_dataContext.NotificationEmails.Any() ||
+                    (_dataContext.NotificationEmails.Any()
+                    && !_dataContext.NotificationEmails.Any(e => e.RecipientEmail == user.Email && e.Sent > timeToCheck)))
                 {
                     var email = await CreateMyWondersEmailAndSend(user);
                     if (email != null)
@@ -81,7 +86,7 @@ namespace WonderApp.Core.Services
             };
 
             var amountToSkip = user.MyWonders.Count <= NumberOfWonders ? 0 : user.MyWonders.Count - NumberOfWonders;
-            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip).Reverse().ToList();
+            var recentWonders = user.MyWonders.Where(x => x.Archived != true).Skip(amountToSkip).Reverse();
             //var recentWonders = user.MyWonders.Skip(user.MyWonders.Count - NumberOfWonders);
           
             var model = new EmailTemplateViewModel();

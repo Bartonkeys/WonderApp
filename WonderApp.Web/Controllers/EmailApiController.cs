@@ -35,9 +35,9 @@ namespace WonderApp.Web.Controllers
                     }
 
                     //TODO - inject dependent on email provider
-                    var emailService = new Core.Services.EmailService();
+                    var emailService = new Core.Services.EmailService(DataContext);
 
-                    await emailService.SendMyWonderEmails(DataContext);
+                    await emailService.SendMyWonderEmails();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -66,7 +66,7 @@ namespace WonderApp.Web.Controllers
 
                 if (user == null) return Request.CreateResponse(HttpStatusCode.NoContent);
 
-                var emailService = new Core.Services.EmailService();
+                var emailService = new Core.Services.EmailService(DataContext);
 
                 await emailService.CreateMyWondersEmailAndSend(user);
 
