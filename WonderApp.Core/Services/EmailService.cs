@@ -67,7 +67,7 @@ namespace WonderApp.Core.Services
 
         }
 
-        private async Task <NotificationEmail> CreateMyWondersEmailAndSend(AspNetUser user)
+        public async Task <NotificationEmail> CreateMyWondersEmailAndSend(AspNetUser user)
         {
             string emailPlainText = "MyWonders = \n";
             string emailHtmlText = "";

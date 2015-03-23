@@ -55,5 +55,30 @@ namespace WonderApp.Web.Controllers
             }
 
         }
+
+        [Route("Force/{userId}")]
+        public async Task<HttpResponseMessage> ForceEmailMyWonders(string userId)
+        {
+            try
+            {
+                var user = DataContext.AspNetUsers.SingleOrDefault(u => u.Id == userId);
+
+                if (user == null) return Request.CreateResponse(HttpStatusCode.NoContent);
+
+                var emailService = new Core.Services.EmailService();
+
+                await emailService.CreateMyWondersEmailAndSend(user);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+
+            }
+
+
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+
+        }
     }
 }
