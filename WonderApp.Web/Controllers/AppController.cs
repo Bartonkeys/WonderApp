@@ -12,12 +12,12 @@ using WonderApp.Models;
 
 namespace WonderApp.Web.Controllers
 {
-    [Authorize(Roles="Admin")]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/app")]
     public class AppController : BaseApiController
     {
-        //private static string baseUrl = ConfigurationManager.AppSettings["apiBaseUrl"];
-        private static string baseUrl = "https://api.thewonderapp.co/api/";
+        private static string baseUrl = ConfigurationManager.AppSettings["apiBaseUrl"];
+        // private static string baseUrl = "https://api.thewonderapp.co/api/";
 
         [Route("wonders")]
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)
@@ -64,13 +64,13 @@ namespace WonderApp.Web.Controllers
             }
         }
 
-        [Route("popular/{take}/{from}")]
-        public async Task<HttpResponseMessage> PostPopularWonders(int take, int from, [FromBody]WonderModel model)
+        [Route("popular/{take}")]
+        public async Task<HttpResponseMessage> PostPopularWonders(int take, [FromBody]WonderModel model)
         {
             try
             {
-               
-                var results = await PostWonders(model, api: String.Format("wonder/popular/{0}/{1}", take, from));
+
+                var results = await PostWonders(model, api: String.Format("wonder/popular/{0}", take));
                 return Request.CreateResponse(HttpStatusCode.Created, results);
 
             }
@@ -142,8 +142,8 @@ namespace WonderApp.Web.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await Task.Run(() => 
-                    httpClient.PostAsync(baseUrl + "wonder/like/" + userId + "/" + wonderId, 
+                var response = await Task.Run(() =>
+                    httpClient.PostAsync(baseUrl + "wonder/like/" + userId + "/" + wonderId,
                     new StringContent(String.Empty, Encoding.UTF8, "application/json")));
 
                 if (response.IsSuccessStatusCode)
@@ -153,7 +153,7 @@ namespace WonderApp.Web.Controllers
                 else
                     throw new Exception(response.ReasonPhrase);
 
-                
+
             }
             catch (Exception ex)
             {
@@ -263,6 +263,7 @@ namespace WonderApp.Web.Controllers
 
         [JsonProperty(PropertyName = "tagId")]
         public int TagId { get; set; }
+
     }
 }
 

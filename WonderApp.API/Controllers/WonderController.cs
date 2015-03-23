@@ -21,18 +21,20 @@ namespace WonderApp.Controllers
     [RoutePrefix("api/wonder")]
     public class WonderController : BaseApiController
     {
+        private List<int> _categories;
+
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, cityId and userId.
-        /// There is an algorthim in place which takes 20 random Wonders from the following: 
-        /// proximity of 1 mile, 3 miles, priority and popularity. It also includes completely random
-        /// wonders. There will be no duplicates in the list and user will 
-        /// not see wonders they have previously seen.
-        /// If no location just returns priority, random and popular.
+        /// If there are unseen priority wonders for city then it returns all of them.
+        /// If there are no priority wonders then it returns useen wonders from the following:
+        /// Proximity of 1 mile, 3 miles, popularity and random. 
+        /// There will be no duplicates in the list.
+        /// If no location just returns random and popular.
         /// Returns HTTP StatusCode 200 with JSON list of wonder deals.
         /// If error, return Http Status Code 500 with error message.
         /// </summary>
-        /// <returns></returns>        
+        /// <returns></returns>
         public async Task<HttpResponseMessage> PostWonders([FromBody]WonderModel model)
         {
             try
@@ -42,36 +44,42 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
                 }
 
+                SetUserCategories(model.UserId);
+
                 var wonders = new List<DealModel>();
+
+                wonders = await Task.Run(() =>
+                {
+                    var priorityWonders = GetPriorityWonders(model).ToList();
+                    return Mapper.Map<List<DealModel>>(priorityWonders);
+                });
+
+                if (wonders.Count > 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
                     wonders = await Task.Run(() =>
                     {
-                        var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var priorityWonders = GetPriorityWonders(model).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
-
-                        var popularWonders = GetPopularWonders(model,
-                            numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake, 
-                            numberFromTop: WonderAppConstants.Top100);
-
+                        var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
                         var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1,
+                            amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3,
+                            amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
 
-                        var results = oneMileWonders.Union(threeMileWonders).Union(priorityWonders).Union(popularWonders).Union(randomWonders);
+                        var results = oneMileWonders.Union(threeMileWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
 
                         return Mapper.Map<List<DealModel>>(results);
+
                     });
                 }
                 else
                 {
                     wonders = await Task.Run(() =>
                     {
-                        var popularWonders = GetPopularWonders(model, 
-                            numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake * 2, 
-                            numberFromTop: WonderAppConstants.Top100);
-
+                        var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake * 2);
                         var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake * 2);
 
                         var results = popularWonders.Union(randomWonders);
@@ -104,13 +112,15 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
                 }
 
+                SetUserCategories(model.UserId);
+
                 var wonders = new List<DealModel>();
                 wonders = await Task.Run(() =>
-                    {
-                        var results = GetPriorityWonders(model);
-                        return Mapper.Map<List<DealModel>>(results);
-                    });
-             
+                {
+                    var results = GetPriorityWonders(model);
+                    return Mapper.Map<List<DealModel>>(results);
+                });
+
 
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
@@ -120,8 +130,8 @@ namespace WonderApp.Controllers
             }
         }
 
-        [Route("popular/{take}/{from}")]
-        public async Task<HttpResponseMessage> PostPopularWonders(int take, int from, [FromBody]WonderModel model)
+        [Route("popular/{take}")]
+        public async Task<HttpResponseMessage> PostPopularWonders(int take, [FromBody]WonderModel model)
         {
             try
             {
@@ -130,10 +140,12 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
                 }
 
+                SetUserCategories(model.UserId);
+
                 var wonders = new List<DealModel>();
                 wonders = await Task.Run(() =>
                 {
-                    var results = GetPopularWonders(model, take, from);
+                    var results = GetPopularWonders(model, take);
                     return Mapper.Map<List<DealModel>>(results);
                 });
 
@@ -153,6 +165,8 @@ namespace WonderApp.Controllers
             {
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
+
+                SetUserCategories(model.UserId);
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
@@ -188,7 +202,7 @@ namespace WonderApp.Controllers
                 {
                     return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
                 });
-                
+
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
             catch (Exception ex)
@@ -262,7 +276,7 @@ namespace WonderApp.Controllers
                         deal.Likes++;
                     }
 
-                    
+
                     DataContext.Commit();
 
                     //Return list of MyWonders 
@@ -275,7 +289,7 @@ namespace WonderApp.Controllers
                 }
 
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
-                
+
             }
             catch (Exception ex)
             {
@@ -303,7 +317,7 @@ namespace WonderApp.Controllers
                     //Should never be true - but belt and braces :D
                     if (user.MyWonders.Contains(deal))
                     {
-                        user.MyWonders.Remove(deal);  
+                        user.MyWonders.Remove(deal);
                     }
 
                     if (!user.MyRejects.Contains(deal))
@@ -311,7 +325,7 @@ namespace WonderApp.Controllers
                         user.MyRejects.Add(deal);
                     }
 
-                    
+
                     DataContext.Commit();
 
                     //Return list of MyWonders 
@@ -387,6 +401,7 @@ namespace WonderApp.Controllers
                                && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
                                && w.Archived == false
                                && w.Expired != true
+                               && _categories.Contains(w.Category.Id)
                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -401,23 +416,23 @@ namespace WonderApp.Controllers
                                 && w.CityId == model.CityId
                                 && w.Archived == false
                                 && w.Expired != true
+                                && _categories.Contains(w.Category.Id)
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId));
         }
 
-        private IQueryable<Data.Deal> GetPopularWonders(WonderModel model, int numberToTake, int numberFromTop)
+        private IQueryable<Data.Deal> GetPopularWonders(WonderModel model, int numberToTake)
         {
             return DataContext.Deals
             .Where(w => w.CityId == model.CityId
                 && w.Archived == false
                 && w.Expired != true
+                && _categories.Contains(w.Category.Id)
                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
             .OrderByDescending(w => w.Likes)
-            .Take(numberFromTop)
-            .OrderBy(x => Guid.NewGuid())
             .Take(numberToTake);
         }
 
@@ -427,11 +442,20 @@ namespace WonderApp.Controllers
                             .Where(w => w.CityId == model.CityId
                                 && w.Archived == false
                                 && w.Expired != true
+                                && _categories.Contains(w.Category.Id)
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
                             .OrderBy(x => Guid.NewGuid())
                             .Take(numberToTake);
+        }
+
+        private void SetUserCategories(string userId)
+        {
+            var user = DataContext.AspNetUsers.Single(x => x.Id == userId);
+            _categories = user.Categories.Select(c => c.Id).ToList();
+            if (_categories.Count == 0)
+                _categories = DataContext.Categories.Select(c => c.Id).ToList();
         }
 
     }

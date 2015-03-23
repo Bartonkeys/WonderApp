@@ -75,12 +75,12 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return deferred.promise;
     };
 
-    var _getPopularWonders = function (take, from) {
+    var _getPopularWonders = function (take) {
 
         var deferred = $q.defer();
         _populateLatLong();
 
-        $http.post("/api/app/popular/" + take + "/" + from, _wonderModel)
+        $http.post("/api/app/popular/" + take, _wonderModel)
           .then(function (result) {
               // success
               angular.copy(result.data, _wonders);
@@ -115,7 +115,7 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 
         return deferred.promise;
     };
-    
+
     var _getRejectWonders = function () {
         var deferred = $q.defer();
         _populateLatLong();
@@ -183,7 +183,7 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         $http.get("/api/app/like/" + _wonderModel.userId + "/" + wonderId)
           .then(function (result) {
               // success   
-              _wonders = $.grep(_wonders, function (o) { return o.id === wonderId; }, true);             
+              _wonders = $.grep(_wonders, function (o) { return o.id === wonderId; }, true);
               deferred.resolve(_wonders);
           },
           function () {
@@ -193,7 +193,7 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 
         return deferred.promise;
     };
-    
+
     var _disLike = function (wonderId) {
         var deferred = $q.defer();
 
@@ -210,7 +210,7 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 
         return deferred.promise;
     };
-    
+
     var _removeLike = function (wonderId) {
         var deferred = $q.defer();
 
@@ -228,8 +228,8 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return deferred.promise;
     };
 
-    var _populateLatLong = function() {
-        var city = $.grep(_cities, function(e) { return e.id == _wonderModel.cityId; });
+    var _populateLatLong = function () {
+        var city = $.grep(_cities, function (e) { return e.id == _wonderModel.cityId; });
         _wonderModel.latitude = city[0].location.latitude;
         _wonderModel.longitude = city[0].location.longitude;
     };
@@ -238,10 +238,10 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         $.each(_wonders, function (i, deal) {
             deal.distanceFrom = _getDistanceFromLatLonInKm(_wonderModel.latitude,
              _wonderModel.longitude, deal.location.latitude, deal.location.longitude).toFixed(2);
-        });       
+        });
     };
 
-    var _getDistanceFromLatLonInKm = function(lat1, lon1, lat2, lon2) {
+    var _getDistanceFromLatLonInKm = function (lat1, lon1, lat2, lon2) {
         var R = 6371; // Radius of the earth in km
         var dLat = _deg2rad(lat2 - lat1); // deg2rad below
         var dLon = _deg2rad(lon2 - lon1);
@@ -254,7 +254,7 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return d;
     };
 
-    var _deg2rad = function(deg) {
+    var _deg2rad = function (deg) {
         return deg * (Math.PI / 180)
     };
 
@@ -281,8 +281,8 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
 wonderModule.controller("wonderController", function ($scope, $http, dataService, $location, $anchorScroll, $window) {
     $scope.data = dataService;
     $scope.isMyWonder = false;
+    $scope.isMyReject = false;
     $scope.wonders = dataService.wonders;
-    $scope.from = 0;
     $scope.top = 0;
 
     $scope.init = function () {
@@ -293,36 +293,42 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
     $scope.getWonders = function () {
         dataService.getWonders().then(function () {
             $scope.isMyWonder = false;
+            $scope.isMyReject = false;
         });
     };
 
     $scope.getPriorityWonders = function () {
         dataService.getPriorityWonders().then(function () {
-            $scope.isMyWonder = false;;
+            $scope.isMyWonder = false;
+            $scope.isMyReject = false;
         });
     };
 
     $scope.getNearestWonders = function (radiusFrom, radiusTo) {
         dataService.getNearestWonders(radiusFrom, radiusTo).then(function () {
             $scope.isMyWonder = false;
+            $scope.isMyReject = false;
         });
     };
 
     $scope.getPopularWonders = function () {
-        dataService.getPopularWonders($scope.top, $scope.from ).then(function () {
+        dataService.getPopularWonders($scope.top).then(function () {
             $scope.isMyWonder = false;
+            $scope.isMyReject = false;
         });
     };
 
     $scope.getMyWonders = function () {
-        dataService.getMyWonders().then(function() {
+        dataService.getMyWonders().then(function () {
             $scope.isMyWonder = true;
+            $scope.isMyReject = false;
         });
     };
-    
+
     $scope.getRejectWonders = function () {
         dataService.getRejectWonders().then(function () {
             $scope.isMyWonder = true;
+            $scope.isMyReject = true;
         });
     };
 
@@ -331,13 +337,13 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
             $scope.wonders = wonders;
         });
     };
-    
+
     $scope.disLike = function (wonderId) {
         dataService.disLike(wonderId).then(function (wonders) {
             $scope.wonders = wonders;
         });
     };
-    
+
     $scope.removeLike = function (wonderId) {
         dataService.removeLike(wonderId).then(function (wonders) {
             $scope.wonders = wonders;
