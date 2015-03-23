@@ -73,10 +73,9 @@ namespace WonderApp.Web.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
 
             }
-
-
             catch (Exception ex)
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 
