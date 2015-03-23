@@ -57,6 +57,7 @@ namespace WonderApp.Web.Controllers
         }
 
         [Route("Force/{userId}")]
+        [HttpGet]
         public async Task<HttpResponseMessage> ForceEmailMyWonders(string userId)
         {
             try
