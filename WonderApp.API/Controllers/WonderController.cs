@@ -258,7 +258,24 @@ namespace WonderApp.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, listOfCategories);
         }
 
-
+        /// <summary>
+        /// HTTP GET for genders
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("genders")]
+        public async Task<HttpResponseMessage> GetGenders()
+        {
+            try
+            {
+                var genders = await Task.Run(() => { return Mapper.Map<List<GenderModel>>(DataContext.Genders); });
+                return Request.CreateResponse(HttpStatusCode.OK, genders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
 
         /// <summary>
         /// Add a Wonder to a Users "MyWonders" collection

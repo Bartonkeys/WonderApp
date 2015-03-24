@@ -196,6 +196,115 @@ namespace WonderApp.Controllers
         }
 
         /// <summary>
+        /// HTTP POST to save user's preferred categories
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("categories")]
+        public async Task<HttpResponseMessage> PostCategories([FromBody]UserCategoryModel model)
+        {
+            try
+            {
+                var response = await Task.Run(() =>
+                {
+                    var user = DataContext.AspNetUsers.Find(model.UserId);
+
+                    if (user == null)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", model.UserId));
+
+                    var categories = new List<Data.Category>();
+                    if (model.MyCategories != null)
+                    {
+                        foreach (CategoryModel categoryModel in model.MyCategories)
+                        {
+                            var category = DataContext.Categories.SingleOrDefault(c => c.Id == categoryModel.Id);
+                            if (category != null) categories.Add(category);
+                        }
+                    }
+
+                    user.Categories.Clear();
+                    categories.ForEach(x => user.Categories.Add(x));
+                    DataContext.Commit();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                });
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// HTTP POST to save user's email preferences
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("email")]
+        public async Task<HttpResponseMessage> PostEmailPreferences([FromBody]UserEmailModel model)
+        {
+            try
+            {
+                var response = await Task.Run(() =>
+                {
+                    var user = DataContext.AspNetUsers.Find(model.UserId);
+
+                    if (user == null)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", model.UserId));
+
+                    if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
+                    user.UserPreference.EmailMyWonders = model.EmailMyWonders;
+                    DataContext.Commit();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                });
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// HTTP POST to save user's gender
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("gender")]
+        public async Task<HttpResponseMessage> PostGender([FromBody]UserGenderModel model)
+        {
+            try
+            {
+                var response = await Task.Run(() =>
+                {
+                    var user = DataContext.AspNetUsers.Find(model.UserId);
+
+                    if (user == null)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", model.UserId));
+
+                    if (model.Gender != null)
+                    {
+                        user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == model.Gender.Id);
+                        DataContext.Commit();
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                });
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+
+        /// <summary>
         /// Return all User preferences/personal data
         /// </summary>
         /// <param name="userId"></param>

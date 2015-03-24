@@ -535,6 +535,27 @@
             </summary>
             <returns></returns>   
         </member>
+        <member name="M:WonderApp.Controllers.AccountController.PostCategories(WonderApp.Models.UserCategoryModel)">
+            <summary>
+            HTTP POST to save user's preferred categories
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.AccountController.PostEmailPreferences(WonderApp.Models.UserEmailModel)">
+            <summary>
+            HTTP POST to save user's email preferences
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.AccountController.PostGender(WonderApp.Models.UserGenderModel)">
+            <summary>
+            HTTP POST to save user's gender
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.AccountController.GetUserInfo(System.String)">
             <summary>
             Return all User preferences/personal data
@@ -623,6 +644,13 @@
             <summary>
             Return Wonder categories
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetGenders">
+            <summary>
+            HTTP GET for genders
+            </summary>
+            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:WonderApp.Controllers.WonderController.Like(System.String,System.Int32)">
