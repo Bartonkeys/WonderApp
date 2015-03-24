@@ -246,6 +246,18 @@ namespace WonderApp.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, listOfCities);
         }
 
+        /// <summary>
+        /// Return Wonder categories
+        /// </summary>
+        /// <returns></returns>
+        [Route("categories")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetCategories()
+        {
+            var listOfCategories = await Task.Run(() => { return Mapper.Map<List<CategoryModel>>(DataContext.Categories); });
+            return Request.CreateResponse(HttpStatusCode.OK, listOfCategories);
+        }
+
 
 
         /// <summary>

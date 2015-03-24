@@ -619,6 +619,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetCategories">
+            <summary>
+            Return Wonder categories
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.WonderController.Like(System.String,System.Int32)">
             <summary>
             Add a Wonder to a Users "MyWonders" collection
