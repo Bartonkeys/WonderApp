@@ -282,6 +282,7 @@ namespace WonderApp.Web.Controllers
             catch (Exception e)
             {
                 Debug.Print(e.Message);
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                 return View();
             }
         }
