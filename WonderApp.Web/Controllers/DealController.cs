@@ -162,7 +162,7 @@ namespace WonderApp.Web.Controllers
                 {
                     dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
                         ? dealModel.ExpiryDate :
-                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToShortDateString();
+                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
                 }
 
                 var model = CreateDealViewModel<DealEditModel>();
@@ -393,6 +393,12 @@ namespace WonderApp.Web.Controllers
         {
 
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == dealId));
+            if (!dealModel.AlwaysAvailable)
+            {
+                dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
+                    ? dealModel.ExpiryDate :
+                    (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
+            }
 
             return View(dealModel);
         }
