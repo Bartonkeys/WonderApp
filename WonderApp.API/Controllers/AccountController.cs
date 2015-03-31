@@ -159,6 +159,8 @@ namespace WonderApp.Controllers
         {
             try
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Entering Post Personal"));
+
                 var user = DataContext.AspNetUsers.Find(userPersonal.Id);
 
                 if (user == null)
