@@ -22,6 +22,7 @@ namespace WonderApp.Controllers
     public class WonderController : BaseApiController
     {
         private List<int> _categories;
+        private List<int> _genders;
 
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
@@ -45,6 +46,7 @@ namespace WonderApp.Controllers
                 }
 
                 SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
 
                 var wonders = new List<DealModel>();
 
@@ -113,6 +115,7 @@ namespace WonderApp.Controllers
                 }
 
                 SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
 
                 var wonders = new List<DealModel>();
                 wonders = await Task.Run(() =>
@@ -141,6 +144,7 @@ namespace WonderApp.Controllers
                 }
 
                 SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
 
                 var wonders = new List<DealModel>();
                 wonders = await Task.Run(() =>
@@ -167,6 +171,7 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
 
                 SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
@@ -431,6 +436,7 @@ namespace WonderApp.Controllers
                                && w.Archived == false
                                && w.Expired != true
                                && _categories.Contains(w.Category.Id)
+                               && _genders.Contains(w.Gender.Id)
                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -446,6 +452,7 @@ namespace WonderApp.Controllers
                                 && w.Archived == false
                                 && w.Expired != true
                                 && _categories.Contains(w.Category.Id)
+                                && _genders.Contains(w.Gender.Id)
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId));
@@ -458,6 +465,7 @@ namespace WonderApp.Controllers
                 && w.Archived == false
                 && w.Expired != true
                 && _categories.Contains(w.Category.Id)
+                && _genders.Contains(w.Gender.Id)
                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -472,6 +480,7 @@ namespace WonderApp.Controllers
                                 && w.Archived == false
                                 && w.Expired != true
                                 && _categories.Contains(w.Category.Id)
+                                && _genders.Contains(w.Gender.Id)
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                                 && w.MyRejectUsers.All(u => u.Id != model.UserId)
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId))
@@ -487,5 +496,17 @@ namespace WonderApp.Controllers
                 _categories = DataContext.Categories.Select(c => c.Id).ToList();
         }
 
+        private void SetUserGenders(string userId)
+        {
+            var user = DataContext.AspNetUsers.Single(x => x.Id == userId);
+            _genders = new List<int>();
+            _genders.Add(DataContext.Genders.Single(g => g.Name == "All").Id);
+
+            if (user.Gender != null)
+                _genders.Add(user.Gender.Id);
+            else
+                _genders.AddRange((DataContext.Genders.Where(g => g.Name != "All").Select(x => x.Id).ToList()));
+                
+        }
     }
 }
