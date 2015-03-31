@@ -166,7 +166,10 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userPersonal.Id));
                 }
 
-                user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                if (gender != null)
+                    user.Gender = gender;
+
                 var categories = new List<Data.Category>();
                 if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
                 {
@@ -185,7 +188,7 @@ namespace WonderApp.Controllers
                 user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
                 user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
 
-                Mapper.Map(userPersonal, user);
+                //Mapper.Map(userPersonal, user);
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
