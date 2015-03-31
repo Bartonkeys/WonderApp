@@ -243,7 +243,11 @@ namespace WonderApp.Controllers
         }
 
         /// <summary>
-        /// HTTP POST to save user's email preferences
+        /// HTTP POST to save user's email preferences.
+        /// Boolean to indicate whether user wants emails.
+        /// ReminderId to define frequency:
+        /// 1 - Weekly
+        /// 2 - Monthly
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -261,6 +265,7 @@ namespace WonderApp.Controllers
 
                     if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
                     user.UserPreference.EmailMyWonders = model.EmailMyWonders;
+                    user.UserPreference.Reminder = DataContext.Reminders.SingleOrDefault(r => r.Id == model.ReminderId);
                     DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
