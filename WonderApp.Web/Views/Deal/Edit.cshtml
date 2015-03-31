@@ -245,9 +245,9 @@
                         var filename = getNameFromPath($("#Image").val());
                         if (filename != null) {
                             var extension = filename.substr((filename.lastIndexOf('.') + 1));
-                            if (extension != 'jpg') {
+                            if (extension != 'jpg' && extension != 'gif') {
                                 var errorArray = {};
-                                errorArray["Image"] = 'Incorrect filetype - only .jpg files can be uploaded';
+                                errorArray["Image"] = 'Incorrect filetype - only .jpg or .gif files can be uploaded';
                                 $('#editWonderForm').validate().showErrors(errorArray);
                                 $("#Image").focus();
                                 return;
