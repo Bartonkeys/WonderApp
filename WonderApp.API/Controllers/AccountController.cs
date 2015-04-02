@@ -174,6 +174,8 @@ namespace WonderApp.Controllers
         {
             try
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Entering Post Personal"));
+
                 var user = DataContext.AspNetUsers.Find(userPersonal.Id);
 
                 if (user == null)
@@ -181,7 +183,10 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userPersonal.Id));
                 }
 
-                user.Gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                if (gender != null)
+                    user.Gender = gender;
+
                 var categories = new List<Data.Category>();
                 if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
                 {
@@ -200,7 +205,7 @@ namespace WonderApp.Controllers
                 user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
                 user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
 
-                Mapper.Map(userPersonal, user);
+                //Mapper.Map(userPersonal, user);
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -253,7 +258,11 @@ namespace WonderApp.Controllers
         }
 
         /// <summary>
-        /// HTTP POST to save user's email preferences
+        /// HTTP POST to save user's email preferences.
+        /// Boolean to indicate whether user wants emails.
+        /// ReminderId to define frequency:
+        /// 1 - Weekly
+        /// 2 - Monthly
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -271,6 +280,7 @@ namespace WonderApp.Controllers
 
                     if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
                     user.UserPreference.EmailMyWonders = model.EmailMyWonders;
+                    user.UserPreference.Reminder = DataContext.Reminders.SingleOrDefault(r => r.Id == model.ReminderId);
                     DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);

@@ -21,6 +21,7 @@ using WonderApp.Core.CloudImage;
 using Ninject;
 using System.IO;
 using WonderApp.Models.Extensions;
+using System.Globalization;
 
 namespace WonderApp.Web.Controllers
 {
@@ -149,13 +150,21 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            
-            var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == id));
-            var deal = DataContext.Deals.Find(dealModel.Id);
+            var deal = DataContext.Deals.Find(id);
 
             if (User.IsInRole("Admin") ||
                deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
             {
+
+                var dealModel = Mapper.Map<DealModel>(deal);
+
+                if (!dealModel.AlwaysAvailable)
+                {
+                    dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
+                        ? dealModel.ExpiryDate :
+                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
+                }
+
                 var model = CreateDealViewModel<DealEditModel>();
                 model.DealModel = dealModel;
 
@@ -170,9 +179,7 @@ namespace WonderApp.Web.Controllers
                 model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
 
                 return View(model);
-
             }
-
             else
             {
                 //This should be caught by client side JS
@@ -282,6 +289,7 @@ namespace WonderApp.Web.Controllers
             catch (Exception e)
             {
                 Debug.Print(e.Message);
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                 return View();
             }
         }
@@ -385,6 +393,12 @@ namespace WonderApp.Web.Controllers
         {
 
             var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == dealId));
+            if (!dealModel.AlwaysAvailable)
+            {
+                dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
+                    ? dealModel.ExpiryDate :
+                    (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
+            }
 
             return View(dealModel);
         }

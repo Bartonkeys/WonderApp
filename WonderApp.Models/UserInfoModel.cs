@@ -33,6 +33,9 @@ namespace WonderApp.Models
 
         [JsonProperty(PropertyName = "emailMyWonders")]
         public bool EmailMyWonders { get; set; }
+
+        [JsonProperty(PropertyName = "reminderId")]
+        public int ReminderId { get; set; }
     }
 
     public class UserGenderModel

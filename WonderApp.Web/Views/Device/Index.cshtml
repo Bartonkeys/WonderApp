@@ -53,6 +53,9 @@
                 <p>Distance From user: {{i.distanceFrom}} km</p>
                 <p>Likes: {{i.likes}}</p>
                 <p>Category: {{i.category.name}}</p>
+                <p>Gender: {{i.gender.name}}</p>
+                <p>Season: {{i.season.name}}</p>
+                <p>Ages: <span ng-repeat="a in i.ages">{{a.name}} </span></p>
                 <p ng-if="i.expiryDate != ''">Expiry: {{ i.expiryDate }}</p>
                 <p ng-if="i.expiryDate == ''">Always Available</p>
             </div>
