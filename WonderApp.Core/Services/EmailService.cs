@@ -49,20 +49,23 @@ namespace WonderApp.Core.Services
 
             foreach (var user in usersToSendEmailTo)
             {
-                var timeToCheck = user.UserPreference.Reminder.Time.ToLower().Equals("weekly")
+                if (user.EmailConfirmed)
+                {
+                    var timeToCheck = user.UserPreference.Reminder.Time.ToLower().Equals("weekly")
                     ? oneWeekAgo
                     : oneMonthAgo;
-                //Check time of last send  
-                if (!_dataContext.NotificationEmails.Any() ||
-                    (_dataContext.NotificationEmails.Any()
-                    && !_dataContext.NotificationEmails.Any(e => e.RecipientEmail == user.Email && e.Sent > timeToCheck)))
-                {
-                    var email = await CreateMyWondersEmailAndSend(user);
-                    if (email != null)
+                    //Check time of last send  
+                    if (!_dataContext.NotificationEmails.Any() ||
+                        (_dataContext.NotificationEmails.Any()
+                        && !_dataContext.NotificationEmails.Any(e => e.RecipientEmail == user.Email && e.Sent > timeToCheck)))
                     {
-                        _dataContext.NotificationEmails.Add(email);
+                        var email = await CreateMyWondersEmailAndSend(user);
+                        if (email != null)
+                        {
+                            _dataContext.NotificationEmails.Add(email);
+                        }
                     }
-                }
+                }          
          
             }
 

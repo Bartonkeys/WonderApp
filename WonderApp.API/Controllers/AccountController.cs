@@ -65,6 +65,18 @@ namespace WonderApp.Controllers
                 var content = await response.Content.ReadAsStringAsync();
                 var facebookUser = Newtonsoft.Json.JsonConvert.DeserializeObject<FacebookUserModel>(content);
 
+                //If FB user has prevented access to their FB email - we need to use a default
+                bool emailSupplied = false;
+                if (String.IsNullOrEmpty(facebookUser.Email))
+                {
+                    facebookUser.Email = String.Format("{0}.{1}@wonderapp.co", facebookUser.FirstName, facebookUser.LastName);
+                }
+                    
+                else
+                {
+                    emailSupplied = true;
+                }
+
                 var user = await UserManager.FindByEmailAsync(facebookUser.Email);
                 if (user != null)
                 {
@@ -76,6 +88,8 @@ namespace WonderApp.Controllers
                     }
                     return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.UserAlreadyRegisted);
                 }
+
+               
                 
                 user = new ApplicationUser
                 {
@@ -83,7 +97,8 @@ namespace WonderApp.Controllers
                     Email = facebookUser.Email, 
                     Name = facebookUser.Name,
                     Forename = facebookUser.FirstName,
-                    Surname = facebookUser.LastName
+                    Surname = facebookUser.LastName,
+                    EmailConfirmed = emailSupplied
                     
                 };
                 
