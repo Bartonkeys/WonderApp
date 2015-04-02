@@ -544,7 +544,11 @@
         </member>
         <member name="M:WonderApp.Controllers.AccountController.PostEmailPreferences(WonderApp.Models.UserEmailModel)">
             <summary>
-            HTTP POST to save user's email preferences
+            HTTP POST to save user's email preferences.
+            Boolean to indicate whether user wants emails.
+            ReminderId to define frequency:
+            1 - Weekly
+            2 - Monthly
             </summary>
             <param name="model"></param>
             <returns></returns>

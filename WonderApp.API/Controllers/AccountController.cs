@@ -65,6 +65,18 @@ namespace WonderApp.Controllers
                 var content = await response.Content.ReadAsStringAsync();
                 var facebookUser = Newtonsoft.Json.JsonConvert.DeserializeObject<FacebookUserModel>(content);
 
+                //If FB user has prevented access to their FB email - we need to use a default
+                bool emailSupplied = false;
+                if (String.IsNullOrEmpty(facebookUser.Email))
+                {
+                    facebookUser.Email = String.Format("{0}.{1}@wonderapp.co", facebookUser.FirstName, facebookUser.LastName);
+                }
+                    
+                else
+                {
+                    emailSupplied = true;
+                }
+
                 var user = await UserManager.FindByEmailAsync(facebookUser.Email);
                 if (user != null)
                 {
@@ -76,6 +88,8 @@ namespace WonderApp.Controllers
                     }
                     return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.UserAlreadyRegisted);
                 }
+
+               
                 
                 user = new ApplicationUser
                 {
@@ -83,7 +97,8 @@ namespace WonderApp.Controllers
                     Email = facebookUser.Email, 
                     Name = facebookUser.Name,
                     Forename = facebookUser.FirstName,
-                    Surname = facebookUser.LastName
+                    Surname = facebookUser.LastName,
+                    EmailConfirmed = emailSupplied
                     
                 };
                 
@@ -243,7 +258,11 @@ namespace WonderApp.Controllers
         }
 
         /// <summary>
-        /// HTTP POST to save user's email preferences
+        /// HTTP POST to save user's email preferences.
+        /// Boolean to indicate whether user wants emails.
+        /// ReminderId to define frequency:
+        /// 1 - Weekly
+        /// 2 - Monthly
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -261,6 +280,7 @@ namespace WonderApp.Controllers
 
                     if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
                     user.UserPreference.EmailMyWonders = model.EmailMyWonders;
+                    user.UserPreference.Reminder = DataContext.Reminders.SingleOrDefault(r => r.Id == model.ReminderId);
                     DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
