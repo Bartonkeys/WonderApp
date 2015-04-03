@@ -645,6 +645,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetWonders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
+          <Parameter Name="cityId" Type="int" Mode="In" />
+          <Parameter Name="priority" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="WonderAppModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ages" EntityType="Self.Ages" Schema="dbo" store:Type="Tables" />
@@ -934,6 +939,11 @@
             <End Role="Template" EntitySet="Templates" />
             <End Role="NotificationEmail" EntitySet="NotificationEmails" />
           </AssociationSet>
+          <FunctionImport Name="GetWonders" ReturnType="Collection(WonderAppModel.GetWonders_Result)">
+            <Parameter Name="userId" Mode="In" Type="String" />
+            <Parameter Name="cityId" Mode="In" Type="Int32" />
+            <Parameter Name="priority" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Deal">
           <Key>
@@ -1402,6 +1412,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetWonders_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Url" Nullable="false" />
+          <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Likes" Nullable="false" />
+          <Property Type="Boolean" Name="Publish" Nullable="false" />
+          <Property Type="Boolean" Name="Archived" Nullable="true" />
+          <Property Type="String" Name="IntroDescription" Nullable="true" />
+          <Property Type="Boolean" Name="Priority" Nullable="true" />
+          <Property Type="Int32" Name="CityId" Nullable="false" />
+          <Property Type="Boolean" Name="AlwaysAvailable" Nullable="true" />
+          <Property Type="Int32" Name="AddressId" Nullable="true" />
+          <Property Type="String" Name="Creator_User_Id" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="Season_Id" Nullable="true" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Gender_Id" Nullable="true" />
+          <Property Type="Boolean" Name="Expired" Nullable="true" />
+          <Property Type="Int32" Name="Company_Id" Nullable="false" />
+          <Property Type="Int32" Name="Location_Id" Nullable="false" />
+          <Property Type="Int32" Name="Cost_Id" Nullable="true" />
+          <Property Type="Int32" Name="Category_Id" Nullable="true" />
+          <Property Type="String" Name="CompanyName" Nullable="false" />
+          <Property Type="String" Name="Range" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="false" />
+          <Property Type="String" Name="ImageURL" Nullable="false" />
+          <Property Type="String" Name="CityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Season" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Gender" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1758,6 +1802,44 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetWonders" FunctionName="WonderAppModel.Store.GetWonders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WonderAppModel.GetWonders_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="Likes" ColumnName="Likes" />
+                <ScalarProperty Name="Publish" ColumnName="Publish" />
+                <ScalarProperty Name="Archived" ColumnName="Archived" />
+                <ScalarProperty Name="IntroDescription" ColumnName="IntroDescription" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="AlwaysAvailable" ColumnName="AlwaysAvailable" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Creator_User_Id" ColumnName="Creator_User_Id" />
+                <ScalarProperty Name="Season_Id" ColumnName="Season_Id" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Gender_Id" ColumnName="Gender_Id" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Location_Id" ColumnName="Location_Id" />
+                <ScalarProperty Name="Cost_Id" ColumnName="Cost_Id" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Range" ColumnName="Range" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

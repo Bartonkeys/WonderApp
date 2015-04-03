@@ -43,6 +43,23 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
+            Mapper.CreateMap<GetWonders_Result, DealModel>()
+                .ForMember(e => e.Company, opt => opt.MapFrom(m => new CompanyModel { Id = m.Company_Id, Name = m.CompanyName }))
+                .ForMember(e => e.Location, opt => opt.MapFrom(m => new LocationModel { Id = m.Location_Id, Latitude = m.Geography.Latitude, Longitude = m.Geography.Longitude  }))
+                .ForMember(e => e.Cost, opt => opt.MapFrom(m => new CostModel { Id = m.Cost_Id, Range = m.Range }))
+                .ForMember(e => e.Category, opt => opt.MapFrom(m => new CategoryModel { Id = m.Category_Id, Name = m.CategoryName }))
+                .ForMember(e => e.Images, opt => opt.ResolveUsing(m => 
+                {
+                    var imageList = new List<ImageModel>();
+                    var image = new ImageModel { url = m.ImageURL };
+                    imageList.Add(image);
+                    return imageList;
+                }))
+                .ForMember(e => e.City, opt => opt.MapFrom(m => new CityModel { Id = m.CityId, Name = m.CityName }))
+                .ForMember(e => e.Address, opt => opt.MapFrom(m => new AddressModel { Id = m.AddressId.ToString(), AddressLine1 = m.AddressLine1, AddressLine2 = m.AddressLine2}))
+                .ForMember(e => e.Season, opt => opt.MapFrom(m => new SeasonModel { Id = m.Season_Id, Name = m.Season }))
+                .ForMember(e => e.Gender, opt => opt.MapFrom(m => new GenderModel { Id = m.Gender_Id, Name = m.Gender }));
+
             Mapper.CreateMap<Deal, DealSummaryModel>()
              .ForMember(dest => dest.Creator,
                            opts => opts.MapFrom(src => src.AspNetUser));

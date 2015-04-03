@@ -20,5 +20,7 @@ namespace WonderApp.Models
         public string Username { get; set; }
         [JsonProperty("email")]
         public string Email { get; set; }
+        [JsonProperty("gender")]
+        public string Gender { get; set; }
     }
 }

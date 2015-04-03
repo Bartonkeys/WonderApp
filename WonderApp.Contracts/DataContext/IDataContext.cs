@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using WonderApp.Data;
 
@@ -26,7 +27,9 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<Age> Ages { get; }
         IDbSet<Template> Templates { get; }
         IDbSet<NotificationEmail> NotificationEmails { get; }
-        IDbSet<UserPreference> Preferences { get; } 
+        IDbSet<UserPreference> Preferences { get; }
+
+        List<GetWonders_Result> GetWonders(string userId, int cityId, bool priority);
        
         void Commit();
     }

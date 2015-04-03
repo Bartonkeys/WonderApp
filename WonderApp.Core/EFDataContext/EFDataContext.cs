@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WonderApp.Contracts.DataContext;
 using WonderApp.Data;
+using WonderApp.Models;
 
 namespace WonderApp.Core.EFDataContext
 {
@@ -39,8 +40,12 @@ namespace WonderApp.Core.EFDataContext
         public IDbSet<Age> Ages { get { return _context.Ages; } }
         public IDbSet<NotificationEmail> NotificationEmails { get { return _context.NotificationEmails; } }
         public IDbSet<Template> Templates { get { return _context.Templates; } }
-        public IDbSet<UserPreference> Preferences { get { return _context.UserPreferences; }} 
-       
+        public IDbSet<UserPreference> Preferences { get { return _context.UserPreferences; }}
+
+        public List<GetWonders_Result> GetWonders(string userId, int cityId, bool priority)
+        {
+            return _context.GetWonders(userId, cityId, priority ? 1 : 0).ToList();
+        }
 
         public void Commit()
         {

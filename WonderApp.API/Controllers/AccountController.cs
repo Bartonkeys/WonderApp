@@ -20,6 +20,7 @@ using System.Net;
 using WonderApp.Constants;
 using AutoMapper;
 using WonderApp.Data;
+using System.Globalization;
 
 namespace WonderApp.Controllers
 {
@@ -111,6 +112,11 @@ namespace WonderApp.Controllers
                 result = await UserManager.AddLoginAsync(user.Id, userLoginInfo);
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateFacebookDetailsError);
+
+                //var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
+                //var userGender = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(facebookUser.Gender);
+                //aspNetUser.Gender = DataContext.Genders.SingleOrDefault(g => g.Name == userGender);
+                //aspNetUser.Categories = DataContext.Categories.ToList();
 
                 return Request.CreateResponse(HttpStatusCode.Created, user.Id);
             }

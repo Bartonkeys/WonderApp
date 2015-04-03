@@ -110,6 +110,9 @@
     <Compile Include="Gender.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetWonders_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Image.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
