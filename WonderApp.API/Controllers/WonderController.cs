@@ -236,9 +236,12 @@ namespace WonderApp.Controllers
             var wonderModels = Mapper.Map<List<DealModel>>(results);
             var tags = DataContext.GetTags(userId, cityId, priority);
             var ages = DataContext.GetAges(userId, cityId, priority);
+            var cities = DataContext.Cities.ToList();
 
             wonderModels.ForEach(w =>
             {
+                var city = cities.Single(c => c.Name == w.City.Name);
+                w.City.Location = Mapper.Map<LocationModel>(city.Location);
                 w.Tags = Mapper.Map<List<TagModel>>(tags.Where(t => t.DealId == w.Id));
                 w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
             });

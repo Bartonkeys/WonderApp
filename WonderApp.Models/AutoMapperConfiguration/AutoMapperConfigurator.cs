@@ -56,7 +56,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                     return imageList;
                 }))
                 .ForMember(e => e.City, opt => opt.MapFrom(m => new CityModel { Id = m.CityId, Name = m.CityName }))
-                .ForMember(e => e.Address, opt => opt.MapFrom(m => new AddressModel { Id = m.AddressId.ToString(), AddressLine1 = m.AddressLine1, AddressLine2 = m.AddressLine2}))
+                .ForMember(e => e.Address, opt => opt.MapFrom(m => new AddressModel { Id = m.AddressId.ToString(), AddressLine1 = m.AddressLine1, AddressLine2 = m.AddressLine2, PostCode = m.PostCode}))
                 .ForMember(e => e.Season, opt => opt.MapFrom(m => new SeasonModel { Id = m.Season_Id.Value, Name = m.Season }))
                 .ForMember(e => e.Gender, opt => opt.MapFrom(m => new GenderModel { Id = m.Gender_Id.Value, Name = m.Gender }));
 
