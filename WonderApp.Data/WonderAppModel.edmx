@@ -645,6 +645,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetAges" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
+          <Parameter Name="cityId" Type="int" Mode="In" />
+          <Parameter Name="priority" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTags" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
+          <Parameter Name="cityId" Type="int" Mode="In" />
+          <Parameter Name="priority" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetWonders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userId" Type="nvarchar" Mode="In" />
           <Parameter Name="cityId" Type="int" Mode="In" />
@@ -940,6 +950,16 @@
             <End Role="NotificationEmail" EntitySet="NotificationEmails" />
           </AssociationSet>
           <FunctionImport Name="GetWonders" ReturnType="Collection(WonderAppModel.GetWonders_Result)">
+            <Parameter Name="userId" Mode="In" Type="String" />
+            <Parameter Name="cityId" Mode="In" Type="Int32" />
+            <Parameter Name="priority" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAges" ReturnType="Collection(WonderAppModel.GetAges_Result)">
+            <Parameter Name="userId" Mode="In" Type="String" />
+            <Parameter Name="cityId" Mode="In" Type="Int32" />
+            <Parameter Name="priority" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTags" ReturnType="Collection(WonderAppModel.GetTags_Result)">
             <Parameter Name="userId" Mode="In" Type="String" />
             <Parameter Name="cityId" Mode="In" Type="Int32" />
             <Parameter Name="priority" Mode="In" Type="Int32" />
@@ -1436,6 +1456,8 @@
           <Property Type="Int32" Name="Cost_Id" Nullable="true" />
           <Property Type="Int32" Name="Category_Id" Nullable="true" />
           <Property Type="String" Name="CompanyName" Nullable="false" />
+          <Property Type="Double" Name="Latitude" Nullable="true" />
+          <Property Type="Double" Name="Longitude" Nullable="true" />
           <Property Type="String" Name="Range" Nullable="false" />
           <Property Type="String" Name="CategoryName" Nullable="false" />
           <Property Type="String" Name="ImageURL" Nullable="false" />
@@ -1445,6 +1467,16 @@
           <Property Type="String" Name="PostCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Season" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Gender" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAges_Result">
+          <Property Type="Int32" Name="DealId" Nullable="false" />
+          <Property Type="Int32" Name="AgeId" Nullable="false" />
+          <Property Type="String" Name="AgeName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetTags_Result">
+          <Property Type="Int32" Name="DealId" Nullable="false" />
+          <Property Type="Int32" Name="TagId" Nullable="false" />
+          <Property Type="String" Name="TagName" Nullable="false" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1828,6 +1860,8 @@
                 <ScalarProperty Name="Cost_Id" ColumnName="Cost_Id" />
                 <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Range" ColumnName="Range" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
@@ -1837,6 +1871,24 @@
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="Season" ColumnName="Season" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAges" FunctionName="WonderAppModel.Store.GetAges">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WonderAppModel.GetAges_Result">
+                <ScalarProperty Name="DealId" ColumnName="DealId" />
+                <ScalarProperty Name="AgeId" ColumnName="AgeId" />
+                <ScalarProperty Name="AgeName" ColumnName="AgeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTags" FunctionName="WonderAppModel.Store.GetTags">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WonderAppModel.GetTags_Result">
+                <ScalarProperty Name="DealId" ColumnName="DealId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

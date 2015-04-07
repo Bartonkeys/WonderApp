@@ -39,7 +39,8 @@ BEGIN
     d.Cost_Id AS Cost_Id, 
     d.Category_Id AS Category_Id,
 	c.Name as CompanyName,
-	l.Geography,
+	l.Geography.Lat as Latitude,
+	l.Geography.Long as Longitude,
 	co.Range,
 	cat.Name as CategoryName,
 	i.url as ImageURL,
@@ -86,5 +87,49 @@ BEGIN
         1 AS [C1]
         FROM [dbo].[UserDealWonders]
         WHERE d.Id = [MyWonders_Id] AND [MyWonderUsers_Id] = @userId))
+
+
+	select d.Id, t.Id, t.Name
+	from DealTag dt
+	join Tags t on t.Id = dt.Tags_Id
+	join Deals d on d.Id = dt.Deals_Id
+	join AspNetUsers u on u.Id = @userId
+	where d.Archived = 0
+	and d.Expired = 0
+	and d.CityId = @cityId
+	and d.Priority = @priority
+	and (d.AlwaysAvailable = 1 or d.ExpiryDate >= SysDateTime())
+	and d.Gender_Id in (select Id from Genders where Name = 'All' or Id = u.Gender_Id)
+	and d.Category_Id in (select Categories_Id from AspNetUserCategory where UserId = u.Id)
+	AND ( NOT EXISTS (SELECT 
+        1 AS [C1]
+        FROM [dbo].[UserDealReject]
+        WHERE d.Id = [MyRejects_Id] AND [MyRejectUsers_Id] = @userId) )
+	AND ( NOT EXISTS (SELECT 
+        1 AS [C1]
+        FROM [dbo].[UserDealWonders]
+        WHERE d.Id = [MyWonders_Id] AND [MyWonderUsers_Id] = @userId))
+
+	select d.Id, a.Id, a.Name
+	from DealAge da
+	join Ages a on a.Id = da.Ages_Id
+	join Deals d on d.Id = da.Deals_Id
+	join AspNetUsers u on u.Id = @userId
+	where d.Archived = 0
+	and d.Expired = 0
+	and d.CityId = @cityId
+	and d.Priority = @priority
+	and (d.AlwaysAvailable = 1 or d.ExpiryDate >= SysDateTime())
+	and d.Gender_Id in (select Id from Genders where Name = 'All' or Id = u.Gender_Id)
+	and d.Category_Id in (select Categories_Id from AspNetUserCategory where UserId = u.Id)
+	AND ( NOT EXISTS (SELECT 
+        1 AS [C1]
+        FROM [dbo].[UserDealReject]
+        WHERE d.Id = [MyRejects_Id] AND [MyRejectUsers_Id] = @userId) )
+	AND ( NOT EXISTS (SELECT 
+        1 AS [C1]
+        FROM [dbo].[UserDealWonders]
+        WHERE d.Id = [MyWonders_Id] AND [MyWonderUsers_Id] = @userId))
+
 
 END

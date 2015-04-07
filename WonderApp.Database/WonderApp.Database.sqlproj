@@ -94,5 +94,7 @@
     <Build Include="dbo\Tables\Template.sql" />
     <Build Include="dbo\Tables\NotificationEmail.sql" />
     <Build Include="dbo\Stored Procedures\GetWonders.sql" />
+    <Build Include="dbo\Stored Procedures\GetTags.sql" />
+    <Build Include="dbo\Stored Procedures\GetAges.sql" />
   </ItemGroup>
 </Project>

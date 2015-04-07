@@ -10,7 +10,6 @@
 namespace WonderApp.Data
 {
     using System;
-using System.Data.Entity.Spatial;
     
     public partial class GetWonders_Result
     {
@@ -21,23 +20,24 @@ using System.Data.Entity.Spatial;
         public System.DateTime ExpiryDate { get; set; }
         public int Likes { get; set; }
         public bool Publish { get; set; }
-        public bool Archived { get; set; }
+        public Nullable<bool> Archived { get; set; }
         public string IntroDescription { get; set; }
-        public bool Priority { get; set; }
+        public Nullable<bool> Priority { get; set; }
         public int CityId { get; set; }
-        public bool AlwaysAvailable { get; set; }
-        public int AddressId { get; set; }
+        public Nullable<bool> AlwaysAvailable { get; set; }
+        public Nullable<int> AddressId { get; set; }
         public string Creator_User_Id { get; set; }
-        public int Season_Id { get; set; }
+        public Nullable<int> Season_Id { get; set; }
         public string Phone { get; set; }
-        public int Gender_Id { get; set; }
-        public bool Expired { get; set; }
+        public Nullable<int> Gender_Id { get; set; }
+        public Nullable<bool> Expired { get; set; }
         public int Company_Id { get; set; }
         public int Location_Id { get; set; }
-        public int Cost_Id { get; set; }
-        public int Category_Id { get; set; }
+        public Nullable<int> Cost_Id { get; set; }
+        public Nullable<int> Category_Id { get; set; }
         public string CompanyName { get; set; }
-        public DbGeography Geography { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public Nullable<double> Longitude { get; set; }
         public string Range { get; set; }
         public string CategoryName { get; set; }
         public string ImageURL { get; set; }

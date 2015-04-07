@@ -202,7 +202,18 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         var results = DataContext.GetWonders(userId, cityId, priority);
-                        return Mapper.Map<List<DealModel>>(results);
+                        var wonderModels = Mapper.Map<List<DealModel>>(results);
+                        var tags = DataContext.GetTags(userId, cityId, priority);
+                        var ages = DataContext.GetAges(userId, cityId, priority);
+
+                        wonderModels.ForEach(w =>
+                        {
+                            w.Tags = Mapper.Map<List<TagModel>>(tags.Where(t => t.DealId == w.Id));
+                            w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
+                        });
+
+                        //TODO location
+                        return wonderModels;
                     });
 
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
