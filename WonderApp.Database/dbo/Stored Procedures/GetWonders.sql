@@ -56,13 +56,13 @@ BEGIN
 	--location
 	join Locations l on l.Id = d.Location_Id
 	--cost
-	join Costs co on co.Id = d.Company_Id
+	join Costs co on co.Id = d.Cost_Id
 	--category
 	join Categories cat on cat.id = d.Category_Id
 	--image
 	join Images i on i.Deal_Id = d.Id
 	--city
-	join Cities ci on co.Id = d.CityId
+	join Cities ci on ci.Id = d.CityId
 	--address
 	join Addresses a on a.Id = d.AddressId
 	--season

@@ -193,6 +193,26 @@ namespace WonderApp.Controllers
             }
         }
 
+        [Route("all/{userId}/{cityId}/{priority}")]
+        public async Task<HttpResponseMessage> GetAllWonders(string userId, int cityId, bool priority)
+        {
+            try
+            {
+                    var wonders = new List<DealModel>();
+                    wonders = await Task.Run(() =>
+                    {
+                        var results = DataContext.GetWonders(userId, cityId, priority);
+                        return Mapper.Map<List<DealModel>>(results);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
         /// <summary>
         /// Return all Wonders that the user has liked
         /// </summary>
