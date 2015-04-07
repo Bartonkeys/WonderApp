@@ -23,7 +23,7 @@ namespace WonderApp.Controllers
     {
         private List<int> _categories;
         private List<int> _genders;
-
+        private List<DealModel> _wonders; 
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, cityId and userId.
@@ -50,11 +50,7 @@ namespace WonderApp.Controllers
 
                 var wonders = new List<DealModel>();
 
-                wonders = await Task.Run(() =>
-                {
-                    var priorityWonders = GetPriorityWonders(model).ToList();
-                    return Mapper.Map<List<DealModel>>(priorityWonders);
-                });
+                wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
 
                 if (wonders.Count > 0)
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
@@ -63,12 +59,38 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1,
-                            amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3,
-                            amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        _wonders = GetWonders(model.UserId, model.CityId, priority: false);
+
+                        var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+
+                        var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
+
+                        var oneMileWonders =
+                            _wonders.Where(w =>
+                            {
+                                var wonderLocation =
+                                    GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
+
+                                return wonderLocation.Distance(usersPosition)*.00062 > 0 &&
+                                       wonderLocation.Distance(usersPosition)*.00062 <= 1;
+                            }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+
+                        var threeMileWonders = _wonders.Where(w =>
+                        {
+                            var wonderLocation =
+                                GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
+
+                            return wonderLocation.Distance(usersPosition) * .00062 > 1 &&
+                                   wonderLocation.Distance(usersPosition) * .00062 <= 3;
+                        }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+
+                        //var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        //var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        //var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1,
+                        //    amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        //var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3,
+                        //    amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
 
                         var results = oneMileWonders.Union(threeMileWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
@@ -198,30 +220,30 @@ namespace WonderApp.Controllers
         {
             try
             {
-                    var wonders = new List<DealModel>();
-                    wonders = await Task.Run(() =>
-                    {
-                        var results = DataContext.GetWonders(userId, cityId, priority);
-                        var wonderModels = Mapper.Map<List<DealModel>>(results);
-                        var tags = DataContext.GetTags(userId, cityId, priority);
-                        var ages = DataContext.GetAges(userId, cityId, priority);
-
-                        wonderModels.ForEach(w =>
-                        {
-                            w.Tags = Mapper.Map<List<TagModel>>(tags.Where(t => t.DealId == w.Id));
-                            w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
-                        });
-
-                        //TODO location
-                        return wonderModels;
-                    });
-
+                    var wonders = await Task.Run(() => GetWonders(userId, cityId, priority));
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
+        }
+
+        private List<DealModel> GetWonders(string userId, int cityId, bool priority)
+        {
+
+            var results = DataContext.GetWonders(userId, cityId, priority);
+            var wonderModels = Mapper.Map<List<DealModel>>(results);
+            var tags = DataContext.GetTags(userId, cityId, priority);
+            var ages = DataContext.GetAges(userId, cityId, priority);
+
+            wonderModels.ForEach(w =>
+            {
+                w.Tags = Mapper.Map<List<TagModel>>(tags.Where(t => t.DealId == w.Id));
+                w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
+            });
+
+            return wonderModels;
         }
 
         /// <summary>

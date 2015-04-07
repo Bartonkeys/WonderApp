@@ -99,7 +99,7 @@ namespace WonderApp.Web.Controllers
         {
             try
             {
-                var results = await Task.Run(() => GetFor<UserModel>("account/users"));
+                var results = await Task.Run(() => GetFor<UserInfoModel>("account/users"));
                 return Request.CreateResponse(HttpStatusCode.OK, results);
             }
             catch (Exception ex)

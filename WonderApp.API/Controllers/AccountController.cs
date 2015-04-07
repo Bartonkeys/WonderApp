@@ -140,7 +140,11 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var users = Mapper.Map<List<UserModel>>(DataContext.AspNetUsers);
+                var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
+                {
+                    Id = u.Id,
+                    Email = u.Email
+                });
                 return Request.CreateResponse(HttpStatusCode.OK, users);
             }
             catch (Exception ex)
