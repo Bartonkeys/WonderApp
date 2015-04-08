@@ -39,7 +39,8 @@ namespace WonderApp.Web.Controllers
         {
             try
             {
-                var results = await PostWonders(model, api: @"wonder/priority");
+                //var results = await PostWonders(model, api: @"wonder/priority");
+                var results = await Task.Run(() => GetFor<DealModel>(String.Format("wonder/all/{0}/{1}/{2}", model.UserId, model.CityId, true)));
                 return Request.CreateResponse(HttpStatusCode.Created, results);
 
             }
