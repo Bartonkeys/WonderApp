@@ -51,9 +51,9 @@ namespace WonderApp.Controllers
                 wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
 
                 if (wonders.Count > 0)
-                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders.ToList());
 
-                _wonders = GetWonders(model.UserId, model.CityId, priority: false);
+                _wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: false));
 
                 if (model.Latitude != null && model.Longitude != null)
                 {
