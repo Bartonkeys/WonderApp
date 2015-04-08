@@ -52,7 +52,7 @@ namespace WonderApp.Controllers
 
                 if (priorityWonders.Count > 0)
                 {
-                    wonders = priorityWonders.ToList();
+                    wonders = Mapper.Map<List<DealModel>>(priorityWonders);
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
                 }
 
