@@ -43,7 +43,7 @@
             <input type="submit" class="btn btn-primary" value="Get Popular Wonders" ng-click="getPopularWonders()" />
         </div>
     </form>
-    <p ng-if="wonders.length > 0" class="pull-right">API returned {{wonders.length}} wonders</p>
+    <h5 ng-if="wonders.length > 0">API returned {{wonders.length}} wonders</h5>
     <div class="row">
         <div class="message row" data-ng-repeat="i in wonders">
             <div class="title col-sm-10">{{ i.title }}</div>
