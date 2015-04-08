@@ -62,7 +62,7 @@ namespace WonderApp.Controllers
                         _wonders = GetWonders(model.UserId, model.CityId, priority: false);
 
                         if (_wonders.Count <= WonderAppConstants.DefaultMaxNumberOfWonders)
-                            return wonders;
+                            return _wonders;
 
                         var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
                         var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
