@@ -12,6 +12,7 @@ using WonderApp.Models;
 using Elmah.Contrib.WebApi;
 using WonderApp.Models.Helpers;
 using WonderApp.Constants;
+using System.Data.Entity.Spatial;
 
 namespace WonderApp.Controllers
 {
@@ -52,43 +53,26 @@ namespace WonderApp.Controllers
                 if (wonders.Count > 0)
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
 
+                _wonders = GetWonders(model.UserId, model.CityId, priority: false);
+
                 if (model.Latitude != null && model.Longitude != null)
                 {
                     wonders = await Task.Run(() =>
                     {
-                        _wonders = GetWonders(model.UserId, model.CityId, priority: false);
-
                         if (_wonders.Count <= WonderAppConstants.DefaultMaxNumberOfWonders)
-                            return Mapper.Map<List<DealModel>>(_wonders);
-
-                        var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
-                        var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+                            return _wonders.ToList();
 
                         var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
 
-                        var oneMileWonders =
-                            _wonders.Where(w =>
-                            {
-                                var wonderLocation =
-                                    GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
-
-                                return wonderLocation.Distance(usersPosition)*.00062 > 0 &&
-                                       wonderLocation.Distance(usersPosition)*.00062 <= 1;
-                            }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
-
-                        var threeMileWonders = _wonders.Where(w =>
-                        {
-                            var wonderLocation =
-                                GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
-
-                            return wonderLocation.Distance(usersPosition) * .00062 > 1 &&
-                                   wonderLocation.Distance(usersPosition) * .00062 <= 3;
-                        }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var popularWonders = GetPopularWonders(WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var randomWonders = GetRandomWonders(WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var oneMileWonders = GetNearestWonders(usersPosition, from: 0, to: 1);
+                        var threeMileWonders = GetNearestWonders(usersPosition, from: 1, to: 3);
 
                         var results = oneMileWonders.Union(threeMileWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
 
-                        return Mapper.Map<List<DealModel>>(results);
+                        return results.ToList();
 
                     });
                 }
@@ -96,10 +80,8 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        _wonders = GetWonders(model.UserId, model.CityId, priority: false);
-
-                        var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake *2);
-                        var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake *2);
+                        var popularWonders = GetPopularWonders(WonderAppConstants.DefaultNumberOfWondersToTake *2);
+                        var randomWonders = GetRandomWonders(WonderAppConstants.DefaultNumberOfWondersToTake *2);
 
                         var results = popularWonders.Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
@@ -509,6 +491,28 @@ namespace WonderApp.Controllers
                                 && w.MyWonderUsers.All(u => u.Id != model.UserId));
         }
 
+        private IEnumerable<DealModel> GetPopularWonders(int numberToTake)
+        {
+            return _wonders.OrderByDescending(w => w.Likes).Take(numberToTake);
+        }
+
+        private IEnumerable<DealModel> GetRandomWonders(int numberToTake)
+        {
+            return _wonders.OrderBy(x => Guid.NewGuid()).Take(numberToTake);
+        }
+
+        private IEnumerable<DealModel> GetNearestWonders(DbGeography usersPosition, int from, int to)
+        {
+            return _wonders.Where(w =>
+            {
+                var wonderLocation =
+                    GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
+
+                return wonderLocation.Distance(usersPosition) * .00062 > from &&
+                       wonderLocation.Distance(usersPosition) * .00062 <= to;
+            }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
+        }
+
         private IQueryable<Data.Deal> GetPopularWonders(WonderModel model, int numberToTake)
         {
             return DataContext.Deals
@@ -523,6 +527,7 @@ namespace WonderApp.Controllers
             .OrderByDescending(w => w.Likes)
             .Take(numberToTake);
         }
+
 
         private IQueryable<Data.Deal> GetRandomWonders(WonderModel model, int numberToTake)
         {
