@@ -19,26 +19,32 @@
             </select>
         </div>
         <div class="form-group">
-            <p class="help-block">APIs that app calls directly.</p>
-            <input type="submit" class="btn btn-primary" value="Get Priority Wonders" ng-click="getPriorityWonders()" />
+            <p class="help-block">
+                APIs that app calls directly. Algorithm attempts to return 5 most popular, 5 within 1 mile, 5 within 1-3 miles and 5 random.
+                Also filters on wonders that user hasnt seen; filtered on not expired, availability, user's gender (or both) and user's categories
+            </p>
             <input type="submit" class="btn btn-primary" value="Get Wonders via Algorithm" ng-click="getWonders()" />
             <input type="submit" class="btn btn-primary" value="Get My Wonders" ng-click="getMyWonders()" />
         </div>
         <div class="form-group">
-            <p class="help-block">APIs to test each cateogry of Wonder.</p>
+            <p class="help-block">APIs that return all wonders that user hasnt seen; filtered on not expired, availability, user's gender (or both) and user's categories</p>
             <input type="submit" class="btn btn-primary" value="Get All Wonders" ng-click="getAllWonders()" />
+            <input type="submit" class="btn btn-primary" value="Get Priority Wonders" ng-click="getPriorityWonders()" />
+        </div>
+        <div class="form-group">
+            <p class="help-block">APIs to test each cateogry of Wonder.</p>
             <input type="submit" class="btn btn-primary" value="Get 0-1 Mile Wonders" ng-click="getNearestWonders(0, 1)" />
             <input type="submit" class="btn btn-primary" value="Get 1-3 Mile Wonders" ng-click="getNearestWonders(1, 3)" />
-            <input type="submit" class="btn btn-primary" value="Get My Rejects" ng-click="getRejectWonders()" />
+            <input type="submit" class="btn btn-primary" value="Get Rejected Wonders" ng-click="getRejectWonders()" />
         </div>
         <div class="form-group">
             <p class="help-block">Most Popular wonders.</p>
-            Select top <input type="number" style="width:60px" ng-model="top" /> of most popular Wonders
+            Select top <input type="number" style="width:60px" ng-model="top" /> of most popular Wonders that user hasnt seen 
             <input type="submit" class="btn btn-primary" value="Get Popular Wonders" ng-click="getPopularWonders()" />
         </div>
     </form>
+    <p ng-if="wonders.length > 0" class="pull-right">API returned {{wonders.length}} wonders</p>
     <div class="row">
-        <p ng-if="wonders.length > 0" class="pull-right">API returned {{wonders.length}} wonders</p>
         <div class="message row" data-ng-repeat="i in wonders">
             <div class="title col-sm-10">{{ i.title }}</div>
             <div class="date col-sm-2 pull-right">
