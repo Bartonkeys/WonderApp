@@ -45,9 +45,6 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
                 }
 
-                SetUserCategories(model.UserId);
-                SetUserGenders(model.UserId);
-
                 var wonders = new List<DealModel>();
 
                 wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
@@ -62,7 +59,7 @@ namespace WonderApp.Controllers
                         _wonders = GetWonders(model.UserId, model.CityId, priority: false);
 
                         if (_wonders.Count <= WonderAppConstants.DefaultMaxNumberOfWonders)
-                            return _wonders;
+                            return Mapper.Map<List<DealModel>>(_wonders);
 
                         var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
                         var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
@@ -88,13 +85,6 @@ namespace WonderApp.Controllers
                                    wonderLocation.Distance(usersPosition) * .00062 <= 3;
                         }).OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake);
 
-                        //var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        //var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        //var oneMileWonders = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: 1,
-                        //    amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        //var threeMileWonders = GetNearestWonders(model, mileRadiusFrom: 1, mileRadiusTo: 3,
-                        //    amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-
                         var results = oneMileWonders.Union(threeMileWonders).Union(popularWonders).Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
 
@@ -106,8 +96,10 @@ namespace WonderApp.Controllers
                 {
                     wonders = await Task.Run(() =>
                     {
-                        var popularWonders = GetPopularWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake * 2);
-                        var randomWonders = GetRandomWonders(model, numberToTake: WonderAppConstants.DefaultNumberOfWondersToTake * 2);
+                        _wonders = GetWonders(model.UserId, model.CityId, priority: false);
+
+                        var popularWonders = _wonders.OrderByDescending(w => w.Likes).Take(WonderAppConstants.DefaultNumberOfWondersToTake *2);
+                        var randomWonders = _wonders.OrderBy(x => Guid.NewGuid()).Take(WonderAppConstants.DefaultNumberOfWondersToTake *2);
 
                         var results = popularWonders.Union(randomWonders);
                         results = results.OrderBy(x => Guid.NewGuid());
