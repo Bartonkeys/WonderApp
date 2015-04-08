@@ -48,13 +48,10 @@ namespace WonderApp.Controllers
 
                 var wonders = new List<DealModel>();
 
-                var priorityWonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
+                wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
 
-                if (priorityWonders.Count > 0)
-                {
-                    wonders = Mapper.Map<List<DealModel>>(priorityWonders);
-                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
-                }
+                if (wonders.Count > 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, wonders.ToList());
 
                 _wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: false));
 
