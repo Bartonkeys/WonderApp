@@ -392,6 +392,7 @@ namespace WonderApp.Controllers
                     }
 
                     DataContext.AspNetUsers.Remove(aspNetUser);
+                    DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
