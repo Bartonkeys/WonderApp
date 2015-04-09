@@ -113,6 +113,9 @@
     <Compile Include="GetAges_Result.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetMyWonders_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetTags_Result.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>

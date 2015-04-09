@@ -30,6 +30,7 @@ namespace WonderApp.Contracts.DataContext
         IDbSet<UserPreference> Preferences { get; }
 
         List<GetWonders_Result> GetWonders(string userId, int cityId, bool priority);
+        List<GetWonders_Result> GetMyWonders(string userId);
         List<GetTags_Result> GetTags(string userId, int cityId, bool priority);
         List<GetAges_Result> GetAges(string userId, int cityId, bool priority);
        

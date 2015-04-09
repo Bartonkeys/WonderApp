@@ -100,5 +100,14 @@ namespace WonderApp.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetTags", userIdParameter, cityIdParameter, priorityParameter);
         }
+    
+        public virtual ObjectResult<GetWonders_Result> GetMyWonders(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWonders_Result>("GetMyWonders", userIdParameter);
+        }
     }
 }

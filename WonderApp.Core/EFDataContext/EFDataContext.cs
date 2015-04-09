@@ -47,6 +47,11 @@ namespace WonderApp.Core.EFDataContext
             return _context.GetWonders(userId, cityId, priority ? 1 : 0).ToList();
         }
 
+        public List<GetWonders_Result> GetMyWonders(string userId)
+        {
+            return _context.GetMyWonders(userId).ToList();
+        }
+
         public List<GetTags_Result> GetTags(string userId, int cityId, bool priority)
         {
             return _context.GetTags(userId, cityId, priority ? 1 : 0).ToList();
