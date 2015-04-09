@@ -33,6 +33,8 @@ namespace WonderApp.Contracts.DataContext
         List<GetWonders_Result> GetMyWonders(string userId);
         List<GetTags_Result> GetTags(string userId, int cityId, bool priority);
         List<GetAges_Result> GetAges(string userId, int cityId, bool priority);
+        List<GetTags_Result> GetWonderTags(string userId);
+        List<GetAges_Result> GetWonderAges(string userId);
        
         void Commit();
     }

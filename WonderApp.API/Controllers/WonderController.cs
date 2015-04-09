@@ -226,6 +226,26 @@ namespace WonderApp.Controllers
             return wonderModels;
         }
 
+        private List<DealModel> GetUsersMyWonders(string userId)
+        {
+
+            var results = DataContext.GetMyWonders(userId);
+            var wonderModels = Mapper.Map<List<DealModel>>(results);
+            var tags = DataContext.GetWonderTags(userId);
+            var ages = DataContext.GetWonderAges(userId);
+            var cities = DataContext.Cities.ToList();
+
+            wonderModels.ForEach(w =>
+            {
+                var city = cities.Single(c => c.Name == w.City.Name);
+                w.City.Location = Mapper.Map<LocationModel>(city.Location);
+                w.Tags = Mapper.Map<List<TagModel>>(DataContext.Deals.Where(t => t.Id == w.Id));
+                w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
+            });
+
+            return wonderModels;
+        }
+
         /// <summary>
         /// Return all Wonders that the user has liked
         /// </summary>

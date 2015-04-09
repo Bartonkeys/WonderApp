@@ -109,5 +109,23 @@ namespace WonderApp.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWonders_Result>("GetMyWonders", userIdParameter);
         }
+    
+        public virtual ObjectResult<GetAges_Result> GetWonderAges(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAges_Result>("GetWonderAges", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetTags_Result> GetWonderTags(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetWonderTags", userIdParameter);
+        }
     }
 }

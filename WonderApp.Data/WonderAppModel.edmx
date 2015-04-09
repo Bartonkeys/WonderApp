@@ -658,10 +658,16 @@
           <Parameter Name="cityId" Type="int" Mode="In" />
           <Parameter Name="priority" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetWonderAges" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetWonders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userId" Type="nvarchar" Mode="In" />
           <Parameter Name="cityId" Type="int" Mode="In" />
           <Parameter Name="priority" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetWonderTags" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="WonderAppModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
@@ -968,6 +974,12 @@
             <Parameter Name="priority" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetMyWonders" ReturnType="Collection(WonderAppModel.GetWonders_Result)">
+          <Parameter Name="userId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetWonderAges" ReturnType="Collection(WonderAppModel.GetAges_Result)">
+            <Parameter Name="userId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetWonderTags" ReturnType="Collection(WonderAppModel.GetTags_Result)">
             <Parameter Name="userId" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -1520,6 +1532,16 @@
           <Property Type="String" Name="Season" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Gender" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="GetWonderAges_Result">
+          <Property Type="Int32" Name="DealId" Nullable="false" />
+          <Property Type="Int32" Name="AgeId" Nullable="false" />
+          <Property Type="String" Name="AgeName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetWonderTags_Result">
+          <Property Type="Int32" Name="DealId" Nullable="false" />
+          <Property Type="Int32" Name="TagId" Nullable="false" />
+          <Property Type="String" Name="TagName" Nullable="false" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1971,6 +1993,24 @@
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="Season" ColumnName="Season" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetWonderAges" FunctionName="WonderAppModel.Store.GetWonderAges">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="WonderAppModel.GetAges_Result">
+                <ScalarProperty Name="DealId" ColumnName="DealId" />
+                <ScalarProperty Name="AgeId" ColumnName="AgeId" />
+                <ScalarProperty Name="AgeName" ColumnName="AgeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetWonderTags" FunctionName="WonderAppModel.Store.GetWonderTags">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="WonderAppModel.GetTags_Result">
+                <ScalarProperty Name="DealId" ColumnName="DealId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -62,6 +62,16 @@ namespace WonderApp.Core.EFDataContext
             return _context.GetAges(userId, cityId, priority ? 1 : 0).ToList();
         }
 
+        public List<GetTags_Result> GetWonderTags(string userId)
+        {
+            return _context.GetWonderTags(userId).ToList();
+        }
+
+        public List<GetAges_Result> GetWonderAges(string userId)
+        {
+            return _context.GetWonderAges(userId).ToList();
+        }
+
         public void Commit()
         {
             try
