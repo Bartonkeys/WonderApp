@@ -238,7 +238,8 @@ namespace WonderApp.Controllers
             {
                 var wonders = await Task.Run(() =>
                 {
-                    return Mapper.Map<List<DealModel>>(DataContext.AspNetUsers.Where(u => u.Id == userId).SelectMany(w => w.MyWonders));
+                    var user = DataContext.AspNetUsers.Single(u => u.Id == userId);
+                    return Mapper.Map<List<DealModel>>(user.MyWonders.ToList());
                 });
 
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
