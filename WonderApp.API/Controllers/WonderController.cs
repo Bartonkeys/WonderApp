@@ -239,7 +239,7 @@ namespace WonderApp.Controllers
             {
                 var city = cities.Single(c => c.Name == w.City.Name);
                 w.City.Location = Mapper.Map<LocationModel>(city.Location);
-                w.Tags = Mapper.Map<List<TagModel>>(DataContext.Deals.Where(t => t.Id == w.Id));
+                w.Tags = Mapper.Map<List<TagModel>>(tags.Where(t => t.DealId == w.Id));
                 w.Ages = Mapper.Map<List<AgeModel>>(ages.Where(t => t.DealId == w.Id));
             });
 
@@ -256,13 +256,8 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var wonders = await Task.Run(() =>
-                {
-                    var myWonders = DataContext.GetMyWonders(userId);
-                    return Mapper.Map<List<DealModel>>(myWonders.ToList());
-                });
-
-                return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                var wonders = await Task.Run(() => GetUsersMyWonders(userId));
+                return Request.CreateResponse(HttpStatusCode.OK, wonders.ToList());
             }
             catch (Exception ex)
             {
