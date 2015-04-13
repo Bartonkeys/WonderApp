@@ -140,7 +140,7 @@ namespace WonderApp.Core.Services
 
                 emailMessage.AddTo(recipients);
 
-                emailMessage.Subject = "Here are your MyWonders";
+                emailMessage.Subject = "Your Wonders";
 
                
                 //Add the HTML and Text bodies
@@ -150,6 +150,15 @@ namespace WonderApp.Core.Services
                 // true indicates that links in plain text portions of the email 
                 // should also be overwritten for link tracking purposes. 
                 emailMessage.EnableClickTracking(true);
+
+                //TODO: Add date/time to categories. NB SendGrid complains about long date format
+                var categories = new List<string>()
+                {
+                    "WONDERAPP"
+                };
+
+                emailMessage.SetCategories(categories);
+
 
                 // Create network credentials to access your SendGrid account.
                 var username = "yerma";
