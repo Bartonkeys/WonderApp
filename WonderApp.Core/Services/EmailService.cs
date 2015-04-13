@@ -150,6 +150,7 @@ namespace WonderApp.Core.Services
                 // true indicates that links in plain text portions of the email 
                 // should also be overwritten for link tracking purposes. 
                 emailMessage.EnableClickTracking(true);
+                emailMessage.EnableOpenTracking();
 
                 //TODO: Add date/time to categories. NB SendGrid complains about long date format
                 var categories = new List<string>()
