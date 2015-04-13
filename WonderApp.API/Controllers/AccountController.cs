@@ -20,6 +20,7 @@ using System.Net;
 using WonderApp.Constants;
 using AutoMapper;
 using WonderApp.Data;
+using System.Globalization;
 
 namespace WonderApp.Controllers
 {
@@ -112,6 +113,11 @@ namespace WonderApp.Controllers
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateFacebookDetailsError);
 
+                //var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
+                //var userGender = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(facebookUser.Gender);
+                //aspNetUser.Gender = DataContext.Genders.SingleOrDefault(g => g.Name == userGender);
+                //aspNetUser.Categories = DataContext.Categories.ToList();
+
                 return Request.CreateResponse(HttpStatusCode.Created, user.Id);
             }
             catch(Exception ex)
@@ -134,7 +140,11 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var users = Mapper.Map<List<UserModel>>(DataContext.AspNetUsers);
+                var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
+                {
+                    Id = u.Id,
+                    Email = u.Email
+                });
                 return Request.CreateResponse(HttpStatusCode.OK, users);
             }
             catch (Exception ex)
@@ -381,7 +391,8 @@ namespace WonderApp.Controllers
                         return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     }
 
-                    DataContext.AspNetUsers.Remove(aspNetUser);
+                    var user = await UserManager.FindByEmailAsync(aspNetUser.Email);
+                    await UserManager.DeleteAsync(user);
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

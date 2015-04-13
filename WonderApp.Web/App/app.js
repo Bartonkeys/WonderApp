@@ -33,6 +33,26 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return deferred.promise;
     };
 
+    var _getAllWonders = function () {
+
+        var deferred = $q.defer();
+
+        $http.get("/api/app/all/" + _wonderModel.userId + "/" + _wonderModel.cityId + "/false")
+          .then(function (result) {
+              // success
+              angular.copy(result.data, _wonders);
+              _setDistanceForWonders();
+              _isInit = true;
+              deferred.resolve();
+          },
+          function () {
+              // error
+              deferred.reject();
+          });
+
+        return deferred.promise;
+    };
+
     var _getPriorityWonders = function () {
 
         var deferred = $q.defer();
@@ -274,7 +294,8 @@ wonderModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         like: _like,
         disLike: _disLike,
         removeLike: _removeLike,
-        getRejectWonders: _getRejectWonders
+        getRejectWonders: _getRejectWonders,
+        getAllWonders: _getAllWonders
     };
 }]);
 
@@ -292,6 +313,13 @@ wonderModule.controller("wonderController", function ($scope, $http, dataService
 
     $scope.getWonders = function () {
         dataService.getWonders().then(function () {
+            $scope.isMyWonder = false;
+            $scope.isMyReject = false;
+        });
+    };
+
+    $scope.getAllWonders = function () {
+        dataService.getAllWonders().then(function () {
             $scope.isMyWonder = false;
             $scope.isMyReject = false;
         });

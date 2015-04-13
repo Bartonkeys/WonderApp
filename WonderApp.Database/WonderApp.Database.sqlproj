@@ -60,6 +60,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\AspNetRoles.sql" />
@@ -92,5 +93,11 @@
     <Build Include="dbo\Tables\UserPreferences.sql" />
     <Build Include="dbo\Tables\Template.sql" />
     <Build Include="dbo\Tables\NotificationEmail.sql" />
+    <Build Include="dbo\Stored Procedures\GetWonders.sql" />
+    <Build Include="dbo\Stored Procedures\GetTags.sql" />
+    <Build Include="dbo\Stored Procedures\GetAges.sql" />
+    <Build Include="dbo\Stored Procedures\GetMyWonders.sql" />
+    <Build Include="dbo\Stored Procedures\GetWonderTags.sql" />
+    <Build Include="dbo\Stored Procedures\GetWonderAges.sql" />
   </ItemGroup>
 </Project>

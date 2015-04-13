@@ -39,7 +39,8 @@ namespace WonderApp.Web.Controllers
         {
             try
             {
-                var results = await PostWonders(model, api: @"wonder/priority");
+                //var results = await PostWonders(model, api: @"wonder/priority");
+                var results = await Task.Run(() => GetFor<DealModel>(String.Format("wonder/all/{0}/{1}/{2}", model.UserId, model.CityId, true)));
                 return Request.CreateResponse(HttpStatusCode.Created, results);
 
             }
@@ -94,12 +95,26 @@ namespace WonderApp.Web.Controllers
             }
         }
 
+        [Route("all/{userId}/{cityId}/{priority}")]
+        public async Task<HttpResponseMessage> GetAllWonders(string userId, int cityId, bool priority)
+        {
+            try
+            {
+                var results = await Task.Run(() => GetFor<DealModel>(String.Format("wonder/all/{0}/{1}/{2}", userId, cityId, priority)));
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
         [Route("user")]
         public async Task<HttpResponseMessage> GetUsers()
         {
             try
             {
-                var results = await Task.Run(() => GetFor<UserModel>("account/users"));
+                var results = await Task.Run(() => GetFor<UserInfoModel>("account/users"));
                 return Request.CreateResponse(HttpStatusCode.OK, results);
             }
             catch (Exception ex)

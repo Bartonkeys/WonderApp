@@ -12,6 +12,8 @@ namespace WonderApp.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class WonderAppModelContainer : DbContext
     {
@@ -47,5 +49,83 @@ namespace WonderApp.Data
         public virtual DbSet<UserPreference> UserPreferences { get; set; }
         public virtual DbSet<NotificationEmail> NotificationEmails { get; set; }
         public virtual DbSet<Template> Templates { get; set; }
+    
+        public virtual ObjectResult<GetWonders_Result> GetWonders(string userId, Nullable<int> cityId, Nullable<int> priority)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            var cityIdParameter = cityId.HasValue ?
+                new ObjectParameter("cityId", cityId) :
+                new ObjectParameter("cityId", typeof(int));
+    
+            var priorityParameter = priority.HasValue ?
+                new ObjectParameter("priority", priority) :
+                new ObjectParameter("priority", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWonders_Result>("GetWonders", userIdParameter, cityIdParameter, priorityParameter);
+        }
+    
+        public virtual ObjectResult<GetAges_Result> GetAges(string userId, Nullable<int> cityId, Nullable<int> priority)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            var cityIdParameter = cityId.HasValue ?
+                new ObjectParameter("cityId", cityId) :
+                new ObjectParameter("cityId", typeof(int));
+    
+            var priorityParameter = priority.HasValue ?
+                new ObjectParameter("priority", priority) :
+                new ObjectParameter("priority", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAges_Result>("GetAges", userIdParameter, cityIdParameter, priorityParameter);
+        }
+    
+        public virtual ObjectResult<GetTags_Result> GetTags(string userId, Nullable<int> cityId, Nullable<int> priority)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            var cityIdParameter = cityId.HasValue ?
+                new ObjectParameter("cityId", cityId) :
+                new ObjectParameter("cityId", typeof(int));
+    
+            var priorityParameter = priority.HasValue ?
+                new ObjectParameter("priority", priority) :
+                new ObjectParameter("priority", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetTags", userIdParameter, cityIdParameter, priorityParameter);
+        }
+    
+        public virtual ObjectResult<GetWonders_Result> GetMyWonders(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWonders_Result>("GetMyWonders", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetAges_Result> GetWonderAges(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAges_Result>("GetWonderAges", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetTags_Result> GetWonderTags(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetWonderTags", userIdParameter);
+        }
     }
 }

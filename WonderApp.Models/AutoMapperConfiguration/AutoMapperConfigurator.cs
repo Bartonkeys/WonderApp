@@ -43,6 +43,23 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.ExpiryDate, opt => opt.MapFrom(m => m.AlwaysAvailable ? DateTime.Now.ToShortDateString() : m.ExpiryDate))
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
+            Mapper.CreateMap<GetWonders_Result, DealModel>()
+                .ForMember(e => e.Company, opt => opt.MapFrom(m => new CompanyModel { Id = m.Company_Id, Name = m.CompanyName }))
+                .ForMember(e => e.Location, opt => opt.MapFrom(m => new LocationModel { Id = m.Location_Id, Latitude = m.Latitude, Longitude = m.Longitude  }))
+                .ForMember(e => e.Cost, opt => opt.MapFrom(m => new CostModel { Id = m.Cost_Id.Value, Range = m.Range }))
+                .ForMember(e => e.Category, opt => opt.MapFrom(m => new CategoryModel { Id = m.Category_Id.Value, Name = m.CategoryName }))
+                .ForMember(e => e.Images, opt => opt.ResolveUsing(m => 
+                {
+                    var imageList = new List<ImageModel>();
+                    var image = new ImageModel { url = m.ImageURL };
+                    imageList.Add(image);
+                    return imageList;
+                }))
+                .ForMember(e => e.City, opt => opt.MapFrom(m => new CityModel { Id = m.CityId, Name = m.CityName }))
+                .ForMember(e => e.Address, opt => opt.MapFrom(m => new AddressModel { Id = m.AddressId.ToString(), AddressLine1 = m.AddressLine1, AddressLine2 = m.AddressLine2, PostCode = m.PostCode}))
+                .ForMember(e => e.Season, opt => opt.MapFrom(m => new SeasonModel { Id = m.Season_Id.Value, Name = m.Season }))
+                .ForMember(e => e.Gender, opt => opt.MapFrom(m => new GenderModel { Id = m.Gender_Id.Value, Name = m.Gender }));
+
             Mapper.CreateMap<Deal, DealSummaryModel>()
              .ForMember(dest => dest.Creator,
                            opts => opts.MapFrom(src => src.AspNetUser));
@@ -78,6 +95,9 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Tag, TagModel>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
+            Mapper.CreateMap<GetTags_Result, TagModel>()
+                .ForMember(e => e.Id, opt => opt.MapFrom(m => m.TagId))
+                .ForMember(e => e.Name, opt => opt.MapFrom(m => m.TagName));
             Mapper.CreateMap<TagModel, Tag>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
@@ -121,6 +141,9 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Age, AgeModel>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
+            Mapper.CreateMap<GetAges_Result, AgeModel>()
+                .ForMember(e => e.Id, opt => opt.MapFrom(m => m.AgeId))
+                .ForMember(e => e.Name, opt => opt.MapFrom(m => m.AgeName));
             Mapper.CreateMap<AgeModel, Age>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
