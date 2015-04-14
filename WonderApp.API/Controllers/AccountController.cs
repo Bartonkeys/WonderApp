@@ -82,6 +82,14 @@ namespace WonderApp.Controllers
                 if (user != null)
                 {
                     var logins = await UserManager.GetLoginsAsync(user.Id);
+
+                    var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
+                    if (aspNetUser.Categories == null || aspNetUser.Categories.Count == 0)
+                    {
+                        aspNetUser.Categories = DataContext.Categories.ToList();
+                        DataContext.Commit();
+                    }
+
                     foreach (var login in logins)
                     {
                         if(login.ProviderKey == facebookUser.ID)
@@ -112,11 +120,6 @@ namespace WonderApp.Controllers
                 result = await UserManager.AddLoginAsync(user.Id, userLoginInfo);
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateFacebookDetailsError);
-
-                //var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
-                //var userGender = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(facebookUser.Gender);
-                //aspNetUser.Gender = DataContext.Genders.SingleOrDefault(g => g.Name == userGender);
-                //aspNetUser.Categories = DataContext.Categories.ToList();
 
                 return Request.CreateResponse(HttpStatusCode.Created, user.Id);
             }
