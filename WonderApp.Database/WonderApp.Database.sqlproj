@@ -99,5 +99,8 @@
     <Build Include="dbo\Stored Procedures\GetMyWonders.sql" />
     <Build Include="dbo\Stored Procedures\GetWonderTags.sql" />
     <Build Include="dbo\Stored Procedures\GetWonderAges.sql" />
+    <Build Include="dbo\Stored Procedures\GetWonder.sql" />
+    <Build Include="dbo\Stored Procedures\GetTagsForWonder.sql" />
+    <Build Include="dbo\Stored Procedures\GetAgesForWonder.sql" />
   </ItemGroup>
 </Project>
