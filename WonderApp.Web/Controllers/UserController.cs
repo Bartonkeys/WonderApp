@@ -85,7 +85,7 @@ namespace WonderApp.Web.Controllers
                 
                 var newUser = new ApplicationUser
                 {
-                    UserName = user.UserName,
+                    UserName = user.Email,
                     Email = user.Email
                 };
 
@@ -155,7 +155,7 @@ namespace WonderApp.Web.Controllers
 
                 var user = await UserManager.FindByIdAsync(userModel.Id);
 
-                user.UserName = userModel.UserName;
+                user.UserName = userModel.Email;
                 user.Email = userModel.Email;
                 
                 var updateUserResult = await UserManager.UpdateAsync(user);
