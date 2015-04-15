@@ -388,7 +388,7 @@ namespace WonderApp.Controllers
                     aspNetUser.MyRejects.Clear();
                     aspNetUser.MyWonders.Clear();
                     aspNetUser.Categories.Clear();
-                    aspNetUser.UserPreference = null;
+                    
                     DataContext.Commit();
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
@@ -396,6 +396,7 @@ namespace WonderApp.Controllers
                         return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     }
 
+                    DataContext.Preferences.Remove(aspNetUser.UserPreference);
                     DataContext.AspNetUsers.Remove(aspNetUser);
                     DataContext.Commit();
 
