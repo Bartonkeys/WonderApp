@@ -388,6 +388,7 @@ namespace WonderApp.Controllers
                     aspNetUser.MyRejects.Clear();
                     aspNetUser.MyWonders.Clear();
                     aspNetUser.Categories.Clear();
+                    aspNetUser.UserPreference = null;
                     DataContext.Commit();
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
