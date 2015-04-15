@@ -150,19 +150,28 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            var deal = DataContext.Deals.Find(id);
+            var deal = DataContext.GetWonder(id);
 
             if (User.IsInRole("Admin") ||
                deal.Creator_User_Id != null && User.Identity.GetUserId() == deal.Creator_User_Id)
             {
 
                 var dealModel = Mapper.Map<DealModel>(deal);
+                dealModel.Tags = Mapper.Map<List<TagModel>>(DataContext.GetWonderTags(dealModel.Id));
+                dealModel.Ages = Mapper.Map<List<AgeModel>>(DataContext.GetWonderAges(dealModel.Id));
+
+                //TODO FFS Graham what a hack. Put in SP.
+                var cities = DataContext.Cities.ToList();
+                var city = cities.Single(c => c.Name == dealModel.City.Name);
+                var cityLocation = DataContext.Locations.SingleOrDefault(l => l.Id == city.Id);
+                dealModel.City.Location = Mapper.Map<LocationModel>(cityLocation);
+                dealModel.Location.Name = DataContext.Locations.Where(l => l.Id == dealModel.Location.Id).Select(x => x.Name).Single();
 
                 if (!dealModel.AlwaysAvailable)
                 {
                     dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
                         ? dealModel.ExpiryDate :
-                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
+                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd/MM/yyyy", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
                 }
 
                 var model = CreateDealViewModel<DealEditModel>();

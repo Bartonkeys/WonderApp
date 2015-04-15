@@ -35,6 +35,9 @@ namespace WonderApp.Contracts.DataContext
         List<GetAges_Result> GetAges(string userId, int cityId, bool priority);
         List<GetTags_Result> GetWonderTags(string userId);
         List<GetAges_Result> GetWonderAges(string userId);
+        List<GetTags_Result> GetWonderTags(int wonderId);
+        List<GetAges_Result> GetWonderAges(int wonderId);
+        GetWonders_Result GetWonder(int wonderId);
        
         void Commit();
     }

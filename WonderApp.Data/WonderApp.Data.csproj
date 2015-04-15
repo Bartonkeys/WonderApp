@@ -110,10 +110,16 @@
     <Compile Include="Gender.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetAgesForWonder_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetAges_Result.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetMyWonders_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTagsForWonder_Result.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetTags_Result.cs">
@@ -126,6 +132,12 @@
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetWonderTags_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetWonder_Result.cs">
+      <DependentUpon>WonderAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetWonder_Result1.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Image.cs">

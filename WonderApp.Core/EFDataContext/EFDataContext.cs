@@ -72,6 +72,11 @@ namespace WonderApp.Core.EFDataContext
             return _context.GetWonderAges(userId).ToList();
         }
 
+        public GetWonders_Result GetWonder(int wonderId)
+        {
+            return _context.GetWonder(wonderId).SingleOrDefault();
+        }
+
         public void Commit()
         {
             try
@@ -92,6 +97,17 @@ namespace WonderApp.Core.EFDataContext
             {
                 Debug.Write(exc.Message);
             }
+        }
+
+
+        public List<GetTags_Result> GetWonderTags(int wonderId)
+        {
+            return _context.GetTagsForWonder(wonderId).ToList();
+        }
+
+        public List<GetAges_Result> GetWonderAges(int wonderId)
+        {
+            return _context.GetAgesForWonder(wonderId).ToList();
         }
     }
 }

@@ -127,5 +127,32 @@ namespace WonderApp.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetWonderTags", userIdParameter);
         }
+    
+        public virtual ObjectResult<GetWonders_Result> GetWonder(Nullable<int> wonderId)
+        {
+            var wonderIdParameter = wonderId.HasValue ?
+                new ObjectParameter("wonderId", wonderId) :
+                new ObjectParameter("wonderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWonders_Result>("GetWonder", wonderIdParameter);
+        }
+    
+        public virtual ObjectResult<GetAges_Result> GetAgesForWonder(Nullable<int> wonderId)
+        {
+            var wonderIdParameter = wonderId.HasValue ?
+                new ObjectParameter("wonderId", wonderId) :
+                new ObjectParameter("wonderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAges_Result>("GetAgesForWonder", wonderIdParameter);
+        }
+    
+        public virtual ObjectResult<GetTags_Result> GetTagsForWonder(Nullable<int> wonderId)
+        {
+            var wonderIdParameter = wonderId.HasValue ?
+                new ObjectParameter("wonderId", wonderId) :
+                new ObjectParameter("wonderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTags_Result>("GetTagsForWonder", wonderIdParameter);
+        }
     }
 }
