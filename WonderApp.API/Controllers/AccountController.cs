@@ -394,8 +394,8 @@ namespace WonderApp.Controllers
                         return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     }
 
-                    var user = await UserManager.FindByEmailAsync(aspNetUser.Email);
-                    await UserManager.DeleteAsync(user);
+                    DataContext.AspNetUsers.Remove(aspNetUser);
+                    DataContext.Commit();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
