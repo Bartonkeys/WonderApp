@@ -23,6 +23,7 @@ using System.IO;
 using WonderApp.Models.Extensions;
 using System.Globalization;
 using System.Data.Entity;
+using AutoMapper.QueryableExtensions;
 
 namespace WonderApp.Web.Controllers
 {
@@ -39,9 +40,23 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            var model = Mapper.Map<List<DealModel>>(DataContext.Deals.AsNoTracking()
-                .Where(x => (bool) !x.Archived )
-                .OrderByDescending(x => x.Id));
+            //var model = Mapper.Map<List<DealModel>>(DataContext.Deals.AsNoTracking()
+            //    .Where(x => (bool)!x.Archived)
+            //    .OrderByDescending(x => x.Id));
+            var model = DataContext.Deals.Where(x => x.Archived == false)
+                .OrderByDescending(x => x.Id)
+                .Select(x => new DealModel{
+                    Id = x.Id,
+                    Title = x.Title,
+                    IntroDescription = x.IntroDescription,
+                    Company = new CompanyModel{Name = x.Company.Name},
+                    City = new CityModel { Name = x.City.Name},
+                    Category = new CategoryModel { Name = x.Category.Name},
+                    Likes = x.Likes,
+                    Priority = x.Priority.Value,
+                    Expired = x.Expired.Value,
+                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name}).ToList()
+                });
 
             ViewBag.isAdmin = User.IsInRole("Admin");
             ViewBag.userId = User.Identity.GetUserId();
