@@ -42,6 +42,7 @@ namespace WonderApp.Web.Controllers
         public ActionResult Index()
         {
             var model = DataContext.Deals.Where(x => x.Archived == false)
+                .AsNoTracking()
                 .OrderByDescending(x => x.Id)
                 .Select(x => new DealModel
                 {
@@ -439,6 +440,7 @@ namespace WonderApp.Web.Controllers
         {
 
             var dealModel = DataContext.Deals.Where(x => x.Id == dealId)
+                .AsNoTracking()
                 .Select(x => new DealModel
                 {
                     Id = x.Id,

@@ -35,8 +35,8 @@ namespace WonderApp.Models
         [JsonIgnore]
         public string Phone { get; set; }
 
-        [JsonIgnore]
-        public List<DealModel> Deals { get; set; }
+        //[JsonIgnore]
+        //public List<DealModel> Deals { get; set; }
         //[JsonIgnore]
         //public CountryModel Country { get; set; }
         [JsonIgnore]

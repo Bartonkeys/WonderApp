@@ -17,8 +17,8 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "url")]
         public string url { get; set; }
 
-        [JsonIgnore]
-        public virtual DealModel Deal { get; set; }
+        //[JsonIgnore]
+        //public virtual DealModel Deal { get; set; }
 
         [JsonIgnore]
         public virtual DeviceModel Device { get; set; }

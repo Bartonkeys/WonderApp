@@ -28,7 +28,7 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "latitude")]
         public double? Latitude { get; set; }
 
-        [JsonIgnore]
-        public virtual List<DealModel> Deals { get; set; }
+        //[JsonIgnore]
+        //public virtual List<DealModel> Deals { get; set; }
     }
 }

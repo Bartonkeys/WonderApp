@@ -16,8 +16,5 @@ namespace WonderApp.Models
         [DisplayName("Admin User?")]
         public Boolean IsAdmin { get; set; }
 
-
-
-
     }
 }

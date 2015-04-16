@@ -72,15 +72,12 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 //.ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
            
 
-            Mapper.CreateMap<Category, CategoryModel>()
-                .ForMember(e => e.Deals, opt => opt.Ignore())
-                .ForMember(dest => dest.Users, opt => opt.NullSubstitute(new List<UserModel>()));
+            Mapper.CreateMap<Category, CategoryModel>();
             Mapper.CreateMap<CategoryModel, Category>()
                 .ForMember(e => e.Deals, opt => opt.Ignore())
                 .ForMember(e => e.Users, opt => opt.Ignore());
 
-            Mapper.CreateMap<Company, CompanyModel>()
-                .ForMember(e => e.Deals, opt => opt.Ignore());
+            Mapper.CreateMap<Company, CompanyModel>();
             Mapper.CreateMap<CompanyModel, Company>()
                 .ForMember(e => e.Country, opt => opt.Ignore())
                 .ForMember(e => e.Deals, opt => opt.Ignore());
@@ -101,17 +98,14 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Cities, opt => opt.Ignore())
                 .ForMember(e => e.AspNetUser, opt => opt.Ignore());
 
-            Mapper.CreateMap<Tag, TagModel>()
-                .ForMember(e => e.Deals, opt => opt.Ignore());
+            Mapper.CreateMap<Tag, TagModel>();
             Mapper.CreateMap<GetTags_Result, TagModel>()
                 .ForMember(e => e.Id, opt => opt.MapFrom(m => m.TagId))
-                .ForMember(e => e.Deals, opt => opt.Ignore())
                 .ForMember(e => e.Name, opt => opt.MapFrom(m => m.TagName));
             Mapper.CreateMap<TagModel, Tag>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
-            Mapper.CreateMap<AspNetUser, UserModel>()
-                .ForMember(e => e.MyCategories, opt => opt.Ignore());
+            Mapper.CreateMap<AspNetUser, UserModel>();
 
             Mapper.CreateMap<UserModel, AspNetUser>()
                 .ForMember(e => e.EmailConfirmed, opt => opt.Ignore())
@@ -126,7 +120,12 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.AspNetUserClaims, opt => opt.Ignore())
                 .ForMember(e => e.Roles, opt => opt.Ignore())
                 .ForMember(e => e.Categories, opt => opt.Ignore())
-                .ForMember(e => e.Deals, opt => opt.Ignore());
+                .ForMember(e => e.Deals, opt => opt.Ignore())
+                .ForMember(e => e.AspNetUserLogins, opt => opt.Ignore())
+                .ForMember(e => e.MyWonders, opt => opt.Ignore())
+                .ForMember(e => e.MyRejects, opt => opt.Ignore())
+                .ForMember(e => e.Locations, opt => opt.Ignore())
+                .ForMember(e => e.UserPreference, opt => opt.Ignore());
 
             Mapper.CreateMap<AspNetUser, UserBasicModel>();
 
@@ -159,14 +158,14 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<ReminderModel, Reminder>()
                 .ForMember(e => e.UserPreferences, opt => opt.Ignore());
 
-            Mapper.CreateMap<Gender, GenderModel>()
-                .ForMember(e => e.Deals, opt => opt.Ignore());
+            Mapper.CreateMap<Gender, GenderModel>();
             Mapper.CreateMap<GenderModel, Gender>()
+                .ForMember(e => e.Deals, opt => opt.Ignore())
                   .ForMember(e => e.AspNetUsers, opt => opt.Ignore());
 
-            Mapper.CreateMap<Image, ImageModel>()
+            Mapper.CreateMap<Image, ImageModel>();
+            Mapper.CreateMap<ImageModel, Image>()
                 .ForMember(e => e.Deal, opt => opt.Ignore());
-            Mapper.CreateMap<ImageModel, Image>();
 
             Mapper.CreateMap<Device, DeviceModel>()
                 .ForMember(e => e.Images, opt => opt.Ignore());
@@ -182,9 +181,9 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<AddressModel, Address>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
-            Mapper.CreateMap<Season, SeasonModel>()
-                .ForMember(e => e.Deals, opt => opt.Ignore());
-            Mapper.CreateMap<SeasonModel, Season>();
+            Mapper.CreateMap<Season, SeasonModel>();
+            Mapper.CreateMap<SeasonModel, Season>()
+                 .ForMember(e => e.Deals, opt => opt.Ignore());
 
             Mapper.CreateMap<Age, AgeModel>()
                 .ForMember(e => e.Deals, opt => opt.Ignore());

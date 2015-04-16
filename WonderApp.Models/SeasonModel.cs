@@ -17,7 +17,7 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
-        [JsonIgnore]
-        public virtual List<DealModel> Deals { get; set; }
+        //[JsonIgnore]
+        //public virtual List<DealModel> Deals { get; set; }
     }
 }

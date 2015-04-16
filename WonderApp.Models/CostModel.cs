@@ -15,6 +15,7 @@ namespace WonderApp.Models
         [DisplayName("Cost Range")]
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
+
         [JsonProperty(PropertyName = "name")]
         public string Range { get; set; }
     }

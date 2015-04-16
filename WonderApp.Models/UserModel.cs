@@ -19,12 +19,12 @@ namespace WonderApp.Models
         public string Surname { get; set; }
 
         public virtual GenderModel Gender { get; set; }
-        public virtual List<AspNetUserLoginModel> AspNetUserLogins { get; set; }
-        public virtual List<DealModel> MyWonders { get; set; }
-        public virtual List<DealModel> MyRejects { get; set; }
+        //public virtual List<AspNetUserLoginModel> AspNetUserLogins { get; set; }
+        //public virtual List<DealModel> MyWonders { get; set; }
+        //public virtual List<DealModel> MyRejects { get; set; }
 
-        public virtual List<CategoryModel> MyCategories { get; set; }
-        public virtual List<LocationModel> Locations { get; set; }
-        public virtual UserPreferenceModel UserPreference { get; set; }
+        //public virtual List<CategoryModel> MyCategories { get; set; }
+        //public virtual List<LocationModel> Locations { get; set; }
+        //public virtual UserPreferenceModel UserPreference { get; set; }
     }
 }
