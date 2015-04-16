@@ -22,6 +22,7 @@ using Ninject;
 using System.IO;
 using WonderApp.Models.Extensions;
 using System.Globalization;
+using System.Data.Entity;
 
 namespace WonderApp.Web.Controllers
 {
@@ -38,7 +39,7 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            var model = Mapper.Map<List<DealModel>>(DataContext.Deals
+            var model = Mapper.Map<List<DealModel>>(DataContext.Deals.AsNoTracking()
                 .Where(x => (bool) !x.Archived )
                 .OrderByDescending(x => x.Id));
 
