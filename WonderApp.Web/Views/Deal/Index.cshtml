@@ -247,6 +247,7 @@ else
             $(document).ready(function() {
 
                 var dTable;
+                $.isLoading({ text: "Loading wonders..." });
 
                 // Add event listener for opening and closing details
                 $('#dealList tbody').on('click', 'td.details-control', function() {
@@ -305,20 +306,6 @@ else
 
                 var oldStart = 0;
                 dTable = $('#dealList').DataTable({
-                    //"aoColumns": [
-                    //    { "bVisible": true, "bSearchable": false, "bSortable": false},
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true},
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true},
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": true, "bSearchable": true, "bSortable": true },
-                    //    { "bVisible": false, "bSearchable": true, "bSortable": true }
-                    //],
                     "aoColumns": [
                         { "bVisible": true, "bSearchable": false, "bSortable": false},
                         { "bVisible": true, "bSearchable": true, "bSortable": false},
@@ -356,6 +343,7 @@ else
                     } );
                 } );  
 
+                $.isLoading("hide");
             });            
 
       
