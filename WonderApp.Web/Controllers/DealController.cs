@@ -24,6 +24,7 @@ using WonderApp.Models.Extensions;
 using System.Globalization;
 using System.Data.Entity;
 using AutoMapper.QueryableExtensions;
+using WonderApp.Models.Helpers;
 
 namespace WonderApp.Web.Controllers
 {
@@ -40,22 +41,20 @@ namespace WonderApp.Web.Controllers
 
         public ActionResult Index()
         {
-            //var model = Mapper.Map<List<DealModel>>(DataContext.Deals.AsNoTracking()
-            //    .Where(x => (bool)!x.Archived)
-            //    .OrderByDescending(x => x.Id));
             var model = DataContext.Deals.Where(x => x.Archived == false)
                 .OrderByDescending(x => x.Id)
-                .Select(x => new DealModel{
+                .Select(x => new DealModel
+                {
                     Id = x.Id,
                     Title = x.Title,
                     IntroDescription = x.IntroDescription,
-                    Company = new CompanyModel{Name = x.Company.Name},
-                    City = new CityModel { Name = x.City.Name},
-                    Category = new CategoryModel { Name = x.Category.Name},
+                    Company = new CompanyModel { Name = x.Company.Name },
+                    City = new CityModel { Name = x.City.Name },
+                    Category = new CategoryModel { Name = x.Category.Name },
                     Likes = x.Likes,
                     Priority = x.Priority.Value,
                     Expired = x.Expired.Value,
-                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name}).ToList()
+                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name }).ToList()
                 });
 
             ViewBag.isAdmin = User.IsInRole("Admin");
@@ -82,11 +81,11 @@ namespace WonderApp.Web.Controllers
                 Season = new SeasonModel(),
                 Ages = new List<AgeModel>
                 {
-                    Mapper.Map<AgeModel>( DataContext.Ages.FirstOrDefault(a => a.Name.ToLower() == "all"))
+                    DataContext.Ages.Where(a => a.Name.ToLower() == "all").Select(x => new AgeModel{Id = x.Id, Name = x.Name}).Single()
                 }
             };
 
-            model.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+            model.AgesAvailable = DataContext.Ages.Select(x => new AgeModel { Id = x.Id, Name = x.Name }).ToList();
            
             return View(model);
         }
@@ -102,15 +101,44 @@ namespace WonderApp.Web.Controllers
                     returnModel.DealModel = model.DealModel;
                     returnModel.Image = model.Image;
                     returnModel.TagString = model.TagString;
-                    returnModel.AgesAvailable = Mapper.Map<List<AgeModel>>(DataContext.Ages);
+                    returnModel.AgesAvailable = DataContext.Ages.Select(x => new AgeModel{Id = x.Id, Name = x.Name}).ToList();
            
                     return View(returnModel); 
                 }
 
-                var deal = Mapper.Map<Deal>(model.DealModel);
+                var deal = new Deal
+                {
+                    Title = model.DealModel.Title,
+                    Phone = model.DealModel.Phone,
+                    Description = model.DealModel.Description,
+                    IntroDescription = model.DealModel.IntroDescription,
+                    Url = model.DealModel.Url,
+                    AlwaysAvailable = model.DealModel.AlwaysAvailable,
+                    ExpiryDate = model.DealModel.AlwaysAvailable == true ? DateTime.Now : DateTime.Parse(model.DealModel.ExpiryDate),
+                    Likes = model.DealModel.Likes,
+                    Archived = model.DealModel.Archived,
+                    Expired = model.DealModel.Expired,
+                    Location = new Location
+                    {
+                        Name = model.DealModel.Location.Name,
+                        Geography = GeographyHelper.ConvertLatLonToDbGeography(model.DealModel.Location.Longitude.Value, model.DealModel.Location.Latitude.Value)
+                    },
+                    Priority = model.DealModel.Priority,
+                    CityId = model.DealModel.City.Id,
+                    Address = new Address
+                    {
+                        AddressLine1 = model.DealModel.Address.AddressLine1,
+                        AddressLine2 = model.DealModel.Address.AddressLine2,
+                        PostCode = model.DealModel.Location.Name
+                    },
+                    Season_Id = model.DealModel.Season.Id,
+                    Gender_Id = model.DealModel.Gender.Id
+                };
 
-                deal.Address.PostCode = model.DealModel.Location.Name;
-                if (model.DealModel.AlwaysAvailable) deal.ExpiryDate = DateTime.Now;
+                //var deal = Mapper.Map<Deal>(model.DealModel);
+
+                //deal.Address.PostCode = model.DealModel.Location.Name;
+                //if (model.DealModel.AlwaysAvailable) deal.ExpiryDate = DateTime.Now;
 
                 var tagList = model.TagString.Split(',').ToList();
                 foreach (var tag in tagList)
@@ -353,20 +381,13 @@ namespace WonderApp.Web.Controllers
         {
             return new T
             {
-                CostRanges = Mapper.Map<List<CostModel>>(DataContext.Costs).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Range }),
-                Categories = Mapper.Map<List<CategoryModel>>(DataContext.Categories).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Locations = Mapper.Map<List<LocationModel>>(DataContext.Locations).Select(x =>
-                new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Companies = Mapper.Map<List<CompanyModel>>(DataContext.Companies).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Cities = Mapper.Map<List<CityModel>>(DataContext.Cities).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Seasons = Mapper.Map<List<SeasonModel>>(DataContext.Seasons).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
-                Genders = Mapper.Map<List<GenderModel>>(DataContext.Genders).Select(x =>
-                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+                CostRanges = DataContext.Costs.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Range }),
+                Categories = DataContext.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Locations = DataContext.Locations.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Companies = DataContext.Companies.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Cities = DataContext.Cities.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Seasons = DataContext.Seasons.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }),
+                Genders = DataContext.Genders.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
             };
         }
 
@@ -417,13 +438,26 @@ namespace WonderApp.Web.Controllers
         public ActionResult DealDetail(int? dealId)
         {
 
-            var dealModel = Mapper.Map<DealModel>(DataContext.Deals.Single(x => x.Id == dealId));
-            if (!dealModel.AlwaysAvailable)
-            {
-                dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
-                    ? dealModel.ExpiryDate :
-                    (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
-            }
+            var dealModel = DataContext.Deals.Where(x => x.Id == dealId)
+                .Select(x => new DealModel
+                {
+                    Id = x.Id,
+                    IntroDescription = x.IntroDescription,
+                    Description = x.Description,
+                    Cost = new CostModel { Range = x.Cost.Range },
+                    Likes = x.Likes,
+                    Location = new LocationModel { Name = x.Location.Name },
+                    Category = new CategoryModel { Name = x.Category.Name },
+                    Tags = x.Tags.Select(t => new TagModel { Id = t.Id, Name = t.Name }).ToList(),
+                    AlwaysAvailable = x.AlwaysAvailable ?? false,
+                    ExpiryDate = x.ExpiryDate.ToString(),
+                    Images = new List<ImageModel> { new ImageModel { Id = x.Images.FirstOrDefault().Id, url = x.Images.FirstOrDefault().url} }
+                }).Single();
+
+            //var dealModel =  Mapper.Map<DealModel>(DataContext.GetWonder(dealId.Value));
+            //var dealModel = DataContext.Deals.Where(x => x.Id == dealId).Project().To<DealModel>().Single();
+
+            if (dealModel.AlwaysAvailable) dealModel.ExpiryDate = "Never";
 
             return View(dealModel);
         }
