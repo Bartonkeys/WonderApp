@@ -1,13 +1,11 @@
 ﻿@model IEnumerable<WonderApp.Models.DealModel>
 @Styles.Render("~/Content/css_bundle_datatables")
 
-<script>
-    $.isLoading({ text: "Loading wonders..." });
-</script>
-
 @{
     ViewBag.Title = "Wonders";    
 }
+
+<h1 id="loading">Loading Wonders...</h1>
 
 <div id="wonders" style="display: none">
 
@@ -346,8 +344,8 @@
                         });
                     });
 
-                    $.isLoading("hide");
-                    $('#wonders').removeAttr("style");
+                    $("#wonders").show();
+                    $("#loading").hide();
                 });
 
 
