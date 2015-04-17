@@ -1,371 +1,376 @@
 ﻿@model IEnumerable<WonderApp.Models.DealModel>
 @Styles.Render("~/Content/css_bundle_datatables")
 
+<script>
+    $.isLoading({ text: "Loading wonders..." });
+</script>
+
 @{
     ViewBag.Title = "Wonders";    
 }
 
+<div id="wonders" style="display: none">
 
-<h2>Wonders</h2>
+    <h2>Wonders</h2>
 
-<p>
-    <a class="btn btn-success" href="@Url.Action("Create")">Create Wonder</a>
-</p>
+    <p>
+        <a class="btn btn-success" href="@Url.Action("Create")">Create Wonder</a>
+    </p>
 
-@if (!Model.Any())
-{
-<p>No wonders at moment.</p>
-}
-else
-{
-    <table class="table table-striped table-responsive table-nonfluid" id="dealList">
-        <thead>
-            <tr>
-                <th class="col-md-1 details-control">
-                    
-                </th>
-                <th class="col-md-2">
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th class="col-md-2">
-                    @Html.DisplayNameFor(model => model.Tags)
-                </th>
-                <th class="col-md-2">
-                    Intro
-                </th>
-                <th class="col-md-2">
-                    <i class="fa fa-university"></i>
-                </th>
-                <th class="col-md-1">
-                    <i class="fa fa-building"></i>
-                </th>
-                <th class="col-md-1">
-                    <i class="fa fa-sun-o"></i>
-                </th>
-                <th class="col-md-1">
-                    <i class="fa fa-thumbs-up"></i>
-                </th>
-                <th class="col-md-1">
-                    <i class="fa fa-exclamation-triangle"></i>
-                </th>
-                <th class="col-md-1">
-                    <i class="fa fa-ban"></i>
-                </th>
-                <th class="col-md-2">
-                    
-                </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>*@
-               
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    @if (!Model.Any())
+    {
+        <p>No wonders at moment.</p>
+    }
+    else
+    {
+        <table class="table table-striped table-responsive table-nonfluid" id="dealList">
+            <thead>
                 <tr>
-                    <td class="details-control" id="@item.Id">
-                        
-                    </td>
-                    <td>
-                        <div class="input-group">
-                            <span class="input-group-addon">#</span>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </div>
-                        
-                    </td>
-                    <td>
-                        @foreach (var tag in item.Tags)
-                        {
-                            <span class="tags">
-                                @(tag.Name)
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IntroDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Company.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Season.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Likes)
-                    </td>
-                    <td id="@item.Id" onclick="priorityClicked(@item.Id)">
-                        @Html.CheckBoxFor(modelItem => item.Priority,
+                    <th class="col-md-1 details-control">
+
+                    </th>
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Tags)
+                    </th>
+                    <th class="col-md-2">
+                        Intro
+                    </th>
+                    <th class="col-md-2">
+                        <i class="fa fa-university"></i>
+                    </th>
+                    <th class="col-md-1">
+                        <i class="fa fa-building"></i>
+                    </th>
+                    <th class="col-md-1">
+                        <i class="fa fa-sun-o"></i>
+                    </th>
+                    <th class="col-md-1">
+                        <i class="fa fa-thumbs-up"></i>
+                    </th>
+                    <th class="col-md-1">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </th>
+                    <th class="col-md-1">
+                        <i class="fa fa-ban"></i>
+                    </th>
+                    <th class="col-md-2">
+
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="details-control" id="@item.Id"></td>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-addon">#</span>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </div>
+
+                        </td>
+                        <td>
+                            @foreach (var tag in item.Tags)
+                            {
+                                <span class="tags">
+                                    @(tag.Name)
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IntroDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Company.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Season.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Likes)
+                        </td>
+                        <td id="@item.Id" onclick="priorityClicked(@item.Id)">
+                            @Html.CheckBoxFor(modelItem => item.Priority,
                          new
                          {
                              data_sort = item.Priority ? "1" : "0"
                          })
-                    </td>
-                    <td id="@item.Id" onclick="expiredClicked(@item.Id)" >
-                        @Html.CheckBoxFor(modelItem => item.Expired,
+                        </td>
+                        <td id="@item.Id" onclick="expiredClicked(@item.Id)">
+                            @Html.CheckBoxFor(modelItem => item.Expired,
                         new
                         {
                             data_sort = item.Expired ? "1" : "0"
                         })
-                    </td>
-                    <td>
-                        <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
+                        </td>
+                        <td>
+                            <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
 
-                        @if (ViewBag.isAdmin || item.Creator != null && item.Creator.Id == ViewBag.userId)
-                        {
-                            <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                            <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
-                       
+                            @if (ViewBag.isAdmin || item.Creator != null && item.Creator.Id == ViewBag.userId)
+                            {
+                                <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                                <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
+
+                            }
+
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+            @*<tfoot>
+                    <tr>
+                        <th >
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tags)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IntroDescription)
+                        </th>
+                        <th >
+                            City
+                        </th>
+                        <th>
+                            Season
+                        </th>
+                        <th>
+                            Company
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+
+                    </tr>
+                </tfoot>*@
+        </table>
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/dataTables")
+
+
+            <script type="text/javascript">
+
+                function copyClicked(cid) {
+
+
+                    $.isLoading({ text: "Copying wonder..." });
+                    $.ajax("/Deal/Copy/" + cid, {
+                        dataType: "json",
+                        type: "POST"
+                    }).done(function (data) {
+                        if (data != null) {
+                            $.isLoading("hide");
+                            toastr.success('Wonder successfully copied');
+                            $.isLoading({ text: "Loading new wonder..." });
+                            $(location).attr('href', '/Deal/Edit/' + data);
+                        } else {
+                            $.isLoading("hide");
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        toastr.error('Error copying wonder - please try again')
+                        $.isLoading("hide");
+
+                    });
+                }
+
+                function priorityClicked(cid) {
+
+
+                    $.isLoading({ text: "Updating priority..." });
+                    $.ajax("/api/Tag/UpdatePriority/" + cid, {
+                        dataType: "json",
+                        type: "PUT"
+                    }).done(function (data) {
+                        if (data != null) {
+                            $(this).prop('checked', data);
+                            toastr.success('Priority successfully updated')
+                        }
+                        $.isLoading("hide");
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        toastr.error('Error setting the priority - please try again');
+                        $.isLoading("hide");
+
+                    });
+                }
+
+                function expiredClicked(cid) {
+
+
+                    $.isLoading({ text: "Updating expired..." });
+                    $.ajax("/api/Tag/UpdateExpired/" + cid, {
+                        dataType: "json",
+                        type: "PUT"
+                    }).done(function (data) {
+                        if (data != null) {
+                            $(this).prop('checked', data);
+                            toastr.success('Expired successfully updated');
+                        }
+                        $.isLoading("hide");
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        toastr.error('Error setting the wonder expired - please try again');
+                        $.isLoading("hide");
+
+                    });
+                }
+
+                $(document).ready(function () {
+
+                    var dTable;
+
+                    // Add event listener for opening and closing details
+                    $('#dealList tbody').on('click', 'td.details-control', function () {
+                        var tr = $(this).closest('tr');
+                        var row = dTable.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            // Open this row
+                            $.isLoading({ text: "Loading wonder detail..." });
+                            var dealId = this.id; //$(this).attr("rel");
+                            $.get("/Deal/DealDetail?dealId=" + dealId, function (deals) {
+                                row.child(deals).show();
+                                tr.addClass('shown');
+                                $.isLoading("hide");
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                toastr.error('Error loading the wonder detail - please try again');
+                                $.isLoading("hide");
+
+                            });
+                            ;
                         }
 
-                        
-                    </td>
-                   
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category)
-                    </td>
-
-                </tr>
-                
-            }
-        </tbody>
-        @*<tfoot>
-            <tr>
-                <th >
-
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Tags)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IntroDescription)
-                </th>
-                <th >
-                    City
-                </th>
-                <th>
-                    Season
-                </th>
-                <th>
-                    Company
-                </th>
-                <th>
-                    
-                </th>
-                <th>
-                  
-                </th>
-                <th>
-                   
-                </th>
-                <th>
-
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-
-            </tr>
-        </tfoot>*@
-    </table>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/dataTables")
-        
-      
-        <script type="text/javascript">
-
-            function copyClicked(cid) {
+                    });
 
 
-                $.isLoading({ text: "Copying wonder..." });
-                $.ajax("/Deal/Copy/" + cid, {
-                    dataType: "json",
-                    type: "POST"
-                }).done(function(data) {
-                    if (data != null) {
-                        $.isLoading("hide");
-                        toastr.success('Wonder successfully copied');
-                        $.isLoading({ text: "Loading new wonder..." });
-                        $(location).attr('href', '/Deal/Edit/' + data);
-                    } else {
-                        $.isLoading("hide");
-                    }
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error copying wonder - please try again')
-                    $.isLoading("hide");
 
-                });
-            }
+                    //dTable = $('#dealList').DataTable({
+                    //    "bSortable": false, "aTargets": [0,1]
+                    //});
 
-            function priorityClicked(cid) {
+                    // Setup - add a text input to each footer cell
+                    $('#dealList thead th').each(function () {
 
+                        var title = $('#dealList thead th').eq($(this).index()).text();
+                        var item = $('#dealList thead th').eq($(this).index())[0];
+                        var innerHtml = item.innerHTML;
+                        var index = $(this).index();
+                        title = title.replace(/\s/g, "");
+                        //if (title != '' && title != 'Likes' && title != 'Priority'
+                        //    && title != 'Expire') {
+                        //    $(this).html( '<input type="text" placeholder="Search" />' );
+                        //}
+                        if (index != 0 && index != 6 && index != 7
+                            && index != 8 && index != 9 && index != 10) {
+                            $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
+                        } else {
+                            $(this).html(innerHtml + '<br />');
+                        }
 
-                $.isLoading({ text: "Updating priority..." });
-                $.ajax("/api/Tag/UpdatePriority/" + cid, {
-                    dataType: "json",
-                    type: "PUT"
-                }).done(function(data) {
-                    if (data != null) {
-                        $(this).prop('checked', data);
-                        toastr.success('Priority successfully updated')
-                    }
-                    $.isLoading("hide");
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error setting the priority - please try again');
-                    $.isLoading("hide");
-
-                });
-            }
-
-            function expiredClicked(cid) {
+                    });
 
 
-                $.isLoading({ text: "Updating expired..." });
-                $.ajax("/api/Tag/UpdateExpired/" + cid, {
-                    dataType: "json",
-                    type: "PUT"
-                }).done(function(data) {
-                    if (data != null) {
-                        $(this).prop('checked', data);
-                        toastr.success('Expired successfully updated');
-                    }
-                    $.isLoading("hide");
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    toastr.error('Error setting the wonder expired - please try again');
-                    $.isLoading("hide");
+                    var oldStart = 0;
+                    dTable = $('#dealList').DataTable({
+                        "aoColumns": [
+                            { "bVisible": true, "bSearchable": false, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": false, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": true },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false },
+                            { "bVisible": false, "bSearchable": false, "bSortable": false }
+                        ],
 
-                });
-            }
+                        "bJQueryUI": true,
+                        "sPaginationType": "full_numbers",
+                        "fnDrawCallback": function (o) {
+                            if (o._iDisplayStart != oldStart) {
+                                var targetOffset = 0;/// $('#dealList').offset().top;
+                                $('html,body').animate({ scrollTop: targetOffset }, 500);
+                                oldStart = o._iDisplayStart;
+                            }
+                        },
+                        "iDisplayLength": 100
+                    });
 
-            $(document).ready(function() {
-
-                var dTable;
-                $.isLoading({ text: "Loading wonders..." });
-
-                // Add event listener for opening and closing details
-                $('#dealList tbody').on('click', 'td.details-control', function() {
-                    var tr = $(this).closest('tr');
-                    var row = dTable.row(tr);
-
-                    if (row.child.isShown()) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    } else {
-                        // Open this row
-                        $.isLoading({ text: "Loading wonder detail..." });
-                        var dealId = this.id; //$(this).attr("rel");                   
-                        $.get("/Deal/DealDetail?dealId=" + dealId, function(deals) {
-                            row.child(deals).show();
-                            tr.addClass('shown');
-                            $.isLoading("hide");
-                        }).fail(function(jqXHR, textStatus, errorThrown) {
-                            toastr.error('Error loading the wonder detail - please try again');
-                            $.isLoading("hide");
-
+                    // Apply the search
+                    dTable.columns().eq(0).each(function (colIdx) {
+                        $('input', dTable.column(colIdx).header()).on('keyup change', function () {
+                            dTable
+                                .column(colIdx)
+                                .search(this.value)
+                                .draw();
                         });
-                        ;
-                    }
+                    });
 
+                    $.isLoading("hide");
+                    $('#wonders').removeAttr("style");
                 });
-                
-               
 
-                //dTable = $('#dealList').DataTable({
-                //    "bSortable": false, "aTargets": [0,1]
-                //});
-                
-                // Setup - add a text input to each footer cell
-                $('#dealList thead th').each( function () {
-                    
-                    var title = $('#dealList thead th').eq( $(this).index() ).text();
-                    var item = $('#dealList thead th').eq($(this).index())[0];
-                    var innerHtml = item.innerHTML;
-                    var index = $(this).index();
-                    title = title.replace(/\s/g, "");
-                    //if (title != '' && title != 'Likes' && title != 'Priority'
-                    //    && title != 'Expire') {
-                    //    $(this).html( '<input type="text" placeholder="Search" />' );
-                    //}
-                    if (index != 0 && index != 6 && index != 7
-                        && index != 8 && index != 9  && index != 10) {
-                        $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
-                    } else {
-                        $(this).html( innerHtml + '<br />');
-                    }
-                   
-                } );
-                
 
-                var oldStart = 0;
-                dTable = $('#dealList').DataTable({
-                    "aoColumns": [
-                        { "bVisible": true, "bSearchable": false, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false},
-                        { "bVisible": false, "bSearchable": true, "bSortable": false},
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": false },
-                        { "bVisible": true, "bSearchable": true, "bSortable": true },
-                        { "bVisible": true, "bSearchable": false, "bSortable": true ,  "sType": "checked-in"},
-                        { "bVisible": true, "bSearchable": false, "bSortable": true,  "sType": "checked-in"  },
-                        { "bVisible": true, "bSearchable": false, "bSortable": false },
-                        { "bVisible": false, "bSearchable": false, "bSortable": false }
-                    ],
-                   
-                    "bJQueryUI": true,
-                    "sPaginationType": "full_numbers",
-                    "fnDrawCallback": function (o) {
-                        if ( o._iDisplayStart != oldStart ) {
-                            var targetOffset = 0;/// $('#dealList').offset().top;
-                            $('html,body').animate({scrollTop: targetOffset}, 500);
-                            oldStart = o._iDisplayStart;
-                        }
-                    },
-                    "iDisplayLength": 100
-                });
-               
-                // Apply the search
-                dTable.columns().eq( 0 ).each( function ( colIdx ) {
-                    $( 'input', dTable.column( colIdx ).header() ).on( 'keyup change', function () {
-                        dTable
-                            .column( colIdx )
-                            .search( this.value )
-                            .draw();
-                    } );
-                } );  
+                //Sorting boolean (checklist) columns
+                jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function (a, b) {
+                    var a_sort = parseInt($(a).data("sort"));
+                    var b_sort = parseInt($(b).data("sort"));
+                    return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ? 1 : 0));
+                };
 
-                $.isLoading("hide");
-            });            
+                jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function (a, b) {
+                    var a_sort = parseInt($(a).data("sort"));
+                    var b_sort = parseInt($(b).data("sort"));
+                    return ((a_sort < b_sort) ? 1 : ((a_sort > b_sort) ? -1 : 0));
+                };
 
-      
-           //Sorting boolean (checklist) columns
-            jQuery.fn.dataTableExt.oSort['checked-in-asc']  = function(a,b) {
-                var a_sort = parseInt($(a).data("sort"));
-                var b_sort =  parseInt($(b).data("sort"));
-                return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ?  1 : 0));
-            };
+            </script>
+        }
 
-            jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function(a,b) {
-                var a_sort = parseInt($(a).data("sort"));
-                var b_sort =  parseInt($(b).data("sort"));
-                return ((a_sort < b_sort) ?  1 : ((a_sort > b_sort) ? -1 : 0));
-            };
 
-        </script>
 
     }
+</div>
 
-    
-    
-}
 
 
