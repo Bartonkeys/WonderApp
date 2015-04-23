@@ -239,7 +239,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.RecipientName, opt => opt.Ignore())
                 .ForMember(e => e.Template_Id, opt => opt.Ignore());
 
-           Mapper.AssertConfigurationIsValid();
+          // Mapper.AssertConfigurationIsValid();
 
         }
     }

@@ -70,6 +70,9 @@ namespace WonderApp.Models
         [JsonProperty(PropertyName = "priority")]
         public bool Priority { get; set; }
 
+        [JsonProperty(PropertyName = "broadcast")]
+        public bool Broadcast { get; set; }
+
         [Display(Name = "Tags")]
         [JsonProperty(PropertyName = "tags")]
         public virtual List<TagModel> Tags { get; set; }

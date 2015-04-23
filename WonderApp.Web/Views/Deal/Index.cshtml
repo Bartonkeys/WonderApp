@@ -52,6 +52,9 @@
                         <i class="fa fa-exclamation-triangle"></i>
                     </th>
                     <th class="col-md-1">
+                        <i class="fa fa-bullhorn"></i>
+                    </th>
+                    <th class="col-md-1">
                         <i class="fa fa-ban"></i>
                     </th>
                     <th class="col-md-2">
@@ -103,6 +106,13 @@
                          new
                          {
                              data_sort = item.Priority ? "1" : "0"
+                         })
+                        </td>
+                        <td id="@item.Id" onclick="broadcastClicked(@item.Id)">
+                            @Html.CheckBoxFor(modelItem => item.Broadcast,
+                         new
+                         {
+                             data_sort = item.Broadcast ? "1" : "0"
                          })
                         </td>
                         <td id="@item.Id" onclick="expiredClicked(@item.Id)">
@@ -226,6 +236,26 @@
                     });
                 }
 
+                function broadcastClicked(cid) {
+
+
+                    $.isLoading({ text: "Updating broadcast..." });
+                    $.ajax("/api/Tag/UpdateBroadcast/" + cid, {
+                        dataType: "json",
+                        type: "PUT"
+                    }).done(function (data) {
+                        if (data != null) {
+                            $(this).prop('checked', data);
+                            toastr.success('Broadcast successfully updated')
+                        }
+                        $.isLoading("hide");
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        toastr.error('Error setting the broadcast - please try again');
+                        $.isLoading("hide");
+
+                    });
+                }
+
                 function expiredClicked(cid) {
 
 
@@ -316,6 +346,7 @@
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": true },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
                             { "bVisible": true, "bSearchable": false, "bSortable": false },

@@ -33,6 +33,7 @@ namespace WonderApp.Data
         public Nullable<bool> Archived { get; set; }
         public string IntroDescription { get; set; }
         public Nullable<bool> Priority { get; set; }
+        public Nullable<bool> Broadcast { get; set; }
         public int CityId { get; set; }
         public Nullable<bool> AlwaysAvailable { get; set; }
         public Nullable<int> AddressId { get; set; }

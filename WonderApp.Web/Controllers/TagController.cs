@@ -207,6 +207,25 @@ namespace WonderApp.Web.Controllers
         }
 
         [HttpPut]
+        public bool? UpdateBroadcast(int? id)
+        {
+            try
+            {
+
+                Deal d = DataContext.Deals.FirstOrDefault(w => w.Id == id);
+                d.Broadcast = !d.Broadcast;
+                DataContext.Commit();
+                return d.Broadcast;
+            }
+
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        [HttpPut]
         public bool? UpdateExpired(int? id)
         {
             try
