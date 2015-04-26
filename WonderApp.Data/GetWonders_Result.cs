@@ -31,7 +31,6 @@ namespace WonderApp.Data
         public string Phone { get; set; }
         public Nullable<int> Gender_Id { get; set; }
         public Nullable<bool> Expired { get; set; }
-        public Nullable<bool> Broadcast { get; set; }
         public int Company_Id { get; set; }
         public int Location_Id { get; set; }
         public Nullable<int> Cost_Id { get; set; }
@@ -48,5 +47,6 @@ namespace WonderApp.Data
         public string PostCode { get; set; }
         public string Season { get; set; }
         public string Gender { get; set; }
+        public Nullable<bool> Broadcast { get; set; }
     }
 }
