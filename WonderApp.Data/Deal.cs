@@ -33,7 +33,6 @@ namespace WonderApp.Data
         public Nullable<bool> Archived { get; set; }
         public string IntroDescription { get; set; }
         public Nullable<bool> Priority { get; set; }
-        public Nullable<bool> Broadcast { get; set; }
         public int CityId { get; set; }
         public Nullable<bool> AlwaysAvailable { get; set; }
         public Nullable<int> AddressId { get; set; }
@@ -42,6 +41,7 @@ namespace WonderApp.Data
         public string Phone { get; set; }
         public Nullable<int> Gender_Id { get; set; }
         public Nullable<bool> Expired { get; set; }
+        public Nullable<bool> Broadcast { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }

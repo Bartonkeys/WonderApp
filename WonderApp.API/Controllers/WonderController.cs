@@ -51,7 +51,17 @@ namespace WonderApp.Controllers
                 wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
 
                 if (wonders.Count > 0)
-                    return Request.CreateResponse(HttpStatusCode.OK, wonders.ToList());
+                {
+                    var priorityWonders = wonders.OrderBy(x => Guid.NewGuid()).ToList();
+                    if (priorityWonders.Any(w => w.Broadcast == true))
+                    {
+                        var broadcastWonder = priorityWonders.Single(w => w.Broadcast == true);
+                        priorityWonders.Remove(broadcastWonder);
+                        priorityWonders.Insert(0, broadcastWonder);
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, priorityWonders);
+                }
 
                 _wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: false));
 
@@ -125,6 +135,35 @@ namespace WonderApp.Controllers
 
 
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Return broadcast Wonder for user and city.
+        /// Null if nothing there.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        [Route("broadcast/{userId}/{cityId}")]
+        public async Task<HttpResponseMessage> GetBroadcastWonder(string userId, int cityId)
+        {
+            try
+            {
+                if (userId != null && DataContext.AspNetUsers.All(x => x.Id != userId))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
+                }
+
+                var priorityWonders = await Task.Run(() => GetWonders(userId, cityId, priority: true));
+
+                var broadcastWonder = priorityWonders.FirstOrDefault(w => w.Broadcast == true);
+
+                return Request.CreateResponse(HttpStatusCode.OK, broadcastWonder);
             }
             catch (Exception ex)
             {

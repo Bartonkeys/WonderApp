@@ -64,6 +64,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.Gender, opt => opt.MapFrom(m => new GenderModel { Id = m.Gender_Id.Value, Name = m.Gender }))
                 .ForMember(e => e.Creator, opt => opt.Ignore())
                 .ForMember(e => e.Ages, opt => opt.Ignore())
+                .ForMember(e => e.Broadcast, opt => opt.Ignore())
                 .ForMember(e => e.Tags, opt => opt.Ignore());
 
             Mapper.CreateMap<Deal, DealSummaryModel>()
@@ -239,7 +240,7 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.RecipientName, opt => opt.Ignore())
                 .ForMember(e => e.Template_Id, opt => opt.Ignore());
 
-          // Mapper.AssertConfigurationIsValid();
+           Mapper.AssertConfigurationIsValid();
 
         }
     }

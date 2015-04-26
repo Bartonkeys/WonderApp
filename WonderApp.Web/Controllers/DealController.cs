@@ -55,6 +55,7 @@ namespace WonderApp.Web.Controllers
                     Likes = x.Likes,
                     Priority = x.Priority.Value,
                     Expired = x.Expired.Value,
+                    Broadcast = x.Broadcast != null && x.Broadcast.Value,
                     Tags = x.Tags.Select(y => new TagModel { Name = y.Name }).ToList()
                 });
 

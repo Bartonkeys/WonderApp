@@ -161,6 +161,7 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="200" />
           <Property Name="Gender_Id" Type="int" />
           <Property Name="Expired" Type="bit" />
+          <Property Name="Broadcast" Type="bit" />
         </EntityType>
         <EntityType Name="DealTag">
           <Key>
@@ -1037,6 +1038,7 @@
           <NavigationProperty Name="Gender" Relationship="WonderAppModel.FK_Deals_Genders" FromRole="Deal" ToRole="Gender" />
           <NavigationProperty Name="Ages" Relationship="WonderAppModel.DealAge" FromRole="Deal" ToRole="Age" />
           <Property Name="Expired" Type="Boolean" />
+          <Property Name="Broadcast" Type="Boolean" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1651,6 +1653,7 @@
     <EntitySetMapping Name="Deals">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.Deal)">
         <MappingFragment StoreEntitySet="Deals">
+                <ScalarProperty Name="Broadcast" ColumnName="Broadcast" />
                 <ScalarProperty Name="Expired" ColumnName="Expired" />
                 <ScalarProperty Name="Gender_Id" ColumnName="Gender_Id" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
