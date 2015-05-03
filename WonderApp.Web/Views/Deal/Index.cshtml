@@ -34,9 +34,6 @@
                         @Html.DisplayNameFor(model => model.Tags)
                     </th>
                     <th class="col-md-2">
-                        Intro
-                    </th>
-                    <th class="col-md-2">
                         <i class="fa fa-university"></i>
                     </th>
                     <th class="col-md-1">
@@ -85,9 +82,6 @@
                                     @(tag.Name)
                                 </span>
                             }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IntroDescription)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Company.Name)
@@ -341,7 +335,6 @@
                             { "bVisible": true, "bSearchable": false, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
