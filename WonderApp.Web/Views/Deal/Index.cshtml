@@ -45,11 +45,11 @@
                     <th >
                         <i class="fa fa-thumbs-up"></i>
                     </th>
-                    <th >
-                        <i class="fa fa-exclamation-triangle"></i>
+                    <th>
+                        <i class="fa fa-bullhorn"></i>
                     </th>
                     <th >
-                        <i class="fa fa-bullhorn"></i>
+                        <i class="fa fa-exclamation-triangle"></i>
                     </th>
                     <th >
                         <i class="fa fa-ban"></i>
@@ -95,13 +95,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Likes)
                         </td>
-                        <td id="@item.Id" onclick="priorityClicked(@item.Id)">
-                            @Html.CheckBoxFor(modelItem => item.Priority,
-                         new
-                         {
-                             data_sort = item.Priority ? "1" : "0"
-                         })
-                        </td>
                         <td id="@item.Id" onclick="broadcastClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Broadcast,
                          new
@@ -109,6 +102,14 @@
                              data_sort = item.Broadcast ? "1" : "0"
                          })
                         </td>
+                        <td id="@item.Id" onclick="priorityClicked(@item.Id)">
+                            @Html.CheckBoxFor(modelItem => item.Priority,
+                         new
+                         {
+                             data_sort = item.Priority ? "1" : "0"
+                         })
+                        </td>
+                        
                         <td id="@item.Id" onclick="expiredClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Expired,
                         new
