@@ -21,40 +21,40 @@
     }
     else
     {
-        <table class="table table-striped table-responsive table-nonfluid" id="dealList">
+        <table class="table table-striped table-responsive table-nonfluid" id="dealList" style="table-layout: auto; width: 90%">
             <thead>
                 <tr>
-                    <th class="col-md-1 details-control">
+                    <th >
 
                     </th>
-                    <th class="col-md-2">
+                    <th >
                         @Html.DisplayNameFor(model => model.Title)
                     </th>
-                    <th class="col-md-2">
+                    <th >
                         @Html.DisplayNameFor(model => model.Tags)
                     </th>
-                    <th class="col-md-2">
+                    <th >
                         <i class="fa fa-university"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th>
                         <i class="fa fa-building"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th >
                         <i class="fa fa-sun-o"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th >
                         <i class="fa fa-thumbs-up"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th >
                         <i class="fa fa-exclamation-triangle"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th >
                         <i class="fa fa-bullhorn"></i>
                     </th>
-                    <th class="col-md-1">
+                    <th >
                         <i class="fa fa-ban"></i>
                     </th>
-                    <th class="col-md-2">
+                    <th >
 
                     </th>
                     @*<th>
@@ -332,7 +332,7 @@
                     var oldStart = 0;
                     dTable = $('#dealList').DataTable({
                         "aoColumns": [
-                            { "bVisible": true, "bSearchable": false, "bSortable": false },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false},
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
@@ -342,7 +342,7 @@
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": false },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false},
                             { "bVisible": false, "bSearchable": false, "bSortable": false }
                         ],
 
