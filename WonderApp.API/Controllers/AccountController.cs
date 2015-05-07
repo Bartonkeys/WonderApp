@@ -393,7 +393,22 @@ namespace WonderApp.Controllers
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                        try
+                        {
+                            //Move all Wonders to a default admin user
+                            var adminUser = DataContext.AspNetUsers.FirstOrDefault(u => u.UserName.Equals("admin@wonderapp.com"));
+                            var wondersToMove = DataContext.Deals.Where(w => w.Creator_User_Id == aspNetUser.Id);
+                            foreach (var deal in wondersToMove)
+                            {
+                                deal.Creator_User_Id = adminUser.Id;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                        }
+                        
                     }
 
                     DataContext.Preferences.Remove(aspNetUser.UserPreference);
