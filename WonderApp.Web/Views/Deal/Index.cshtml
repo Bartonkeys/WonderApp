@@ -34,13 +34,16 @@
                         @Html.DisplayNameFor(model => model.Tags)
                     </th>
                     <th >
-                        <i class="fa fa-university"></i>
+                        @Html.DisplayNameFor(model => model.Company) 
+                        @*<i class="fa fa-university"></i>*@
                     </th>
                     <th>
-                        <i class="fa fa-building"></i>
+                        @Html.DisplayNameFor(model => model.City)
+                        @*<i class="fa fa-building"></i>*@
                     </th>
                     <th >
-                        <i class="fa fa-sun-o"></i>
+                        @Html.DisplayNameFor(model => model.Season)
+                        @*<i class="fa fa-sun-o"></i>*@
                     </th>
                     <th >
                         <i class="fa fa-thumbs-up"></i>
@@ -308,7 +311,7 @@
                     //    "bSortable": false, "aTargets": [0,1]
                     //});
 
-                    // Setup - add a text input to each footer cell
+                    // Setup - add a text input to each header cell
                     $('#dealList thead th').each(function () {
 
                         var title = $('#dealList thead th').eq($(this).index()).text();
@@ -322,7 +325,7 @@
                         //}
                         if (index != 0 && index != 6 && index != 7
                             && index != 8 && index != 9 && index != 10) {
-                            $(this).html('<input type="text" placeholder="Search" />' + innerHtml + '<br />');
+                            $(this).html(innerHtml + '<input type="text" placeholder="Search" />' +  '<br />');
                         } else {
                             $(this).html(innerHtml + '<br />');
                         }
