@@ -2,7 +2,8 @@
 @Styles.Render("~/Content/css_bundle_datatables")
 
 @{
-    ViewBag.Title = "Wonders";    
+    ViewBag.Title = "Wonders";   
+     
 }
 
 <h1 id="loading">Loading Wonders...</h1>
@@ -21,18 +22,31 @@
     }
     else
     {
-        <table class="table table-striped table-responsive table-nonfluid" id="dealList" style="table-layout: fixed;">
+
+        <style>
+            /*Equalise padding for all <th> and <td> cells */
+            table.dataTable tbody th,
+            table.dataTable tbody td,
+            table.dataTable thead th, 
+            table.dataTable thead td {
+
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        </style>
+
+        <table class="table table-striped table-responsive table-nonfluid noPadding" id="dealList" style="table-layout: fixed;">
             <thead>
                 <tr>
                     <th style="width:0px"></th>
-                    <th >
+                    <th>
                         @Html.DisplayNameFor(model => model.Title)
                     </th>
-                    <th >
+                    <th>
                         @Html.DisplayNameFor(model => model.Tags)
                     </th>
-                    <th >
-                        @Html.DisplayNameFor(model => model.Company) 
+                    <th>
+                        @Html.DisplayNameFor(model => model.Company)
                         @*<i class="fa fa-university"></i>*@
                     </th>
                     <th>
@@ -43,16 +57,16 @@
                         @Html.DisplayNameFor(model => model.Season)
                         @*<i class="fa fa-sun-o"></i>*@
                     </th>
-                    <th >
+                    <th>
                         <i class="fa fa-thumbs-up"></i>
                     </th>
                     <th>
                         <i class="fa fa-bullhorn"></i>
                     </th>
-                    <th >
+                    <th>
                         <i class="fa fa-exclamation-triangle"></i>
                     </th>
-                    <th >
+                    <th>
                         <i class="fa fa-ban"></i>
                     </th>
                     <th style="width:100px"></th>
@@ -88,7 +102,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.City.Name)
                         </td>
-                        <td >
+                        <td>
                             @Html.DisplayFor(modelItem => item.Season.Name)
                         </td>
                         <td>
@@ -108,7 +122,7 @@
                              data_sort = item.Priority ? "1" : "0"
                          })
                         </td>
-                        
+
                         <td id="@item.Id" onclick="expiredClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Expired,
                         new
@@ -123,7 +137,7 @@
                             {
                                 <a title="Edit Wonder" class="btn btn-sm btn-info" href="@Url.Action("Edit",new{id = item.Id})"><i class="fa fa-pencil-square-o fa-lg"></i></a>
                                 <a title="Delete Wonder" class="btn btn-sm btn-danger" href="@Url.Action("Delete", new{id = item.Id})"><i class="fa fa-times fa-lg"></i></a>
-                                
+
                             }
 
 
@@ -326,7 +340,7 @@
                             if (index == 1 || index == 3) {searchBoxFixedWidth = 250;}
                             else { searchBoxFixedWidth = 125;}
                             innerHtml = innerHtml.replace(/\s/g, "");
-                            $(this).html(innerHtml + '<br />' + '<input type="text" placeholder="Search" style = "width:' + searchBoxFixedWidth +'px" />' + '<br />');
+                            $(this).html(innerHtml + '<br />' + '<input type="text" placeholder="Search" style = "width:' + searchBoxFixedWidth +'px; " />' + '<br />');
                         } else {
                             $(this).html(innerHtml + '<br />');
                         }
@@ -344,10 +358,10 @@
                             { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" },
                             { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
                             { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
-                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "25px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "40px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
                             { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "100px" },
                             { "bVisible": false, "bSearchable": false, "bSortable": false }
                         ],
