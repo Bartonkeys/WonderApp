@@ -21,7 +21,7 @@
     }
     else
     {
-        <table class="table table-striped table-responsive table-nonfluid" id="dealList" style="table-layout: auto;">
+        <table class="table table-striped table-responsive table-nonfluid" id="dealList" style="table-layout: fixed;">
             <thead>
                 <tr>
                     <th >
@@ -41,7 +41,7 @@
                         @Html.DisplayNameFor(model => model.City)
                         @*<i class="fa fa-building"></i>*@
                     </th>
-                    <th >
+                    <th>
                         @Html.DisplayNameFor(model => model.Season)
                         @*<i class="fa fa-sun-o"></i>*@
                     </th>
@@ -92,7 +92,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.City.Name)
                         </td>
-                        <td>
+                        <td >
                             @Html.DisplayFor(modelItem => item.Season.Name)
                         </td>
                         <td>
@@ -325,28 +325,29 @@
                         //}
                         if (index != 0 && index != 6 && index != 7
                             && index != 8 && index != 9 && index != 10) {
-                            $(this).html(innerHtml + '<input type="text" placeholder="Search" />' +  '<br />');
+                            $(this).html(innerHtml + '<input type="text" placeholder="Search" style = "width:100px" />' +  '<br />');
                         } else {
                             $(this).html(innerHtml + '<br />');
                         }
 
+                       
                     });
 
 
                     var oldStart = 0;
                     dTable = $('#dealList').DataTable({
                         "aoColumns": [
-                            { "bVisible": true, "bSearchable": false, "bSortable": false},
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth" : "25px"},
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": true },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": false},
+                            { "bVisible": true, "bSearchable": true, "bSortable": false , "sWidth" : "75px"},
+                            { "bVisible": true, "bSearchable": true, "bSortable": true , "sWidth" : "15px"},
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth" : "100px"},
                             { "bVisible": false, "bSearchable": false, "bSortable": false }
                         ],
 
