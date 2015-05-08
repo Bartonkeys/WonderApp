@@ -194,7 +194,7 @@
                     $.ajax("/Deal/Copy/" + cid, {
                         dataType: "json",
                         type: "POST"
-                    }).done(function (data) {
+                    }).done(function(data) {
                         if (data != null) {
                             $.isLoading("hide");
                             toastr.success('Wonder successfully copied');
@@ -203,7 +203,7 @@
                         } else {
                             $.isLoading("hide");
                         }
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
                         toastr.error('Error copying wonder - please try again')
                         $.isLoading("hide");
 
@@ -217,13 +217,13 @@
                     $.ajax("/api/Tag/UpdatePriority/" + cid, {
                         dataType: "json",
                         type: "PUT"
-                    }).done(function (data) {
+                    }).done(function(data) {
                         if (data != null) {
                             $(this).prop('checked', data);
                             toastr.success('Priority successfully updated')
                         }
                         $.isLoading("hide");
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
                         toastr.error('Error setting the priority - please try again');
                         $.isLoading("hide");
 
@@ -237,13 +237,13 @@
                     $.ajax("/api/Tag/UpdateBroadcast/" + cid, {
                         dataType: "json",
                         type: "PUT"
-                    }).done(function (data) {
+                    }).done(function(data) {
                         if (data != null) {
                             $(this).prop('checked', data);
                             toastr.success('Broadcast successfully updated')
                         }
                         $.isLoading("hide");
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
                         toastr.error('Error setting the broadcast - please try again');
                         $.isLoading("hide");
 
@@ -257,25 +257,25 @@
                     $.ajax("/api/Tag/UpdateExpired/" + cid, {
                         dataType: "json",
                         type: "PUT"
-                    }).done(function (data) {
+                    }).done(function(data) {
                         if (data != null) {
                             $(this).prop('checked', data);
                             toastr.success('Expired successfully updated');
                         }
                         $.isLoading("hide");
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
                         toastr.error('Error setting the wonder expired - please try again');
                         $.isLoading("hide");
 
                     });
                 }
 
-                $(document).ready(function () {
+                $(document).ready(function() {
 
                     var dTable;
 
                     // Add event listener for opening and closing details
-                    $('#dealList tbody').on('click', 'td.details-control', function () {
+                    $('#dealList tbody').on('click', 'td.details-control', function() {
                         var tr = $(this).closest('tr');
                         var row = dTable.row(tr);
 
@@ -287,11 +287,11 @@
                             // Open this row
                             $.isLoading({ text: "Loading wonder detail..." });
                             var dealId = this.id; //$(this).attr("rel");
-                            $.get("/Deal/DealDetail?dealId=" + dealId, function (deals) {
+                            $.get("/Deal/DealDetail?dealId=" + dealId, function(deals) {
                                 row.child(deals).show();
                                 tr.addClass('shown');
                                 $.isLoading("hide");
-                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                            }).fail(function(jqXHR, textStatus, errorThrown) {
                                 toastr.error('Error loading the wonder detail - please try again');
                                 $.isLoading("hide");
 
@@ -302,57 +302,62 @@
                     });
 
 
-
                     //dTable = $('#dealList').DataTable({
                     //    "bSortable": false, "aTargets": [0,1]
                     //});
 
                     // Setup - add a text input to each header cell
-                    $('#dealList thead th').each(function () {
+                    $('#dealList thead th').each(function() {
 
                         var title = $('#dealList thead th').eq($(this).index()).text();
                         var item = $('#dealList thead th').eq($(this).index())[0];
                         var innerHtml = item.innerHTML;
                         var index = $(this).index();
                         title = title.replace(/\s/g, "");
+
                         //if (title != '' && title != 'Likes' && title != 'Priority'
                         //    && title != 'Expire') {
                         //    $(this).html( '<input type="text" placeholder="Search" />' );
                         //}
                         if (index != 0 && index != 6 && index != 7
                             && index != 8 && index != 9 && index != 10) {
-                            $(this).html(innerHtml + '<input type="text" placeholder="Search" style = "width:100px" />' +  '<br />');
+
+                            var searchBoxFixedWidth = 0;
+                            if (index == 1 || index == 3) {searchBoxFixedWidth = 250;}
+                            else { searchBoxFixedWidth = 125;}
+                            innerHtml = innerHtml.replace(/\s/g, "");
+                            $(this).html(innerHtml + '<br />' + '<input type="text" placeholder="Search" style = "width:' + searchBoxFixedWidth +'px" />' + '<br />');
                         } else {
                             $(this).html(innerHtml + '<br />');
                         }
 
-                       
+
                     });
 
 
                     var oldStart = 0;
                     dTable = $('#dealList').DataTable({
                         "aoColumns": [
-                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth" : "25px"},
-                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" },
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false ,  "sWidth" : "75px"},
-                            { "bVisible": true, "bSearchable": true, "bSortable": false , "sWidth" : "75px"},
-                            { "bVisible": true, "bSearchable": true, "bSortable": true , "sWidth" : "15px"},
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth" : "100px"},
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "25px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "100px" },
                             { "bVisible": false, "bSearchable": false, "bSortable": false }
                         ],
 
                         "bJQueryUI": true,
                         "sPaginationType": "full_numbers",
-                        "fnDrawCallback": function (o) {
+                        "fnDrawCallback": function(o) {
                             if (o._iDisplayStart != oldStart) {
-                                var targetOffset = 0;/// $('#dealList').offset().top;
-                                $('html,body').animate({ scrollTop: targetOffset }, 500);
+                                var targetOffset = 0; /// $('#dealList').offset().top;
+                                $('html, body').animate({ scrollTop: targetOffset }, 500);
                                 oldStart = o._iDisplayStart;
                             }
                         },
@@ -360,8 +365,8 @@
                     });
 
                     // Apply the search
-                    dTable.columns().eq(0).each(function (colIdx) {
-                        $('input', dTable.column(colIdx).header()).on('keyup change', function () {
+                    dTable.columns().eq(0).each(function(colIdx) {
+                        $('input', dTable.column(colIdx).header()).on('keyup change', function() {
                             dTable
                                 .column(colIdx)
                                 .search(this.value)
@@ -375,13 +380,13 @@
 
 
                 //Sorting boolean (checklist) columns
-                jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function (a, b) {
+                jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function(a, b) {
                     var a_sort = parseInt($(a).data("sort"));
                     var b_sort = parseInt($(b).data("sort"));
                     return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ? 1 : 0));
                 };
 
-                jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function (a, b) {
+                jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function(a, b) {
                     var a_sort = parseInt($(a).data("sort"));
                     var b_sort = parseInt($(b).data("sort"));
                     return ((a_sort < b_sort) ? 1 : ((a_sort > b_sort) ? -1 : 0));
