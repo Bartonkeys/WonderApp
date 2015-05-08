@@ -24,9 +24,7 @@
         <table class="table table-striped table-responsive table-nonfluid" id="dealList" style="table-layout: fixed;">
             <thead>
                 <tr>
-                    <th >
-
-                    </th>
+                    <th style="width:0px"></th>
                     <th >
                         @Html.DisplayNameFor(model => model.Title)
                     </th>
@@ -57,9 +55,7 @@
                     <th >
                         <i class="fa fa-ban"></i>
                     </th>
-                    <th style="width:100px">
-                    
-                    </th>
+                    <th style="width:100px"></th>
                     @*<th>
                             @Html.DisplayNameFor(model => model.Category)
                         </th>*@
@@ -341,7 +337,7 @@
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
                             { "bVisible": true, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false ,  "sWidth" : "75px"},
                             { "bVisible": true, "bSearchable": true, "bSortable": false , "sWidth" : "75px"},
                             { "bVisible": true, "bSearchable": true, "bSortable": true , "sWidth" : "15px"},
                             { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth" : "15px" },
