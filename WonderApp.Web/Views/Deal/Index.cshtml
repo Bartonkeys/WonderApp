@@ -112,13 +112,15 @@
                             @Html.CheckBoxFor(modelItem => item.Broadcast,
                          new
                          {
+                             id= String.Format("broadcast{0}",item.Id),
                              data_sort = item.Broadcast ? "1" : "0"
                          })
                         </td>
-                        <td id="@item.Id" onclick="priorityClicked(@item.Id)">
+                        <td id="@item.Id)" onclick="priorityClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Priority,
                          new
                          {
+                             id = String.Format("priority{0}",item.Id),
                              data_sort = item.Priority ? "1" : "0"
                          })
                         </td>
@@ -226,35 +228,40 @@
 
                 function priorityClicked(cid) {
 
-
-                    $.isLoading({ text: "Updating priority..." });
-                    $.ajax("/api/Tag/UpdatePriority/" + cid, {
-                        dataType: "json",
-                        type: "PUT"
-                    }).done(function(data) {
-                        if (data != null) {
-                            $(this).prop('checked', data);
-                            toastr.success('Priority successfully updated')
-                        }
-                        $.isLoading("hide");
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
-                        toastr.error('Error setting the priority - please try again');
-                        $.isLoading("hide");
-
-                    });
+                    if($('#broadcast' + cid).prop('checked')) {
+                        $('#priority' + cid).prop('checked', true);
+                        toastr.error('A Broadcast wonder cannot have priority removed');
+                    } else {
+                        $.isLoading({ text: "Updating priority..." });
+                        $.ajax("/api/Tag/UpdatePriority/" + cid, {
+                            dataType: "json",
+                            type: "PUT"
+                        }).done(function(data) {
+                            if (data != null) {
+                                $(this).prop('checked', data);
+                                toastr.success('Priority successfully updated');
+                            }
+                            $.isLoading("hide");
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
+                            toastr.error('Error setting the priority - please try again');
+                            $.isLoading("hide");
+                        });
+                    }
+                 
                 }
 
                 function broadcastClicked(cid) {
 
-
+                    var priorityCheckBox =  $('#priority' + cid);
                     $.isLoading({ text: "Updating broadcast..." });
                     $.ajax("/api/Tag/UpdateBroadcast/" + cid, {
                         dataType: "json",
                         type: "PUT"
                     }).done(function(data) {
                         if (data != null) {
-                            $(this).prop('checked', data);
-                            toastr.success('Broadcast successfully updated')
+                            $(this).prop('checked', data);                           
+                            priorityCheckBox.prop('checked', data);
+                            toastr.success('Broadcast successfully updated');
                         }
                         $.isLoading("hide");
                     }).fail(function(jqXHR, textStatus, errorThrown) {

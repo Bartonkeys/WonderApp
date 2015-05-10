@@ -487,6 +487,7 @@ namespace WonderApp.Controllers
                     if (user.MyWonders.Contains(deal))
                     {
                         user.MyWonders.Remove(deal);
+                        user.MyRejects.Add(deal);
                     }
 
                     if (user.MyRejects.Contains(deal))

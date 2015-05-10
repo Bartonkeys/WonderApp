@@ -215,7 +215,7 @@ namespace WonderApp.Web.Controllers
                 Deal d = DataContext.Deals.FirstOrDefault(w => w.Id == id);
                 if (d.Broadcast == null) d.Broadcast = false;
                 d.Broadcast = !d.Broadcast;
-                d.Priority = true;
+                d.Priority = d.Broadcast;
                 DataContext.Commit();
                 return d.Broadcast;
             }
