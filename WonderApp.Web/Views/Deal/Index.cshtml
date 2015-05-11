@@ -252,14 +252,15 @@
 
                 function broadcastClicked(cid) {
 
-                    var priorityCheckBox =  $('#priority' + cid);
+                    var priorityCheckBox = $('#priority' + cid);
+                    var broadcastCheckBox = $('#broadcast' + cid);
                     $.isLoading({ text: "Updating broadcast..." });
                     $.ajax("/api/Tag/UpdateBroadcast/" + cid, {
                         dataType: "json",
                         type: "PUT"
                     }).done(function(data) {
                         if (data != null) {
-                            $(this).prop('checked', data);                           
+                            broadcastCheckBox.prop('checked', data);
                             priorityCheckBox.prop('checked', data);
                             toastr.success('Broadcast successfully updated');
                         }
