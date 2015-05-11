@@ -247,7 +247,24 @@ namespace WonderApp.Web.Controllers
 
             if (DataContext.Deals.Any(x => x.Creator_User_Id == model.Id))
             {
-                AddClientMessage(ClientMessage.Warning, "User has created wonders, so cannot be deleted");
+                try
+                {
+                    //Move all Wonders to a default admin user
+                    var adminUser = DataContext.AspNetUsers.FirstOrDefault(u => u.UserName.Equals("admin@wonderapp.com"));
+                    var wondersToMove = DataContext.Deals.Where(w => w.Creator_User_Id == model.Id);
+                    foreach (var deal in wondersToMove)
+                    {
+                        deal.Creator_User_Id = adminUser.Id;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    //return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                    AddClientMessage(ClientMessage.Warning, "User has created wonders, so cannot be deleted");
+                }
+
+               
                 return View(model);
             }
 
