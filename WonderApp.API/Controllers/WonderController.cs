@@ -484,15 +484,15 @@ namespace WonderApp.Controllers
                 var deal = DataContext.Deals.FirstOrDefault(w => w.Id == wonderId);
                 if (deal != null && user != null)
                 {
+                    if (user.MyRejects.Contains(deal))
+                    {
+                        user.MyRejects.Remove(deal);
+                    }
+
                     if (user.MyWonders.Contains(deal))
                     {
                         user.MyWonders.Remove(deal);
                         user.MyRejects.Add(deal);
-                    }
-
-                    if (user.MyRejects.Contains(deal))
-                    {
-                        user.MyRejects.Remove(deal);
                     }
 
                     DataContext.Commit();
