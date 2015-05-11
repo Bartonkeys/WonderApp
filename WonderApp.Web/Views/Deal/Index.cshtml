@@ -35,7 +35,7 @@
             }
         </style>
 
-        <table class="table table-striped table-responsive table-nonfluid noPadding" id="dealList" style="table-layout: fixed; overflow-x:scroll">
+        <table class="table table-striped table-responsive table-nonfluid noPadding" id="dealList" style="table-layout: fixed; overflow-x:scroll;">
             <thead>
                 <tr>
                     <th style="width:0px"></th>
@@ -108,7 +108,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Likes)
                         </td>
-                        <td id="@item.Id" onclick="broadcastClicked(@item.Id)">
+                        <td id="@item.Id" onclick="broadcastClicked(@item.Id)" >
                             @Html.CheckBoxFor(modelItem => item.Broadcast,
                          new
                          {
@@ -129,6 +129,7 @@
                             @Html.CheckBoxFor(modelItem => item.Expired,
                         new
                         {
+                            id = String.Format("expired{0}", item.Id),
                             data_sort = item.Expired ? "1" : "0"
                         })
                         </td>
@@ -228,6 +229,8 @@
 
                 function priorityClicked(cid) {
 
+                    var priorityCheckBox = $('#priority' + cid);
+
                     if($('#broadcast' + cid).prop('checked')) {
                         $('#priority' + cid).prop('checked', true);
                         toastr.error('A Broadcast wonder cannot have priority removed');
@@ -238,7 +241,7 @@
                             type: "PUT"
                         }).done(function(data) {
                             if (data != null) {
-                                $(this).prop('checked', data);
+                                priorityCheckBox.prop('checked', data);
                                 toastr.success('Priority successfully updated');
                             }
                             $.isLoading("hide");
@@ -274,14 +277,15 @@
 
                 function expiredClicked(cid) {
 
-
+                    var expiredCheckBox = $('#expired' + cid);
+                    
                     $.isLoading({ text: "Updating expired..." });
                     $.ajax("/api/Tag/UpdateExpired/" + cid, {
                         dataType: "json",
                         type: "PUT"
                     }).done(function(data) {
                         if (data != null) {
-                            $(this).prop('checked', data);
+                            expiredCheckBox.prop('checked', data);
                             toastr.success('Expired successfully updated');
                         }
                         $.isLoading("hide");
@@ -353,7 +357,6 @@
                             $(this).html(innerHtml + '<br />');
                         }
 
-
                     });
 
 
@@ -383,7 +386,7 @@
                                 oldStart = o._iDisplayStart;
                             }
                         },
-                        "iDisplayLength": 100
+                        "iDisplayLength": 100                      
                     });
 
                     // Apply the search
@@ -400,19 +403,20 @@
                     $("#loading").hide();
                 });
 
+                
 
-                //Sorting boolean (checklist) columns
-                jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function(a, b) {
-                    var a_sort = parseInt($(a).data("sort"));
-                    var b_sort = parseInt($(b).data("sort"));
-                    return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ? 1 : 0));
-                };
+                ////Sorting boolean (checklist) columns
+                //jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function(a, b) {
+                //    var a_sort = parseInt($(a).data("sort"));
+                //    var b_sort = parseInt($(b).data("sort"));
+                //    return ((a_sort < b_sort) ? -1 : ((a_sort > b_sort) ? 1 : 0));
+                //};
 
-                jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function(a, b) {
-                    var a_sort = parseInt($(a).data("sort"));
-                    var b_sort = parseInt($(b).data("sort"));
-                    return ((a_sort < b_sort) ? 1 : ((a_sort > b_sort) ? -1 : 0));
-                };
+                //jQuery.fn.dataTableExt.oSort['checked-in-desc'] = function(a, b) {
+                //    var a_sort = parseInt($(a).data("sort"));
+                //    var b_sort = parseInt($(b).data("sort"));
+                //    return ((a_sort < b_sort) ? 1 : ((a_sort > b_sort) ? -1 : 0));
+                //};
 
             </script>
         }
