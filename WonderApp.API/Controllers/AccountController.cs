@@ -93,7 +93,7 @@ namespace WonderApp.Controllers
                     foreach (var login in logins)
                     {
                         if(login.ProviderKey == facebookUser.ID)
-                            return Request.CreateResponse(HttpStatusCode.OK, user.Id);
+                            return Request.CreateResponse(HttpStatusCode.Created, user.Id);
                     }
                     return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.UserAlreadyRegisted);
                 }
