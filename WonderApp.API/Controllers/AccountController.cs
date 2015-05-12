@@ -412,6 +412,11 @@ namespace WonderApp.Controllers
                     }
 
                     DataContext.Preferences.Remove(aspNetUser.UserPreference);
+                    UserManager.RemoveFromRoles(aspNetUser.Id, UserManager.GetRoles(aspNetUser.Id).ToArray());
+
+                    foreach (var login in DataContext.AspNetUserLogins.Where(u => u.UserId == aspNetUser.Id))
+                    { DataContext.AspNetUserLogins.Remove(login); }
+
                     DataContext.AspNetUsers.Remove(aspNetUser);
                     DataContext.Commit();
 

@@ -262,10 +262,11 @@ namespace WonderApp.Web.Controllers
                 {
                     //return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     AddClientMessage(ClientMessage.Warning, "User has created wonders, so cannot be deleted");
+                    return View(model);
                 }
 
                
-                return View(model);
+                
             }
 
             var user = DataContext.AspNetUsers.FirstOrDefault(u => u.Id == model.Id);
@@ -278,9 +279,24 @@ namespace WonderApp.Web.Controllers
 
             if (user != null)
             {
-                user.MyRejects.Clear();
-                user.MyWonders.Clear();
-                DataContext.AspNetUsers.Remove(user);
+                try
+                {
+                    user.MyRejects.Clear();
+                    user.MyWonders.Clear();
+                    UserManager.RemoveFromRoles(model.Id, UserManager.GetRoles(model.Id).ToArray());
+
+                    foreach (var login in DataContext.AspNetUserLogins.Where(u => u.UserId == user.Id))
+                    { DataContext.AspNetUserLogins.Remove(login); }
+
+                    DataContext.AspNetUsers.Remove(user);
+             
+                }
+                catch (Exception e)
+                {
+                    AddClientMessage(ClientMessage.Warning, "User cannot be deleted");
+                    return View(model);
+                }
+               
             }
 
             return RedirectToAction("Index");
