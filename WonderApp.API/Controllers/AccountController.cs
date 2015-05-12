@@ -111,7 +111,7 @@ namespace WonderApp.Controllers
                     
                 };
                 
-                var result = await UserManager.CreateAsync(user);
+                var result = await UserManager.CreateAsync(user, "P@ssw0rd1234");
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateUserError);
 
