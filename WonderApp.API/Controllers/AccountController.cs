@@ -199,17 +199,6 @@ namespace WonderApp.Controllers
                 var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
                 if (gender != null)
                     user.Gender = gender;
-
-                var categories = new List<Data.Category>();
-                if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
-                {
-                    foreach (CategoryModel cat in userPersonal.MyCategories)
-                    {
-                        categories.Add(DataContext.Categories.FirstOrDefault(c => c.Id == cat.Id));
-                    }
-                }
-                user.Categories.Clear();
-                user.Categories = categories;
                
                 if (user.UserPreference == null)
                 {
@@ -387,8 +376,7 @@ namespace WonderApp.Controllers
                 {
                     aspNetUser.MyRejects.Clear();
                     aspNetUser.MyWonders.Clear();
-                    aspNetUser.Categories.Clear();
-                    
+                                     
                     DataContext.Commit();
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
@@ -396,6 +384,7 @@ namespace WonderApp.Controllers
                         return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
                     }
 
+                    aspNetUser.Categories.Clear();
                     DataContext.Preferences.Remove(aspNetUser.UserPreference);
                     DataContext.AspNetUsers.Remove(aspNetUser);
                     DataContext.Commit();
