@@ -401,13 +401,13 @@ namespace WonderApp.Controllers
 
                     DataContext.Commit();
 
-                    //Return list of MyWonders 
-                    var wonders = await Task.Run(() =>
-                    {
-                        return Mapper.Map<List<DealModel>>(user.MyWonders);
-                    });
+                    ////Return list of MyWonders 
+                    //var wonders = await Task.Run(() =>
+                    //{
+                    //    return Mapper.Map<List<DealModel>>(user.MyWonders);
+                    //});
 
-                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
 
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
@@ -450,13 +450,13 @@ namespace WonderApp.Controllers
 
                     DataContext.Commit();
 
-                    //Return list of MyWonders 
-                    var wonders = await Task.Run(() =>
-                    {
-                        return Mapper.Map<List<DealModel>>(user.MyRejects);
-                    });
+                    ////Return list of MyWonders 
+                    //var wonders = await Task.Run(() =>
+                    //{
+                    //    return Mapper.Map<List<DealModel>>(user.MyRejects);
+                    //});
 
-                    return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
 
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please supply a valid userId and wonderId");
