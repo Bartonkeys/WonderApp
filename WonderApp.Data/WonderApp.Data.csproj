@@ -137,9 +137,6 @@
     <Compile Include="GetWonder_Result.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetWonder_Result1.cs">
-      <DependentUpon>WonderAppModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Image.cs">
       <DependentUpon>WonderAppModel.tt</DependentUpon>
     </Compile>

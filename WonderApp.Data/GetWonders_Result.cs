@@ -47,5 +47,6 @@ namespace WonderApp.Data
         public string PostCode { get; set; }
         public string Season { get; set; }
         public string Gender { get; set; }
+        public Nullable<bool> Broadcast { get; set; }
     }
 }

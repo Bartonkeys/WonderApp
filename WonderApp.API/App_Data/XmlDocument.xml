@@ -624,6 +624,15 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.GetBroadcastWonder(System.String,System.Int32)">
+            <summary>
+            Return broadcast Wonder for user and city.
+            Null if nothing there.
+            </summary>
+            <param name="userId"></param>
+            <param name="cityId"></param>
+            <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.WonderController.GetMyWonders(System.String)">
             <summary>
             Return all Wonders that the user has liked

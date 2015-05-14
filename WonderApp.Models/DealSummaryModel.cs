@@ -26,6 +26,8 @@ namespace WonderApp.Models
 
         public bool Priority { get; set; }
 
+        public bool Broadcast { get; set; }
+
         public bool Expired { get; set; }
 
         public CompanyModel Company { get; set; }

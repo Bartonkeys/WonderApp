@@ -111,7 +111,7 @@ namespace WonderApp.Controllers
                     
                 };
                 
-                var result = await UserManager.CreateAsync(user);
+                var result = await UserManager.CreateAsync(user, "P@ssw0rd1234");
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateUserError);
 
@@ -381,11 +381,31 @@ namespace WonderApp.Controllers
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                        try
+                        {
+                            //Move all Wonders to a default admin user
+                            var adminUser = DataContext.AspNetUsers.FirstOrDefault(u => u.UserName.Equals("admin@wonderapp.com"));
+                            var wondersToMove = DataContext.Deals.Where(w => w.Creator_User_Id == aspNetUser.Id);
+                            foreach (var deal in wondersToMove)
+                            {
+                                deal.Creator_User_Id = adminUser.Id;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "This user has created Wonders - please remove these before attempting to delete this user");
+                        }
+                        
                     }
 
                     aspNetUser.Categories.Clear();
                     DataContext.Preferences.Remove(aspNetUser.UserPreference);
+                    UserManager.RemoveFromRoles(aspNetUser.Id, UserManager.GetRoles(aspNetUser.Id).ToArray());
+
+                    foreach (var login in DataContext.AspNetUserLogins.Where(u => u.UserId == aspNetUser.Id))
+                    { DataContext.AspNetUserLogins.Remove(login); }
+
                     DataContext.AspNetUsers.Remove(aspNetUser);
                     DataContext.Commit();
 

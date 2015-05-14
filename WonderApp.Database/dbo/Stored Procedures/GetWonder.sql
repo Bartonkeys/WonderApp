@@ -3,7 +3,7 @@
 -- Create date: 
 -- Description:	
 -- =============================================
-CREATE PROCEDURE GetWonder 
+CREATE PROCEDURE [dbo].[GetWonder] 
 	-- Add the parameters for the stored procedure here
 	@wonderId int
 AS
@@ -32,6 +32,7 @@ BEGIN
     d.Phone AS Phone, 
     d.Gender_Id AS Gender_Id, 
     d.Expired AS Expired, 
+	d.Broadcast As Broadcast,
     d.Company_Id AS Company_Id, 
     d.Location_Id AS Location_Id, 
     d.Cost_Id AS Cost_Id, 
