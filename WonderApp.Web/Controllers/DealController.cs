@@ -218,7 +218,7 @@ namespace WonderApp.Web.Controllers
                 {
                     dealModel.ExpiryDate = String.IsNullOrEmpty(dealModel.ExpiryDate)
                         ? dealModel.ExpiryDate :
-                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd/MM/yyyy", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
+                        (DateTime.ParseExact(dealModel.ExpiryDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.CurrentCulture)).ToString("ddd d MMMM yyyy");
                 }
 
                 var model = CreateDealViewModel<DealEditModel>();

@@ -47,6 +47,9 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForAllMembers(opt => opt.Condition(srs => !srs.IsSourceValueNull));
 
             Mapper.CreateMap<GetWonders_Result, DealModel>()
+                .ForMember(m => m.ExpiryDate,
+                    opt => opt.MapFrom(e => e.AlwaysAvailable == true
+                        ? String.Empty : e.ExpiryDate.ToString("dd-MM-yyyy HH:mm:ss")))
                 .ForMember(e => e.Company, opt => opt.MapFrom(m => new CompanyModel { Id = m.Company_Id, Name = m.CompanyName }))
                 .ForMember(e => e.Location, opt => opt.MapFrom(m => new LocationModel { Id = m.Location_Id, Latitude = m.Latitude, Longitude = m.Longitude  }))
                 .ForMember(e => e.Cost, opt => opt.MapFrom(m => new CostModel { Id = m.Cost_Id.Value, Range = m.Range }))
