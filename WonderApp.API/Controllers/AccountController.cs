@@ -111,7 +111,7 @@ namespace WonderApp.Controllers
                     
                 };
                 
-                var result = await UserManager.CreateAsync(user);
+                var result = await UserManager.CreateAsync(user, "P@ssw0rd1234");
                 if (!result.Succeeded)
                     Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.CreateUserError);
 
@@ -199,17 +199,6 @@ namespace WonderApp.Controllers
                 var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
                 if (gender != null)
                     user.Gender = gender;
-
-                var categories = new List<Data.Category>();
-                if (userPersonal.MyCategories != null && userPersonal.MyCategories.Any())
-                {
-                    foreach (CategoryModel cat in userPersonal.MyCategories)
-                    {
-                        categories.Add(DataContext.Categories.FirstOrDefault(c => c.Id == cat.Id));
-                    }
-                }
-                user.Categories.Clear();
-                user.Categories = categories;
                
                 if (user.UserPreference == null)
                 {
@@ -387,8 +376,7 @@ namespace WonderApp.Controllers
                 {
                     aspNetUser.MyRejects.Clear();
                     aspNetUser.MyWonders.Clear();
-                    aspNetUser.Categories.Clear();
-                    
+                                     
                     DataContext.Commit();
 
                     if (DataContext.Deals.Count(w => w.Creator_User_Id == aspNetUser.Id) > 0)
@@ -411,7 +399,13 @@ namespace WonderApp.Controllers
                         
                     }
 
+                    aspNetUser.Categories.Clear();
                     DataContext.Preferences.Remove(aspNetUser.UserPreference);
+                    UserManager.RemoveFromRoles(aspNetUser.Id, UserManager.GetRoles(aspNetUser.Id).ToArray());
+
+                    foreach (var login in DataContext.AspNetUserLogins.Where(u => u.UserId == aspNetUser.Id))
+                    { DataContext.AspNetUserLogins.Remove(login); }
+
                     DataContext.AspNetUsers.Remove(aspNetUser);
                     DataContext.Commit();
 

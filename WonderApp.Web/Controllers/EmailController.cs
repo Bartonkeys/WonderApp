@@ -50,7 +50,7 @@ namespace WonderApp.Web.Controllers
 
                     //TODO: move these to config properties
                     model.UrlString = "https://cms.thewonderapp.co/content/images/";
-                    model.UnsubscribeLink = "mailto:unsubscribe@thewonderapp.co";
+                    model.UnsubscribeLink = "mailto:contact@thewonderapp.co ";
 
                     return View(model);
                 }

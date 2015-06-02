@@ -78,7 +78,8 @@ BEGIN
 	and d.CityId = @cityId
 	and d.Priority = @priority
 	and (d.AlwaysAvailable = 1 or d.ExpiryDate >= SysDateTime())
-	and d.Gender_Id in (select Id from Genders where Name = 'All' or Id = u.Gender_Id)
+	--and d.Gender_Id in (select Id from Genders where Name = 'All' or Id = u.Gender_Id)
+	and (d.Gender_Id = 1 OR d.Gender_Id = u.Gender_Id)
 	and d.Category_Id in (select Categories_Id from AspNetUserCategory where UserId = u.Id)
 	AND ( NOT EXISTS (SELECT 
         1 AS [C1]
