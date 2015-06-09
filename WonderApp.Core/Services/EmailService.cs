@@ -43,7 +43,7 @@ namespace WonderApp.Core.Services
 
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => 
                 u.UserPreference.EmailMyWonders &&
-                u.UserPreference.Reminder!= null));
+                u.UserPreference.Reminder!= null).Distinct());
             var oneWeekAgo = today.AddDays(-6);
             var oneMonthAgo = today.AddMonths(-1).AddDays(-1);
 
