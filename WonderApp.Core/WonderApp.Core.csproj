@@ -145,6 +145,7 @@
     <Compile Include="CloudImage\CloudImageService.cs" />
     <Compile Include="CloudImage\ICloudImageProvider.cs" />
     <Compile Include="EFDataContext\EFDataContext.cs" />
+    <Compile Include="Email\SendGridEmailService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

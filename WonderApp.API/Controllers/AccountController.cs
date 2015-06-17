@@ -21,8 +21,9 @@ using WonderApp.Constants;
 using AutoMapper;
 using WonderApp.Data;
 using System.Globalization;
-using PassAPic.Core.AccountManagement;
 using System.Web.Security;
+using Ninject;
+using WonderApp.Core.AccountManagement;
 
 namespace WonderApp.Controllers
 {
@@ -32,6 +33,7 @@ namespace WonderApp.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : BaseApiController
     {
+
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -468,6 +470,104 @@ namespace WonderApp.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
+        }
+
+        [Route("forgotPassword")]
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage PostForgotPassword(ResetPasswordModel model)
+        {
+
+            try
+            {
+                string email = model.Email;
+                var user = UserManager.FindByEmail(email);
+                if (user == null) return Request.CreateResponse(HttpStatusCode.NotFound);
+
+                String resetToken = UserManager.GeneratePasswordResetToken(user.Id);
+                var password = GenerateRandomPassword();
+                IdentityResult result = UserManager.ResetPassword(user.Id, resetToken, password);
+                if (result.Succeeded == false)
+                {
+                    String passwordError = result.Errors.FirstOrDefault(err => err.Contains("Passwords"));
+                    if (!String.IsNullOrEmpty(passwordError))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotAcceptable, passwordError);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                }
+
+                //TODO - inject dependent on email provider
+                var emailService = new Core.Email.SendGridEmailService();
+                emailService.SendPasswordToEmail(password, email);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("resetPassword")]
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage PostResetPassword(ResetPasswordModel model)
+        {
+            try
+            {
+                string email = model.Email;
+                var user = UserManager.FindByEmail(email);
+                if (user == null) return Request.CreateResponse(HttpStatusCode.NotFound);
+
+                bool checkCurrentPassword = UserManager.CheckPassword(user, model.Password);
+                if (checkCurrentPassword == false) return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+                String resetToken = UserManager.GeneratePasswordResetToken(user.Id);
+                IdentityResult result = UserManager.ResetPassword(user.Id, resetToken, model.NewPassword);
+                if (result.Succeeded == false)
+                {
+                    String passwordError = result.Errors.FirstOrDefault(err => err.Contains("Passwords"));
+                    if (!String.IsNullOrEmpty(passwordError))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotAcceptable, passwordError);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        private String GenerateRandomPassword()
+        {
+            string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string lower = "abcdefghijklmnopqrstuvwxyz";
+            string digits = "0123456789";
+            string nonalpha = "!@%&*()=<>";
+
+            var random = new Random();
+
+            String newPassword = new string(
+                Enumerable.Repeat(upper, 1)
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray());
+            newPassword += new string(Enumerable.Repeat(lower, 5)
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray());
+            newPassword += new string(Enumerable.Repeat(digits, 1)
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray());
+            newPassword += new string(Enumerable.Repeat(nonalpha, 1)
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray());
+
+
+            return newPassword;
         }
 
 

@@ -14,6 +14,8 @@ namespace WonderApp.Web.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using WonderApp.Core.CloudImage;
+    using PassAPic.Contracts.EmailService;
+    using WonderApp.Core.Email;
 
     public static class NinjectWebCommon 
     {
@@ -67,6 +69,8 @@ namespace WonderApp.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IDataContext>().To<WonderAppContext>().InRequestScope();
+            kernel.Bind<IEmailService>().To<SendGridEmailService>();
+
         }        
     }
 }

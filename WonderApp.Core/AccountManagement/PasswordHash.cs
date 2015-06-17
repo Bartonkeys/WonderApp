@@ -2,7 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace PassAPic.Core.AccountManagement
+namespace WonderApp.Core.AccountManagement
 {
     /// <summary>
     /// Salted password hashing with PBKDF2-SHA1.

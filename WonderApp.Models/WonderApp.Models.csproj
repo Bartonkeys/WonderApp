@@ -104,6 +104,7 @@
     <Compile Include="AspNetUserLoginModel.cs" />
     <Compile Include="NotificationEmailModel.cs" />
     <Compile Include="ReminderModel.cs" />
+    <Compile Include="ResetPasswordModel.cs" />
     <Compile Include="SeasonModel.cs" />
     <Compile Include="TagModel.cs" />
     <Compile Include="CompanyModel.cs" />

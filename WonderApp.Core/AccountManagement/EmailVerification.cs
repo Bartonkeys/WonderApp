@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PassAPic.Core.AccountManagement
+namespace WonderApp.Core.AccountManagement
 {
     public static class EmailVerification
     {
