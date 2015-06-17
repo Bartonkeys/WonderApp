@@ -37,7 +37,7 @@ namespace WonderApp.Web.Controllers
                     //TODO - inject dependent on email provider
                     var emailService = new Core.Services.EmailService(DataContext);
 
-                    await emailService.SendMyWonderEmails();
+                    emailService.SendMyWonderEmails();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
