@@ -21,6 +21,8 @@ using WonderApp.Constants;
 using AutoMapper;
 using WonderApp.Data;
 using System.Globalization;
+using PassAPic.Core.AccountManagement;
+using System.Web.Security;
 
 namespace WonderApp.Controllers
 {
@@ -421,6 +423,53 @@ namespace WonderApp.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
+
+        // POST api/account/register
+        /// <summary>
+        ///     This is registration to get us started. POST with JSON in the body with email
+        ///     and password - populate AccountModel accordingly.
+        /// 
+        ///     Returns a 403 if email or password are empty or username isnt an email.
+        ///     Returns a 409 if email already exists.
+        /// 
+        ///     The only constraint on password is it is not blank.
+        ///
+        ///     API will return username and userId, which can be stored in device.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("Register")]
+        [AllowAnonymous]
+        public HttpResponseMessage PostRegister(AccountModel model)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(model.Email) || String.IsNullOrEmpty(model.Password) || !EmailVerification.IsValidEmail(model.Email))
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                if (DataContext.AspNetUsers.Any(x => x.Email == model.Email))
+                    return Request.CreateResponse(HttpStatusCode.Conflict, "Email already exists");
+
+                var newUser = new ApplicationUser { UserName = model.Email, Email=model.Email };
+                IdentityResult user = UserManager.Create(newUser, model.Password);
+
+               
+                if (user.Succeeded == false)
+                {
+                    String passwordError = user.Errors.FirstOrDefault(err => err.Contains("Passwords"));
+                    if (!String.IsNullOrEmpty(passwordError)){
+                        return Request.CreateResponse(HttpStatusCode.NotAcceptable, passwordError);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, model);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
 
     }
 }

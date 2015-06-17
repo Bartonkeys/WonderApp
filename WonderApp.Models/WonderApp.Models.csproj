@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountModel.cs" />
     <Compile Include="AddressModel.cs" />
     <Compile Include="AgeModel.cs" />
     <Compile Include="AutoMapperConfiguration\AutoMapperConfigurator.cs" />
