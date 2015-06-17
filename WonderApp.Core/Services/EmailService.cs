@@ -31,6 +31,7 @@ namespace WonderApp.Core.Services
         }
 
         private const int NumberOfWonders = 10;
+
         async public Task<List<AspNetUser>> SendMyWonderEmails()
         {
 
