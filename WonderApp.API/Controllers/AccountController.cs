@@ -464,6 +464,14 @@ namespace WonderApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
                 }
 
+                ApplicationUser createdUser = UserManager.FindByEmail(model.Email);
+
+                model.Password = null;
+                model.Username = null;
+                model.Email = null;
+                model.UserId = createdUser.Id;
+
+
                 return Request.CreateResponse(HttpStatusCode.Created, model);
             }
             catch (Exception ex)
