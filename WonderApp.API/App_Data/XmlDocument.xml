@@ -574,6 +574,21 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.AccountController.PostRegister(WonderApp.Models.AccountModel)">
+             <summary>
+                 This is registration to get us started. POST with JSON in the body with email
+                 and password - populate AccountModel accordingly.
+             
+                 Returns a 403 if email or password are empty or username isnt an email.
+                 Returns a 409 if email already exists.
+             
+                 The only constraint on password is it is not blank.
+            
+                 API will return username and userId, which can be stored in device.
+             </summary>
+             <param name="model"></param>
+             <returns></returns>
+        </member>
         <member name="T:WonderApp.Controllers.EmailController">
             <summary>
             This API handles all email related activities.
