@@ -91,6 +91,7 @@ namespace WonderApp.Controllers
                     {
                         var existingUserLoginInfo = new UserLoginInfo(WonderAppConstants.Facebook, facebookUser.ID);
                         await UserManager.AddLoginAsync(user.Id, existingUserLoginInfo);
+                        return Request.CreateResponse(HttpStatusCode.OK, user.Id);
                     }
 
                     var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
