@@ -550,7 +550,7 @@ namespace WonderApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, user.Id);
             }
             catch (Exception ex)
             {

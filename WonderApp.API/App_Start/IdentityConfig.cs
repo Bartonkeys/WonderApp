@@ -30,7 +30,7 @@ namespace WonderApp
             {
                 RequiredLength = 8,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = false,
+                RequireDigit = true,
                 RequireLowercase = false,
                 RequireUppercase = false,
             };
