@@ -87,6 +87,13 @@ namespace WonderApp.Controllers
                 {
                     var logins = await UserManager.GetLoginsAsync(user.Id);
 
+                    if (logins.Count == 0)
+                    {
+                        var existingUserLoginInfo = new UserLoginInfo(WonderAppConstants.Facebook, facebookUser.ID);
+                        await UserManager.AddLoginAsync(user.Id, existingUserLoginInfo);
+                        return Request.CreateResponse(HttpStatusCode.OK, user.Id);
+                    }
+
                     var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
                     if (aspNetUser.Categories == null || aspNetUser.Categories.Count == 0)
                     {
@@ -451,13 +458,13 @@ namespace WonderApp.Controllers
             {
                 if (String.IsNullOrEmpty(model.Email) || String.IsNullOrEmpty(model.Password) || !EmailVerification.IsValidEmail(model.Email))
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
-                if (DataContext.AspNetUsers.Any(x => x.Email == model.Email))
+
+                if (UserManager.FindByEmail(model.Email) != null)
                     return Request.CreateResponse(HttpStatusCode.Conflict, "Email already exists");
 
                 var newUser = new ApplicationUser { UserName = model.Email, Email=model.Email };
                 IdentityResult user = UserManager.Create(newUser, model.Password);
-
-               
+         
                 if (user.Succeeded == false)
                 {
                     String passwordError = user.Errors.FirstOrDefault(err => err.Contains("Passwords"));
@@ -546,7 +553,7 @@ namespace WonderApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, user.Id);
             }
             catch (Exception ex)
             {
