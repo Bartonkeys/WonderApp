@@ -55,7 +55,7 @@ namespace WonderApp.Controllers
                     var priorityWonders = wonders.OrderBy(x => Guid.NewGuid()).ToList();
                     if (priorityWonders.Any(w => w.Broadcast == true))
                     {
-                        var broadcastWonder = priorityWonders.Single(w => w.Broadcast == true);
+                        var broadcastWonder = priorityWonders.First(w => w.Broadcast == true);
                         priorityWonders.Remove(broadcastWonder);
                         priorityWonders.Insert(0, broadcastWonder);
                     }
