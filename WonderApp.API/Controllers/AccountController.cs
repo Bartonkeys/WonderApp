@@ -148,25 +148,25 @@ namespace WonderApp.Controllers
         /// </summary>
         /// 
         /// <returns>HttpResponseMessage</returns>
-        [AllowAnonymous]
-        [Route("Users")]
-        public HttpResponseMessage GetAllUsers()
-        {
-            try
-            {
-                var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
-                {
-                    Id = u.Id,
-                    Email = u.Email
-                });
-                return Request.CreateResponse(HttpStatusCode.OK, users);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
+        //[AllowAnonymous]
+        //[Route("Users")]
+        //public HttpResponseMessage GetAllUsers()
+        //{
+        //    try
+        //    {
+        //        var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
+        //        {
+        //            Id = u.Id,
+        //            Email = u.Email
+        //        });
+        //        return Request.CreateResponse(HttpStatusCode.OK, users);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
 
-        }
+        //}
 
         private async Task<HttpResponseMessage> GetFacebookResponse(string accessToken)
         {
