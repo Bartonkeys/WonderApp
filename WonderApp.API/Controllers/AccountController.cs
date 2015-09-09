@@ -471,7 +471,7 @@ namespace WonderApp.Controllers
                     if (!String.IsNullOrEmpty(passwordError)){
                         return Request.CreateResponse(HttpStatusCode.NotAcceptable, passwordError);
                     }
-                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable, user.Errors);
                 }
 
                 ApplicationUser createdUser = UserManager.FindByEmail(model.Email);
