@@ -207,16 +207,24 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userPersonal.Id));
                 }
 
-                var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
-                if (gender != null)
-                    user.Gender = gender;
-               
-                if (user.UserPreference == null)
+                if (userPersonal.Gender != null)
                 {
-                    user.UserPreference = new Data.UserPreference();
+                    var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                    if (gender != null) user.Gender = gender;
                 }
-                user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
-                user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
+
+                user.AppUserName = userPersonal.AppUserName;
+                user.CityId = userPersonal.CityId;
+                user.ShowTutorial = userPersonal.ShowTutorial;
+                user.ShowInfoRequest = userPersonal.ShowInfoRequest;
+                user.YearOfBirth = userPersonal.YearOfBirth;
+
+                if (userPersonal.UserPreference != null)
+                {
+                    if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
+                    user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
+                    user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
+                }
 
                 //Mapper.Map(userPersonal, user);
 
@@ -358,6 +366,7 @@ namespace WonderApp.Controllers
                     List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
 
                     UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
+
                     userInfo.MyCategories = categories;
                     return userInfo;
                 });

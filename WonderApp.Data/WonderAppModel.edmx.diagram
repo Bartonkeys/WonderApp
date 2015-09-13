@@ -22,7 +22,7 @@
         <EntityTypeShape EntityType="WonderAppModel.AspNetRole" Width="1.5" PointX="0.5" PointY="6.75" />
         <EntityTypeShape EntityType="WonderAppModel.AspNetUserClaim" Width="1.5" PointX="0.5" PointY="4.5" />
         <EntityTypeShape EntityType="WonderAppModel.AspNetUserLogin" Width="1.5" PointX="0.5" PointY="2.375" />
-        <EntityTypeShape EntityType="WonderAppModel.AspNetUser" Width="1.5" PointX="3.125" PointY="0.5" />
+        <EntityTypeShape EntityType="WonderAppModel.AspNetUser" Width="1.5" PointX="2.875" PointY="1.25" />
         <AssociationConnector Association="WonderAppModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="WonderAppModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="WonderAppModel.AspNetUserRoles" />

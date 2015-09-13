@@ -11,7 +11,11 @@ namespace WonderApp.Models
     {
         public string Id { get; set; }
         public string Email { get; set; }
-
+        public string AppUserName { get; set; }
+        public int? CityId { get; set; }
+        public bool? ShowTutorial { get; set; }
+        public bool? ShowInfoRequest { get; set; }
+        public int? YearOfBirth { get; set; }
         public virtual GenderModel Gender { get; set; }
         public virtual List<CategoryModel> MyCategories { get; set; }
         public virtual UserPreferenceModel UserPreference { get; set; }

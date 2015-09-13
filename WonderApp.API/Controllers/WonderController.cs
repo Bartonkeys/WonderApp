@@ -13,6 +13,9 @@ using Elmah.Contrib.WebApi;
 using WonderApp.Models.Helpers;
 using WonderApp.Constants;
 using System.Data.Entity.Spatial;
+using StackExchange.Redis;
+using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace WonderApp.Controllers
 {
@@ -24,7 +27,46 @@ namespace WonderApp.Controllers
     {
         private List<int> _categories;
         private List<int> _genders;
-        private List<DealModel> _wonders; 
+        private List<DealModel> _wonders;
+
+        private List<DealModel> _cachedWonders;
+        public List<DealModel> CachedWonders
+        {
+            get
+            {
+                if(_cachedWonders == null)
+                {
+                    var cache = GetCacheDB();
+                    var serialisedWonders = cache.StringGet("wonders");
+
+                    if (String.IsNullOrEmpty(serialisedWonders))
+                    {
+                        var wonderEntities = DataContext.Deals.ToList();
+                        cache.StringSet("wonders", JsonConvert.SerializeObject(wonderEntities));
+                        _cachedWonders = Mapper.Map<List<DealModel>>(wonderEntities);
+                    }
+                    else
+                    {
+                        var wonderEntites = JsonConvert.DeserializeObject<List<Deal>>(cache.StringGet("wonders"));
+                        _cachedWonders = Mapper.Map<List<DealModel>>(wonderEntites);
+                    }
+                }
+
+                return _cachedWonders;
+            }
+            set
+            {
+                _cachedWonders = value;
+            }
+        }
+
+        private static IDatabase GetCacheDB()
+        {
+            ConnectionMultiplexer connection =
+                        ConnectionMultiplexer.Connect("wonderapp.redis.cache.windows.net,abortConnect=false,ssl=true,password=S+40/ffm+vEG6KrvF3RBUjYtDMdGQzUn3daKzYNtAUg=");
+            return connection.GetDatabase();
+        }
+
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, cityId and userId.
@@ -44,9 +86,11 @@ namespace WonderApp.Controllers
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
-                }
+                }            
 
                 var wonders = new List<DealModel>();
+
+                var cachedWonders = CachedWonders;
 
                 wonders = await Task.Run(() => GetWonders(model.UserId, model.CityId, priority: true));
 

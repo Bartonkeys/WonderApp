@@ -112,6 +112,11 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<AspNetUser, UserModel>();
 
             Mapper.CreateMap<UserModel, AspNetUser>()
+                .ForMember(e => e.AppUserName, opt => opt.Ignore())
+                .ForMember(e => e.CityId, opt => opt.Ignore())
+                .ForMember(e => e.ShowTutorial, opt => opt.Ignore())
+                .ForMember(e => e.ShowInfoRequest, opt => opt.Ignore())
+                .ForMember(e => e.YearOfBirth, opt => opt.Ignore())
                 .ForMember(e => e.EmailConfirmed, opt => opt.Ignore())
                 .ForMember(e => e.PasswordHash, opt => opt.Ignore())
                 .ForMember(e => e.SecurityStamp, opt => opt.Ignore())
@@ -134,6 +139,11 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<AspNetUser, UserBasicModel>();
 
             Mapper.CreateMap<UserBasicModel, AspNetUser>()
+                .ForMember(e => e.AppUserName, opt => opt.Ignore())
+                .ForMember(e => e.CityId, opt => opt.Ignore())
+                .ForMember(e => e.ShowTutorial, opt => opt.Ignore())
+                .ForMember(e => e.ShowInfoRequest, opt => opt.Ignore())
+                .ForMember(e => e.YearOfBirth, opt => opt.Ignore())
                 .ForMember(e => e.EmailConfirmed, opt => opt.Ignore())
                 .ForMember(e => e.PasswordHash, opt => opt.Ignore())
                 .ForMember(e => e.SecurityStamp, opt => opt.Ignore())
@@ -204,6 +214,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
                 .ForMember(e => e.AspNetUser, opt => opt.Ignore());
 
             Mapper.CreateMap<AspNetUser, UserInfoModel>()
+                .ForMember(e => e.ShowTutorial, opt => opt.NullSubstitute(true))
+                .ForMember(e => e.ShowInfoRequest, opt => opt.NullSubstitute(true))
                 .ForMember(e => e.MyCategories, opt => opt.Ignore());
 
             Mapper.CreateMap<UserInfoModel, AspNetUser>()
