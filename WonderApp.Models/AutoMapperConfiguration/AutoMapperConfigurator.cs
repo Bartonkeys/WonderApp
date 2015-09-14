@@ -216,6 +216,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
             Mapper.CreateMap<AspNetUser, UserInfoModel>()
                 .ForMember(e => e.ShowTutorial, opt => opt.NullSubstitute(true))
                 .ForMember(e => e.ShowInfoRequest, opt => opt.NullSubstitute(true))
+                .ForMember(e => e.CityId, opt => opt.NullSubstitute(0))
+                .ForMember(e => e.YearOfBirth, opt => opt.NullSubstitute(0))
                 .ForMember(e => e.MyCategories, opt => opt.Ignore());
 
             Mapper.CreateMap<UserInfoModel, AspNetUser>()
