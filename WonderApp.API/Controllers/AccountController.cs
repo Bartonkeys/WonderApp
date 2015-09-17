@@ -225,8 +225,18 @@ namespace WonderApp.Controllers
                     user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
                     user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
                 }
-
-                //Mapper.Map(userPersonal, user);
+         
+                if (userPersonal.MyCategories != null)
+                {
+                    var categories = new List<Data.Category>();
+                    foreach (CategoryModel categoryModel in userPersonal.MyCategories)
+                    {
+                        var category = DataContext.Categories.SingleOrDefault(c => c.Id == categoryModel.Id);
+                        if (category != null) categories.Add(category);
+                    }
+                    user.Categories.Clear();
+                    categories.ForEach(x => user.Categories.Add(x));
+                }               
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
