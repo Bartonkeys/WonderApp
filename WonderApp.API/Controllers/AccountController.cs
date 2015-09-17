@@ -370,18 +370,20 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var user = await Task.Run(() =>
+                AspNetUser aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
+
+                if (aspNetUser == null)
                 {
-                    AspNetUser aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
-                    List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userId));
+                }
 
-                    UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
+                List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
 
-                    userInfo.MyCategories = categories;
-                    return userInfo;
-                });
+                UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
 
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                userInfo.MyCategories = categories;
+
+                return Request.CreateResponse(HttpStatusCode.OK, userInfo);
             }
             catch (Exception ex)
             {
