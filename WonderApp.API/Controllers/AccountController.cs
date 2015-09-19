@@ -213,15 +213,14 @@ namespace WonderApp.Controllers
                     if (gender != null) user.Gender = gender;
                 }
 
-                user.AppUserName = userPersonal.AppUserName;
-                user.CityId = userPersonal.CityId;
-                user.ShowTutorial = userPersonal.ShowTutorial;
-                user.ShowInfoRequest = userPersonal.ShowInfoRequest;
-                user.YearOfBirth = userPersonal.YearOfBirth;
+                if (userPersonal.AppUserName != null) user.AppUserName = userPersonal.AppUserName;
+                if (userPersonal.CityId != null) user.CityId = userPersonal.CityId;
+                if (userPersonal.ShowTutorial != null) user.ShowTutorial = userPersonal.ShowTutorial;
+                if (userPersonal.ShowInfoRequest != null) user.ShowInfoRequest = userPersonal.ShowInfoRequest;
+                if (userPersonal.YearOfBirth != null) user.YearOfBirth = userPersonal.YearOfBirth;
 
                 if (userPersonal.UserPreference != null)
                 {
-                    if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
                     user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
                     user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
                 }
