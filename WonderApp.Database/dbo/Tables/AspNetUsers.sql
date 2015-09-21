@@ -15,9 +15,16 @@
     [Name]                 NVARCHAR (512) NULL,
     [Forename]             NVARCHAR (512) NULL,
     [Surname]              NVARCHAR (512) NULL,
+    [AppUserName]          NVARCHAR (MAX) NULL,
+    [CityId]               INT            NULL,
+    [ShowTutorial]         BIT            NULL,
+    [ShowInfoRequest]      BIT            NULL,
+    [YearOfBirth]          INT            NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AspNetUserGender] FOREIGN KEY ([Gender_Id]) REFERENCES [dbo].[Genders] ([Id])
 );
+
+
 
 
 

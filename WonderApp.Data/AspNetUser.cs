@@ -41,6 +41,11 @@ namespace WonderApp.Data
         public string Name { get; set; }
         public string Forename { get; set; }
         public string Surname { get; set; }
+        public string AppUserName { get; set; }
+        public Nullable<int> CityId { get; set; }
+        public Nullable<bool> ShowTutorial { get; set; }
+        public Nullable<bool> ShowInfoRequest { get; set; }
+        public Nullable<int> YearOfBirth { get; set; }
     
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }

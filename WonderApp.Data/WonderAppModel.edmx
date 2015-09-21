@@ -83,6 +83,11 @@
           <Property Name="Name" Type="nvarchar" MaxLength="512" />
           <Property Name="Forename" Type="nvarchar" MaxLength="512" />
           <Property Name="Surname" Type="nvarchar" MaxLength="512" />
+          <Property Name="AppUserName" Type="nvarchar(max)" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="ShowTutorial" Type="bit" />
+          <Property Name="ShowInfoRequest" Type="bit" />
+          <Property Name="YearOfBirth" Type="int" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -1194,6 +1199,11 @@
           <Property Name="Forename" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="Surname" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserPreference" Relationship="WonderAppModel.FK_UserPreferences_AspNetUsers" FromRole="AspNetUser" ToRole="UserPreference" />
+          <Property Name="AppUserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="ShowTutorial" Type="Boolean" />
+          <Property Name="ShowInfoRequest" Type="Boolean" />
+          <Property Name="YearOfBirth" Type="Int32" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="WonderAppModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -1741,7 +1751,12 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="IsTypeOf(WonderAppModel.AspNetUser)">
         <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="YearOfBirth" ColumnName="YearOfBirth" />
+                <ScalarProperty Name="ShowInfoRequest" ColumnName="ShowInfoRequest" />
+                <ScalarProperty Name="ShowTutorial" ColumnName="ShowTutorial" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="AppUserName" ColumnName="AppUserName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Forename" ColumnName="Forename" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

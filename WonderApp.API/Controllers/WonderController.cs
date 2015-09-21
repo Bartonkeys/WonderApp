@@ -13,6 +13,8 @@ using Elmah.Contrib.WebApi;
 using WonderApp.Models.Helpers;
 using WonderApp.Constants;
 using System.Data.Entity.Spatial;
+using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace WonderApp.Controllers
 {
@@ -24,7 +26,8 @@ namespace WonderApp.Controllers
     {
         private List<int> _categories;
         private List<int> _genders;
-        private List<DealModel> _wonders; 
+        private List<DealModel> _wonders;
+
         /// <summary>
         /// HTTP POST to return wonder deals. Send the following in body: 
         /// Current position in latitude and longitude, cityId and userId.
@@ -44,7 +47,7 @@ namespace WonderApp.Controllers
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
-                }
+                }            
 
                 var wonders = new List<DealModel>();
 
@@ -55,7 +58,7 @@ namespace WonderApp.Controllers
                     var priorityWonders = wonders.OrderBy(x => Guid.NewGuid()).ToList();
                     if (priorityWonders.Any(w => w.Broadcast == true))
                     {
-                        var broadcastWonder = priorityWonders.Single(w => w.Broadcast == true);
+                        var broadcastWonder = priorityWonders.First(w => w.Broadcast == true);
                         priorityWonders.Remove(broadcastWonder);
                         priorityWonders.Insert(0, broadcastWonder);
                     }

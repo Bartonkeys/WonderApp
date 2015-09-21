@@ -87,6 +87,13 @@ namespace WonderApp.Controllers
                 {
                     var logins = await UserManager.GetLoginsAsync(user.Id);
 
+                    if (logins.Count == 0)
+                    {
+                        var existingUserLoginInfo = new UserLoginInfo(WonderAppConstants.Facebook, facebookUser.ID);
+                        await UserManager.AddLoginAsync(user.Id, existingUserLoginInfo);
+                        return Request.CreateResponse(HttpStatusCode.OK, user.Id);
+                    }
+
                     var aspNetUser = DataContext.AspNetUsers.Find(user.Id);
                     if (aspNetUser.Categories == null || aspNetUser.Categories.Count == 0)
                     {
@@ -141,25 +148,25 @@ namespace WonderApp.Controllers
         /// </summary>
         /// 
         /// <returns>HttpResponseMessage</returns>
-        [AllowAnonymous]
-        [Route("Users")]
-        public HttpResponseMessage GetAllUsers()
-        {
-            try
-            {
-                var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
-                {
-                    Id = u.Id,
-                    Email = u.Email
-                });
-                return Request.CreateResponse(HttpStatusCode.OK, users);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
+        //[AllowAnonymous]
+        //[Route("Users")]
+        //public HttpResponseMessage GetAllUsers()
+        //{
+        //    try
+        //    {
+        //        var users = DataContext.AspNetUsers.Select(u => new UserInfoModel
+        //        {
+        //            Id = u.Id,
+        //            Email = u.Email
+        //        });
+        //        return Request.CreateResponse(HttpStatusCode.OK, users);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
 
-        }
+        //}
 
         private async Task<HttpResponseMessage> GetFacebookResponse(string accessToken)
         {
@@ -200,18 +207,35 @@ namespace WonderApp.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userPersonal.Id));
                 }
 
-                var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
-                if (gender != null)
-                    user.Gender = gender;
-               
-                if (user.UserPreference == null)
+                if (userPersonal.Gender != null)
                 {
-                    user.UserPreference = new Data.UserPreference();
+                    var gender = DataContext.Genders.FirstOrDefault(g => g.Id == userPersonal.Gender.Id);
+                    if (gender != null) user.Gender = gender;
                 }
-                user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
-                user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
 
-                //Mapper.Map(userPersonal, user);
+                if (userPersonal.AppUserName != null) user.AppUserName = userPersonal.AppUserName;
+                if (userPersonal.CityId != null) user.CityId = userPersonal.CityId;
+                if (userPersonal.ShowTutorial != null) user.ShowTutorial = userPersonal.ShowTutorial;
+                if (userPersonal.ShowInfoRequest != null) user.ShowInfoRequest = userPersonal.ShowInfoRequest;
+                if (userPersonal.YearOfBirth != null) user.YearOfBirth = userPersonal.YearOfBirth;
+
+                if (userPersonal.UserPreference != null)
+                {
+                    user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
+                    user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
+                }
+         
+                if (userPersonal.MyCategories != null)
+                {
+                    var categories = new List<Data.Category>();
+                    foreach (CategoryModel categoryModel in userPersonal.MyCategories)
+                    {
+                        var category = DataContext.Categories.SingleOrDefault(c => c.Id == categoryModel.Id);
+                        if (category != null) categories.Add(category);
+                    }
+                    user.Categories.Clear();
+                    categories.ForEach(x => user.Categories.Add(x));
+                }               
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -345,17 +369,20 @@ namespace WonderApp.Controllers
         {
             try
             {
-                var user = await Task.Run(() =>
+                AspNetUser aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
+
+                if (aspNetUser == null)
                 {
-                    AspNetUser aspNetUser = DataContext.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
-                    List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, String.Format("That user does not exist: {0}", userId));
+                }
 
-                    UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
-                    userInfo.MyCategories = categories;
-                    return userInfo;
-                });
+                List<CategoryModel> categories = Mapper.Map<List<CategoryModel>>(DataContext.AspNetUsers.Find(userId).Categories);
 
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                UserInfoModel userInfo = Mapper.Map<UserInfoModel>(DataContext.AspNetUsers.Find(userId));
+
+                userInfo.MyCategories = categories;
+
+                return Request.CreateResponse(HttpStatusCode.OK, userInfo);
             }
             catch (Exception ex)
             {
@@ -404,7 +431,10 @@ namespace WonderApp.Controllers
                     }
 
                     aspNetUser.Categories.Clear();
-                    DataContext.Preferences.Remove(aspNetUser.UserPreference);
+                    if (aspNetUser.UserPreference != null)
+                    {
+                        DataContext.Preferences.Remove(aspNetUser.UserPreference);
+                    }
                     UserManager.RemoveFromRoles(aspNetUser.Id, UserManager.GetRoles(aspNetUser.Id).ToArray());
 
                     foreach (var login in DataContext.AspNetUserLogins.Where(u => u.UserId == aspNetUser.Id))
@@ -448,21 +478,29 @@ namespace WonderApp.Controllers
             {
                 if (String.IsNullOrEmpty(model.Email) || String.IsNullOrEmpty(model.Password) || !EmailVerification.IsValidEmail(model.Email))
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
-                if (DataContext.AspNetUsers.Any(x => x.Email == model.Email))
+
+                if (UserManager.FindByEmail(model.Email) != null)
                     return Request.CreateResponse(HttpStatusCode.Conflict, "Email already exists");
 
                 var newUser = new ApplicationUser { UserName = model.Email, Email=model.Email };
                 IdentityResult user = UserManager.Create(newUser, model.Password);
-
-               
+         
                 if (user.Succeeded == false)
                 {
                     String passwordError = user.Errors.FirstOrDefault(err => err.Contains("Passwords"));
                     if (!String.IsNullOrEmpty(passwordError)){
                         return Request.CreateResponse(HttpStatusCode.NotAcceptable, passwordError);
                     }
-                    return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable, user.Errors);
                 }
+
+                ApplicationUser createdUser = UserManager.FindByEmail(model.Email);
+
+                model.Password = null;
+                model.Username = null;
+                model.Email = null;
+                model.UserId = createdUser.Id;
+
 
                 return Request.CreateResponse(HttpStatusCode.Created, model);
             }
@@ -535,7 +573,7 @@ namespace WonderApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotAcceptable);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, user.Id);
             }
             catch (Exception ex)
             {
