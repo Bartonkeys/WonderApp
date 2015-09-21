@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace WonderApp.Core.Services
     {
         private Template _templateToUse;
         private IDataContext _dataContext;
+        private static readonly bool useDefaultEmail = Convert.ToBoolean(ConfigurationManager.AppSettings["useDefaultEmailAddress"]);
+        private static string _emailToUse = ConfigurationManager.AppSettings["defaultEmailAddress"];
+
 
         public EmailService(IDataContext dataContext)
         {
@@ -39,7 +43,7 @@ namespace WonderApp.Core.Services
             var today = DateTime.Now;
             if (today.DayOfWeek != DayOfWeek.Wednesday)
             {
-                return null;
+                //return null;
             }
 
             var usersToSendEmailTo = new List<AspNetUser>(_dataContext.AspNetUsers.Where(u => 
@@ -81,11 +85,16 @@ namespace WonderApp.Core.Services
 
             string emailPlainText = "MyWonders = \n";
             string emailHtmlText = "";
-
+            
+            if (!useDefaultEmail)
+            {
+                _emailToUse = user.Email; 
+            }
+           
             var email = new NotificationEmail
             {
                 Created = DateTime.UtcNow,
-                RecipientEmail = user.Email,
+                RecipientEmail = _emailToUse,
                 RecipientName = user.UserName
             };
 
@@ -117,9 +126,9 @@ namespace WonderApp.Core.Services
             {
                 emailHtmlText = emailPlainText;
             }
-            
-            return await SendEmail(email, emailPlainText, emailHtmlText);
 
+            return await SendEmail(email, emailPlainText, emailHtmlText);
+       
         }
 
         private async Task<NotificationEmail> SendEmail(NotificationEmail email, string emailPlainText, string emailHtmlText)
