@@ -221,6 +221,7 @@ namespace WonderApp.Controllers
 
                 if (userPersonal.UserPreference != null)
                 {
+                    if (user.UserPreference == null) user.UserPreference = new Data.UserPreference();
                     user.UserPreference.Reminder = DataContext.Reminders.FirstOrDefault(r => r.Id == userPersonal.UserPreference.Reminder.Id);
                     user.UserPreference.EmailMyWonders = userPersonal.UserPreference.EmailMyWonders;
                 }
