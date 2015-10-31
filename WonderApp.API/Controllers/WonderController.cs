@@ -262,15 +262,15 @@ namespace WonderApp.Controllers
                     wonders = await Task.Run(() =>
                     {
                         var results = DataContext.Deals.AsNoTracking()
-                            .Where(w => w.Priority == true
-                                && w.CityId == model.CityId
+                            .Where(w =>  w.CityId == model.CityId
                                 && w.Archived == false
                                 && w.Expired != true
                                 && w.Priority == false
                                 && w.Broadcast == false
                                 && _genders.Contains(w.Gender.Id)
                                 && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
-                                && w.Tags.Any(t => t.Name == model.TagName));
+                                && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
+                               // && w.Tags.Any(t => t.Name == model.TagName));
 
                         return Mapper.Map<List<DealModel>>(results);
                     });
