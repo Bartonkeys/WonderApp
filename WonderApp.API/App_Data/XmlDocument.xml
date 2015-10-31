@@ -648,6 +648,24 @@
             <param name="cityId"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.PostNearestWonders(System.Int32,WonderApp.Models.WonderModel)">
+            <summary>
+            Returns all wonders in radius, whether seen before or not. 
+            Ignores all settings except user's gender.
+            userId, latitude and longitude are required fields in WonderModel.
+            </summary>
+            <param name="radius"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WonderApp.Controllers.WonderController.PostSearchWondersByTag(WonderApp.Models.TagSearchModel)">
+            <summary>
+            Search by tag and return all wonders, regardless of whether seen or not. 
+            All fields in TagModel are mandatory.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.WonderController.GetMyWonders(System.String)">
             <summary>
             Return all Wonders that the user has liked

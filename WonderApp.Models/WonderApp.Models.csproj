@@ -110,6 +110,7 @@
     <Compile Include="CompanyModel.cs" />
     <Compile Include="DealModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagSearchModel.cs" />
     <Compile Include="TemplateModel.cs" />
     <Compile Include="UserBasicModel.cs" />
     <Compile Include="UserInfoModel.cs" />

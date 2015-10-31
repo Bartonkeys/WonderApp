@@ -203,13 +203,21 @@ namespace WonderApp.Controllers
             }
         }
 
-        [Route("nearest/{radiusFrom}/{radiusTo}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(int radiusFrom, int radiusTo, [FromBody]WonderModel model)
+        /// <summary>
+        /// Returns all wonders in radius, whether seen before or not. 
+        /// Ignores all settings except user's gender.
+        /// userId, latitude and longitude are required fields in WonderModel.
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("nearest/{radius}")]
+        public async Task<HttpResponseMessage> PostNearestWonders(int radius, [FromBody]WonderModel model)
         {
             try
             {
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
-                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
                 SetUserCategories(model.UserId);
                 SetUserGenders(model.UserId);
@@ -219,7 +227,7 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        var results = GetNearestWonders(model, mileRadiusFrom: radiusFrom, mileRadiusTo: radiusTo, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
+                        var results = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: radius);
                         return Mapper.Map<List<DealModel>>(results);
                     });
 
@@ -227,6 +235,47 @@ namespace WonderApp.Controllers
                 }
 
                 return Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Search by tag and return all wonders, regardless of whether seen or not. 
+        /// All fields in TagModel are mandatory.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("searchByTag")]
+        public async Task<HttpResponseMessage> PostSearchWondersByTag([FromBody]TagSearchModel model)
+        {
+            try
+            {
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                SetUserGenders(model.UserId);
+
+                var wonders = new List<DealModel>();
+                    wonders = await Task.Run(() =>
+                    {
+                        var results = DataContext.Deals.AsNoTracking()
+                            .Where(w => w.Priority == true
+                                && w.CityId == model.CityId
+                                && w.Archived == false
+                                && w.Expired != true
+                                && w.Priority == false
+                                && w.Broadcast == false
+                                && _genders.Contains(w.Gender.Id)
+                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                                && w.Tags.Any(t => t.Name == model.TagName));
+
+                        return Mapper.Map<List<DealModel>>(results);
+                    });
+
+                return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
             catch (Exception ex)
             {
@@ -395,12 +444,10 @@ namespace WonderApp.Controllers
                         user.MyRejects.Remove(deal);
                     }
 
-                    if (!user.MyWonders.Contains(deal))
-                    {
-                        user.MyWonders.Add(deal);
-                        deal.Likes++;
-                    }
+                    if(user.MyWonders.Contains(deal)) user.MyWonders.Remove(deal);
 
+                    user.MyWonders.Add(deal);
+                    deal.Likes++;
 
                     DataContext.Commit();
 
@@ -519,21 +566,17 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, int mileRadiusTo, int amountToTake)
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, int mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
-            return DataContext.Deals
+            return DataContext.Deals.AsNoTracking()
                            .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > mileRadiusFrom
                                && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
                                && w.Archived == false
                                && w.Expired != true
-                               && _categories.Contains(w.Category.Id)
                                && _genders.Contains(w.Gender.Id)
-                               && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                           .OrderBy(x => Guid.NewGuid())
-                           .Take(amountToTake);
+                               && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now))
+                           .OrderBy(x => Guid.NewGuid());
         }
 
         private IQueryable<Data.Deal> GetPriorityWonders(WonderModel model)
