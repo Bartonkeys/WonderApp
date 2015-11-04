@@ -212,7 +212,7 @@ namespace WonderApp.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [Route("nearest/{radius}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(int radius, [FromBody]WonderModel model)
+        public async Task<HttpResponseMessage> PostNearestWonders(float radius, [FromBody]WonderModel model)
         {
             try
             {
@@ -566,7 +566,7 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, int mileRadiusTo)
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, float mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
             return DataContext.Deals.AsNoTracking()
