@@ -40,5 +40,8 @@ namespace WonderApp.Contracts.DataContext
         GetWonders_Result GetWonder(int wonderId);
        
         void Commit();
+
+        void TurnOffLazyLoading();
+        void TurnOnLazyLoading();
     }
 }

@@ -261,20 +261,23 @@ namespace WonderApp.Controllers
                 var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
+                        DataContext.TurnOffLazyLoading();
                         var results = DataContext.Deals.AsNoTracking()
-                            .Where(w =>  w.CityId == model.CityId
-                                && w.Archived == false
-                                && w.Expired != true
-                                && w.Priority == false
-                                && w.Broadcast == false
-                                && _genders.Contains(w.Gender.Id)
-                                && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
-                                && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
-                               // && w.Tags.Any(t => t.Name == model.TagName));
-
+                        .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Where(w =>  w.CityId == model.CityId
+                            && w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                            // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
+                            && w.Tags.Any(t => t.Name == model.TagName));
+                      
                         return Mapper.Map<List<DealModel>>(results);
                     });
-
+                DataContext.TurnOnLazyLoading();
                 return Request.CreateResponse(HttpStatusCode.OK, wonders);
             }
             catch (Exception ex)

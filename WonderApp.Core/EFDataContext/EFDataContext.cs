@@ -20,6 +20,16 @@ namespace WonderApp.Core.EFDataContext
             _context = new WonderAppModelContainer();
         }
 
+        public void TurnOffLazyLoading()
+        {
+            _context.Configuration.LazyLoadingEnabled = false;
+        }
+
+        public void TurnOnLazyLoading()
+        {
+            _context.Configuration.LazyLoadingEnabled = true;
+        }
+
         public IDbSet<Deal> Deals { get { return _context.Deals; } }
         public IDbSet<Location> Locations { get { return _context.Locations; } }
         public IDbSet<Tag> Tags { get { return _context.Tags; } }
