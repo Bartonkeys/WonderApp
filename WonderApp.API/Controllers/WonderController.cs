@@ -265,6 +265,13 @@ namespace WonderApp.Controllers
                         var results = DataContext.Deals.AsNoTracking()
                         .Include(g => g.Gender)
                         .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
                         .Where(w =>  w.CityId == model.CityId
                             && w.Archived == false
                             && w.Expired != true
