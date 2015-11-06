@@ -211,15 +211,15 @@ namespace WonderApp.Controllers
         /// <param name="radius"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("nearest/{radius}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(float radius, [FromBody]WonderModel model)
+        [Route("nearest")]
+        public async Task<HttpResponseMessage> PostNearestWonders([FromBody]RadiusModel model)
         {
             try
             {
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                     return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
-                SetUserCategories(model.UserId);
+                //SetUserCategories(model.UserId);
                 SetUserGenders(model.UserId);
 
                 if (model.Latitude != null && model.Longitude != null)
@@ -227,7 +227,7 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        var results = GetNearestWonders(model, mileRadiusFrom: 0, mileRadiusTo: radius);
+                        var results = GetNearestWonders(model, mileRadiusTo: model.Radius);
                         return Mapper.Map<List<DealModel>>(results);
                     });
 
@@ -272,6 +272,7 @@ namespace WonderApp.Controllers
                         .Include(l => l.Location)
                         .Include(s => s.Season)
                         .Include(a => a.Ages)
+                        .Include(i => i.Images)
                         .Where(w =>  w.CityId == model.CityId
                             && w.Archived == false
                             && w.Expired != true
@@ -576,17 +577,29 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, float mileRadiusTo)
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
+            DataContext.TurnOffLazyLoading();
+
             return DataContext.Deals.AsNoTracking()
-                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > mileRadiusFrom
-                               && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
-                               && w.Archived == false
-                               && w.Expired != true
-                               && _genders.Contains(w.Gender.Id)
-                               && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now))
-                           .OrderBy(x => Guid.NewGuid());
+                .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
+                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            && w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now));
         }
 
         private IQueryable<Data.Deal> GetPriorityWonders(WonderModel model)
