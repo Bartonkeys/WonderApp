@@ -273,6 +273,7 @@ namespace WonderApp.Controllers
                         .Include(s => s.Season)
                         .Include(a => a.Ages)
                         .Include(i => i.Images)
+                        .Include(c => c.City)
                         .Where(w =>  w.CityId == model.CityId
                             && w.Archived == false
                             && w.Expired != true
