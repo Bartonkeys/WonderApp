@@ -596,6 +596,9 @@ namespace WonderApp.Controllers
                         .Include(l => l.Location)
                         .Include(s => s.Season)
                         .Include(a => a.Ages)
+                        .Include(i => i.Images)
+                        .Include(c => c.City)
+                        .Include(cl => cl.City.Location)
                         .Where(w => //w.Location.Geography.Distance(usersPosition) * .00062 >= 0
                             //&& w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
                             //&& 
