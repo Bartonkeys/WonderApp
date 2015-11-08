@@ -10,6 +10,6 @@ namespace WonderApp.Models
     public class RadiusModel: WonderModel
     {
         [JsonProperty(PropertyName = "radius")]
-        public int Radius { get; set; }
+        public double Radius { get; set; }
     }
 }

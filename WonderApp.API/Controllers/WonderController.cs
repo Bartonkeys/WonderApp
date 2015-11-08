@@ -216,6 +216,8 @@ namespace WonderApp.Controllers
         {
             try
             {
+                DataContext.TurnOffLazyLoading();
+
                 if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
                     return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
@@ -579,12 +581,12 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusTo)
+        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, double mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
-            DataContext.TurnOffLazyLoading();
+            //DataContext.TurnOffLazyLoading();
 
-            return DataContext.Deals.AsNoTracking()
+            var allWonders =  DataContext.Deals.AsNoTracking()
                 .Include(g => g.Gender)
                         .Include(t => t.Tags)
                         .Include(c => c.Company)
@@ -594,14 +596,20 @@ namespace WonderApp.Controllers
                         .Include(l => l.Location)
                         .Include(s => s.Season)
                         .Include(a => a.Ages)
-                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
-                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
-                            && w.Archived == false
+                        .Where(w => //w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            //&& w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            //&& 
+                            w.Archived == false
                             && w.Expired != true
                             && w.Priority == false
                             && w.Broadcast == false
                             && _genders.Contains(w.Gender.Id)
                             && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now));
+
+            return allWonders.Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > 0 &&
+                       w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo);
+
+            //return GetNearestWonders(usersPosition, from: 0, to: 1);
         }
 
         private IQueryable<Data.Deal> GetPriorityWonders(WonderModel model)
