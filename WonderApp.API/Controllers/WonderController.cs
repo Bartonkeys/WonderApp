@@ -229,8 +229,7 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        var results = GetNearestWonders(model, mileRadiusTo: model.Radius);
-                        return Mapper.Map<List<DealModel>>(results);
+                        return GetNearestWonders(model, mileRadiusTo: model.Radius);
                     });
 
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
@@ -581,7 +580,7 @@ namespace WonderApp.Controllers
         }
 
 
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, double mileRadiusTo)
+        private List<DealModel> GetNearestWonders(WonderModel model, double mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
             //DataContext.TurnOffLazyLoading();
@@ -599,18 +598,29 @@ namespace WonderApp.Controllers
                         .Include(i => i.Images)
                         .Include(c => c.City)
                         .Include(cl => cl.City.Location)
-                        .Where(w => //w.Location.Geography.Distance(usersPosition) * .00062 >= 0
-                            //&& w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
-                            //&& 
+                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            && 
                             w.Archived == false
                             && w.Expired != true
                             && w.Priority == false
                             && w.Broadcast == false
                             && _genders.Contains(w.Gender.Id)
-                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now));
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).ToList();
 
-            return allWonders.Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > 0 &&
-                       w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo);
+            return Mapper.Map<List<DealModel>>(allWonders);
+
+            //return mappedWonders.Where(w =>
+            //{
+            //    var wonderLocation =
+            //        GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
+
+            //    return wonderLocation.Distance(usersPosition) * .00062 > 0 &&
+            //           wonderLocation.Distance(usersPosition) * .00062 <= mileRadiusTo;
+            //}).ToList();
+
+            //return allWonders.Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0 &&
+            //w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo);
 
             //return GetNearestWonders(usersPosition, from: 0, to: 1);
         }
