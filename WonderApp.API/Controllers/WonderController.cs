@@ -253,7 +253,7 @@ namespace WonderApp.Controllers
         /// <param name="take"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("searchByTag/{skip}/{take}")]
+        [Route("searchByTag/{from}/{take}")]
         public async Task<HttpResponseMessage> PostSearchWondersByTag(int from, int take, [FromBody]TagSearchModel model)
         {
             try
