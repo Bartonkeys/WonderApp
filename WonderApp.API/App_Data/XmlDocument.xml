@@ -658,11 +658,15 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:WonderApp.Controllers.WonderController.PostSearchWondersByTag(WonderApp.Models.TagSearchModel)">
+        <member name="M:WonderApp.Controllers.WonderController.PostSearchWondersByTag(System.Int32,System.Int32,WonderApp.Models.TagSearchModel)">
             <summary>
             Search by tag and return all wonders, regardless of whether seen or not. 
-            All fields in TagModel are mandatory.
+            All fields in TagSearchModel are mandatory.
+            From is where to start from
+            Take is how many to take.
             </summary>
+            <param name="from"></param>
+            <param name="take"></param>
             <param name="model"></param>
             <returns></returns>
         </member>

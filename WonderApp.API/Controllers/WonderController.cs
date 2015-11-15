@@ -245,12 +245,16 @@ namespace WonderApp.Controllers
 
         /// <summary>
         /// Search by tag and return all wonders, regardless of whether seen or not. 
-        /// All fields in TagModel are mandatory.
+        /// All fields in TagSearchModel are mandatory.
+        /// From is where to start from
+        /// Take is how many to take.
         /// </summary>
+        /// <param name="from"></param>
+        /// <param name="take"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("searchByTag")]
-        public async Task<HttpResponseMessage> PostSearchWondersByTag([FromBody]TagSearchModel model)
+        [Route("searchByTag/{skip}/{take}")]
+        public async Task<HttpResponseMessage> PostSearchWondersByTag(int from, int take, [FromBody]TagSearchModel model)
         {
             try
             {
@@ -284,7 +288,7 @@ namespace WonderApp.Controllers
                             && _genders.Contains(w.Gender.Id)
                             && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                             // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
-                            && w.Tags.Any(t => t.Name == model.TagName));
+                            && w.Tags.Any(t => t.Name == model.TagName)).Skip(from).Take(take);
                       
                         return Mapper.Map<List<DealModel>>(results);
                     });
