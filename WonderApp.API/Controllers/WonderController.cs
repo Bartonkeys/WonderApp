@@ -288,7 +288,7 @@ namespace WonderApp.Controllers
                             && _genders.Contains(w.Gender.Id)
                             && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
                             // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
-                            && w.Tags.Any(t => t.Name == model.TagName)).Skip(from).Take(take);
+                            && w.Tags.Any(t => t.Name == model.TagName)).OrderBy(o => o.Id).Skip(from).Take(take);
                       
                         return Mapper.Map<List<DealModel>>(results);
                     });
