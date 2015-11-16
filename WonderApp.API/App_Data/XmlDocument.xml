@@ -670,6 +670,14 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:WonderApp.Controllers.WonderController.PostCountWondersByTag(WonderApp.Models.TagSearchModel)">
+            <summary>
+            Returns number of wonders with tag.
+            All fields in TagModel are required.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:WonderApp.Controllers.WonderController.GetMyWonders(System.String)">
             <summary>
             Return all Wonders that the user has liked

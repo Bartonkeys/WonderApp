@@ -301,6 +301,60 @@ namespace WonderApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns number of wonders with tag.
+        /// All fields in TagModel are required.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("tagCount")]
+        public async Task<HttpResponseMessage> PostCountWondersByTag([FromBody]TagSearchModel model)
+        {
+            try
+            {
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                SetUserGenders(model.UserId);
+
+                int numberOfWonders; ;
+                numberOfWonders = await Task.Run(() =>
+                {
+                    DataContext.TurnOffLazyLoading();
+                    var results = DataContext.Deals.AsNoTracking()
+                    .Include(g => g.Gender)
+                    .Include(t => t.Tags)
+                    .Include(c => c.Company)
+                    .Include(c => c.Cost)
+                    .Include(c => c.Category)
+                    .Include(a => a.Address)
+                    .Include(l => l.Location)
+                    .Include(s => s.Season)
+                    .Include(a => a.Ages)
+                    .Include(i => i.Images)
+                    .Include(c => c.City)
+                    .Include(cl => cl.City.Location)
+                    .Where(w => w.CityId == model.CityId
+                        && w.Archived == false
+                        && w.Expired != true
+                        && w.Priority == false
+                        && w.Broadcast == false
+                        && _genders.Contains(w.Gender.Id)
+                        && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                        // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
+                        && w.Tags.Any(t => t.Name == model.TagName)).Count();
+
+                    return results;
+                });
+                DataContext.TurnOnLazyLoading();
+                return Request.CreateResponse(HttpStatusCode.OK, numberOfWonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
         [Route("all/{userId}/{cityId}/{priority}")]
         public async Task<HttpResponseMessage> GetAllWonders(string userId, int cityId, bool priority)
         {
