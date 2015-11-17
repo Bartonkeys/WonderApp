@@ -648,7 +648,7 @@
             <param name="cityId"></param>
             <returns></returns>
         </member>
-        <member name="M:WonderApp.Controllers.WonderController.PostNearestWonders(WonderApp.Models.RadiusModel)">
+        <member name="M:WonderApp.Controllers.WonderController.PostNearestWonders(System.Int32,System.Int32,WonderApp.Models.RadiusModel)">
             <summary>
             Returns all wonders in radius, whether seen before or not. 
             Ignores all settings except user's gender.

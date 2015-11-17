@@ -211,8 +211,8 @@ namespace WonderApp.Controllers
         /// <param name="radius"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("nearest")]
-        public async Task<HttpResponseMessage> PostNearestWonders([FromBody]RadiusModel model)
+        [Route("nearest/{from}/{take}")]
+        public async Task<HttpResponseMessage> PostNearestWonders(int from, int take, [FromBody]RadiusModel model)
         {
             try
             {
@@ -229,10 +229,41 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        return GetNearestWonders(model, mileRadiusTo: model.Radius);
+                        return GetNearestWonders(model, mileRadiusTo: model.Radius, from: from, take: take);
                     });
 
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("nearestCount")]
+        public async Task<HttpResponseMessage> PostNearestWondersCount([FromBody]RadiusModel model)
+        {
+            try
+            {
+                DataContext.TurnOffLazyLoading();
+
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                //SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
+
+                if (model.Latitude != null && model.Longitude != null)
+                {
+                    var wondersCount = await Task.Run(() =>
+                    {
+                        return GetNearestWondersCount(model, mileRadiusTo: model.Radius);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wondersCount);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.NoContent);
@@ -637,8 +668,37 @@ namespace WonderApp.Controllers
             }
         }
 
+        private int GetNearestWondersCount(WonderModel model, double mileRadiusTo)
+        {
+            var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
+            //DataContext.TurnOffLazyLoading();
 
-        private List<DealModel> GetNearestWonders(WonderModel model, double mileRadiusTo)
+            return DataContext.Deals.AsNoTracking()
+                .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
+                        .Include(i => i.Images)
+                        .Include(c => c.City)
+                        .Include(cl => cl.City.Location)
+                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            &&
+                            w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).Count();
+
+        }
+
+        private List<DealModel> GetNearestWonders(WonderModel model, double mileRadiusTo, int from, int take)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
             //DataContext.TurnOffLazyLoading();
@@ -664,7 +724,8 @@ namespace WonderApp.Controllers
                             && w.Priority == false
                             && w.Broadcast == false
                             && _genders.Contains(w.Gender.Id)
-                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).ToList();
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now))
+                            .OrderBy(o => o.Id).Skip(from).Take(take);
 
             return Mapper.Map<List<DealModel>>(allWonders);
 
