@@ -14,6 +14,7 @@ using WonderApp.Data;
 using WonderApp.Models;
 using WonderApp.Web.InfaStructure;
 using WonderApp.Web.Models;
+using System.Data.Entity;
 
 namespace WonderApp.Web.Controllers
 {
@@ -45,17 +46,30 @@ namespace WonderApp.Web.Controllers
         }
         public ActionResult Index()
         {
+            DataContext.TurnOffLazyLoading();
             var userViews = new List<UserViewModel>();
-            var users = Mapper.Map<List<UserBasicModel>>(DataContext.AspNetUsers.ToList());
+            var users = 
+                Mapper.Map<List<UserBasicModel>>
+                (DataContext
+                .AspNetUsers.AsNoTracking().ToList());
 
             foreach (var userModel in users)
             {
                 var userViewModel = new UserViewModel();
+                var user = DataContext.AspNetUsers
+                    .AsNoTracking().Include(p => p.UserPreference)
+                    .Single(e => e.Id == userModel.Id);
+                var pref = user.UserPreference;
+
+                if (user.CityId != null)
+                    userViewModel.City = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == user.CityId).Name;
+                
                 userViewModel.UserModel = userModel;
                 userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
+                userViewModel.OptIn = pref !=null ? pref.EmailMyWonders : false;
                 userViews.Add(userViewModel);
             }
-
+            DataContext.TurnOnLazyLoading();
             return View(userViews);
         }
 

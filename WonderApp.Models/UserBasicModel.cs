@@ -17,5 +17,6 @@ namespace WonderApp.Models
         public string PhoneNumber { get; set; }
         public string Forename { get; set; }
         public string Surname { get; set; }
+
     }
 }

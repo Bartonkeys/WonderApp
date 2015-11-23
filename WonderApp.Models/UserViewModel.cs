@@ -15,6 +15,10 @@ namespace WonderApp.Models
 
         [DisplayName("Admin User?")]
         public Boolean IsAdmin { get; set; }
+        [DisplayName("Opt In?")]
+        public Boolean OptIn { get; set; }
+        [DisplayName("City")]
+        public String City { get; set; }
 
     }
 }
