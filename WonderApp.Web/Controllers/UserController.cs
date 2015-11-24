@@ -62,7 +62,10 @@ namespace WonderApp.Web.Controllers
                 var pref = user.UserPreference;
 
                 if (user.CityId != null)
-                    userViewModel.City = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == user.CityId).Name;
+                {
+                    var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == user.CityId);
+                    if(city != null) userViewModel.City = city.Name;
+                }
                 
                 userViewModel.UserModel = userModel;
                 userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
