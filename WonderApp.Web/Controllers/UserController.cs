@@ -57,7 +57,7 @@ namespace WonderApp.Web.Controllers
             {
                 var userViewModel = new UserViewModel();
                 var user = DataContext.AspNetUsers
-                    .AsNoTracking().Include(p => p.UserPreference)
+                    .AsNoTracking().Include(p => p.UserPreference).Include(w => w.MyWonders)
                     .Single(e => e.Id == userModel.Id);
                 var pref = user.UserPreference;
 
@@ -65,6 +65,19 @@ namespace WonderApp.Web.Controllers
                 {
                     var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == user.CityId);
                     if(city != null) userViewModel.City = city.Name;
+                }
+                else
+                {
+                    var cityCounts = new Dictionary<int, int>();
+                    if(user.MyWonders.Count() > 0)
+                    {                 
+                        cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
+                        cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
+                        cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
+                        var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                        var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == cityId);
+                        if(city != null) userViewModel.City = city.Name;
+                    }
                 }
                 
                 userViewModel.UserModel = userModel;
