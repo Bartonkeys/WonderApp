@@ -80,7 +80,7 @@ namespace WonderApp.Web.Controllers
                     }
                     else
                     {
-                        userViewModel.City = "N/A";
+                        userViewModel.City = "No Wonders";
                     }
                 }
                 
