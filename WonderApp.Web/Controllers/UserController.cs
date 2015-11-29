@@ -78,6 +78,10 @@ namespace WonderApp.Web.Controllers
                         var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == cityId);
                         if(city != null) userViewModel.City = city.Name;
                     }
+                    else
+                    {
+                        userViewModel.City = "N/A";
+                    }
                 }
                 
                 userViewModel.UserModel = userModel;
