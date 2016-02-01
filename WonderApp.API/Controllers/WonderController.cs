@@ -203,15 +203,25 @@ namespace WonderApp.Controllers
             }
         }
 
-        [Route("nearest/{radiusFrom}/{radiusTo}")]
-        public async Task<HttpResponseMessage> PostNearestWonders(int radiusFrom, int radiusTo, [FromBody]WonderModel model)
+        /// <summary>
+        /// Returns all wonders in radius, whether seen before or not. 
+        /// Ignores all settings except user's gender.
+        /// userId, latitude and longitude are required fields in WonderModel.
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("nearest/{from}/{take}")]
+        public async Task<HttpResponseMessage> PostNearestWonders(int from, int take, [FromBody]RadiusModel model)
         {
             try
             {
-                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
-                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "This user is not recognised");
+                DataContext.TurnOffLazyLoading();
 
-                SetUserCategories(model.UserId);
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                //SetUserCategories(model.UserId);
                 SetUserGenders(model.UserId);
 
                 if (model.Latitude != null && model.Longitude != null)
@@ -219,14 +229,156 @@ namespace WonderApp.Controllers
                     var wonders = new List<DealModel>();
                     wonders = await Task.Run(() =>
                     {
-                        var results = GetNearestWonders(model, mileRadiusFrom: radiusFrom, mileRadiusTo: radiusTo, amountToTake: WonderAppConstants.DefaultNumberOfWondersToTake);
-                        return Mapper.Map<List<DealModel>>(results);
+                        return GetNearestWonders(model, mileRadiusTo: model.Radius, from: from, take: take);
                     });
 
                     return Request.CreateResponse(HttpStatusCode.OK, wonders);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("nearestCount")]
+        public async Task<HttpResponseMessage> PostNearestWondersCount([FromBody]RadiusModel model)
+        {
+            try
+            {
+                DataContext.TurnOffLazyLoading();
+
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                //SetUserCategories(model.UserId);
+                SetUserGenders(model.UserId);
+
+                if (model.Latitude != null && model.Longitude != null)
+                {
+                    var wondersCount = await Task.Run(() =>
+                    {
+                        return GetNearestWondersCount(model, mileRadiusTo: model.Radius);
+                    });
+
+                    return Request.CreateResponse(HttpStatusCode.OK, wondersCount);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Search by tag and return all wonders, regardless of whether seen or not. 
+        /// All fields in TagSearchModel are mandatory.
+        /// From is where to start from
+        /// Take is how many to take.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="take"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("searchByTag/{from}/{take}")]
+        public async Task<HttpResponseMessage> PostSearchWondersByTag(int from, int take, [FromBody]TagSearchModel model)
+        {
+            try
+            {
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                SetUserGenders(model.UserId);
+
+                var wonders = new List<DealModel>();
+                    wonders = await Task.Run(() =>
+                    {
+                        DataContext.TurnOffLazyLoading();
+                        var results = DataContext.Deals.AsNoTracking()
+                        .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
+                        .Include(i => i.Images)
+                        .Include(c => c.City)
+                        .Include(cl => cl.City.Location)
+                        .Where(w =>  w.CityId == model.CityId
+                            && w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                            // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
+                            && w.Tags.Any(t => t.Name == model.TagName)).OrderBy(o => o.Id).Skip(from).Take(take);
+                      
+                        return Mapper.Map<List<DealModel>>(results);
+                    });
+                DataContext.TurnOnLazyLoading();
+                return Request.CreateResponse(HttpStatusCode.OK, wonders);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Returns number of wonders with tag.
+        /// All fields in TagModel are required.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("tagCount")]
+        public async Task<HttpResponseMessage> PostCountWondersByTag([FromBody]TagSearchModel model)
+        {
+            try
+            {
+                if (model.UserId != null && DataContext.AspNetUsers.All(x => x.Id != model.UserId))
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+
+                SetUserGenders(model.UserId);
+
+                int numberOfWonders; ;
+                numberOfWonders = await Task.Run(() =>
+                {
+                    DataContext.TurnOffLazyLoading();
+                    var results = DataContext.Deals.AsNoTracking()
+                    .Include(g => g.Gender)
+                    .Include(t => t.Tags)
+                    .Include(c => c.Company)
+                    .Include(c => c.Cost)
+                    .Include(c => c.Category)
+                    .Include(a => a.Address)
+                    .Include(l => l.Location)
+                    .Include(s => s.Season)
+                    .Include(a => a.Ages)
+                    .Include(i => i.Images)
+                    .Include(c => c.City)
+                    .Include(cl => cl.City.Location)
+                    .Where(w => w.CityId == model.CityId
+                        && w.Archived == false
+                        && w.Expired != true
+                        && w.Priority == false
+                        && w.Broadcast == false
+                        && _genders.Contains(w.Gender.Id)
+                        && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
+                        // && w.Tags.Any(t => t.Name.StartsWith(model.TagName)));
+                        && w.Tags.Any(t => t.Name == model.TagName)).Count();
+
+                    return results;
+                });
+                DataContext.TurnOnLazyLoading();
+                return Request.CreateResponse(HttpStatusCode.OK, numberOfWonders);
             }
             catch (Exception ex)
             {
@@ -395,12 +547,10 @@ namespace WonderApp.Controllers
                         user.MyRejects.Remove(deal);
                     }
 
-                    if (!user.MyWonders.Contains(deal))
-                    {
-                        user.MyWonders.Add(deal);
-                        deal.Likes++;
-                    }
+                    if(user.MyWonders.Contains(deal)) user.MyWonders.Remove(deal);
 
+                    user.MyWonders.Add(deal);
+                    deal.Likes++;
 
                     DataContext.Commit();
 
@@ -518,22 +668,80 @@ namespace WonderApp.Controllers
             }
         }
 
-
-        private IQueryable<Data.Deal> GetNearestWonders(WonderModel model, int mileRadiusFrom, int mileRadiusTo, int amountToTake)
+        private int GetNearestWondersCount(WonderModel model, double mileRadiusTo)
         {
             var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
-            return DataContext.Deals
-                           .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 > mileRadiusFrom
-                               && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
-                               && w.Archived == false
-                               && w.Expired != true
-                               && _categories.Contains(w.Category.Id)
-                               && _genders.Contains(w.Gender.Id)
-                               && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)
-                               && w.MyRejectUsers.All(u => u.Id != model.UserId)
-                               && w.MyWonderUsers.All(u => u.Id != model.UserId))
-                           .OrderBy(x => Guid.NewGuid())
-                           .Take(amountToTake);
+            //DataContext.TurnOffLazyLoading();
+
+            return DataContext.Deals.AsNoTracking()
+                .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
+                        .Include(i => i.Images)
+                        .Include(c => c.City)
+                        .Include(cl => cl.City.Location)
+                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            &&
+                            w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now)).Count();
+
+        }
+
+        private List<DealModel> GetNearestWonders(WonderModel model, double mileRadiusTo, int from, int take)
+        {
+            var usersPosition = GeographyHelper.ConvertLatLonToDbGeography(model.Longitude.Value, model.Latitude.Value);
+            //DataContext.TurnOffLazyLoading();
+
+            var allWonders =  DataContext.Deals.AsNoTracking()
+                .Include(g => g.Gender)
+                        .Include(t => t.Tags)
+                        .Include(c => c.Company)
+                        .Include(c => c.Cost)
+                        .Include(c => c.Category)
+                        .Include(a => a.Address)
+                        .Include(l => l.Location)
+                        .Include(s => s.Season)
+                        .Include(a => a.Ages)
+                        .Include(i => i.Images)
+                        .Include(c => c.City)
+                        .Include(cl => cl.City.Location)
+                        .Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0
+                            && w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo
+                            && 
+                            w.Archived == false
+                            && w.Expired != true
+                            && w.Priority == false
+                            && w.Broadcast == false
+                            && _genders.Contains(w.Gender.Id)
+                            && (w.AlwaysAvailable == true || w.ExpiryDate >= DateTime.Now))
+                            .OrderBy(o => o.Id).Skip(from).Take(take);
+
+            return Mapper.Map<List<DealModel>>(allWonders);
+
+            //return mappedWonders.Where(w =>
+            //{
+            //    var wonderLocation =
+            //        GeographyHelper.ConvertLatLonToDbGeography(w.Location.Longitude.Value, w.Location.Latitude.Value);
+
+            //    return wonderLocation.Distance(usersPosition) * .00062 > 0 &&
+            //           wonderLocation.Distance(usersPosition) * .00062 <= mileRadiusTo;
+            //}).ToList();
+
+            //return allWonders.Where(w => w.Location.Geography.Distance(usersPosition) * .00062 >= 0 &&
+            //w.Location.Geography.Distance(usersPosition) * .00062 <= mileRadiusTo);
+
+            //return GetNearestWonders(usersPosition, from: 0, to: 1);
         }
 
         private IQueryable<Data.Deal> GetPriorityWonders(WonderModel model)

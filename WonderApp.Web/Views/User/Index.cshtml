@@ -18,10 +18,16 @@ else
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserModel.UserName)
+                Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserModel.Email)
+            </th>
+            <th>
+                Opt In?
+            </th>
+            <th>
+                City
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsAdmin)
@@ -33,10 +39,16 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserModel.UserName)
+                    @Html.DisplayFor(modelItem => item.UserModel.Forename) @Html.DisplayFor(modelItem => item.UserModel.Surname)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserModel.Email)
+                </td>
+                <td>
+                    @item.OptIn
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsAdmin)

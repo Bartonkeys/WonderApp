@@ -18,7 +18,6 @@ using Microsoft.Owin.Security.OAuth;
 using WonderApp.Models;
 using System.Net;
 using WonderApp.Constants;
-using AutoMapper;
 using WonderApp.Data;
 using System.Globalization;
 using System.Web.Security;
@@ -62,13 +61,16 @@ namespace WonderApp.Controllers
         {
             try
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Token: " + accessToken));
                 var response = await GetFacebookResponse(accessToken);
 
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception(String.Format("Facebook status code is {0}", response.IsSuccessStatusCode)));
                 if (!response.IsSuccessStatusCode) 
                     return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
                 var content = await response.Content.ReadAsStringAsync();
                 var facebookUser = Newtonsoft.Json.JsonConvert.DeserializeObject<FacebookUserModel>(content);
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Email = " + facebookUser.Email));
 
                 //If FB user has prevented access to their FB email - we need to use a default
                 bool emailSupplied = false;
@@ -103,7 +105,8 @@ namespace WonderApp.Controllers
 
                     foreach (var login in logins)
                     {
-                        if(login.ProviderKey == facebookUser.ID)
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("User Id = " + user.Id));
+                        if (login.ProviderKey == facebookUser.ID)
                             return Request.CreateResponse(HttpStatusCode.OK, user.Id);
                     }
                     return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, WonderAppConstants.UserAlreadyRegisted);
