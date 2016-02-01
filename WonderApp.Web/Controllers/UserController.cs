@@ -44,6 +44,7 @@ namespace WonderApp.Web.Controllers
             UserManager = userManager;
 
         }
+        [OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
             DataContext.TurnOffLazyLoading();
@@ -51,7 +52,7 @@ namespace WonderApp.Web.Controllers
             var users = 
                 Mapper.Map<List<UserBasicModel>>
                 (DataContext
-                .AspNetUsers.AsNoTracking().ToList());
+                .AspNetUsers.ToList());
 
             foreach (var userModel in users)
             {
@@ -63,7 +64,7 @@ namespace WonderApp.Web.Controllers
 
                 if (user.CityId != null)
                 {
-                    var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == user.CityId);
+                    var city = DataContext.Cities.SingleOrDefault(c => c.Id == user.CityId);
                     if(city != null) userViewModel.City = city.Name;
                 }
                 else
@@ -75,7 +76,7 @@ namespace WonderApp.Web.Controllers
                         cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
                         cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
                         var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                        var city = DataContext.Cities.AsNoTracking().SingleOrDefault(c => c.Id == cityId);
+                        var city = DataContext.Cities.SingleOrDefault(c => c.Id == cityId);
                         if(city != null) userViewModel.City = city.Name;
                     }
                     else

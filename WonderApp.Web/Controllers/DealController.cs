@@ -39,10 +39,11 @@ namespace WonderApp.Web.Controllers
             CloudImageService = new CloudImageService(cloudImageProvider);
         }
 
+        [OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
             var model = DataContext.Deals.Where(x => x.Archived == false)
-                .AsNoTracking()
+                //.AsNoTracking()
                 .OrderByDescending(x => x.Id)
                 .Select(x => new DealModel
                 {
