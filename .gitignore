@@ -8,3 +8,4 @@ packages
 *.suo
 /WonderApp.Database/*.dbmdl
 /WonderApp.v12.suo
+.vs/config/applicationhost.config
