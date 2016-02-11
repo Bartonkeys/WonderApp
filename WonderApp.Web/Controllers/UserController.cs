@@ -44,7 +44,7 @@ namespace WonderApp.Web.Controllers
             UserManager = userManager;
 
         }
-        [OutputCache(Duration = 300, VaryByParam = "none")]
+        //[OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
             DataContext.TurnOffLazyLoading();
@@ -54,11 +54,14 @@ namespace WonderApp.Web.Controllers
                 (DataContext
                 .AspNetUsers.ToList());
 
+            var totalWondersLondon = DataContext.Deals.Count(x => x.Archived == false && x.City.Name.Equals("London") && (bool)!x.Expired);
+            var totalWondersNewYork = DataContext.Deals.Count(x => x.Archived == false && x.City.Name.Equals("New York") && (bool)!x.Expired);
+
             foreach (var userModel in users)
             {
                 var userViewModel = new UserViewModel();
                 var user = DataContext.AspNetUsers
-                    .AsNoTracking().Include(p => p.UserPreference).Include(w => w.MyWonders)
+                    .AsNoTracking().Include(p => p.UserPreference).Include(w => w.MyWonders).Include(r => r.MyRejects)
                     .Single(e => e.Id == userModel.Id);
                 var pref = user.UserPreference;
 
@@ -75,6 +78,7 @@ namespace WonderApp.Web.Controllers
                         cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
                         cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
                         cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
+
                         var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
                         var city = DataContext.Cities.SingleOrDefault(c => c.Id == cityId);
                         if(city != null) userViewModel.City = city.Name;
@@ -83,12 +87,39 @@ namespace WonderApp.Web.Controllers
                     {
                         userViewModel.City = "No Wonders";
                     }
+
+                    var totalSavesLondon = user.MyWonders.Count(w => w.CityId == 1);
+                    var totalPassesLondon = user.MyRejects.Count(w => w.CityId == 1);
+                    var swipesLondon = totalPassesLondon + totalSavesLondon;
+                    userViewModel.PercentageSwipesLondon = totalWondersLondon > 0 ? Math.Round((double)swipesLondon / (double)totalWondersLondon * 100, 2, MidpointRounding.AwayFromZero) : 0;
+
+                    var totalSavesNewYork = user.MyWonders.Count(w => w.CityId == 2);
+                    var totalPassesNewYork = user.MyRejects.Count(w => w.CityId == 2);
+                    var swipesNewYork = totalPassesNewYork + totalSavesNewYork;
+                    userViewModel.PercentageSwipesNewYork = totalWondersNewYork > 0 ? Math.Round((double)swipesNewYork / (double)totalWondersNewYork * 100, 2, MidpointRounding.AwayFromZero) : 0;
+
+                    if (userViewModel.City == null)
+                    {
+                        userViewModel.TotalPasses = 0;
+                        userViewModel.TotalSaves = 0;
+                    }
+                    else
+                    {
+                        userViewModel.TotalPasses = userViewModel.City.Equals("London")
+                       ? totalPassesLondon
+                       : totalPassesNewYork;
+
+                        userViewModel.TotalSaves = userViewModel.City.Equals("London")
+                            ? totalSavesLondon
+                            : totalSavesNewYork;
+                    }
                 }
                 
                 userViewModel.UserModel = userModel;
                 userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
                 userViewModel.OptIn = pref !=null ? pref.EmailMyWonders : false;
                 userViews.Add(userViewModel);
+
             }
             DataContext.TurnOnLazyLoading();
             return View(userViews);

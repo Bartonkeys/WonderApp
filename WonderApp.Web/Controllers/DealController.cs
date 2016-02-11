@@ -39,7 +39,7 @@ namespace WonderApp.Web.Controllers
             CloudImageService = new CloudImageService(cloudImageProvider);
         }
 
-        [OutputCache(Duration = 300, VaryByParam = "none")]
+        //[OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
             var model = DataContext.Deals.Where(x => x.Archived == false)
@@ -63,7 +63,9 @@ namespace WonderApp.Web.Controllers
 
             ViewBag.isAdmin = User.IsInRole("Admin");
             ViewBag.userId = User.Identity.GetUserId();
-            
+            ViewBag.totalLondonWonders= model.Count(c => c.City.Name.Equals("London") && !c.Expired );
+            ViewBag.totalNewYorkWonders = model.Count(c => c.City.Name.Equals("New York") && !c.Expired);
+
             return View(model);
         }
 

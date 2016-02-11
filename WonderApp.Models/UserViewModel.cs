@@ -20,5 +20,12 @@ namespace WonderApp.Models
         [DisplayName("City")]
         public String City { get; set; }
 
+        
+        public double PercentageSwipesLondon { get; set; }
+        public double PercentageSwipesNewYork { get; set; }
+       
+        
+        public int TotalPasses { get; set; }
+        public int TotalSaves { get; set; }
     }
 }
