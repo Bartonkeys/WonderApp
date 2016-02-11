@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WonderApp.Models.DealModel>
+﻿@model IEnumerable<WonderApp.Models.DealSummaryModel>
 @Styles.Render("~/Content/css_bundle_datatables")
 
 @{
@@ -12,9 +12,33 @@
 
     <h2>Wonders</h2>
 
-    <p>
+<div>
+    <div style="float:left">
         <a class="btn btn-success" href="@Url.Action("Create")">Create Wonder</a>
-    </p>
+    </div>
+   
+    <div style="float:left">
+        <table style="text-align: center">
+            <tr colspan="2">
+                <td>Live Wonder count</td>
+            </tr>
+            <tr>
+                <th>
+                    London
+                </th>
+                <th>
+                    NYC
+                </th>
+            </tr>
+            <tr>
+                <td>@ViewBag.totalLondonWonders</td>
+                <td>@ViewBag.totalNewYorkWonders</td>
+            </tr>
+
+        </table>
+    </div>
+    
+</div>
 
     @if (!Model.Any())
     {
@@ -23,21 +47,22 @@
     else
     {
 
-        <h2>London Wonders = @ViewBag.totalLondonWonders</h2>
-        <h2>New York Wonders = @ViewBag.totalNewYorkWonders</h2>
+
 
         <style>
             /*Equalise padding for all <th> and <td> cells */
             table.dataTable tbody th,
             table.dataTable tbody td,
-            table.dataTable thead th, 
+            table.dataTable thead th,
             table.dataTable thead td {
-
                 padding-left: 5px;
                 padding-right: 5px;
             }
         </style>
 
+       
+
+                        
         <table class="table table-striped table-responsive table-nonfluid noPadding" id="dealList" style="table-layout: fixed; overflow-x:scroll;">
             <thead>
                 <tr>
@@ -64,6 +89,9 @@
                         <i class="fa fa-thumbs-up"></i>
                     </th>
                     <th>
+                        <i class="fa fa-thumbs-down"></i>
+                    </th>
+                    <th>
                         <i class="fa fa-bullhorn"></i>
                     </th>
                     <th>
@@ -81,7 +109,7 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-                {
+{
                     <tr>
                         <td class="details-control" id="@item.Id"></td>
                         <td>
@@ -111,30 +139,33 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Likes)
                         </td>
-                        <td id="@item.Id" onclick="broadcastClicked(@item.Id)" >
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dislikes)
+                        </td>
+                        <td id="@item.Id" onclick="broadcastClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Broadcast,
-                         new
-                         {
-                             id= String.Format("broadcast{0}",item.Id),
-                             data_sort = item.Broadcast ? "1" : "0"
-                         })
+            new
+            {
+                id = String.Format("broadcast{0}", item.Id),
+                data_sort = item.Broadcast ? "1" : "0"
+            })
                         </td>
                         <td id="@item.Id)" onclick="priorityClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Priority,
-                         new
-                         {
-                             id = String.Format("priority{0}",item.Id),
-                             data_sort = item.Priority ? "1" : "0"
-                         })
+            new
+            {
+                id = String.Format("priority{0}", item.Id),
+                data_sort = item.Priority ? "1" : "0"
+            })
                         </td>
 
                         <td id="@item.Id" onclick="expiredClicked(@item.Id)">
                             @Html.CheckBoxFor(modelItem => item.Expired,
-                        new
-                        {
-                            id = String.Format("expired{0}", item.Id),
-                            data_sort = item.Expired ? "1" : "0"
-                        })
+        new
+        {
+            id = String.Format("expired{0}", item.Id),
+            data_sort = item.Expired ? "1" : "0"
+        })
                         </td>
                         <td>
                             <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>
@@ -157,47 +188,7 @@
 
                 }
             </tbody>
-            @*<tfoot>
-                    <tr>
-                        <th >
 
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Title)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Tags)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IntroDescription)
-                        </th>
-                        <th >
-                            City
-                        </th>
-                        <th>
-                            Season
-                        </th>
-                        <th>
-                            Company
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Category)
-                        </th>
-
-                    </tr>
-                </tfoot>*@
         </table>
 
 
@@ -224,7 +215,7 @@
                             $.isLoading("hide");
                         }
                     }).fail(function(jqXHR, textStatus, errorThrown) {
-                        toastr.error('Error copying wonder - please try again')
+                        toastr.error('Error copying wonder - please try again');
                         $.isLoading("hide");
 
                     });
@@ -253,7 +244,7 @@
                             $.isLoading("hide");
                         });
                     }
-                 
+
                 }
 
                 function broadcastClicked(cid) {
@@ -281,7 +272,7 @@
                 function expiredClicked(cid) {
 
                     var expiredCheckBox = $('#expired' + cid);
-                    
+
                     $.isLoading({ text: "Updating expired..." });
                     $.ajax("/api/Tag/UpdateExpired/" + cid, {
                         dataType: "json",
@@ -366,17 +357,18 @@
                     var oldStart = 0;
                     dTable = $('#dealList').DataTable({
                         "aoColumns": [
-                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "25px" },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" },
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "25px" }, // Expand icon
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" }, //Title
                             { "bVisible": false, "bSearchable": true, "bSortable": false },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
-                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" },
-                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "40px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" },
-                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "120px" },
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "250px" }, //Company
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" }, //City
+                            { "bVisible": true, "bSearchable": true, "bSortable": false, "sWidth": "125px" }, //Season
+                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "20px" }, //Likes
+                            { "bVisible": true, "bSearchable": true, "bSortable": true, "sWidth": "20px" }, //Dislikes
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" }, //Broadcast
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" }, //Priority
+                            { "bVisible": true, "bSearchable": false, "bSortable": true, "sType": "checked-in", "sWidth": "40px" }, //Expired
+                            { "bVisible": true, "bSearchable": false, "bSortable": false, "sWidth": "120px" }, //Action Buttons
                             { "bVisible": false, "bSearchable": false, "bSortable": false }
                         ],
 
@@ -389,7 +381,7 @@
                                 oldStart = o._iDisplayStart;
                             }
                         },
-                        "iDisplayLength": 100                      
+                        "iDisplayLength": 100
                     });
 
                     // Apply the search
@@ -406,7 +398,7 @@
                     $("#loading").hide();
                 });
 
-                
+
 
                 ////Sorting boolean (checklist) columns
                 //jQuery.fn.dataTableExt.oSort['checked-in-asc'] = function(a, b) {
@@ -426,8 +418,8 @@
 
 
 
-    }
-</div>
+        }
+    </div>
 
 
 

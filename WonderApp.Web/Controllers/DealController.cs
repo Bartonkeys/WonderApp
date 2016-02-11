@@ -42,10 +42,11 @@ namespace WonderApp.Web.Controllers
         //[OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
+            
             var model = DataContext.Deals.Where(x => x.Archived == false)
                 //.AsNoTracking()
                 .OrderByDescending(x => x.Id)
-                .Select(x => new DealModel
+                .Select(x => new DealSummaryModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -54,6 +55,7 @@ namespace WonderApp.Web.Controllers
                     City = new CityModel { Name = x.City.Name },
                     Category = new CategoryModel { Name = x.Category.Name },
                     Likes = x.Likes,
+                    Dislikes = x.MyRejectUsers.Count,
                     Priority = x.Priority.Value,
                     Expired = x.Expired.Value,
                     Season = new SeasonModel{Id = x.Season.Id, Name = x.Season.Name},
