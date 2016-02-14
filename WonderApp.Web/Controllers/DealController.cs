@@ -60,7 +60,7 @@ namespace WonderApp.Web.Controllers
                     Expired = x.Expired.Value,
                     Season = new SeasonModel{Id = x.Season.Id, Name = x.Season.Name},
                     Broadcast = x.Broadcast != null && x.Broadcast.Value,
-                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name }).ToList()
+                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name })
                 });
 
             ViewBag.isAdmin = User.IsInRole("Admin");

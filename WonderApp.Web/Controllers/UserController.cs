@@ -73,7 +73,7 @@ namespace WonderApp.Web.Controllers
                 else
                 {
                     var cityCounts = new Dictionary<int, int>();
-                    if(user.MyWonders.Count() > 0)
+                    if(user.MyWonders.Any())
                     {                 
                         cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
                         cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));

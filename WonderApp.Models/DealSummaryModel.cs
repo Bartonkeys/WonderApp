@@ -14,7 +14,7 @@ namespace WonderApp.Models
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public List<TagModel> Tags { get; set; }
+        public IEnumerable<TagModel> Tags { get; set; }
 
         public string IntroDescription { get; set; }
 
