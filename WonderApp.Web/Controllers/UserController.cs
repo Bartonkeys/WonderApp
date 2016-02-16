@@ -54,75 +54,107 @@ namespace WonderApp.Web.Controllers
                 (DataContext
                 .AspNetUsers.ToList());
 
-            var totalWondersLondon = DataContext.Deals.Count(x => x.Archived == false && x.City.Name.Equals("London") && (bool)!x.Expired);
-            var totalWondersNewYork = DataContext.Deals.Count(x => x.Archived == false && x.City.Name.Equals("New York") && (bool)!x.Expired);
+            var totalWondersLondon = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 1 && (bool)!x.Expired);
+            var totalWondersNewYork = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 2 && (bool)!x.Expired);
 
-            foreach (var userModel in users)
-            {
-                var userViewModel = new UserViewModel();
-                var user = DataContext.AspNetUsers
-                    .AsNoTracking().Include(p => p.UserPreference).Include(w => w.MyWonders).Include(r => r.MyRejects)
-                    .Single(e => e.Id == userModel.Id);
-                var pref = user.UserPreference;
-
-                if (user.CityId != null)
-                {
-                    var city = DataContext.Cities.SingleOrDefault(c => c.Id == user.CityId);
-                    if(city != null) userViewModel.City = city.Name;
-                }
-                else
-                {
-                    var cityCounts = new Dictionary<int, int>();
-                    if(user.MyWonders.Any())
-                    {                 
-                        cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
-                        cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
-                        cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
-
-                        var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                        var city = DataContext.Cities.SingleOrDefault(c => c.Id == cityId);
-                        if(city != null) userViewModel.City = city.Name;
-                    }
-                    else
+            var contextUsers =  DataContext.AspNetUsers
+                    .AsNoTracking()
+                    .Include(p => p.UserPreference) 
+                    .Include(w => w.MyWonders)
+                    .Include(r => r.MyRejects)
+                    .Select(u => new UserViewModel
                     {
-                        userViewModel.City = "No Wonders";
-                    }
+                        City = CalculateMainCity(u),
+                        PercentageSwipesLondon = (double)(u.MyWonders.Count(w => w.CityId == 1) + u.MyRejects.Count(w => w.CityId == 1)) / (double) totalWondersLondon * 100,
+                        PercentageSwipesNewYork =(double)(u.MyWonders.Count(w => w.CityId == 2) + u.MyRejects.Count(w => w.CityId == 2)) / (double) totalWondersNewYork * 100,
+                        TotalPasses = CalculateMainCity(u) == null ? 0 : CalculateMainCity(u).Equals("London") ? u.MyRejects.Count(w => w.CityId == 1) : u.MyRejects.Count(w => w.CityId == 2),
+                        TotalSaves = CalculateMainCity(u) == null ? 0 : CalculateMainCity(u).Equals("London") ? u.MyWonders.Count(w => w.CityId == 1) : u.MyWonders.Count(w => w.CityId == 2),
+                        OptIn = u.UserPreference != null ? u.UserPreference.EmailMyWonders : false,
+                        UserModel = new UserBasicModel()
+                        {
+                            Id = u.Id,
+                            Forename = u.Forename,
+                            Surname = u.Surname,
+                            Email = u.Email
+                        }
+                    }).ToList();
 
-                    var totalSavesLondon = user.MyWonders.Count(w => w.CityId == 1);
-                    var totalPassesLondon = user.MyRejects.Count(w => w.CityId == 1);
-                    var swipesLondon = totalPassesLondon + totalSavesLondon;
-                    userViewModel.PercentageSwipesLondon = totalWondersLondon > 0 ? Math.Round((double)swipesLondon / (double)totalWondersLondon * 100, 2, MidpointRounding.AwayFromZero) : 0;
+            //foreach (var userModel in users)
+            //{
+            //var userViewModel = new UserViewModel();
+            //var user = DataContext.AspNetUsers
+            //    .AsNoTracking()
+            //    .Include(p => p.UserPreference)
+            //    .Include(w => w.MyWonders)
+            //    .Include(r => r.MyRejects)
+            //    .Single(e => e.Id == userModel.Id);
+            //var pref = user.UserPreference;
 
-                    var totalSavesNewYork = user.MyWonders.Count(w => w.CityId == 2);
-                    var totalPassesNewYork = user.MyRejects.Count(w => w.CityId == 2);
-                    var swipesNewYork = totalPassesNewYork + totalSavesNewYork;
-                    userViewModel.PercentageSwipesNewYork = totalWondersNewYork > 0 ? Math.Round((double)swipesNewYork / (double)totalWondersNewYork * 100, 2, MidpointRounding.AwayFromZero) : 0;
+            //    if (user.CityId != null)
+            //    {
+            //        var city = DataContext.Cities.SingleOrDefault(c => c.Id == user.CityId);
+            //        if(city != null) userViewModel.City = city.Name;
+            //    }
+            //    else
+            //    {
+            //        var cityCounts = new Dictionary<int, int>();
+            //        if(user.MyWonders.Any())
+            //        {                 
+            //            cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
+            //            cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
+            //            cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
 
-                    if (userViewModel.City == null)
-                    {
-                        userViewModel.TotalPasses = 0;
-                        userViewModel.TotalSaves = 0;
-                    }
-                    else
-                    {
-                        userViewModel.TotalPasses = userViewModel.City.Equals("London")
-                       ? totalPassesLondon
-                       : totalPassesNewYork;
+            //            var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            //            var city = DataContext.Cities.SingleOrDefault(c => c.Id == cityId);
+            //            if(city != null) userViewModel.City = city.Name;
+            //        }
+            //        else
+            //        {
+            //            userViewModel.City = "No Wonders";
+            //        }
 
-                        userViewModel.TotalSaves = userViewModel.City.Equals("London")
-                            ? totalSavesLondon
-                            : totalSavesNewYork;
-                    }
-                }
-                
-                userViewModel.UserModel = userModel;
-                userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
-                userViewModel.OptIn = pref !=null ? pref.EmailMyWonders : false;
-                userViews.Add(userViewModel);
+            //        var totalSavesLondon = user.MyWonders.Count(w => w.CityId == 1);
+            //        var totalPassesLondon = user.MyRejects.Count(w => w.CityId == 1);
+            //        var swipesLondon = totalPassesLondon + totalSavesLondon;
+            //        userViewModel.PercentageSwipesLondon = totalWondersLondon > 0 ? Math.Round((double)swipesLondon / (double)totalWondersLondon * 100, 2, MidpointRounding.AwayFromZero) : 0;
 
-            }
+            //        var totalSavesNewYork = user.MyWonders.Count(w => w.CityId == 2);
+            //        var totalPassesNewYork = user.MyRejects.Count(w => w.CityId == 2);
+            //        var swipesNewYork = totalPassesNewYork + totalSavesNewYork;
+            //        userViewModel.PercentageSwipesNewYork = totalWondersNewYork > 0 ? Math.Round((double)swipesNewYork / (double)totalWondersNewYork * 100, 2, MidpointRounding.AwayFromZero) : 0;
+
+            //        if (userViewModel.City == null)
+            //        {
+            //            userViewModel.TotalPasses = 0;
+            //            userViewModel.TotalSaves = 0;
+            //        }
+            //        else
+            //        {
+            //            userViewModel.TotalPasses = userViewModel.City.Equals("London")
+            //           ? totalPassesLondon
+            //           : totalPassesNewYork;
+
+            //            userViewModel.TotalSaves = userViewModel.City.Equals("London")
+            //                ? totalSavesLondon
+            //                : totalSavesNewYork;
+            //        }
+            //    }
+
+            //    userViewModel.UserModel = userModel;
+            //    userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
+            //    userViewModel.OptIn = pref !=null ? pref.EmailMyWonders : false;
+            //    userViews.Add(userViewModel);
+
+            //}
+
+
             DataContext.TurnOnLazyLoading();
-            return View(userViews);
+            return View(contextUsers);
+        }
+
+        private string CalculateMainCity(AspNetUser u)
+        {
+            return u.CityId == null ? u.MyWonders.Count(w => w.CityId == 1) > u.MyWonders.Count(w => w.CityId == 2) ? "London" : "New York" : DataContext.Cities.FirstOrDefault(c => c.Id == u.CityId).Name;
         }
 
         [Authorize(Roles = "Admin")]

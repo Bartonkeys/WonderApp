@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderApp.API", "WonderApp.API\WonderApp.API.csproj", "{B9F4E076-3A0B-43C4-BDCC-8F725C8684B4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -37,6 +37,9 @@ EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WonderApp.Database", "WonderApp.Database\WonderApp.Database.sqlproj", "{0335D29F-4613-4710-B086-5792F2AAEA7C}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
