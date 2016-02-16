@@ -64,11 +64,11 @@ namespace WonderApp.Web.Controllers
                     .Include(r => r.MyRejects)
                     .Select(u => new UserViewModel
                     {
-                        City = CalculateMainCity(u),
+                        City = u.CityId == null ? u.MyWonders.Count(w => w.CityId == 1) > u.MyWonders.Count(w => w.CityId == 2) ? "London" : "New York" : DataContext.Cities.FirstOrDefault(c => c.Id == u.CityId).Name,
                         PercentageSwipesLondon = (double)(u.MyWonders.Count(w => w.CityId == 1) + u.MyRejects.Count(w => w.CityId == 1)) / (double) totalWondersLondon * 100,
                         PercentageSwipesNewYork =(double)(u.MyWonders.Count(w => w.CityId == 2) + u.MyRejects.Count(w => w.CityId == 2)) / (double) totalWondersNewYork * 100,
-                        TotalPasses = CalculateMainCity(u) == null ? 0 : CalculateMainCity(u).Equals("London") ? u.MyRejects.Count(w => w.CityId == 1) : u.MyRejects.Count(w => w.CityId == 2),
-                        TotalSaves = CalculateMainCity(u) == null ? 0 : CalculateMainCity(u).Equals("London") ? u.MyWonders.Count(w => w.CityId == 1) : u.MyWonders.Count(w => w.CityId == 2),
+                        TotalPasses = u.CityId == null ? 0 : u.CityId==1 ? u.MyRejects.Count(w => w.CityId == 1) : u.MyRejects.Count(w => w.CityId == 2),
+                        TotalSaves = u.CityId == null ? 0 : u.CityId==1 ? u.MyWonders.Count(w => w.CityId == 1) : u.MyWonders.Count(w => w.CityId == 2),
                         OptIn = u.UserPreference != null ? u.UserPreference.EmailMyWonders : false,
                         UserModel = new UserBasicModel()
                         {
@@ -150,11 +150,6 @@ namespace WonderApp.Web.Controllers
 
             DataContext.TurnOnLazyLoading();
             return View(contextUsers);
-        }
-
-        private string CalculateMainCity(AspNetUser u)
-        {
-            return u.CityId == null ? u.MyWonders.Count(w => w.CityId == 1) > u.MyWonders.Count(w => w.CityId == 2) ? "London" : "New York" : DataContext.Cities.FirstOrDefault(c => c.Id == u.CityId).Name;
         }
 
         [Authorize(Roles = "Admin")]
