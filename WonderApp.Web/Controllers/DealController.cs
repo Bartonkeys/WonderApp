@@ -39,13 +39,14 @@ namespace WonderApp.Web.Controllers
             CloudImageService = new CloudImageService(cloudImageProvider);
         }
 
-        [OutputCache(Duration = 300, VaryByParam = "none")]
+        //[OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
+            
             var model = DataContext.Deals.Where(x => x.Archived == false)
                 //.AsNoTracking()
                 .OrderByDescending(x => x.Id)
-                .Select(x => new DealModel
+                .Select(x => new DealSummaryModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -54,16 +55,19 @@ namespace WonderApp.Web.Controllers
                     City = new CityModel { Name = x.City.Name },
                     Category = new CategoryModel { Name = x.Category.Name },
                     Likes = x.Likes,
+                    Dislikes = x.MyRejectUsers.Count,
                     Priority = x.Priority.Value,
                     Expired = x.Expired.Value,
                     Season = new SeasonModel{Id = x.Season.Id, Name = x.Season.Name},
                     Broadcast = x.Broadcast != null && x.Broadcast.Value,
-                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name }).ToList()
+                    Tags = x.Tags.Select(y => new TagModel { Name = y.Name })
                 });
 
             ViewBag.isAdmin = User.IsInRole("Admin");
             ViewBag.userId = User.Identity.GetUserId();
-            
+            ViewBag.totalLondonWonders= model.Count(c => c.City.Name.Equals("London") && !c.Expired );
+            ViewBag.totalNewYorkWonders = model.Count(c => c.City.Name.Equals("New York") && !c.Expired);
+
             return View(model);
         }
 

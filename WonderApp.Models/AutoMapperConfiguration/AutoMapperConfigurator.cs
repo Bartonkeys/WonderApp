@@ -72,7 +72,8 @@ namespace WonderApp.Models.AutoMapperConfiguration
 
             Mapper.CreateMap<Deal, DealSummaryModel>()
              .ForMember(dest => dest.Creator,
-                           opts => opts.MapFrom(src => src.AspNetUser));
+                           opts => opts.MapFrom(src => src.AspNetUser))
+                            .ForMember(e => e.Dislikes, opt => opt.Ignore());
                 //.ForMember(m => m.ExpiryDate, opt => opt.ResolveUsing(e => e.ExpiryDate.MapToString()));
            
 

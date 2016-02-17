@@ -9,3 +9,7 @@ packages
 /WonderApp.Database/*.dbmdl
 /WonderApp.v12.suo
 .vs/config/applicationhost.config
+Performance.psess
+Report160212.vsp
+WonderApp160212.vsp
+WonderApp160212.vspx

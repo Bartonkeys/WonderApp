@@ -30,8 +30,20 @@ else
                 City
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAdmin)
+                % Swipes London
             </th>
+            <th>
+                % Swipes New York
+            </th>
+            <th>
+                Saves
+            </th>
+            <th>
+                Passes
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IsAdmin)
+            </th>*@
             
         </tr>
 
@@ -51,11 +63,23 @@ else
                     @Html.DisplayFor(modelItem => item.City)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                    @Html.DisplayFor(modelItem => item.PercentageSwipesLondon)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.UserModel.Id}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.UserModel.Id})
+                    @Html.DisplayFor(modelItem => item.PercentageSwipesNewYork)
+                </td>
+                <td>       
+                    @Html.DisplayFor(modelItem => item.TotalSaves)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPasses)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.UserModel.Id}) @*|*@
+                    @*@Html.ActionLink("Delete", "Delete", new {id = item.UserModel.Id})*@
                 </td>
             </tr>
         }
