@@ -14,11 +14,13 @@ namespace WonderApp.Models
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public List<TagModel> Tags { get; set; }
+        public IEnumerable<TagModel> Tags { get; set; }
 
         public string IntroDescription { get; set; }
 
         public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
 
         public bool Publish { get; set; }
 
@@ -33,6 +35,8 @@ namespace WonderApp.Models
         public CompanyModel Company { get; set; }
 
         public virtual CityModel City { get; set; }
+
+        public virtual CategoryModel Category { get; set; }
 
         public virtual UserModel Creator { get; set; }
 

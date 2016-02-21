@@ -44,7 +44,7 @@ namespace WonderApp.Web.Controllers
             UserManager = userManager;
 
         }
-        [OutputCache(Duration = 300, VaryByParam = "none")]
+        //[OutputCache(Duration = 300, VaryByParam = "none")]
         public ActionResult Index()
         {
             DataContext.TurnOffLazyLoading();
@@ -54,44 +54,41 @@ namespace WonderApp.Web.Controllers
                 (DataContext
                 .AspNetUsers.ToList());
 
-            foreach (var userModel in users)
-            {
-                var userViewModel = new UserViewModel();
-                var user = DataContext.AspNetUsers
-                    .AsNoTracking().Include(p => p.UserPreference).Include(w => w.MyWonders)
-                    .Single(e => e.Id == userModel.Id);
-                var pref = user.UserPreference;
+            var totalWondersLondon = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 1 && (bool)!x.Expired);
+            var totalWondersNewYork = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 2 && (bool)!x.Expired);
 
-                if (user.CityId != null)
-                {
-                    var city = DataContext.Cities.SingleOrDefault(c => c.Id == user.CityId);
-                    if(city != null) userViewModel.City = city.Name;
-                }
-                else
-                {
-                    var cityCounts = new Dictionary<int, int>();
-                    if(user.MyWonders.Count() > 0)
-                    {                 
-                        cityCounts.Add(1, user.MyWonders.Count(w => w.CityId == 1));
-                        cityCounts.Add(2, user.MyWonders.Count(w => w.CityId == 2));
-                        cityCounts.Add(7, user.MyWonders.Count(w => w.CityId == 7));
-                        var cityId = cityCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                        var city = DataContext.Cities.SingleOrDefault(c => c.Id == cityId);
-                        if(city != null) userViewModel.City = city.Name;
-                    }
-                    else
+            var contextUsers =  DataContext.AspNetUsers
+                    .AsNoTracking()
+                    .Include(p => p.UserPreference) 
+                    .Include(w => w.MyWonders)
+                    .Include(r => r.MyRejects)
+                    .Select(u => new UserViewModel
                     {
-                        userViewModel.City = "No Wonders";
-                    }
-                }
-                
-                userViewModel.UserModel = userModel;
-                userViewModel.IsAdmin = UserManager.IsInRole(userModel.Id, "Admin");
-                userViewModel.OptIn = pref !=null ? pref.EmailMyWonders : false;
-                userViews.Add(userViewModel);
-            }
+                        
+                        City = u.CityId == null ? u.MyWonders.Count(w => w.CityId == 1) > u.MyWonders.Count(w => w.CityId == 2) ? "London" : "New York" : DataContext.Cities.FirstOrDefault(c => c.Id == u.CityId).Name,
+                        PercentageSwipesLondon = (double)(u.MyWonders.Count(w => w.CityId == 1) + u.MyRejects.Count(w => w.CityId == 1)) / (double) totalWondersLondon * 100,
+                        PercentageSwipesNewYork =(double)(u.MyWonders.Count(w => w.CityId == 2) + u.MyRejects.Count(w => w.CityId == 2)) / (double) totalWondersNewYork * 100,
+                        TotalPassesLondon = u.MyRejects.Count(w => w.CityId == 1),
+                        TotalPassesNewYork = u.MyRejects.Count(w => w.CityId == 2),
+                        TotalSavesLondon = u.MyWonders.Count(w => w.CityId == 1),
+                        TotalSavesNewYork = u.MyWonders.Count(w => w.CityId == 2),
+
+                        OptIn = u.UserPreference != null && u.UserPreference.EmailMyWonders,
+                        UserModel = new UserBasicModel()
+                        {
+                            Id = u.Id,
+                            Forename = u.Forename,
+                            Surname = u.Surname,
+                            Email = u.Email
+                        }
+                    }).ToList();
+
+
+            contextUsers.ForEach(e => e.TotalPassesHomeCity = e.City =="London" ? e.TotalPassesLondon : e.TotalPassesNewYork);
+            contextUsers.ForEach(e => e.TotalSavesHomeCity = e.City == "London" ? e.TotalSavesLondon : e.TotalSavesNewYork);
+           
             DataContext.TurnOnLazyLoading();
-            return View(userViews);
+            return View(contextUsers);
         }
 
         [Authorize(Roles = "Admin")]
