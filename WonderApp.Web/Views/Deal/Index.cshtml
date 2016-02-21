@@ -150,28 +150,28 @@
                             </td>
                             <td id="@item.Id" onclick="broadcastClicked(@item.Id)">
                                 @Html.CheckBoxFor(modelItem => item.Broadcast,
-            new
-            {
-                id = String.Format("broadcast{0}", item.Id),
-                data_sort = item.Broadcast ? "1" : "0"
-            })
+                                    new
+                                    {
+                                        id = String.Format("broadcast{0}", item.Id),
+                                        data_sort = item.Broadcast ? "1" : "0"
+                                    })
                             </td>
                             <td id="@item.Id)" onclick="priorityClicked(@item.Id)">
                                 @Html.CheckBoxFor(modelItem => item.Priority,
-            new
-            {
-                id = String.Format("priority{0}", item.Id),
-                data_sort = item.Priority ? "1" : "0"
-            })
+                                    new
+                                    {
+                                        id = String.Format("priority{0}", item.Id),
+                                        data_sort = item.Priority ? "1" : "0"
+                                    })
                             </td>
 
                             <td id="@item.Id" onclick="expiredClicked(@item.Id)">
                                 @Html.CheckBoxFor(modelItem => item.Expired,
-        new
-        {
-            id = String.Format("expired{0}", item.Id),
-            data_sort = item.Expired ? "1" : "0"
-        })
+                                    new
+                                    {
+                                        id = String.Format("expired{0}", item.Id),
+                                        data_sort = item.Expired ? "1" : "0"
+                                    })
                             </td>
                             <td>
                                 <a title="Copy Wonder" class="btn btn-sm btn-warning" onclick="copyClicked(@item.Id)"><i class="fa fa-files-o fa-lg"></i></a>

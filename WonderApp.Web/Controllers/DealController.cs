@@ -489,7 +489,14 @@ namespace WonderApp.Web.Controllers
             
         }
 
-
+        private void InvalidateCache(string controller, string action, string id )
+        {
+            var urlToRemove = Url.Action(action, controller, new { id });
+            //this will always clear the cache as the route config will create the path
+            Response.RemoveOutputCacheItem(urlToRemove);
+            Response.RemoveOutputCacheItem(string.Format("/{0}/{1}/{2}", controller, action,id));
+            Response.RemoveOutputCacheItem(string.Format("/u/0/{0}/{1}/{2}",controller, action, id));
+        }
 
     }
 }

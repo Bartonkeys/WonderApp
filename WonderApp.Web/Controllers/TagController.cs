@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using System.Web.Http.Routing.Constraints;
+using System.Web.Mvc;
 using WonderApp.Data;
 
 namespace WonderApp.Web.Controllers
 {
-    [RoutePrefix("api/tag")]
+    [System.Web.Http.RoutePrefix("api/tag")]
     public class TagController : BaseApiController
     {
 
@@ -32,7 +32,7 @@ namespace WonderApp.Web.Controllers
             new SelectItem {id = 4, text = "Apple"}  
         };
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IEnumerable<SelectItem> SearchTag(string id)
         {
             try
@@ -58,7 +58,7 @@ namespace WonderApp.Web.Controllers
             return query;
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IEnumerable<SelectItem> GetTag(string id)
         {
             try
@@ -96,7 +96,7 @@ namespace WonderApp.Web.Controllers
         }
 
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IEnumerable<SelectItem> SearchCompany(string id)
         {
             try
@@ -122,7 +122,7 @@ namespace WonderApp.Web.Controllers
             return query;
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IEnumerable<SelectItem> GetCompany(string id)
         {
             try
@@ -159,7 +159,7 @@ namespace WonderApp.Web.Controllers
             return items;
         }
 
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public int CreateCompany(string id)
         {
             try
@@ -187,7 +187,7 @@ namespace WonderApp.Web.Controllers
         }
 
 
-        [HttpPut]
+        [System.Web.Http.HttpPut]
         public bool? UpdatePriority(int? id)
         {
             try
@@ -206,7 +206,7 @@ namespace WonderApp.Web.Controllers
 
         }
 
-        [HttpPut]
+        [System.Web.Http.HttpPut]
         public bool? UpdateBroadcast(int? id)
         {
             try
@@ -227,7 +227,7 @@ namespace WonderApp.Web.Controllers
 
         }
 
-        [HttpPut]
+        [System.Web.Http.HttpPut]
         public bool? UpdateExpired(int? id)
         {
             try
@@ -246,8 +246,8 @@ namespace WonderApp.Web.Controllers
 
         }
 
-        [HttpPut]
-        [Route("expireAll/{id}/{expire}")]
+        [System.Web.Http.HttpPut]
+        [System.Web.Http.Route("expireAll/{id}/{expire}")]
         public HttpResponseMessage UpdateAllExpired(int? id, bool expire)
         {
             try
@@ -271,6 +271,7 @@ namespace WonderApp.Web.Controllers
 
         }
 
+       
     } //end class
 
 
@@ -279,6 +280,7 @@ namespace WonderApp.Web.Controllers
         public int id { get; set; }
         public string text { get; set; }
     }
+
 
 }//end namespace
 
