@@ -54,8 +54,8 @@ namespace WonderApp.Web.Controllers
                 (DataContext
                 .AspNetUsers.ToList());
 
-            var totalWondersLondon = DataContext.Deals.Count(x =>  x.CityId == 1 );
-            var totalWondersNewYork = DataContext.Deals.Count(x =>  x.CityId == 2 );
+            var totalWondersLondon = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 1 && (bool)!x.Expired);
+            var totalWondersNewYork = DataContext.Deals.Count(x => x.Archived == false && x.CityId == 2 && (bool)!x.Expired);
 
             var contextUsers =  DataContext.AspNetUsers
                     .AsNoTracking()
